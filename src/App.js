@@ -31,6 +31,7 @@ const publicRoutes = [
   { path: 'customers', component: Customers },
   { path: 'orders', component: Orders },
   { path: 'emails', component: Emails },
+  
 
   // { path: '*', component: Pagenotfound },
 ]

@@ -67,9 +67,9 @@ const Header = () => {
                                 {/* <div data-i18n="Orders">Orders</div> */}
                             </a></li>
                             <li className="menu-item"><a className="menu-link">
-                            <i class="las la-envelope"></i>
+                            <i class="ti ti-mail ti-sm"></i>
                                 {/* <i className="menu-icon tf-icons ti ti-shopping-cart"></i> */}
-                                <Link className="nav-link" to="/emails">Emails</Link>
+                                <Link className="nav-link align-middle ms-2" to="/emails">Emails</Link>
                                 {/* <div data-i18n="Orders">Orders</div> */}
                             </a></li>
                         </ul>
