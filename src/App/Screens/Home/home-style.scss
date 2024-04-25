@@ -1,0 +1,19 @@
+@import '../../styles/global.scss'; // Import global styles and variables
+@import '../../styles/globalStyle.scss';
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+.card-datatable table td{
+    padding: 0.2rem 1.25rem;
+}
+.acation-btns {
+    display: flex;
+    button:hover {
+        color: #7367f0;
+    }
+}
+
+
+
+
