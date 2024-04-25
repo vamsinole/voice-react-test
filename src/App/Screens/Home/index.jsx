@@ -1,12 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import './home-style.scss';
 import env from '../../../config';
 import Header from '../../Components/Header';
 import TopMenu from '../../Components/TopMenu';
+import axios from 'axios';
 
 
 
 const Home = () => {
+
+
+  
+  
+  
+
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response =  await axios.post('http://146.148.89.120/v1/login', {
+    "email": "vamsi@voice.com",
+    "password": "password",
+  });
+
+  const token = response.data.data.token;
+  localStorage.setItem('token', token);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   const [parentValue, setParentValue] = useState('');
   const [childValue, setChildValue] = useState('');
   const [showAdditionalFields, setShowAdditionalFields] = useState(false); 

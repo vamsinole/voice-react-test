@@ -1,11 +1,40 @@
 // import React from 'react'
 import Header from '../../Components/Header'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
+import { USER_ENDPOINTS } from '../../../config/enpoints';
+import axios from 'axios';
 
 const Users = () => {
+
+  const [users, setUsers] = useState([]);
+
+  const baseurl=env.baseUrl;
+  const endpoint=USER_ENDPOINTS.getUsers;
+
+  const token=localStorage.getItem('token');
+  console.log("token",token);
+
+  useEffect(() => {
+    const fetchVoiceAgents = async () => {
+      try {
+        const response = await axios.get(baseurl+endpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        //console.log("responce22",response.data.data.rows);
+        setUsers(response.data.data.rows);
+        
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchVoiceAgents();
+  }, []);
   return (
     <>
         <div class="layout-wrapper layout-content-navbar">
@@ -31,12 +60,31 @@ const Users = () => {
                   <thead class="border-top">
                     <tr>
                       
-                      <th>User</th>
-                      <th>Phone</th>
-                      <th>Address</th>
-                      <th>Actions</th>
+                      <th>USER</th>
+                      <th>PHONE</th>
+                      <th>ADDRESS</th>
+                      <th>ACTIONS</th>
                     </tr>
                   </thead>
+                  <tbody>
+              {users.map((value, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{value.name}</td>
+                    <td>{value.type}</td>
+                    <td>{value.phone_number}</td>
+                    <td>{value.status}</td>
+                    <td style={{ width: '70px' }}>
+                      <div className="d-flex acation-btns">
+                        <button className='btn px-1'><i class="lar la-edit"></i></button>
+                        <button className='btn px-1'><i class="las la-phone-volume"></i></button>
+                        <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
                 </table>
               </div>
               <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser"

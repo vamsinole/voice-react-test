@@ -1,26 +1,42 @@
 // import React from 'react'
 import Header from '../../Components/Header'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
+import { USER_ENDPOINTS } from '../../../config/enpoints';
+import axios from 'axios';
 
 const Customers = () => {
-  const TblData = [
-    {
-      user: "Alex",
-      phone: "1234567895",
-      address: "1001, Dairy Ashford",
-      action:''
-    },
-    { 
-      user: "Akram",
-      phone: "Lorem Ipsum is",
-      address: "1001, Dairy Ashford",
-      action:''
-    },
-    
-  ];
+
+  const [users, setUsers] = useState([]);
+
+  const baseurl=env.baseUrl;
+  const endpoint=USER_ENDPOINTS.getCustomer;
+
+  const token=localStorage.getItem('token');
+  console.log("token",token);
+
+  useEffect(() => {
+    const fetchVoiceAgents = async () => {
+      try {
+        const response = await axios.get(baseurl+endpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responce33",response.data.data.rows);
+        setUsers(response.data.data.rows);
+        
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchVoiceAgents();
+  }, []);
+
+  
   return (
     <>
         <div class="layout-wrapper layout-content-navbar">
@@ -35,10 +51,8 @@ const Customers = () => {
             <div class="card">
               <div class="card-header border-bottom">
                 <h4 class="card-title pull-left mb-3">Customers</h4>
-                {/* <button type="button" class="btn btn-primary pull-right" data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasAddAgent" aria-controls="offcanvasAddAgent">
-                  <span class="ti-xs ti ti-plus me-1"></span>New Action
-                </button> */}
+                {
+                }
                 
               </div>
               <div class="card-datatable table-responsive">
@@ -53,10 +67,10 @@ const Customers = () => {
                     </tr>
                   </thead>
                   <tbody>
-              {TblData.map((value, key) => {
+              {users.map((value, key) => {
                 return (
                   <tr key={key}>
-                    <td>{value.user}</td>
+                    <td>{value.name}</td>
                     <td>{value.phone}</td>
                     <td>{value.address}</td>
                     <td style={{ width: '70px' }}>

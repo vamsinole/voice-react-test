@@ -1,11 +1,14 @@
 // import React from 'react'
 import Header from '../../Components/Header'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
+import axios from 'axios';
 
 const Knowledge = () => {
+
+ 
   return (
     <>
         <div class="layout-wrapper layout-content-navbar">

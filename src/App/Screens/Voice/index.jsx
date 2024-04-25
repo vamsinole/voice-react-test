@@ -1,35 +1,64 @@
 // import React from 'react'
 import Header from '../../Components/Header'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
+import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../config/enpoints';
 
 const Voice = () => {
-  const TblData = [
-    {
-      name: "gpt",
-      type: "voice",
-      phone: "1234567895",
-      status: "Active",
-      action:''
-    },
-    {
-      name: "gpt",
-      type: "voice",
-      phone: "1234567895",
-      status: "Active",
-      action:''
-    },
-    { 
-      name: "gpt",
-      type: "voice",
-      phone: "1234567895",
-      status: "Active",
-      action:''
-    },
+
+  const [voiceagents, setVoiceAgent] = useState([]);
+
+  const baseurl=env.baseUrl;
+  const endpoint=USER_ENDPOINTS.agentdata;
+
+  const token=localStorage.getItem('token');
+  console.log("token",token);
+
+  useEffect(() => {
+    const fetchVoiceAgents = async () => {
+      try {
+        const response = await axios.get(baseurl+endpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responce",response.data.data);
+        setVoiceAgent(response.data.data);
+        
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchVoiceAgents();
+  }, []);
+  // const TblData = [
+  //   {
+  //     name: "gpt",
+  //     type: "voice",
+  //     phone_number: "1234567895",
+  //     status: "Active",
+  //     action:''
+  //   },
+  //   {
+  //     name: "gpt",
+  //     type: "voice",
+  //     phone: "1234567895",
+  //     status: "Active",
+  //     action:''
+  //   },
+  //   { 
+  //     name: "gpt",
+  //     type: "voice",
+  //     phone: "1234567895",
+  //     status: "Active",
+  //     action:''
+  //   },
     
-  ];
+  // ];
   return (
     <>
         <div class="layout-wrapper layout-content-navbar">
@@ -63,12 +92,12 @@ const Voice = () => {
                     </tr>
                   </thead>
                   <tbody>
-              {TblData.map((value, key) => {
+              {voiceagents.map((value, key) => {
                 return (
                   <tr key={key}>
                     <td>{value.name}</td>
                     <td>{value.type}</td>
-                    <td>{value.phone}</td>
+                    <td>{value.phone_number}</td>
                     <td>{value.status}</td>
                     <td style={{ width: '70px' }}>
                       <div className="d-flex acation-btns">
