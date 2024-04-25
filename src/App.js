@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './App/Components/Login';
 import Home from './App/Screens/Home';
 import Register from './App/Components/Registers';
-import SeekerDashboard from './App/Screens/JobSeeker/SeekerDashboard';
+
 import Knowledge from './App/Screens/Knowledge';
 import Voice from './App/Screens/Voice';
 import Users from './App/Screens/Users';
@@ -21,7 +21,7 @@ const publicRoutes = [
   { path: '/', component: Home },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
-  { path: 'seeker-dashboard', component: SeekerDashboard },
+ 
   { path: 'knowledge', component: Knowledge },
   { path: 'assistant', component: Home },
   { path: 'voice', component: Voice },
