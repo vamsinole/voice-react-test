@@ -1,6 +1,6 @@
 // import React from 'react'
 import Header from '../../Components/Header'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
@@ -14,6 +14,32 @@ const Actions = () => {
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getaction;
   const token = localStorage.getItem('token');
+
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+
+      try {
+        const response = await axios.get(baseurl + endpoint + '23', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responceActions", response.data.data)
+  
+  
+        setDataFromApi(response.data.data);
+  
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+     
+
+
+    };
+
+    fetchUsers();
+  }, []);
 
   const changeVoiceAgent = async (event) => {
     const newValue = event.target.value;
