@@ -101,9 +101,9 @@ const Voice = () => {
                     <td>{value.status}</td>
                     <td style={{ width: '70px' }}>
                       <div className="d-flex acation-btns">
-                        <button className='btn px-1'><i class="lar la-edit"></i></button>
-                        <button className='btn px-1'><i class="las la-phone-volume"></i></button>
-                        <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
+                        <button className='btn px-1 la-lg' data-bs-toggle="modal" data-bs-target="#VioceEdit"><i class="lar la-edit"></i></button>
+                        <button className='btn px-1 la-lg'><i class="las la-phone-volume"></i></button>
+                        <button className='btn px-1 la-lg'><i className="las la-trash-alt"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -180,7 +180,44 @@ const Voice = () => {
         </div>
     </div>
     </div>
-        
+
+    {/* modal popup */}
+    <div class="modal fade" id="VioceEdit" tabindex="-1" aria-labelledby="VioceEditLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="VioceEditLabel">Update Agent</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div className="container">
+
+          <div className="mb-3">
+            <label htmlFor="name">Name</label>
+            <input type="text" className='form-control' />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="name">Phone number</label>
+            <input type="text" className='form-control' />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="name">Attach Assistant</label>
+            <select className='form-select'>
+              <option value="">Select</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     </>
   )
 }
