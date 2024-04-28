@@ -74,10 +74,14 @@ const Calls = () => {
   const handleCellClick = async (value) => {
     // alert(`Clicked on cell with value: ${value.from}  ${value.start_time}`);
 
+    let resutmessge= JSON.stringify(value.from);
+    let  jsonStringmessge = resutmessge.replace(/"/g, '');
 
+    setMessage(jsonStringmessge);
 
-    setMessage(JSON.stringify(value.from))
-    setmessagetime(JSON.stringify(value.start_time))
+    let resutmessgetime= JSON.stringify(value.start_time);
+    let  jsonStringtime = resutmessgetime.replace(/"/g, '');
+    setmessagetime(jsonStringtime)
 
 
 
