@@ -3,7 +3,11 @@ export const USER_ENDPOINTS = {
     getUsers: `/v1/users`,
     getCustomer: `/v1/users`,
     getKnowledge:`/v1/knowledge_base`,
-    getvoicecall:`/v1/voicecalls/`
+    getvoicecall:`/v1/voicecalls/`,
+    getaction:`/v1/actions/`,
+    getassist:`/v1/ai/assistmodels`,
+   
+
    
 
   };

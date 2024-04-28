@@ -5,12 +5,14 @@ import Header from '../../Components/Header';
 import TopMenu from '../../Components/TopMenu';
 import axios from 'axios';
 
+import { USER_ENDPOINTS } from '../../../config/enpoints';
+
 
 
 const Home = () => {
 
 
-  
+  const [dataFromApi, setDataFromApi] = useState('');
   
   
 
@@ -75,6 +77,35 @@ const handleChildChange = (event) => {
   const selectedChildValue = event.target.value;
   setChildValue(selectedChildValue);
 };
+
+
+
+const baseurl = env.baseUrl;
+  const endpoint = USER_ENDPOINTS.getassist;
+
+  const token = localStorage.getItem('token');
+  console.log("token", token);
+  useEffect(() => {
+    const fetchVoiceAgents = async () => {
+      try {
+        const response = await axios.get(baseurl + endpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responcassist", response.data.data);
+        
+        setDataFromApi(response.data.data);
+
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchVoiceAgents();
+  }, []);
+
+
   const TblData = [
     {
       name: "Akram",
@@ -144,7 +175,10 @@ const handleChildChange = (event) => {
               </tr>
             </thead>
             <tbody>
-              {TblData.map((value, key) => {
+              {console.log("datavalues",dataFromApi)}
+              
+
+              {dataFromApi ? dataFromApi.map((value, key) => {
                 return (
                   <tr key={key}>
                     <td>{value.name}</td>
@@ -159,7 +193,8 @@ const handleChildChange = (event) => {
                     </td>
                   </tr>
                 );
-              })}
+             
+              }) : null}
             </tbody>
           </table>
 
@@ -250,27 +285,7 @@ const handleChildChange = (event) => {
 
                   
       
-                    {/* <div class="mb-3">
-                      <label class="form-label" for="assistant-type">Type</label>
-                      <select id="assistant-type" onchange="changeAssistantType()"
-                       class="form-select">
-                        <option value="" selected>Select Type</option>
-                        <option value="open_ai">Open AI GPT</option>
-                        <option value="dialogflow">Dilogflow</option>
-                      </select>
-                    </div> */}
-                    {/* <div class="mb-3" id="dialogflow-type-parent" style={{ display: 'none' }}>
-                      <label class="form-label" for="dialogflow-type">Base Type</label>
-                      <select id="dialogflow-type" onchange="changeAssistantType()" class="form-select">
-                        <option value="" selected>Select Type</option>
-                        <option value="dining-out">Dining Out</option>
-                        <option value="banking">Banking</option>
-                        <option value="job-interview">Job Interview</option>
-                        <option value="hotel-booking">Hotel Booking</option>
-                        <option value="support">Support</option>
-                        <option value="flights">Flight Reservations</option>
-                      </select>
-                    </div> */}
+                   
                     <div class="mb-3" id="open-ai-model" style={{ display: 'none' }}>
                       <label class="form-label" for="assistant-model">Model type</label>
                       <select id="assistant-model" class="form-select">

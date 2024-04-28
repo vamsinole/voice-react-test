@@ -4,8 +4,39 @@ import React, { useState } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
+import { USER_ENDPOINTS } from '../../../config/enpoints';
+import axios from 'axios';
 
 const Actions = () => {
+  const [dataFromApi, setDataFromApi] = useState(null);
+
+
+  const baseurl = env.baseUrl;
+  const endpoint = USER_ENDPOINTS.getaction;
+  const token = localStorage.getItem('token');
+
+  const changeVoiceAgent = async (event) => {
+    const newValue = event.target.value;
+
+
+    // Make API call with the new selected value
+    try {
+      const response = await axios.get(baseurl + endpoint + newValue, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log("responceActions", response.data.data)
+
+
+      setDataFromApi(response.data.data);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+
   const TblData = [
     {
       name: "Akram",
@@ -47,9 +78,10 @@ const Actions = () => {
                   </div>
                   <div className='row mt-3'>
                     <div class="col-4 offset-4 mb-3">
-                      <select id="knowledge-base-dd" onchange="changeKbs()" class="form-select">
-                        <option value="gpt">gpt</option>
-                        <option value="alex">alex</option>
+                      <select id="knowledge-base-dd" onChange={changeVoiceAgent} class="form-select">
+                      <option value="" selected>Select Agent</option>
+                        <option value="23" selected>gpt</option>
+                        <option value="22" selected>alex</option>
                       </select>
                     </div>
                   </div>
@@ -68,15 +100,15 @@ const Actions = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {TblData.map((value, key) => {
+                      {dataFromApi ? dataFromApi.map((value, key) => {
                           return (
                             <tr key={key}>
                               <td>{value.name}</td>
                               <td>{value.type}</td>
                               <td>{value.assistant}</td>
-                              <td>{value.intent}</td>
-                              <td>{value.to}</td>
-                              <td>{value.content}</td>
+                              <td>{value.action_name}</td>
+                              <td>{value.sms.to}</td>
+                              <td>{value.sms.content}</td>
                               <td style={{ width: '70px' }}>
                                 <div className="d-flex acation-btns">
                                   <button className='btn px-1'><i class="lar la-edit"></i></button>
@@ -85,7 +117,7 @@ const Actions = () => {
                               </td>
                             </tr>
                           );
-                        })}
+                        }) : null}
                       </tbody>
                       <div class="modal fade" id="createActionModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
