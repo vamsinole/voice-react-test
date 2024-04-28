@@ -4,8 +4,30 @@ import React, { useState } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
+// import { google } from 'googleapis';
 
 const Emails = () => {
+
+  // const clientId = '377717100597-ot06oh2n90dh5vmev1ooc702qhia9jog.apps.googleusercontent.com';
+  // const clientSecret = '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';
+  // const redirectUri = 'http://localhost';
+
+  // const oauth2Client = new google.auth.OAuth2(
+  //   clientId,
+  //   clientSecret,
+  //   redirectUri
+  // );
+  
+  // const authUrl = oauth2Client.generateAuthUrl({
+  //   access_type: 'offline',
+  //   scope: 'https://www.googleapis.com/auth/gmail.readonly'
+  // });
+  
+  
+  const getCodeFromRedirect = () => {
+    // Implement this function to extract the code from the URL
+    return 'CODE_FROM_REDIRECT';
+  };
 
   return (
     <>

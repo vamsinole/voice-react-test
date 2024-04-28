@@ -1,0 +1,65 @@
+.cardDimensions {
+    min-height: 150px;
+    border: solid 1px #ddd;
+    margin-bottom: 10px;
+    border-radius: 7px;
+}
+.dash .nav-tabs {
+    padding: 10px 0 0;
+}
+.deploy-btn {
+    background-color: #eee;
+    padding: 5px 15px;
+    border-radius: 30px;
+    border: solid 1px #ddd;
+}
+.completed {
+    background: #4acd4a;
+    height: 12px;
+    width: 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: -1px 3px;
+}
+.pedding {
+    background: #f5c45a;
+    height: 12px;
+    width: 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: -1px 3px;
+}
+.config-img {
+    width: 60px;
+    border-radius: 6px;
+    margin:0 20px 10px 0;
+}
+
+.imgMain {
+    margin-top: 30px;
+}
+.imgMain input[type="file"] {
+    display: none;
+  }
+  
+  .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-top: 5px;
+  }
+  .custom-file-upload:hover {
+    background: #eee;
+  }
+  .config-pen {
+    position: absolute;
+    right: 20px;
+    bottom: -16px;
+    font-size: 23px;
+  }
+  .promt-ol-list li{
+    margin-bottom: 1rem;
+  }

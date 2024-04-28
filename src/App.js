@@ -15,6 +15,9 @@ import Customers from './App/Screens/Customers';
 import Orders from './App/Screens/Orders';
 import Emails from './App/Screens/Emails';
 
+import NewAssistant from './App/Screens/NewAssistant';
+import AssistantDashboard from './App/Screens/AssistantDashboard';
+
 
 
 const publicRoutes = [
@@ -31,6 +34,8 @@ const publicRoutes = [
   { path: 'customers', component: Customers },
   { path: 'orders', component: Orders },
   { path: 'emails', component: Emails },
+  { path: 'newassistant', component: NewAssistant },
+  { path: 'assistant-dashboard', component: AssistantDashboard },
   
 
   // { path: '*', component: Pagenotfound },
