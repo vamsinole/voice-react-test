@@ -7,6 +7,8 @@ import Home from './App/Screens/Home';
 import Register from './App/Components/Registers';
 
 import Knowledge from './App/Screens/Knowledge';
+import LandingPage from './App/Screens/LandingPage';
+import Terms from './App/Screens/Terms';
 import Voice from './App/Screens/Voice';
 import Users from './App/Screens/Users';
 import Calls from './App/Screens/Calls';
@@ -21,10 +23,11 @@ import AssistantDashboard from './App/Screens/AssistantDashboard';
 
 
 const publicRoutes = [
-  { path: '/', component: Home },
+  { path: '/landing', component: LandingPage },
+  { path: '/terms', component: Terms },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
- 
+
   { path: 'knowledge', component: Knowledge },
   { path: 'assistant', component: Home },
   { path: 'voice', component: Voice },
@@ -36,29 +39,29 @@ const publicRoutes = [
   { path: 'emails', component: Emails },
   { path: 'newassistant', component: NewAssistant },
   { path: 'assistant-dashboard', component: AssistantDashboard },
-  
+
 
   // { path: '*', component: Pagenotfound },
 ]
 
 function App() {
 
-  
+
   return (
     <>
-     
+
       <>
-      <BrowserRouter>
-      {/* <Header/> */}
-        <Routes>
-          <Route path="/" index element={<Home />} />
-          {publicRoutes.map(({ path, component: Component }) => (
-            <Route key={'path-' + path} path={path} element={<Component />} />
-          ))}
-        </Routes>
-        {/* <Footer /> */}
-      </BrowserRouter>
-    </>
+        <BrowserRouter>
+          {/* <Header/> */}
+          <Routes>
+            <Route path="/" index element={<Home />} />
+            {publicRoutes.map(({ path, component: Component }) => (
+              <Route key={'path-' + path} path={path} element={<Component />} />
+            ))}
+          </Routes>
+          {/* <Footer /> */}
+        </BrowserRouter>
+      </>
     </>
   );
 }

@@ -1,0 +1,128 @@
+@import '../../styles/global.scss'; // Import global styles and variables
+@import '../../styles/globalStyle.scss';
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+.card-datatable table td{
+    padding: 0.2rem 1.25rem;
+}
+.acation-btns {
+    display: flex;
+    button:hover {
+        color: #7367f0;
+    }
+}
+
+$white: #fff !default;
+$black: #4b465c !default;
+$gray-25: rgba($black, 0.015) !default; // (C)
+$gray-50: rgba($black, 0.03) !default; // (C)
+$gray-100: rgba($black, 0.05) !default;
+$gray-200: rgba($black, 0.2) !default;
+$gray-300: rgba($black, 0.3) !default;
+$gray-400: rgba($black, 0.4) !default;
+$gray-500: rgba($black, 0.5) !default;
+$gray-600: rgba($black, 0.6) !default;
+$gray-700: rgba($black, 0.7) !default;
+$gray-800: rgba($black, 0.8) !default;
+$gray-900: rgba($black, 0.9) !default;
+// scss-docs-end gray-color-variables
+
+// scss-docs-start gray-colors-map
+$grays: (
+  '25': $gray-25,
+  '50': $gray-50
+) !default;
+// scss-docs-end gray-colors-map
+
+// scss-docs-start color-variables
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #7367f0 !default;
+$pink: #e83e8c !default;
+$red: #ea5455 !default;
+$orange: #fd7e14 !default;
+$yellow: #ff9f43 !default;
+$green: #28c76f !default;
+$teal: #20c997 !default;
+$cyan: #00cfe8 !default;
+// scss-docs-end color-variables
+
+// scss-docs-start theme-color-variables
+$primary: $purple !default;
+$secondary: #a8aaae !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: #dfdfe3 !default;
+$dark: #4b4b4b !default;
+$gray: $gray-100 !default; // (C)
+// scss-docs-end theme-color-variables
+$hero-bg: linear-gradient(138.18deg, #eae8fd 0%, #fce5e6 94.44%) !default;
+$hero-dark-bg: #1e2130 !default;
+$footer-bottom-bg: #282c3e !default;
+$footer-bottom-bg-dark: #171925 !default;
+$footer-text: #d3d4dc !default;
+$section-radius: 3.75rem !default;
+$footer-text: #d3d4dc !default;
+$btn-transition: all 0.2s ease-in-out !default;
+$body-bg: #f8f7fa !default;
+$rgba-to-hex-bg: #fff !default; // (C)
+$body-color: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+$rgba-to-hex-bg-inverted: #000 !default; // (C)
+$border-color: rgba-to-hex($gray-200, $rgba-to-hex-bg) !default;
+
+
+.landing-footer {
+    .footer-link {
+      transition: $btn-transition;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .footer-top {
+      padding: 3.5rem 0;
+      .footer-bg {
+        object-position: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+    }
+    .footer-form {
+      max-width: 22.25rem;
+      input {
+        background-color: $body-bg;
+        border-color: $border-color;
+        color: $footer-text;
+        &:hover:not([disabled]):not([focus]) {
+          border-color: $border-color;
+        }
+        &::placeholder {
+          color: rgba($footer-text, 0.5);
+        }
+      }
+      label {
+        color: rgba($footer-text, 0.5);
+      }
+    }
+  }
+  
+  .light-style {
+    .landing-footer {
+      .footer-link,
+      .footer-text {
+        color: $footer-text;
+      }
+      .footer-title {
+        color: $white;
+      }
+      .footer-bottom {
+        background-color: $footer-bottom-bg;
+      }
+    }
+  }
+  
+  
