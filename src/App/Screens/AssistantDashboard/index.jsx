@@ -1,8 +1,15 @@
 import React from 'react'
 import Header from '../../Components/Header'
 import './Styles.scss';
+import MultipleSelectDropdown from '../../Components/MultipleSelectDropdown';
 
 const AssistantDashboard = () => {
+  const options = [
+    'Christmas Island',
+    'South Sudan',
+    'Jamaica',
+    'Kenya',
+  ];
   return (
     <>
         <div class="layout-wrapper layout-content-navbar">
@@ -182,12 +189,12 @@ const AssistantDashboard = () => {
         <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#Prompt">Prompt</a>
         </li>
-        <li class="nav-item">
+        {/* <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" href="#Deployment">Deployment</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#Logs">Deployment</a>
-        </li>
+            <a class="nav-link" data-bs-toggle="tab" href="#Logs">Logs</a>
+        </li> */}
     </ul>
     {/* new tabs */}
 
@@ -419,8 +426,19 @@ const AssistantDashboard = () => {
                 </div>
                 <div className="col-md-6 mt-3">
                   <h5 className='mb-0'>Add Intent</h5>
-                  <h6 className='mb-0'>Intent</h6>
-                  <input type="text" className='form-control' placeholder='Enter Intent' />
+                  {/* <h6 className='mb-0'>Intent</h6> */}
+                  <div className='select2-primary'>
+                    <div className='position-relative'>
+                    <MultipleSelectDropdown options={options} />
+                    </div>
+                  </div>
+                  
+                  
+                  {/* <input type="text" className='form-control' placeholder='Enter Intent' /> */}
+                </div>
+                <div className="col-md-6 mt-3">
+                  <h5 className='mb-0'>Add Knowledge base</h5>
+                  <input type="text" className='form-control' placeholder='Enter Knowlege base' />
                 </div>
 
                 <div className="col-md-12 my-3 text-center">
@@ -507,14 +525,14 @@ const AssistantDashboard = () => {
     </div>
     {/* Prompt end  */}
 
-    <div id="Deployment" class="tab-pane fade"> 
+    {/* <div id="Deployment" class="tab-pane fade"> 
       <h3>Deployment</h3>
      
     </div>
 
     <div id="Logs" class="tab-pane fade"> 
       <h3>Logs</h3>
-      </div>
+      </div> */}
 
   </div>
 

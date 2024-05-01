@@ -17,12 +17,13 @@ import Emails from './App/Screens/Emails';
 
 import NewAssistant from './App/Screens/NewAssistant';
 import AssistantDashboard from './App/Screens/AssistantDashboard';
+import AuthLogin from './App/Screens/AuthLogin';
 
 
 
 const publicRoutes = [
   { path: '/', component: Home },
-  { path: 'login', component: Login },
+  // { path: 'login', component: Login },
   { path: 'register', component: Register },
  
   { path: 'knowledge', component: Knowledge },
@@ -36,6 +37,7 @@ const publicRoutes = [
   { path: 'emails', component: Emails },
   { path: 'newassistant', component: NewAssistant },
   { path: 'assistant-dashboard', component: AssistantDashboard },
+  { path: 'login', component: AuthLogin },
   
 
   // { path: '*', component: Pagenotfound },

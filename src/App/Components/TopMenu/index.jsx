@@ -42,11 +42,13 @@ const TopMenu = () => {
                                                 <div className="dropdown-divider"></div>
                                             </li>
                                             <li>
-                                                <a className="dropdown-item" onclick="logout()">
+                                                
                                                     <i className="ti ti-logout me-2 ti-sm"></i>
-                                                    <span className="align-middle">Log Out</span>
-                                                </a>
+                                                    <Link className="nav-link" to="/login">Log Out</Link>
+                                                    {/* <span className="align-middle">Log Out</span> */}
+                                                
                                             </li>
+                                           
                                         </ul>
                                     </li>
 

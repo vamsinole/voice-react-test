@@ -3,21 +3,15 @@ import './home-style.scss';
 import env from '../../../config';
 import Header from '../../Components/Header';
 import TopMenu from '../../Components/TopMenu';
+import NewAssistantBar from '../../Components/NewAssistantBar';
 import axios from 'axios';
-
-import { USER_ENDPOINTS } from '../../../config/enpoints';
+import { Link } from 'react-router-dom'
+import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
 
 
 
 const Home = () => {
-
-
-  const [dataFromApi, setDataFromApi] = useState('');
-  
-  
-
-
-  useEffect(() => {
+useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response =  await axios.post('http://146.148.89.120/v1/login', {
@@ -77,35 +71,6 @@ const handleChildChange = (event) => {
   const selectedChildValue = event.target.value;
   setChildValue(selectedChildValue);
 };
-
-
-
-const baseurl = env.baseUrl;
-  const endpoint = USER_ENDPOINTS.getassist;
-
-  const token = localStorage.getItem('token');
-  console.log("token", token);
-  useEffect(() => {
-    const fetchVoiceAgents = async () => {
-      try {
-        const response = await axios.get(baseurl + endpoint, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        console.log("responcassist", response.data.data);
-        
-        setDataFromApi(response.data.data);
-
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
-
-    fetchVoiceAgents();
-  }, []);
-
-
   const TblData = [
     {
       name: "Akram",
@@ -142,7 +107,86 @@ const baseurl = env.baseUrl;
       type: "Dialogdlow",
       action:''
      },
+     { 
+      name: "Nag",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+     },
+     { 
+      name: "Mum",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+     },
+     {
+      name: "Akram",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+    },
+    {
+      name: "Jhon",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+    },
+    { 
+      name: "Rahul",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+    },
+    { 
+      name: "Syam",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+    },
+    { 
+      name: "Ved",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+     },
+     { 
+      name: "Nag",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+     },
+     { 
+      name: "Mum",
+      model: "Lorem Ipsum is",
+      instruc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      type: "Dialogdlow",
+      action:''
+     },
   ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Adjust as needed
+  const totalItems = TblData.length;
+
+  // Calculate total counts
+  const totalCountName = TblData.length;
+  const totalCountModel = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has a model
+  const totalCountInstruc = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has instructions
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = TblData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <>
             <div className="layout-wrapper layout-content-navbar">
@@ -150,16 +194,16 @@ const baseurl = env.baseUrl;
                     <Header/>
 
                     <div className="layout-page">
+                      <NewAssistantBar/>
                         <TopMenu/>
                         <div className="content-wrapper">
                             <div className="container-xxl flex-grow-1 container-p-y">
                                 <div className="card">
                                 <div class="card-header border-bottom">
                 <h4 class="card-title pull-left mb-3">Assistants</h4>
-                <button type="button" class="btn btn-primary pull-right" data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasAddAssistant" aria-controls="offcanvasAddAssistant">
-                  <span class="ti-xs ti ti-plus me-1"></span>New Assistant
-                </button>
+                {/* <a class="btn btn-primary pull-right">
+                <Link className="nav-link" to="/newassistant"><span class="ti-xs ti ti-plus me-1"></span> New Assistant</Link>
+                </a> */}
         </div>
 
 
@@ -175,10 +219,7 @@ const baseurl = env.baseUrl;
               </tr>
             </thead>
             <tbody>
-              {console.log("datavalues",dataFromApi)}
-              
-
-              {dataFromApi ? dataFromApi.map((value, key) => {
+              {TblData.map((value, key) => {
                 return (
                   <tr key={key}>
                     <td>{value.name}</td>
@@ -187,18 +228,43 @@ const baseurl = env.baseUrl;
                     <td>{value.type}</td>
                     <td style={{ width: '70px' }}>
                       <div className="d-flex acation-btns">
+                      <button className='btn px-1'><i className="lar la-edit la-lg"></i></button>
                         <button className='btn px-1'><i className="las la-play la-lg"></i></button>
                         <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                       </div>
                     </td>
                   </tr>
                 );
-             
-              }) : null}
+              })}
             </tbody>
+            <tfoot>
+            <tr>
+            <td>Total Count: {totalCountName}</td>
+            <td>Count of Model: {totalCountModel}</td>
+            <td>Count of INSTRUCTIONS: {totalCountInstruc}</td> 
+            <td></td>
+            <td>
+              {/* Pagination */}
+      {totalItems > itemsPerPage && (
+        <ul className="pagination">
+          {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
+            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+              <button className="page-link" onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+            </td>
+          </tr>
+            </tfoot>
           </table>
 
         </div>
+       
+
+      
                                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddAssistant"
                 aria-labelledby="offcanvasAddAssistantLabel">
                 <div class="offcanvas-header">
@@ -285,7 +351,27 @@ const baseurl = env.baseUrl;
 
                   
       
-                   
+                    {/* <div class="mb-3">
+                      <label class="form-label" for="assistant-type">Type</label>
+                      <select id="assistant-type" onchange="changeAssistantType()"
+                       class="form-select">
+                        <option value="" selected>Select Type</option>
+                        <option value="open_ai">Open AI GPT</option>
+                        <option value="dialogflow">Dilogflow</option>
+                      </select>
+                    </div> */}
+                    {/* <div class="mb-3" id="dialogflow-type-parent" style={{ display: 'none' }}>
+                      <label class="form-label" for="dialogflow-type">Base Type</label>
+                      <select id="dialogflow-type" onchange="changeAssistantType()" class="form-select">
+                        <option value="" selected>Select Type</option>
+                        <option value="dining-out">Dining Out</option>
+                        <option value="banking">Banking</option>
+                        <option value="job-interview">Job Interview</option>
+                        <option value="hotel-booking">Hotel Booking</option>
+                        <option value="support">Support</option>
+                        <option value="flights">Flight Reservations</option>
+                      </select>
+                    </div> */}
                     <div class="mb-3" id="open-ai-model" style={{ display: 'none' }}>
                       <label class="form-label" for="assistant-model">Model type</label>
                       <select id="assistant-model" class="form-select">
@@ -371,6 +457,7 @@ const baseurl = env.baseUrl;
                                 </div>
                             </div>
                         </div>
+                        <NewAssistantHelpBar/>
                     </div>
                 </div>
             </div>
