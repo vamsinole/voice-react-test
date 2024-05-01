@@ -18,13 +18,14 @@ import Orders from './App/Screens/Orders';
 import Emails from './App/Screens/Emails';
 import NewAssistant from './App/Screens/NewAssistant';
 import AssistantDashboard from './App/Screens/AssistantDashboard';
+import AuthLogin from './App/Screens/AuthLogin';
 
 
 
 const publicRoutes = [
   { path: '/landing', component: LandingPage },
   { path: '/terms', component: Terms },
-  { path: 'login', component: Login },
+  { path: '/', component: Home },
   { path: 'register', component: Register },
 
   { path: 'knowledge', component: Knowledge },
@@ -38,6 +39,7 @@ const publicRoutes = [
   { path: 'emails', component: Emails },
   { path: 'newassistant', component: NewAssistant },
   { path: 'assistant-dashboard', component: AssistantDashboard },
+  { path: 'login', component: AuthLogin },
 
 
   // { path: '*', component: Pagenotfound },
