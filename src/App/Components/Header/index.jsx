@@ -1,7 +1,17 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  if (localStorage.getItem("token") === null) {
+    // alert(localStorage.getItem('token'))
+
+    navigate("/login");
+  }
+
   return (
     <>
       <div className="d-flex">
