@@ -16,7 +16,6 @@ import Actions from './App/Screens/Actions';
 import Customers from './App/Screens/Customers';
 import Orders from './App/Screens/Orders';
 import Emails from './App/Screens/Emails';
-
 import NewAssistant from './App/Screens/NewAssistant';
 import AssistantDashboard from './App/Screens/AssistantDashboard';
 

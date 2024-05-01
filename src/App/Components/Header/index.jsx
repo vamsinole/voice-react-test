@@ -51,15 +51,13 @@ const Header = () => {
                                 <Link className="nav-link" to="/assistant">Assistants</Link>
                                 {/* <div data-i18n="Assistants">Assistants</div> */}
                             </a></li>
-
-                            <li className="menu-item"><a className="menu-link"><i
-                                className="menu-icon tf-icons ti ti-brain"></i>
-                                <Link className="nav-link" to="/newassistant">New Assistants</Link>
-                                {/* <div data-i18n="Assistants">Assistants</div> */}
-                            </a></li>
-                          
-
-
+                            {/* <li className="menu-item">
+                                <a className="menu-link"><i
+                                    className="menu-icon tf-icons ti ti-brain"></i>
+                                    <Link className="nav-link" to="/newassistant">New Assistants</Link>
+                                    
+                                </a>
+                            </li> */}
                             <li className="menu-item"><a className="menu-link"><i
                                 className="menu-icon tf-icons ti ti-checkup-list"></i>
                                 <Link className="nav-link" to="/actions">Actions</Link>
