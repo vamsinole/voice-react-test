@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./terms.scss";
 
 const Terms = () => {
@@ -29,7 +29,7 @@ const Terms = () => {
                     >
                       <i class="ti ti-menu-2 ti-sm align-middle"></i>
                     </button>
-                    <a href="landing-page.html" class="app-brand-link">
+                    <a href="/landing" class="app-brand-link">
                       <span class="app-brand-logo demo">
                         <svg
                           width="32"
@@ -92,18 +92,24 @@ const Terms = () => {
                         <a
                           class="nav-link fw-medium"
                           aria-current="page"
-                          href="#landingHero"
+                          href="/landing"
                         >
                           Home
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link fw-medium" href="#landingFeatures">
+                        <a
+                          class="nav-link fw-medium"
+                          href="/landing#landingFeatures"
+                        >
                           Features
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link fw-medium" href="#landingContact">
+                        <a
+                          class="nav-link fw-medium"
+                          href="/landing#landingContact"
+                        >
                           Contact us
                         </a>
                       </li>
@@ -1443,8 +1449,8 @@ const Terms = () => {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-12">
+        <div className="row mt-4">
+          <div className="col-12 mt-4">
             <footer class="landing-footer bg-body footer-text">
               <div class="footer-top position-relative overflow-hidden z-1">
                 <img
@@ -1457,7 +1463,7 @@ const Terms = () => {
                 <div class="container">
                   <div class="row gx-0 gy-4 g-md-5">
                     <div class="col-lg-5">
-                      <a href="landing-page.html" class="app-brand-link mb-4">
+                      <a href="/landing" class="app-brand-link mb-4">
                         <span class="app-brand-logo demo">
                           <svg
                             width="32"
@@ -1547,12 +1553,12 @@ const Terms = () => {
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
-                      href="https://pixinvent.com"
+                      href="/"
                       target="_blank"
-                      class="fw-medium text-white footer-link"
+                      class="fw-medium footer-link"
                       rel="noreferrer"
                     >
-                      ContactSwing,
+                      ContactSwing
                     </a>
                     <span class="footer-text"> </span>
                   </div>

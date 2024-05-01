@@ -1,14 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
-import Header from './App/Components/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './App/Components/Login';
 import Home from './App/Screens/Home';
 import Register from './App/Components/Registers';
 
 import Knowledge from './App/Screens/Knowledge';
 import LandingPage from './App/Screens/LandingPage';
 import Terms from './App/Screens/Terms';
+import Privacy from './App/Screens/Privacy';
 import Voice from './App/Screens/Voice';
 import Users from './App/Screens/Users';
 import Calls from './App/Screens/Calls';
@@ -25,6 +23,7 @@ import AuthLogin from './App/Screens/AuthLogin';
 const publicRoutes = [
   { path: '/landing', component: LandingPage },
   { path: '/terms', component: Terms },
+  { path: '/privacy', component: Privacy },
   { path: '/', component: Home },
   { path: 'register', component: Register },
 

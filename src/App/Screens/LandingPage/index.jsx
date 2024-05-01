@@ -1,10 +1,10 @@
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./landing-page.scss";
 
 const LandingPage = () => {
-  const token = localStorage.getItem("token");
-  console.log("landing page token", token);
   useEffect(() => {
     (function () {
       const nav = document.querySelector(".layout-navbar"),
@@ -134,17 +134,21 @@ const LandingPage = () => {
             // If checked
             priceYearlyList.map(function (yearEl) {
               yearEl.classList.remove("d-none");
+              return yearEl;
             });
             priceMonthlyList.map(function (monthEl) {
               monthEl.classList.add("d-none");
+              return monthEl;
             });
           } else {
             // If not checked
             priceYearlyList.map(function (yearEl) {
               yearEl.classList.add("d-none");
+              return yearEl;
             });
             priceMonthlyList.map(function (monthEl) {
               monthEl.classList.remove("d-none");
+              return monthEl;
             });
           }
         }
@@ -261,7 +265,7 @@ const LandingPage = () => {
                     >
                       <i class="ti ti-menu-2 ti-sm align-middle"></i>
                     </button>
-                    <a href="landing-page.html" class="app-brand-link">
+                    <a href="/landing" class="app-brand-link">
                       <span class="app-brand-logo demo">
                         <svg
                           width="32"
@@ -466,10 +470,7 @@ const LandingPage = () => {
                           id="heroDashboardAnimation"
                           class="hero-animation-img"
                         >
-                          <a
-                            href="../vertical-menu-template/app-ecommerce-dashboard.html"
-                            target="_blank"
-                          >
+                          <a href="#" target="_blank">
                             <div
                               id="heroAnimationImg"
                               class="position-relative hero-dashboard-img"
@@ -2358,8 +2359,8 @@ const LandingPage = () => {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-12">
+        <div className="row mt-4">
+          <div className="col-12 mt-4">
             <footer class="landing-footer bg-body footer-text">
               <div class="footer-top position-relative overflow-hidden z-1">
                 <img
@@ -2372,7 +2373,7 @@ const LandingPage = () => {
                 <div class="container">
                   <div class="row gx-0 gy-4 g-md-5">
                     <div class="col-lg-5">
-                      <a href="landing-page.html" class="app-brand-link mb-4">
+                      <a href="/landing" class="app-brand-link mb-4">
                         <span class="app-brand-logo demo">
                           <svg
                             width="32"
@@ -2462,11 +2463,11 @@ const LandingPage = () => {
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
-                      href="https://pixinvent.com"
+                      href="/landing"
                       target="_blank"
-                      class="fw-medium text-white footer-link"
+                      class="fw-medium footer-link"
                     >
-                      ContactSwing,
+                      ContactSwing
                     </a>
                     <span class="footer-text"> </span>
                   </div>
@@ -2475,6 +2476,7 @@ const LandingPage = () => {
                       href="https://github.com/pixinvent"
                       class="footer-link me-3"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       <img
                         src="../../assets/img/front-pages/icons/github-light.png"
@@ -2487,6 +2489,7 @@ const LandingPage = () => {
                       href="https://www.facebook.com/pixinvents/"
                       class="footer-link me-3"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       <img
                         src="../../assets/img/front-pages/icons/facebook-light.png"
@@ -2499,6 +2502,7 @@ const LandingPage = () => {
                       href="https://twitter.com/pixinvents"
                       class="footer-link me-3"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       <img
                         src="../../assets/img/front-pages/icons/twitter-light.png"
@@ -2511,6 +2515,7 @@ const LandingPage = () => {
                       href="https://www.instagram.com/pixinvents/"
                       class="footer-link"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       <img
                         src="../../assets/img/front-pages/icons/instagram-light.png"
