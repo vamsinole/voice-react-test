@@ -48,7 +48,12 @@ const TopMenu = () => {
                                                     {/* <span className="align-middle">Log Out</span> */}
                                                 
                                             </li>
-                                           
+                                            <li>
+                                                <a className="dropdown-item" onclick="logout()">
+                                                    <i className="ti ti-logout me-2 ti-sm"></i>
+                                                    <span className="align-middle">Log Out</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </li>
 

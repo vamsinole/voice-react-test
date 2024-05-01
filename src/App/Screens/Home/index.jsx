@@ -7,20 +7,28 @@ import NewAssistantBar from '../../Components/NewAssistantBar';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
+import { USER_ENDPOINTS } from '../../../config/enpoints';
 
 
 
 const Home = () => {
+
+  const [dataFromApi, setDataFromApi] = useState(null);
+  const baseurl = env.baseUrl;
+  const endpoint = USER_ENDPOINTS.getassist;
+  const token = localStorage.getItem('token');
+
 useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response =  await axios.post('http://146.148.89.120/v1/login', {
-    "email": "vamsi@voice.com",
-    "password": "password",
-  });
+        const response = await axios.get(baseurl + endpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
-  const token = response.data.data.token;
-  localStorage.setItem('token', token);
+        setDataFromApi(response.data.data);
+
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -219,7 +227,7 @@ const handleChildChange = (event) => {
               </tr>
             </thead>
             <tbody>
-              {TblData.map((value, key) => {
+            {dataFromApi ? dataFromApi.map((value, key) => {
                 return (
                   <tr key={key}>
                     <td>{value.name}</td>
@@ -235,7 +243,7 @@ const handleChildChange = (event) => {
                     </td>
                   </tr>
                 );
-              })}
+              }) : null}
             </tbody>
             <tfoot>
             <tr>

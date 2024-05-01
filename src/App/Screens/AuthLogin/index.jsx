@@ -1,10 +1,48 @@
 // import React from 'react'
 import React, { useState } from 'react'
 import './Styles.scss';
-import { Link } from 'react-router-dom' 
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import env from '../../../config';
+import { USER_ENDPOINTS } from '../../../config/enpoints';
+import { useNavigate } from 'react-router-dom';
 
 
 const AuthLogin = () => {
+
+  localStorage.removeItem('token');
+
+  const baseurl = env.baseUrl;
+  const endpoint=USER_ENDPOINTS.login;
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+  
+    const handleSubmit= async (e) => {
+     
+      
+      e.preventDefault();
+      // Here you can implement your sign-in logic, like sending the data to a server or authenticating locally
+      console.log('Email:', email);
+      console.log('Password:', password);
+    
+      try {
+        const response =  await axios.post(baseurl+endpoint, {
+    "email": email,
+    "password": password,
+  });
+
+  const token = response.data.data.token;
+  localStorage.setItem('token', token);
+
+  navigate('/assistant');
+  
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+
+
+    };
   
   return (
     <>
@@ -68,16 +106,20 @@ const AuthLogin = () => {
             <h3 class="mb-1">Welcome to VoiceBot! 👋</h3>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-            <form class="mb-3">
+            <form class="mb-3"  onSubmit={handleSubmit}>
               <div class="mb-3">
                 <label for="email" class="form-label">Email or Username</label>
                 <input
-                  type="text"
+                  type="email"
                   class="form-control"
                   id="email"
+                  value={email}
                   name="email-username"
                   placeholder="Enter your email or username"
+                  onChange={(e) => setEmail(e.target.value)}
+            required
                   autofocus />
+                 
               </div>
               <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
@@ -93,7 +135,12 @@ const AuthLogin = () => {
                     class="form-control"
                     name="password"
                     placeholder=""
-                    aria-describedby="password" />
+                    aria-describedby="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                     />
+                     
                   <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                 </div>
               </div>
@@ -103,7 +150,8 @@ const AuthLogin = () => {
                   <label class="form-check-label" for="remember-me"> Remember Me </label>
                 </div>
               </div>
-              <button class="btn btn-primary d-grid w-100">Sign in</button>
+              <button type="submit" class="btn btn-primary d-grid w-100">Sign in</button>
+             
             </form>
 
             <p class="text-center">
