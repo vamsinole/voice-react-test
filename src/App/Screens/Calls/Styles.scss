@@ -741,13 +741,27 @@
 }
 
 
-// .app-chat .sidebar-body .chat-contact-list li.active {
-//   background: linear-gradient(45deg, #7367f0, #7367f0);
-// }
+.app-chat .sidebar-body .chat-contact-list li.active {
+  background: linear-gradient(45deg, #7367f0, #7367f0);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  margin: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  color: #fff;
+}
+.app-chat .app-chat-contacts .sidebar-body .chat-contact-list li.chat-contact-list-item a{
+  width: 100%;
+}
 .text-truncate p {
   font-size: 12px;
 }
 
 .listpointer{
   cursor: pointer;
+}
+.app-chat .app-chat-contacts .sidebar-body .chat-contact-list li.chat-contact-list-item{
+  
+ 
 }

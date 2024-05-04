@@ -148,7 +148,7 @@ const Calls = () => {
                                           <h5 class="text-primary mb-0 px-4 pt-3 pb-2">Chats</h5>
                                         </div>
                                         <ul class="list-unstyled chat-contact-list listpointer" id="chat-list">
-                                          <li class="chat-contact-list-item chat-list-item-0 d-none">
+                                          <li class="chat-contact-list-item chat-list-item-0">
                                             <h6 class="text-muted mb-0">No Chats Found</h6>
                                           </li>
 

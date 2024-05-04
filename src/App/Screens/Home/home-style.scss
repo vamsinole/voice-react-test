@@ -13,7 +13,37 @@
         color: #7367f0;
     }
 }
+body {
+    overflow: hidden;
+  }
+  
+  .results {
+    overflow: scroll;
+    height:100vh;
+  }
 
-
-
+/* Styles for the scrollable table */
+.table-scrollable {
+    max-height: calc(88vh - 200px); /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  .card-title{
+    margin-bottom: 0px;
+  }  
+  .card-header{
+    // padding: 0px;
+  }
+  /* Styles for the bottom count section */
+  .bottom-count {
+    position:fixed;
+    bottom: 2.4rem;
+    left: 0;
+    right: 0;
+    // background-color: #ff0000; 
+    padding: 10px;
+    z-index: 0; /* Ensure it's above other content */
+  }
+  
+ 
+  
 

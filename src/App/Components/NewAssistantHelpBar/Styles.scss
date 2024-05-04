@@ -10,6 +10,12 @@
 .navbar-detached{
     margin: 0rem auto 0;
 }
+.txt-color{
+    color: #aeccd9;
+}
+.fz{
+    font-size: 0.768rem;
+}
 // .navbar{
 //     background-color:#02475c ;
 //     height: 31px;
@@ -92,3 +98,14 @@
 .SharedWithCard li {
     line-height: 2;
 }
+
+ /* Styles for the footer */
+ .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   padding: 10px;
+    z-index: 1000;
+    background-color:#093e53;
+  }
