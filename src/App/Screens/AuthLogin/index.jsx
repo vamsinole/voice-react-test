@@ -103,7 +103,7 @@ const AuthLogin = () => {
               </a>
             </div>
             
-            <h3 class="mb-1">Welcome to VoiceBot! 👋</h3>
+            <h3 class="mb-1">Welcome to Contact Swing 👋</h3>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
             <form class="mb-3"  onSubmit={handleSubmit}>

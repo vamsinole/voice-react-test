@@ -195,6 +195,12 @@ const handleChildChange = (event) => {
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [isColumnVisible, setIsColumnVisible] = useState(false);
+
+// Toggle the visibility and adjust classes
+const toggleColumn = () => {
+  setIsColumnVisible(!isColumnVisible);
+};
   return (
     <>
             <div className="layout-wrapper layout-content-navbar">
@@ -203,73 +209,245 @@ const handleChildChange = (event) => {
 
                     <div className="layout-page">
                       <NewAssistantBar/>
-                        <TopMenu/>
+                      <div className='container-fluid'>
+                <div className='row my-3'>
+                 
+                  <div className='col-md-4' >
+                   
+                    <span class="dropdown FilterDropdown">
+                      <button onClick={toggleColumn} class="btn" type="button">
+                        <i class="ti ti-filter ti-md"></i>
+                      </button>
+                     
+                    </span>
+                    
+                    
+                    <span class="dropdown">
+                      <button class="btn dropdown-toggle border rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        May 2023 Candidates
+                      </button>
+                      <div class="dropdown-menu" style={{width: "300px"}}>
+                        <ul class="nav nav-tabs">
+                          <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#AllViews">All Views</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#Favorites">Favorites</a>
+                          </li>
+                         
+                        </ul>
+                        <div class="tab-content px-3 pb-0">
+                          
+                          <div class="tab-pane  active" id="AllViews">
+                            <input type="text" className='form-control position-relative' />
+                            <i class="las la-search la-lg"></i>
+
+                            <div className="SharedWithCard">
+                              <h5 className='mb-2 mt-3'>Shared with me</h5>
+                              <p><i class="las la-star text-primary"></i> Move to Bench/Training</p>
+
+                              <h5 className='mb-2 mt-3'>Public Views</h5>
+                              <ul className='list-unstyled ps-3 lh-base'>
+                                <li>All Consutants</li>
+                                <li>Co-Owner Consutants</li>
+                                <li>Diwali Build mails</li>
+                                <li>Follow up calls</li>
+                              </ul>
+                             </div>
+                             <button className='btn text-primary'><i class="las la-plus la-lg"></i> Create View</button>
+                          </div>
+                        
+
+                          <div class="tab-pane fade" id="Favorites">2...</div>
+                        </div>
+                      </div>
+                    </span>
+
+                  </div>
+                  <div class="col-4 mb-3">
+                    
+
+                    
+                  </div>
+                  <div className='col-md-4 text-end'>
+                    <button class="btn dropdown-toggle border rounded-pill  me-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="las la-bars la-lg"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">List</a></li>
+                      <li><a class="dropdown-item" href="#">Sheet</a></li>
+                    </ul>
+                    {/* <a class="btn btn-primary pull-right text-white" data-bs-toggle="modal"
+                      data-bs-target="#createKbsModal">
+                    <span class="ti-xs ti ti-plus me-1"></span> Create Assistant
+                    </a> */}
+                    <Link className="btn btn-primary pull-right text-white" to="/assistant-dashboard"><span class="ti-xs ti ti-plus me-1"></span> Create Assistant</Link>
+                  </div>
+                </div>
+                      </div>
+                      
+
                         <div className="content-wrapper">
                             <div className="container-xxl flex-grow-1 container-p-y">
+                              <div className="row">
+                              <div className={isColumnVisible ? "col-md-4" : "d-none"}>
+                              <div className='card'>
+                         {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                        {/* accourdian start */}
+                        <div class="accordion" id="accordionExample">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Filter Consultants
+                              </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                              <div>
+                        {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                         <input type="text" placeholder='Choose a property' className="form-control form-control-sm mt-2" />
+
+                         <div className="bg-light p-2 my-3">
+                          <div className="row">
+                            <div className="col-3 col-md-4">
+                              <select className='form-select form-select-sm'>
+                                <option value="">Is</option>
+                              </select>
+                            </div>
+                            <div className="col-9 col-md-8 ps-0">
+                              <input type='text' className='form-control form-control-sm'/>
+                            </div>
+                          </div>
+                          </div>
+
+                          <h6 className='mb-1'>Email</h6>
+                          <div className="row">
+                            <div className="col-3 col-md-4">
+                              <select className='form-select form-select-sm'>
+                                <option value="">Is</option>
+                              </select>
+                            </div>
+                            <div className="col-9 col-md-8 ps-0">
+                              <input type='text' className='form-control form-control-sm'/>
+                            </div>
+                          </div>
+                          <div className='border-top my-2'></div>
+                          <h6 className='mb-1'>Created Time</h6>
+                          <div className="row">
+                            <div className="col-4 col-md-5 pe-0">
+                              <select className='form-select form-select-sm ps-1 pe-2'>
+                                <option value="">In the Last</option>
+                              </select>
+                            </div>
+                            <div className="col-4 col-md-3">
+                              <input type='text' className='form-control form-control-sm px-1'/>
+                            </div>
+                            <div className="col-4 col-md-4 ps-0">
+                              <select className='form-select form-select-sm'>
+                                <option value="">Days</option>
+                              </select>
+                            </div>
+                          </div>
+
+                        
+                      </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Heading #2
+                              </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                               Heading content 2
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Heading #3
+                              </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                               Heading content 3
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* accourdian end */}
+                      </div>
+                                </div>
+                                <div className={isColumnVisible ? "col-md-8" : "col-md-12"} id="kbs-content">
                                 <div className="card">
                                 <div class="card-header border-bottom">
-                <h4 class="card-title pull-left mb-3">Assistants</h4>
-                {/* <a class="btn btn-primary pull-right">
-                <Link className="nav-link" to="/newassistant"><span class="ti-xs ti ti-plus me-1"></span> New Assistant</Link>
-                </a> */}
-        </div>
-
-
-        <div className="card-datatable table-responsive">
-          <table className='table'>
-            <thead>
-              <tr>
-                <th>NAME</th>
-                <th>MODEL</th>
-                <th>INSTRUCTIONS</th>
-                <th>TYPE</th>
-                <th style={{ width: '70px' }}>ACTION</th>
-              </tr>
-            </thead>
-            <tbody>
-            {dataFromApi ? dataFromApi.map((value, key) => {
-                return (
-                  <tr key={key}>
-                    <td>{value.name}</td>
-                    <td>{value.model}</td>
-                    <td>{value.instruc}</td>
-                    <td>{value.type}</td>
-                    <td style={{ width: '70px' }}>
-                      <div className="d-flex acation-btns">
-                      <button className='btn px-1'><i className="lar la-edit la-lg"></i></button>
-                        <button className='btn px-1'><i className="las la-play la-lg"></i></button>
-                        <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              }) : null}
-            </tbody>
-            <tfoot>
-            <tr>
-            <td>Total Count: {totalCountName}</td>
-            <td>Count of Model: {totalCountModel}</td>
-            <td>Count of INSTRUCTIONS: {totalCountInstruc}</td> 
-            <td></td>
-            <td>
-              {/* Pagination */}
-      {totalItems > itemsPerPage && (
-        <ul className="pagination">
-          {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
-            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-              <button className="page-link" onClick={() => paginate(index + 1)}>
-                {index + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-            </td>
-          </tr>
-            </tfoot>
-          </table>
-
-        </div>
+                                <h4 class="card-title pull-left">Assistants</h4>
+                                </div>
+                                <div className="card-datatable table-responsive">
+                                <div className="table-scrollable">
+                                <table className='table'>
+                                    <thead>
+                                      <tr>
+                                        <th>NAME</th>
+                                        <th>MODEL</th>
+                                        <th>INSTRUCTIONS</th>
+                                        <th>TYPE</th>
+                                        <th style={{ width: '70px' }}>ACTION</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {dataFromApi ? dataFromApi.map((value, key) => {
+                                        return (
+                                          <tr key={key}>
+                                            <td>{value.name}</td>
+                                            <td>{value.model}</td>
+                                            <td>{value.instruc}</td>
+                                            <td>{value.type}</td>
+                                            <td style={{ width: '70px' }}>
+                                              <div className="d-flex acation-btns">
+                                              <button className='btn px-1'><i className="lar la-edit la-lg"></i></button>
+                                                <button className='btn px-1'><i className="las la-play la-lg"></i></button>
+                                                <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        );
+                                      }) : null}
+                                    </tbody>
+                                    
+                                  </table>
+                                </div>
+                                <div className='bottom-count'>
+                                  <table className='datatables-voice-agents table'>
+                                  <tfoot className='border-top'>
+                                    <tr>
+                                    <td>Total Count: {totalCountName}</td>
+                                    <td>Count of Model: {totalCountModel}</td>
+                                    <td>Count of INSTRUCTIONS: {totalCountInstruc}</td> 
+                                    <td></td>
+                                    <td>
+                                      {/* Pagination */}
+                              {totalItems > itemsPerPage && (
+                                <ul className="pagination">
+                                  {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
+                                    <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                      <button className="page-link" onClick={() => paginate(index + 1)}>
+                                        {index + 1}
+                                      </button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                                    </td>
+                                  </tr>
+                                    </tfoot>
+                                  </table>
+                                </div>
+                                </div>
        
 
       
@@ -463,6 +641,9 @@ const handleChildChange = (event) => {
                                       </div>
                                     </div>
                                 </div>
+                                </div>
+                              </div>
+                                
                             </div>
                         </div>
                         <NewAssistantHelpBar/>

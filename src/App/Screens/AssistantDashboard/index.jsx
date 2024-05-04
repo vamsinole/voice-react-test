@@ -1,10 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../Components/Header";
 import "./Styles.scss";
 import MultipleSelectDropdown from "../../Components/MultipleSelectDropdown";
 
+// sorting table start
+const tableData = [
+  {
+    name: "John",
+    model: "Lorem Ipsum is1",
+    instruc: "adfdf Lorem Ipsum is simply dummy text of the printing",
+    type: "Dialogdlow4",
+    action: "",
+  },
+  {
+    name: "Alice",
+    model: "Lorem Ipsum is2",
+    instruc: "dfdfa Lorem Ipsum is simply dummy text of the printing",
+    type: "Dialogdlow2",
+    action: "",
+  },
+  {
+    name: "Bob",
+    model: "Lorem Ipsum is3",
+    instruc: "iuychn Lorem Ipsum is simply dummy text of the printing",
+    type: "Dialogdlow3",
+    action: "",
+  },
+  {
+    name: "Rob",
+    model: "Lorem Ipsum is4",
+    instruc: "uiivdn Lorem Ipsum is simply dummy text of the printing",
+    type: "Dialogdlow1",
+    action: "",
+  },
+  // Add more data as needed
+];
 const AssistantDashboard = () => {
   const options = ["Christmas Island", "South Sudan", "Jamaica", "Kenya"];
+
+  // sorting table here
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedData = [...tableData].sort((a, b) => {
+    if (sortConfig.key && a[sortConfig.key] < b[sortConfig.key]) {
+      return sortConfig.direction === "asc" ? -1 : 1;
+    }
+    if (sortConfig.key && a[sortConfig.key] > b[sortConfig.key]) {
+      return sortConfig.direction === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
+
   return (
     <>
       <div class="layout-wrapper layout-content-navbar">
@@ -13,161 +67,8 @@ const AssistantDashboard = () => {
 
           <div className="layout-page">
             <div class="content-wrapper">
-              {/* <div className='container-fluid top-strip-bg'>
-                <div className='row'>
-                  <div className='col-lg-3 my-1'>
-                    <div className='search-border rounded-pill px-2'>
-                      <a class="top-strip-bg dropdown-toggle text-white px-2" data-bs-toggle="dropdown" aria-expanded="false">
-                        All
-                      </a>
-                      <input type="text" className="allInput border-0 search-icon" placeholder='Search(ctrl + k)' />
-                      <i class="las la-search la-lg mt-1"></i>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className='col-lg-9 mt-1'>
-                    <div className="top_right-col">
-                      <p className='mt-1 me-4'>Your are in free plan. <a href="#"> Upgrade</a> or <a href="#">External Trail</a></p>
-
-                      <button className='btn btn-sm btn-success p-0 py-0 m-0 mt-1 me-2' style={{ height: "26px" }}>
-                        <i class="ti ti-plus ti-md py-0 m-0 my-0"></i>
-                      </button>
-                      <i class="ti ti-bell ti-md"></i>
-                      <i class="lab la-gg-circle"></i>
-                      <i class="ti ti-settings ti-md"></i>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-
-              {/* <div className='container-fluid'>
-                <div className='row my-3'>
-                  <div className='col-md-1'>
-                    <i class="ti ti-filter ti-md"></i>
-                  </div>
-                  <div className='col-md-3'>
-                    <div class="dropdown">
-                      <button class="btn dropdown-toggle border rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        May 2023 Candidates
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className='col-md-4'>
-                    Title
-                  </div>
-                  <div className='col-md-2 d-flex justify-content-end'>
-                    <button class="btn dropdown-toggle border rounded-pill btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="ti ti-baseline-density-medium ti-md"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">List</a></li>
-                      <li><a class="dropdown-item" href="#">Sheet</a></li>
-                    </ul>
-                  </div>
-                  <div className='col-md-2'>
-                    
-                    <button type="button" class="btn btn-primary pull-right"><span class="ti-xs ti ti-plus me-1"></span>Create Assitant</button>
-                  </div>
-                </div>
-              </div> */}
-
               <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="card">
-                  {/* <div class="card-header border-bottom">
-                    <h4 class="card-title pull-left mb-3">Users</h4>
-                    <button type="button" class="btn btn-primary pull-right" data-bs-toggle="offcanvas"
-                      data-bs-target="#offcanvasAddUser" aria-controls="offcanvasAddUser">
-                      <span class="ti-xs ti ti-plus me-1"></span>New User
-                    </button>
-                  </div>
-
-                  <div class="card-datatable table-responsive">
-                    <table class="datatables-voice-agents table">
-                      <thead class="border-top">
-                        <tr>
-                          <th>Name</th>
-                          <th>Model</th>
-                          <th>Assistants</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser"
-                    aria-labelledby="offcanvasAddUserLabel">
-                    <div class="offcanvas-header">
-                      <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Add User</h5>
-                      <button type="button" id="close-add-user-canvas" class="btn-close text-reset"
-                        data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                      <form class="add-new-user pt-0" id="addNewUserForm" onsubmit="return false">
-                        <div class="row mb-3">
-                          <label class="col-sm-12 col-form-label" for="basic-default-name">Name</label>
-                          <div class="col-sm-12">
-                            <input type="text" class="form-control" id="basic-default-name" placeholder="John Doe" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-12 col-form-label" for="basic-default-email">Email</label>
-                          <div class="col-sm-12">
-                            <div class="input-group input-group-merge">
-                              <input type="text" id="basic-default-email" class="form-control" placeholder="john.doe"
-                                aria-label="john.doe" aria-describedby="basic-default-email2" />
-                              <span class="input-group-text" id="basic-default-email2">@example.com</span>
-                            </div>
-                            <div class="form-text">You can use letters, numbers & periods</div>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-12 col-form-label" for="basic-default-phone">Phone No</label>
-                          <div class="col-sm-12">
-                            <input type="text" id="basic-default-phone" class="form-control phone-mask"
-                              placeholder="658 799 8941" aria-label="658 799 8941" aria-describedby="basic-default-phone" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-12 col-form-label" for="basic-default-password">Password</label>
-                          <div class="col-sm-12">
-                            <div class="input-group input-group-merge">
-                              <input type="password" class="form-control" id="basic-default-password" />
-                              <span class="input-group-text cursor-pointer" id="basic-default-password2"><i
-                                class="ti ti-eye-off"></i></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-12 col-form-label" for="basic-default-website">Website</label>
-                          <div class="col-sm-12">
-                            <input type="text" class="form-control" id="basic-default-website" placeholder="example.com" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-12 col-form-label" for="basic-default-address">Address</label>
-                          <div class="col-sm-12">
-                            <textarea id="basic-default-address" class="form-control" placeholder="" aria-label=""
-                              aria-describedby="basic-icon-default-message2"></textarea>
-                          </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" onclick="createUser()">
-
-                          <span class="ms-2">Submit</span>
-                        </button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
-                      </form>
-                    </div>
-                  </div> */}
-
                   <div class="container pb-3">
                     <div className="dash">
                       {/* new tabs */}
@@ -655,14 +556,61 @@ const AssistantDashboard = () => {
                         </div>
                         {/* Prompt end  */}
 
-                        {/* <div id="Deployment" class="tab-pane fade"> 
-      <h3>Deployment</h3>
-     
-    </div>
+                        {/* table start */}
 
-    <div id="Logs" class="tab-pane fade"> 
-      <h3>Logs</h3>
-      </div> */}
+                        <div className="border-top border-bottom">
+                          <h6 className="mt-3">Recent calls</h6>
+                        </div>
+
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th onClick={() => handleSort("name")}>
+                                Name{" "}
+                                {sortConfig.key === "name" &&
+                                  (sortConfig.direction === "asc" ? "↑" : "↓")}
+                              </th>
+                              <th onClick={() => handleSort("model")}>
+                                Model{" "}
+                                {sortConfig.key === "model" &&
+                                  (sortConfig.direction === "asc" ? "↑" : "↓")}
+                              </th>
+                              <th onClick={() => handleSort("instruc")}>
+                                INSTRUCTIONS{" "}
+                                {sortConfig.key === "instruc" &&
+                                  (sortConfig.direction === "asc" ? "↑" : "↓")}
+                              </th>
+                              <th onClick={() => handleSort("type")}>
+                                Type{" "}
+                                {sortConfig.key === "type" &&
+                                  (sortConfig.direction === "asc" ? "↑" : "↓")}
+                              </th>
+                              <th>ACTION</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {sortedData.map((row) => (
+                              <tr key={row.id}>
+                                <td>{row.name}</td>
+                                <td>{row.model}</td>
+                                <td>{row.instruc}</td>
+                                <td>{row.type}</td>
+                                <td style={{ width: "70px" }}>
+                                  <div className="d-flex acation-btns">
+                                    <button className="acation-btns">
+                                      <i className="las la-play la-lg"></i>
+                                    </button>
+                                    <button className="acation-btns">
+                                      <i className="las la-trash-alt la-lg"></i>
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+
+                        {/* table end */}
                       </div>
                     </div>
                   </div>

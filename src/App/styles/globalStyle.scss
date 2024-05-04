@@ -1,2 +1,5 @@
 @import './global.scss';
 
+.layout-navbar.navbar-detached.container-xxl{
+    max-width: calc(1650px - 1.5rem* 2);    
+}
