@@ -128,7 +128,7 @@ const Users = () => {
             <div class="content-wrapper">
 
 
-              <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="container-fluid flex-grow-1 container-p-y">
                 <div className="row">
                 <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                 <div className='card'>
@@ -232,7 +232,12 @@ const Users = () => {
                   <table class="datatables-voice-agents table">
                       <thead class="border-top">
                         <tr>
-
+                        <th className='w-px-14'>
+                          <div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                                </th>
                           <th>USER</th>
                           <th>PHONE</th>
                           <th>ADDRESS</th>
@@ -243,6 +248,13 @@ const Users = () => {
                         {users.map((value, key) => {
                           return (
                             <tr key={key}>
+                              
+                              <td className='w-px-14'><div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                                </td>
+                              
                               <td> <h6 className='mb-0'>{value.name}</h6>
                                 <div>{value.email}</div></td>
                               <td>{value.phone}</td>

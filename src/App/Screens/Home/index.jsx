@@ -288,7 +288,7 @@ const toggleColumn = () => {
                       
 
                         <div className="content-wrapper">
-                            <div className="container-xxl flex-grow-1 container-p-y">
+                            <div className="container-fluid flex-grow-1 container-p-y">
                               <div className="row">
                               <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                               <div className='card'>
@@ -392,6 +392,12 @@ const toggleColumn = () => {
                                 <table className='table'>
                                     <thead>
                                       <tr>
+                                        <th className='w-px-14'>
+                                        <div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                                        </th>
                                         <th>NAME</th>
                                         <th>MODEL</th>
                                         <th>INSTRUCTIONS</th>
@@ -403,6 +409,12 @@ const toggleColumn = () => {
                                     {dataFromApi ? dataFromApi.map((value, key) => {
                                         return (
                                           <tr key={key}>
+                                            <td className='w-px-14'>
+                                            <div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                                            </td>
                                             <td>{value.name}</td>
                                             <td>{value.model}</td>
                                             <td>{value.instruc}</td>
@@ -431,11 +443,19 @@ const toggleColumn = () => {
                                     <td>Total Count: {totalCountName}</td>
                                     <td>Count of Model: {totalCountModel}</td>
                                     <td>Count of INSTRUCTIONS: {totalCountInstruc}</td> 
-                                    <td></td>
+                                    <td className='d-flex justify-content-end align-items-center'>
+                                      Records per page:
+                                      <select name="" id="" className='form-select w-px-75'>
+                                      <option value="">50</option>
+                                      <option value="">100</option>
+                                      <option value="">150</option>
+                                      <option value="">200</option>
+                                  </select>
+                                    </td>
                                     <td>
                                       {/* Pagination */}
                               {totalItems > itemsPerPage && (
-                                <ul className="pagination">
+                                <ul className="pagination mb-0">
                                   {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
                                     <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
                                       <button className="page-link" onClick={() => paginate(index + 1)}>

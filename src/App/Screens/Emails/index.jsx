@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
+import NewAssistantBar from '../../Components/NewAssistantBar';
+import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
 //  import { google } from 'googleapis';
 
 const Emails = () => {
@@ -35,11 +37,9 @@ const Emails = () => {
         <div class="layout-container">
           <Header />
           <div className='layout-page'>
-            <TopMenu />
+          <NewAssistantBar/>
             <div class="content-wrapper">
-
-
-              <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="container-fluid flex-grow-1 container-p-y">
                 <div class="app-email card">
                   <div class="row g-0">
 
@@ -750,6 +750,7 @@ const Emails = () => {
                 </div>
               </div>
             </div>
+            <NewAssistantHelpBar/>
           </div>
         </div>
       </div>
