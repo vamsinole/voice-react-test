@@ -336,7 +336,11 @@ console.log("dataapi",data)
               <table class="datatables-voice-agents table">
                   <thead class="border-top">
                     <tr>
-                      
+                      <th className='w-px-14'><div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                      </th>
                       <th>Name</th>
                       <th>Type</th>
                       <th>Phone</th>
@@ -348,6 +352,12 @@ console.log("dataapi",data)
               {voiceagents.map((value, key) => {
                 return (
                   <tr key={key}>
+                    <td>
+                    <div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                    </td>
                     <td>{value.name}</td>
                     <td>{value.type}</td>
                     <td>{value.phone_number}</td>

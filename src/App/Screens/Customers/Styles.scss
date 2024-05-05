@@ -1,0 +1,19 @@
+.table-scrollable {
+    // max-height: calc(74.8vh - 125px); 
+    overflow-y: auto;
+  }
+  .bottom-count {
+    position:fixed;
+    bottom: 2.4rem;
+    left: 16rem;
+    right: 0;
+    background-color: #ffffff; 
+    padding: 0px;
+    z-index: 0; 
+  }
+  .bottom-count tfoot td{
+    padding: 0rem 1.25rem;
+  }
+  .card-title{
+    margin-bottom: 0px;
+  }

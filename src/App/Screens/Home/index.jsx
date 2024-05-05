@@ -288,7 +288,7 @@ const toggleColumn = () => {
                       
 
                         <div className="content-wrapper">
-                            <div className="container-xxl flex-grow-1 container-p-y">
+                            <div className="container-fluid flex-grow-1 container-p-y">
                               <div className="row">
                               <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                               <div className='card'>
@@ -392,6 +392,12 @@ const toggleColumn = () => {
                                 <table className='table'>
                                     <thead>
                                       <tr>
+                                        <th className='w-px-14'>
+                                        <div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                                        </th>
                                         <th>NAME</th>
                                         <th>MODEL</th>
                                         <th>INSTRUCTIONS</th>
@@ -403,15 +409,24 @@ const toggleColumn = () => {
                                     {dataFromApi ? dataFromApi.map((value, key) => {
                                         return (
                                           <tr key={key}>
+                                            <td className='w-px-14'>
+                                            <div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                                            </td>
                                             <td>{value.name}</td>
                                             <td>{value.model}</td>
                                             <td>{value.instruc}</td>
                                             <td>{value.type}</td>
                                             <td style={{ width: '70px' }}>
                                               <div className="d-flex acation-btns">
-                                              <button className='btn px-1'><i className="lar la-edit la-lg"></i></button>
-                                                <button className='btn px-1'><i className="las la-play la-lg"></i></button>
-                                                <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
+                                              <button  data-bs-toggle="modal"
+                                  data-bs-target="#updateAssistantModal" className='btn px-1'><i class="ti ti-message ti-sm me-2"></i></button>
+                                                <button  data-bs-toggle="modal"
+                                  data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
+                                                <button data-bs-toggle="modal"
+                                  data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
                                               </div>
                                             </td>
                                           </tr>
@@ -428,11 +443,19 @@ const toggleColumn = () => {
                                     <td>Total Count: {totalCountName}</td>
                                     <td>Count of Model: {totalCountModel}</td>
                                     <td>Count of INSTRUCTIONS: {totalCountInstruc}</td> 
-                                    <td></td>
+                                    <td className='d-flex justify-content-end align-items-center'>
+                                      Records per page:
+                                      <select name="" id="" className='form-select w-px-75'>
+                                      <option value="">50</option>
+                                      <option value="">100</option>
+                                      <option value="">150</option>
+                                      <option value="">200</option>
+                                  </select>
+                                    </td>
                                     <td>
                                       {/* Pagination */}
                               {totalItems > itemsPerPage && (
-                                <ul className="pagination">
+                                <ul className="pagination mb-0">
                                   {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
                                     <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
                                       <button className="page-link" onClick={() => paginate(index + 1)}>
@@ -650,6 +673,121 @@ const toggleColumn = () => {
                     </div>
                 </div>
             </div>
+            
+            <div class="modal fade" id="testAssistantModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel1">Test assistant</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body app-chat">
+                          <div class="col app-chat-history">
+                            <div class="chat-history-wrapper">
+                              <div class="chat-history-body bg-body">
+                                <ul class="list-unstyled chat-history" id="testing-assistant-chat">
+
+                                </ul>
+                              </div>
+                              <div class="chat-history-footer shadow-sm">
+                                <div class="form-send-message d-flex justify-content-between align-items-center">
+                                  <div class="col-sm-9 pull-left">
+                                    <input id="assistant-chat-input"
+                                      class="form-control message-input border-0 me-3 shadow-none"
+                                      placeholder="Type your message here" />
+                                  </div>
+                                  <div class="col-sm-3 pull-right">
+                                    <div class="message-actions d-flex align-items-center">
+                                      <i class="speech-to-text ti ti-microphone ti-sm cursor-pointer me-3"
+                                        id="microphone" onclick="startListening()"></i>
+                                      <button onclick="testAssistantApi()"
+                                        class="btn btn-primary d-flex send-msg-btn pull-right">
+                                        <span id="test-assistant-button-loader" style={{ 'block' : 'none' }}>
+                                          <span class="spinner-border" role="status" aria-hidden="true"></span>
+                                          <span class="visually-hidden">Loading...</span>
+                                        </span>
+                                        <span class="ms-2"><i class="ti ti-send me-md-1 me-0"></i></span>
+                                        
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          
+                         
+
+                        </div>
+                      </div>
+                    </div>
+            </div>
+
+           
+                  <div class="modal fade" id="updateAssistantModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel1">Add intent</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col mb-3">
+                              <label for="new-intent" class="form-label">Intent</label>
+                              <input type="text" id="new-intent" class="form-control" placeholder="Enter intent" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-label-secondary" id="new-intent-close" data-bs-dismiss="modal">
+                            Close
+                          </button>
+                          <button type="button" class="btn btn-primary" onclick="addIntentApi()"><span id="new-intent-button-loader" style={{ 'block' : 'none' }}>
+                              <span class="spinner-border" role="status" aria-hidden="true"></span>
+                              <span class="visually-hidden">Loading...</span>
+                            </span>
+                            <span class="ms-2">Add intent</span></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+                  <div class="modal fade" id="deleteAssistantModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel1">Delete assistant</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col mb-3">
+                              <label for="update-assistant-name" class="form-label">Are you sure you want to delete this
+                                Assistant?</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-label-secondary" id="delete-assistant-modal-close"
+                            data-bs-dismiss="modal">
+                            Close
+                          </button>
+                          <button type="button" class="btn btn-primary" onclick="deleteAssistantApi()">
+                            <span id="delete-assistant-button-loader" style={{ 'block' : 'none' }}>
+                              <span class="spinner-border" role="status" aria-hidden="true"></span>
+                              <span class="visually-hidden">Loading...</span>
+                            </span>
+                            <span class="ms-2">Delete Assistant</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            
 
          
         </>
