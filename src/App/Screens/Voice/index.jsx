@@ -8,79 +8,76 @@ import axios from "axios";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
+import { useNavigate } from "react-router-dom";
+
 const Voice = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
+
+  const navigate = useNavigate();
   const [voiceagents, setVoiceAgent] = useState([]);
 
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.agentdata;
-
   const token = localStorage.getItem("token");
-  console.log("token", token);
 
+  //tabledata
+  useEffect(() => {
+    fetchData();
+  }, []); // Run once on component mount
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(baseurl + endpoint, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("responce", response.data.data);
+      setVoiceAgent(response.data.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  //AssistDropdown Data
   const [dataFromApi, setDataFromApi] = useState(null);
-
   const endpointassist = USER_ENDPOINTS.getassist;
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(baseurl + endpointassist, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  const newagentEvent = async (event) => {
+    try {
+      const response = await axios.get(baseurl + endpointassist, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setDataFromApi(response.data.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
-        setDataFromApi(response.data.data);
+  //formdata
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-        console.log("assistntapi", response.data.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
+  const [formData, setFormData] = useState({
+    name: "",
+    type: "",
+    assistant_id: "",
+    is_assistant_connected: "",
+    incoming_call_greeting: "",
+    outgoing_call_greeting: "",
+  });
 
-    fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    const fetchVoiceAgents = async () => {
-      try {
-        const response = await axios.get(baseurl + endpoint, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responce", response.data.data);
-        setVoiceAgent(response.data.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchVoiceAgents();
-  }, []);
-  // const TblData = [
-  //   {
-  //     name: "gpt",
-  //     type: "voice",
-  //     phone_number: "1234567895",
-  //     status: "Active",
-  //     action:''
-  //   },
-  //   {
-  //     name: "gpt",
-  //     type: "voice",
-  //     phone: "1234567895",
-  //     status: "Active",
-  //     action:''
-  //   },
-  //   {
-  //     name: "gpt",
-  //     type: "voice",
-  //     phone: "1234567895",
-  //     status: "Active",
-  //     action:''
-  //   },
-
-  // ];
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Adjust as needed
   const totalItems = voiceagents.length;
@@ -104,26 +101,44 @@ const Voice = () => {
     event.stopPropagation();
   };
 
-  const [formData, setFormData] = useState({
+  //Update Formdata
+  const [updateformData, setupdateFormData] = useState({
     name: "",
-    type: "",
+    phone: "",
     assistant_id: "",
-    is_assistant_connected: "",
-    incoming_call_greeting: "",
-    outgoing_call_greeting: "",
   });
 
-  const handleSubmit = async (event) => {
+  const [editformData, editsetFormData] = useState({
+    name: "",
+    assistant_id: "",
+  });
+
+  const handleClickedit = async (event) => {
+    newagentEvent();
+    editsetFormData(event);
+  };
+
+  const edithandleInputChange = (event) => {
+    const { name, value } = event.target;
+    editsetFormData({
+      ...editformData,
+      [name]: value,
+    });
+  };
+
+  const handleUpdate = async (event) => {
     event.preventDefault();
     // Do something with formData, for example, send it to an API
-    console.log("formdata", formData);
-
-    const createKnowledge = USER_ENDPOINTS.getKnowledge;
-    console.log("formdata", formData);
+    console.log("formdata", editformData);
+    const createvoiceAgent = USER_ENDPOINTS.agentdata;
     try {
-      const response = await axios.post(
-        baseurl + createKnowledge,
-        { name: formData.knowledgename },
+      const response = await axios.put(
+        baseurl + createvoiceAgent + "/" + editformData.id,
+        {
+          assistant_id: editformData.assistant_id,
+          name: editformData.name,
+          phone_number: "NA",
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -132,11 +147,78 @@ const Voice = () => {
         }
       );
 
-      const data = response.data.data.token;
-      console.log("dataapi", data);
-      //localStorage.setItem('token', token);
+      fetchData();
+      setShowToast(true);
+      setShowToastMessge("Updated");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
-      //navigate('/assistant');
+  //Create VoiceAgent
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const createvoiceAgent = USER_ENDPOINTS.agentdata;
+    console.log("formdata", formData);
+    try {
+      const response = await axios.post(baseurl + createvoiceAgent, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      fetchData();
+      setShowToast(true);
+      setShowToastMessge("Created");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const handleCall = async (event) => {
+    event.preventDefault();
+    const createvoiceAgent = USER_ENDPOINTS.makecall;
+    console.log("editformData33", editformData);
+    try {
+      const response = await axios.post(
+        baseurl + createvoiceAgent + "/" + editformData.id + "/makeCall",
+        {
+          speak: editformData.speak,
+          to_number: editformData.to_number,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      fetchData();
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const deleteAgent = async (event) => {
+    event.preventDefault();
+    const deleteAgent = USER_ENDPOINTS.agentdata;
+    console.log("editformData33", editformData);
+    try {
+      const response = await axios.delete(
+        baseurl + deleteAgent + "/" + editformData.id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      fetchData();
+      setShowToast(true);
+      setShowToastMessge("Deleted");
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -248,6 +330,7 @@ const Voice = () => {
                   <button
                     type="button"
                     class="btn btn-primary pull-right"
+                    onClick={() => newagentEvent("value1")}
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasAddAgent"
                     aria-controls="offcanvasAddAgent"
@@ -459,6 +542,7 @@ const Voice = () => {
                                         <button
                                           className="btn px-1 la-lg"
                                           data-bs-toggle="modal"
+                                          onClick={() => handleClickedit(value)}
                                           data-bs-target="#VioceEdit"
                                         >
                                           <i class="ti ti-edit ti-sm me-2"></i>
@@ -466,6 +550,7 @@ const Voice = () => {
                                         <button
                                           className="btn px-1 la-lg"
                                           data-bs-toggle="modal"
+                                          onClick={() => handleClickedit(value)}
                                           data-bs-target="#callUserModal"
                                         >
                                           <i class="tf-icons ti ti-phone-call"></i>
@@ -473,6 +558,7 @@ const Voice = () => {
                                         <button
                                           className="btn px-1 la-lg"
                                           data-bs-toggle="modal"
+                                          onClick={() => handleClickedit(value)}
                                           data-bs-target="#updateAgentModal"
                                         >
                                           <i className="ti ti-trash ti-sm mx-2"></i>
@@ -565,6 +651,8 @@ const Voice = () => {
                                   type="text"
                                   class="form-control"
                                   name="name"
+                                  value={formData.name}
+                                  onChange={handleInputChange}
                                   id="basic-default-agent-name"
                                   placeholder="John Doe"
                                 />
@@ -580,6 +668,8 @@ const Voice = () => {
                               <div class="col-sm-12">
                                 <select
                                   id="agent-type"
+                                  value={formData.type}
+                                  onChange={handleInputChange}
                                   name="type"
                                   class="form-select"
                                 >
@@ -602,22 +692,17 @@ const Voice = () => {
                               </label>
                               <div class="col-sm-12">
                                 <select
-                                  id="agent-assistant"
+                                  name="assistant_id"
+                                  value={formData.assistant_id}
+                                  onChange={handleInputChange}
                                   class="form-select"
                                 >
-                                  <option value="" selected>
-                                    Select Assistant
-                                  </option>
-                                  <option value="30">cs-tesxt-2</option>
-                                  {dataFromApi
-                                    ? dataFromApi.map((value, key) => {
-                                        //  {console.log("datafromapi",JSON.stringify(value.name))}
-                                        <option value="asdasdsa">
-                                          {" "}
-                                          klnjj
-                                        </option>;
-                                      })
-                                    : null}
+                                  <option value="">Select Assistant</option>
+                                  {dataFromApi?.map((option) => (
+                                    <option key={option.id} value={option.id}>
+                                      {option.name}
+                                    </option>
+                                  ))}
                                 </select>
                               </div>
                             </div>
@@ -626,6 +711,7 @@ const Voice = () => {
                               type="submit"
                               onclick="createAgent()"
                               class="btn btn-primary me-sm-3 me-1 data-submit"
+                              data-bs-dismiss="offcanvas"
                             >
                               <span class="ms-2">Create Agent</span>
                             </button>
@@ -671,38 +757,71 @@ const Voice = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div className="container">
-                <div className="mb-3">
-                  <label htmlFor="name">Name</label>
-                  <input type="text" className="form-control" />
-                </div>
+            <form
+              class="add-new-user pt-0"
+              id="addNewUserForm"
+              onSubmit={handleUpdate}
+            >
+              <div class="modal-body">
+                <div className="container">
+                  <div className="mb-3">
+                    <label htmlFor="name">Name</label>
+                    {console.log("editformData", editformData)}
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={editformData?.name}
+                      name="name"
+                      onChange={edithandleInputChange}
+                    />
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="name">Phone number</label>
-                  <input type="text" className="form-control" />
-                </div>
+                  <div className="mb-3">
+                    <label htmlFor="name">Phone number</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      value={editformData?.phone_number}
+                      onChange={edithandleInputChange}
+                      className="form-control"
+                    />
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="name">Attach Assistant</label>
-                  <select className="form-select">
-                    <option value="">Select</option>
-                  </select>
+                  <div className="mb-3">
+                    <label htmlFor="name">Attach Assistant</label>
+                    <select
+                      name="assistant_id"
+                      value={editformData?.assistant_id}
+                      onChange={edithandleInputChange}
+                      class="form-select"
+                    >
+                      <option value="">Select Assistant</option>
+                      {dataFromApi?.map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  Save changes
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -728,86 +847,129 @@ const Voice = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div className="container">
-                <div className="mb-3">
-                  <label htmlFor="name">Initial text</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="How can I help you?"
-                  />
-                </div>
+            <form
+              class="add-new-user pt-0"
+              id="addNewUserForm"
+              onSubmit={handleCall}
+            >
+              <div class="modal-body">
+                <div className="container">
+                  <div className="mb-3">
+                    <label htmlFor="name">Initial text</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="speak"
+                      value={editformData?.speak}
+                      onChange={edithandleInputChange}
+                      placeholder="How can I help you?"
+                    />
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="name">Phone number</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="658 799 8941"
-                  />
+                  <div className="mb-3">
+                    <label htmlFor="name">Phone number</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      name="to_number"
+                      value={editformData?.to_number}
+                      onChange={edithandleInputChange}
+                      placeholder="658 799 8941"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Call User
-              </button>
-            </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Call User
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
       {/* modal popup VioceEdit end*/}
 
       {/* modal popup VioceEdit start*/}
-      <div
-        class="modal fade"
-        id="updateAgentModal"
-        tabindex="-1"
-        aria-labelledby="VioceEditLabel"
-        aria-hidden="true"
+
+      <form
+        class="add-new-user pt-0"
+        id="addNewUserForm"
+        onSubmit={deleteAgent}
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="VioceEditLabel">
-                Delete Agent
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div className="container">
-                <p>Are you sure you want to delete this Agent?</p>
+        <div
+          class="modal fade"
+          id="updateAgentModal"
+          tabindex="-1"
+          aria-labelledby="VioceEditLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="VioceEditLabel">
+                  Delete Agent
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div className="container">
+                  <p>Are you sure you want to delete this Agent?</p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  Delete Agent
+                </button>
               </div>
             </div>
-            <div class="modal-footer">
+          </div>
+        </div>
+      </form>
+      {/* modal popup VioceEdit end*/}
+
+      <div className="container">
+        <div className="toast-container position-fixed bottom-0 end-0 p-3">
+          <div
+            className={`toast ${showToast ? "show" : ""}`}
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div className="toast-header">
+              <strong className="me-auto"> {showToastMessge}</strong>
               <button
                 type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Delete Agent
-              </button>
+                className="btn-close"
+                onClick={toggleToast}
+              ></button>
             </div>
           </div>
         </div>
       </div>
-      {/* modal popup VioceEdit end*/}
     </>
   );
 };

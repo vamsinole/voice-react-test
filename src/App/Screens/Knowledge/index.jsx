@@ -11,6 +11,12 @@ import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import { Link } from "react-router-dom";
 
 const Knowledge = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
+
   const [knowledge, setKnowledge] = useState([]);
   const [files, setFiles] = useState([]);
   const [urls, setUrls] = useState([]);
@@ -18,37 +24,41 @@ const Knowledge = () => {
 
   const [options, setOptions] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValuedrop, setSelectedValuedrop] = useState("");
+
+  const [selectedslno, setSelectedslno] = useState("");
 
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getKnowledge;
 
   const token = localStorage.getItem("token");
   console.log("token", token);
-  useEffect(() => {
-    setSelectedValue(2);
-    const fetchVoiceAgents = async () => {
-      try {
-        const response = await axios.get(baseurl + endpoint, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceorg", response.data.data.urls);
-        setKnowledge(response.data.data);
-        setFiles(response.data.data[0].files);
-        setUrls(response.data.data[0].urls);
-        setFaq(response.data.data[0].faqs);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
 
+  useEffect(() => {
     fetchVoiceAgents();
   }, []);
+
+  const fetchVoiceAgents = async () => {
+    try {
+      const response = await axios.get(baseurl + endpoint, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("responceorg", response.data.data.urls);
+      setKnowledge(response.data.data);
+      setFiles(response.data.data[0].files);
+      setUrls(response.data.data[0].urls);
+      setFaq(response.data.data[0].faqs);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
     let obj = JSON.parse(event.target.value);
+    setSelectedValuedrop(obj.id);
     console.log("selectedvalue", obj.id);
     setFiles(obj.files);
     setUrls(obj.urls);
@@ -125,6 +135,10 @@ const Knowledge = () => {
 
   const [formData, setFormData] = useState({
     knowledgename: "",
+    url: "",
+    question: "",
+    answer: "",
+    urls: "",
   });
 
   const handleSubmit = async (event) => {
@@ -147,6 +161,10 @@ const Knowledge = () => {
       );
 
       const data = response.data.data.token;
+
+      fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Created");
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
@@ -167,12 +185,12 @@ const Knowledge = () => {
   const handleClick = async (value) => {
     // Do something with the value, like sending it to an API or updating state
     console.log("Clicked with value:", value);
-
+    setSelectedslno(value.sno);
     const createKnowledge = USER_ENDPOINTS.getKnowledge;
 
     try {
       const response = await axios.post(
-        baseurl + createKnowledge + "/" + value,
+        baseurl + createKnowledge + "/" + value.sno,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -190,6 +208,114 @@ const Knowledge = () => {
       console.error("Error fetching users:", error);
     }
   };
+
+  const handleSubmitUrl = async (event) => {
+    event.preventDefault();
+    console.log("selectedValue", selectedValuedrop);
+    const addurl = USER_ENDPOINTS.getKnowledge;
+    console.log("formdata", formData);
+    try {
+      const response = await axios.post(
+        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        {
+          type: "urls",
+          urls: [{ url: formData.url }],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Url Added");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const handleSubmitfaq = async (event) => {
+    event.preventDefault();
+    console.log("selectedValue", selectedValuedrop);
+    const addurl = USER_ENDPOINTS.getKnowledge;
+    console.log("formdata", formData);
+    try {
+      const response = await axios.post(
+        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        {
+          type: "faqs",
+          faqs: [{ question: formData.question, answer: formData.answer }],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Url Added");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [binaryData, setBinaryData] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+    // const reader = new FileReader();
+
+    // reader.onload = (event) => {
+    //   const result = event.target.result;
+    //   setBinaryData(result); // Store the binary data in state
+    // };
+  };
+
+  const handleSubmitfile = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFile) {
+      console.error("No file selected");
+      return;
+    }
+
+    //const formData = new FormData();
+    //formData.append('file', selectedFile);
+    console.log("selectedFile", selectedFile);
+
+    console.log("selectedValue", selectedValuedrop);
+    const addurl = USER_ENDPOINTS.getKnowledge;
+    console.log("formdatafiles", formData);
+    try {
+      const response = await axios.post(
+        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        {
+          type: "files",
+          urls: selectedFile,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Url Added");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+  //selectedslno
 
   return (
     <>
@@ -575,19 +701,12 @@ const Knowledge = () => {
 
                                       return (
                                         <tr key={key}>
-                                          <td>{key}</td>
+                                          <td>{key + 1}</td>
                                           <td>{value}</td>
                                           <td style={{ width: "70px" }}>
-                                            <button
-                                              className="btn px-1 la-lg"
-                                              onClick={() =>
-                                                handleClick(value.sno)
-                                              }
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#updateAgentModal"
-                                            >
-                                              <i class="ti ti-trash ti-sm mx-2 pointer"></i>
-                                            </button>
+                                            {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        <i class="ti ti-trash ti-sm mx-2 pointer"></i>
+                                        </button> */}
                                             {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
@@ -645,19 +764,12 @@ const Knowledge = () => {
                                   {urls.map((value, key) => {
                                     return (
                                       <tr key={key}>
-                                        <td>{key}</td>
+                                        <td>{key + 1}</td>
                                         <td>{value.url}</td>
                                         <td style={{ width: "70px" }}>
-                                          <button
-                                            className="btn px-1 la-lg"
-                                            onClick={() =>
-                                              handleClick(value.sno)
-                                            }
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#updateAgentModal"
-                                          >
-                                            <i class="ti ti-trash ti-sm mx-2 pointer"></i>
-                                          </button>
+                                          {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        <i class="ti ti-trash ti-sm mx-2 pointer"></i>
+                                        </button> */}
                                           {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
@@ -715,16 +827,14 @@ const Knowledge = () => {
                                   {faq.map((value, key) => {
                                     return (
                                       <tr key={key}>
-                                        <td>{value.sno}</td>
+                                        <td>{key + 1}</td>
                                         <td>{value.question}</td>
                                         <td>{value.answer}</td>
                                         <td style={{ width: "70px" }}>
                                           <div className="d-flex acation-btns">
                                             <button
                                               className="btn px-1"
-                                              onClick={() =>
-                                                handleClick(value.sno)
-                                              }
+                                              onClick={() => handleClick(value)}
                                             >
                                               <i className="ti ti-trash ti-sm mx-2"></i>
                                             </button>
@@ -863,35 +973,44 @@ const Knowledge = () => {
       {/* modal popup Knowledge delete end*/}
 
       {/* modal popup New File Start*/}
-      <div
-        class="modal fade"
-        id="newFileModal"
-        tabindex="-1"
-        aria-hidden="true"
+      <form
+        class="add-new-user pt-0"
+        id="addNewUserForm"
+        onSubmit={handleSubmitfile}
       >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
-                Add File
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="card">
-                <h5 class="card-header">Upload files</h5>
-                <div class="card-body">
-                  <form class="dropzone needsclick" id="kbs-files">
+        <div
+          class="modal fade"
+          id="newFileModal"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">
+                  Add File
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <h5 class="card-header">Upload files</h5>
+                  <div class="card-body">
                     <label for="kbs-file" class="pointer dz-message needsclick">
                       Drop file here or click to upload. Limit : 10 MB
                     </label>
                     <div class="fallback">
-                      <input id="kbs-file" name="file" type="file" />
+                      <input
+                        id="kbs-file"
+                        name="file"
+                        type="file"
+                        onChange={handleFileChange}
+                      />
                     </div>
                     <div
                       class="parent-div"
@@ -904,158 +1023,219 @@ const Knowledge = () => {
                         id="kbs-clear-file"
                       ></i>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-label-secondary"
-                id="add-file-close"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary" onclick="addFile()">
-                <span id="add-file-button-loader" style={{ block: "none" }}>
-                  <span
-                    class="spinner-border"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Loading...</span>
-                </span>
-                <span class="ms-2">Add File</span>
-              </button>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-label-secondary"
+                  id="add-file-close"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  data-bs-dismiss="modal"
+                  class="btn btn-primary"
+                  onclick="addFile()"
+                >
+                  <span id="add-file-button-loader" style={{ block: "none" }}>
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Loading...</span>
+                  </span>
+                  <span class="ms-2">Add File</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
       {/* modal popup New File End*/}
       {/* modal popup New URLs Start*/}
-      <div class="modal fade" id="newUrlModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
-                Add URL
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="kbs-url" class="form-label">
-                    URL
-                  </label>
-                  <input
-                    type="text"
-                    id="kbs-url"
-                    class="form-control"
-                    placeholder="Enter URL"
-                  />
+      <form
+        class="add-new-user pt-0"
+        id="addNewUserForm"
+        onSubmit={handleSubmitUrl}
+      >
+        <div
+          class="modal fade"
+          id="newUrlModal"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">
+                  Add URL
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col mb-3">
+                    <label for="kbs-url" class="form-label">
+                      URL
+                    </label>
+                    <input
+                      type="text"
+                      id="kbs-url"
+                      class="form-control"
+                      name="url"
+                      value={formData.url}
+                      onChange={handleInputChange}
+                      placeholder="Enter URL"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-label-secondary"
-                id="add-url-close"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary" onclick="addURL()">
-                <span id="add-url-button-loader" style={{ block: "none" }}>
-                  <span
-                    class="spinner-border"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Loading...</span>
-                </span>
-                <span class="ms-2">Add URL</span>
-              </button>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-label-secondary"
+                  id="add-url-close"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <span id="add-url-button-loader" style={{ block: "none" }}>
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Loading...</span>
+                  </span>
+                  <span class="ms-2">Add URL</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
       {/* modal popup New URLs End*/}
       {/* modal popup New Faq Start*/}
-      <div class="modal fade" id="newFaqModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
-                Add Faq
-              </h5>
+
+      <form
+        class="add-new-user pt-0"
+        id="addNewUserForm"
+        onSubmit={handleSubmitfaq}
+      >
+        <div
+          class="modal fade"
+          id="newFaqModal"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">
+                  Add Faq
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col mb-3">
+                    <label for="kbs-faq-question" class="form-label">
+                      Question
+                    </label>
+                    <input
+                      type="text"
+                      id="kbs-faq-question"
+                      class="form-control"
+                      name="question"
+                      value={formData.question}
+                      onChange={handleInputChange}
+                      placeholder="Enter Question"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col mb-3">
+                    <label for="kbs-faq-answer" class="form-label">
+                      Answer
+                    </label>
+                    <input
+                      type="text"
+                      id="kbs-faq-answer"
+                      name="answer"
+                      value={formData.answer}
+                      onChange={handleInputChange}
+                      class="form-control"
+                      placeholder="Enter Answer"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-label-secondary"
+                  id="add-faq-close"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  <span id="add-faq-button-loader" style={{ block: "none" }}>
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Loading...</span>
+                  </span>
+                  <span class="ms-2">Add Faq</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      {/* modal popup New Faq End*/}
+
+      <div className="container">
+        <div className="toast-container position-fixed bottom-0 end-0 p-3">
+          <div
+            className={`toast ${showToast ? "show" : ""}`}
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div className="toast-header">
+              <strong className="me-auto"> {showToastMessge}</strong>
               <button
                 type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
+                className="btn-close"
+                onClick={toggleToast}
               ></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="kbs-faq-question" class="form-label">
-                    Question
-                  </label>
-                  <input
-                    type="text"
-                    id="kbs-faq-question"
-                    class="form-control"
-                    placeholder="Enter Question"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="kbs-faq-answer" class="form-label">
-                    Answer
-                  </label>
-                  <input
-                    type="text"
-                    id="kbs-faq-answer"
-                    class="form-control"
-                    placeholder="Enter Answer"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-label-secondary"
-                id="add-faq-close"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary" onclick="addFaq()">
-                <span id="add-faq-button-loader" style={{ block: "none" }}>
-                  <span
-                    class="spinner-border"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Loading...</span>
-                </span>
-                <span class="ms-2">Add Faq</span>
-              </button>
             </div>
           </div>
         </div>
       </div>
-      {/* modal popup New Faq End*/}
     </>
   );
 };
