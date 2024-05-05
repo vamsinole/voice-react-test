@@ -12,6 +12,12 @@ import { Link } from 'react-router-dom'
 
 const Knowledge = () => {
 
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
+
   const [knowledge, setKnowledge] = useState([]);
   const [files, setFiles] = useState([]);
   const [urls, setUrls] = useState([]);
@@ -21,7 +27,8 @@ const Knowledge = () => {
 
   const [options, setOptions] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
-
+  const [selectedValuedrop, setSelectedValuedrop] = useState('');
+  
 
 
   const baseurl = env.baseUrl;
@@ -29,8 +36,12 @@ const Knowledge = () => {
 
   const token = localStorage.getItem('token');
   console.log("token", token);
+
   useEffect(() => {
-    setSelectedValue(2)
+
+    fetchVoiceAgents();
+  }, []);
+  
     const fetchVoiceAgents = async () => {
       try {
         const response = await axios.get(baseurl + endpoint, {
@@ -50,13 +61,12 @@ const Knowledge = () => {
       }
     };
 
-    fetchVoiceAgents();
-  }, []);
 
   const handleSelectChange = (event) => {
     
-    setSelectedValue(event.target.value)
+     setSelectedValue(event.target.value)
     let obj = JSON.parse(event.target.value);
+    setSelectedValuedrop(obj.id)
     console.log("selectedvalue",obj.id);
     setFiles(obj.files)
     setUrls(obj.urls)
@@ -139,6 +149,10 @@ const toggleColumn = () => {
 
 const [formData, setFormData] = useState({
   knowledgename: '',
+  url:'',
+  question:'',
+  answer:'',
+  urls:''
 });
 
 
@@ -159,6 +173,10 @@ const handleSubmit = async (event) => {
     });
 
 const data = response.data.data.token;
+
+      fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Created");
 console.log("dataapi",data)
 //localStorage.setItem('token', token);
 
@@ -204,6 +222,106 @@ console.log("dataapi",data)
     console.error('Error fetching users:', error);
   }
 };
+
+
+const handleSubmitUrl = async (event) => {
+  event.preventDefault();
+console.log("selectedValue",selectedValuedrop)
+  const addurl = USER_ENDPOINTS.getKnowledge;
+  console.log("formdata", formData);
+  try {
+    const response = await axios.post(baseurl + addurl+'/'+selectedValuedrop+'/add_file', {
+      type:'urls',
+      urls:[{url:formData.url}]
+    },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchVoiceAgents();
+    setShowToast(true);
+    setShowToastMessge("Url Added");
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
+const handleSubmitfaq = async (event) => {
+  event.preventDefault();
+console.log("selectedValue",selectedValuedrop)
+  const addurl = USER_ENDPOINTS.getKnowledge;
+  console.log("formdata", formData);
+  try {
+    const response = await axios.post(baseurl + addurl+'/'+selectedValuedrop+'/add_file', {
+      type:'faqs',
+      faqs:[{question:formData.question,answer:formData.answer}]
+    },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchVoiceAgents();
+    setShowToast(true);
+    setShowToastMessge("Url Added");
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
+const [selectedFile, setSelectedFile] = useState(null);
+const [binaryData, setBinaryData] = useState(null);
+
+const handleFileChange = (event) => {
+  setSelectedFile(event.target.files[0]);
+  // const reader = new FileReader();
+
+  // reader.onload = (event) => {
+  //   const result = event.target.result;
+  //   setBinaryData(result); // Store the binary data in state
+  // };
+};
+
+const handleSubmitfile = async (event) => {
+  event.preventDefault();
+
+  if (!selectedFile) {
+    console.error('No file selected');
+    return;
+  }
+
+  //const formData = new FormData();
+ //formData.append('file', selectedFile);
+console.log("selectedFile",selectedFile);
+
+console.log("selectedValue",selectedValuedrop)
+  const addurl = USER_ENDPOINTS.getKnowledge;
+  console.log("formdatafiles", formData);
+  try {
+    const response = await axios.post(baseurl + addurl+'/'+selectedValuedrop+'/add_file', {
+      type:'files',
+      urls:selectedFile
+    },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchVoiceAgents();
+    setShowToast(true);
+    setShowToastMessge("Url Added");
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
 
   return (
     <>
@@ -471,7 +589,7 @@ console.log("dataapi",data)
 
                                     return (
                                       <tr key={key}>
-                                        <td>{key}</td>
+                                        <td>{key+1}</td>
                                         <td>{value}</td>
                                         <td style={{ width: '70px' }}>
                                         <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
@@ -525,7 +643,7 @@ console.log("dataapi",data)
                                   {urls.map((value, key) => {
                                     return (
                                       <tr key={key}>
-                                        <td>{key}</td>
+                                        <td>{key+1}</td>
                                         <td>{value.url}</td>
                                         <td style={{ width: '70px' }}>
                                         <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
@@ -576,7 +694,7 @@ console.log("dataapi",data)
                                   {faq.map((value, key) => {
                                     return (
                                       <tr key={key}>
-                                        <td>{value.sno}</td>
+                                        <td>{key+1}</td>
                                         <td>{value.question}</td>
                                         <td>{value.answer}</td>
                                         <td style={{ width: '70px' }}>
@@ -671,6 +789,7 @@ console.log("dataapi",data)
     {/* modal popup Knowledge delete end*/}
 
    {/* modal popup New File Start*/}
+   <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleSubmitfile} >
        <div class="modal fade" id="newFileModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -682,18 +801,18 @@ console.log("dataapi",data)
                   <div class="card">
                     <h5 class="card-header">Upload files</h5>
                     <div class="card-body">
-                      <form class="dropzone needsclick" id="kbs-files">
+                      
                         <label for="kbs-file" class="pointer dz-message needsclick">
                           Drop file here or click to upload. Limit : 10 MB
                         </label>
                         <div class="fallback">
-                          <input id="kbs-file" name="file" type="file" />
+                          <input id="kbs-file" name="file" type="file"   onChange={handleFileChange} />
                         </div>
                         <div class="parent-div" id="kbs-filename-parent" style={{ 'block' : 'none' }}>
                           <label class="form-label"></label>
                           <i class="ti ti-x pull-right pointer" id="kbs-clear-file"></i>
                         </div>
-                      </form>
+                   
                     </div>
                   </div>
                 </div>
@@ -701,7 +820,7 @@ console.log("dataapi",data)
                   <button type="button" class="btn btn-label-secondary" id="add-file-close" data-bs-dismiss="modal">
                     Close
                   </button>
-                  <button type="button" class="btn btn-primary" onclick="addFile()"><span id="add-file-button-loader"
+                  <button type="submit"  data-bs-dismiss="modal" class="btn btn-primary" onclick="addFile()"><span id="add-file-button-loader"
                        style={{ 'block' : 'none' }}>
                       <span class="spinner-border" role="status" aria-hidden="true"></span>
                       <span class="visually-hidden">Loading...</span>
@@ -711,8 +830,10 @@ console.log("dataapi",data)
               </div>
             </div>
           </div>
+          </form>
           {/* modal popup New File End*/}
           {/* modal popup New URLs Start*/}
+          <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleSubmitUrl} >
           <div class="modal fade" id="newUrlModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -724,7 +845,8 @@ console.log("dataapi",data)
                   <div class="row">
                     <div class="col mb-3">
                       <label for="kbs-url" class="form-label">URL</label>
-                      <input type="text" id="kbs-url" class="form-control" placeholder="Enter URL" />
+                      <input type="text" id="kbs-url" class="form-control" name='url'   value={formData.url}
+                      onChange={handleInputChange} placeholder="Enter URL" />
                     </div>
                   </div>
                 </div>
@@ -732,7 +854,7 @@ console.log("dataapi",data)
                   <button type="button" class="btn btn-label-secondary" id="add-url-close" data-bs-dismiss="modal">
                     Close
                   </button>
-                  <button type="button" class="btn btn-primary" onclick="addURL()"><span id="add-url-button-loader"
+                  <button type="submit" class="btn btn-primary" ><span id="add-url-button-loader"
                       style={{ 'block' : 'none' }}>
                       <span class="spinner-border" role="status" aria-hidden="true"></span>
                       <span class="visually-hidden">Loading...</span>
@@ -742,8 +864,11 @@ console.log("dataapi",data)
               </div>
             </div>
           </div>
+          </form>
           {/* modal popup New URLs End*/}
           {/* modal popup New Faq Start*/}
+
+          <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleSubmitfaq} >
           <div class="modal fade" id="newFaqModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -755,13 +880,16 @@ console.log("dataapi",data)
                   <div class="row">
                     <div class="col mb-3">
                       <label for="kbs-faq-question" class="form-label">Question</label>
-                      <input type="text" id="kbs-faq-question" class="form-control" placeholder="Enter Question" />
+                      <input type="text" id="kbs-faq-question" class="form-control" 
+                      name='question'   value={formData.question}
+                      onChange={handleInputChange}  placeholder="Enter Question" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col mb-3">
                       <label for="kbs-faq-answer" class="form-label">Answer</label>
-                      <input type="text" id="kbs-faq-answer" class="form-control" placeholder="Enter Answer" />
+                      <input type="text" id="kbs-faq-answer" name='answer'   value={formData.answer}
+                      onChange={handleInputChange} class="form-control" placeholder="Enter Answer" />
                     </div>
                   </div>
                 </div>
@@ -769,7 +897,7 @@ console.log("dataapi",data)
                   <button type="button" class="btn btn-label-secondary" id="add-faq-close" data-bs-dismiss="modal">
                     Close
                   </button>
-                  <button type="button" class="btn btn-primary" onclick="addFaq()"><span id="add-faq-button-loader"
+                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span id="add-faq-button-loader"
                      style={{ 'block' : 'none' }}>
                       <span class="spinner-border" role="status" aria-hidden="true"></span>
                       <span class="visually-hidden">Loading...</span>
@@ -779,7 +907,32 @@ console.log("dataapi",data)
               </div>
             </div>
           </div>
+          </form>
           {/* modal popup New Faq End*/}
+
+
+          
+          <div className="container">
+      
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          className={`toast ${showToast ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-header">
+            <strong className="me-auto"> {showToastMessge}</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleToast}
+            ></button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
           
 
     </>

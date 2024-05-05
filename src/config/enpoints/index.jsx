@@ -7,6 +7,8 @@ export const USER_ENDPOINTS = {
     getaction:`/v1/actions/`,
     getassist:`/v1/ai/assistants`,
     login:`/v1/login`,
+    makecall:`/v1/voicecalls`
+    
    
 
    

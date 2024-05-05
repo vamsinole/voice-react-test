@@ -19,7 +19,12 @@ const Customers = () => {
   const token = localStorage.getItem('token');
   console.log("token", token);
 
+
   useEffect(() => {
+    fetchVoiceAgents();
+  }, []);
+
+
     const fetchVoiceAgents = async () => {
       try {
         const response = await axios.get(baseurl + endpoint, {
@@ -27,20 +32,51 @@ const Customers = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        console.log("responce33", response.data.data.rows);
+        //console.log("responce22",response.data.data.rows);
         setUsers(response.data.data.rows);
 
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     };
-
-    fetchVoiceAgents();
-  }, []);
   const [isColumnVisible, setIsColumnVisible] = useState(false);
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
   };
+
+
+  const [dataFromApi, setDataFromApi] = useState(null);
+  const endpointassist = USER_ENDPOINTS.getassist;
+  const newagentEvent = async (event) => {
+    try {
+      const response = await axios.get(baseurl + endpointassist, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setDataFromApi(response.data.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    role: '',
+    website: '',
+    address:''
+  });
 
   return (
     <>
@@ -109,7 +145,7 @@ const Customers = () => {
                       <li><a class="dropdown-item" href="#">List</a></li>
                       <li><a class="dropdown-item" href="#">Sheet</a></li>
                     </ul>
-                    <button type="button" class="btn btn-primary pull-right" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-primary pull-right" onClick={() => newagentEvent('value1')} data-bs-toggle="modal"
                       data-bs-target="#createCustomerModal">
                       <span class="ti-xs ti ti-plus me-1"></span>New Customer
                     </button>
@@ -414,9 +450,16 @@ const Customers = () => {
                               <div class="row">
                                 <div class="col mb-3">
                                   <label for="action-assistant" class="form-label">Assistant</label>
-                                  <select id="action-assistant" onchange="changeActionAssistant()" class="form-select">
+                                  {/* <select id="action-assistant" onchange="changeActionAssistant()" class="form-select">
                                     <option value="" selected>Select assistant</option>
-                                  </select>
+                                  </select> */}
+
+                                <select name='assistant_id' value={formData.assistant_id} onChange={handleInputChange} class="form-select">
+                                                                  <option value="">Select Assistant</option>
+                                                                  {dataFromApi?.map(option => (
+                                                                    <option key={option.id} value={option.id}>{option.name}</option>
+                                                                  ))}
+                                                                </select>
                                 </div>
                               </div>
                               <div class="row">

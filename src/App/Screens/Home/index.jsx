@@ -12,13 +12,20 @@ import { USER_ENDPOINTS } from '../../../config/enpoints';
 
 
 const Home = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
 
   const [dataFromApi, setDataFromApi] = useState(null);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getassist;
   const token = localStorage.getItem('token');
 
-useEffect(() => {
+  useEffect(() => {
+    fetchUsers();
+  }, []);
     const fetchUsers = async () => {
       try {
         const response = await axios.get(baseurl + endpoint, {
@@ -35,7 +42,7 @@ useEffect(() => {
     };
 
     fetchUsers();
-  }, []);
+ 
 
   const [parentValue, setParentValue] = useState('');
   const [childValue, setChildValue] = useState('');
@@ -201,6 +208,78 @@ const handleChildChange = (event) => {
 const toggleColumn = () => {
   setIsColumnVisible(!isColumnVisible);
 };
+
+
+//add inted
+
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
+const [formData, setFormData] = useState({
+  name: '',
+});
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const createvoiceAgent = USER_ENDPOINTS.getUsers;
+  console.log("formdatausers", formData);
+  // try {
+  //   const response = await axios.post(baseurl + createvoiceAgent, {
+  //     name:formData.name
+  //   },
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+
+  //     fetchVoiceAgents();
+  //   // setShowToast(true);
+  //   // setShowToastMessge("Created");
+  // } catch (error) {
+  //   // setShowToast(true);
+  //   // setShowToastMessge("Error");
+  //   console.error('Error fetching users:', error);
+  // }
+};
+
+
+const [editformData, editsetFormData] = useState({
+  address: '',
+});
+
+const handleClickedit = async (event) => {
+  editsetFormData(event);
+}
+
+const deleteAssist = async (event) => {
+  event.preventDefault();
+  const deleteassist = USER_ENDPOINTS.getassist;
+  console.log("editformData33", editformData);
+  try {
+    const response = await axios.delete(baseurl + deleteassist+'/'+editformData.id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Deleted");
+
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
   return (
     <>
             <div className="layout-wrapper layout-content-navbar">
@@ -425,7 +504,7 @@ const toggleColumn = () => {
                                   data-bs-target="#updateAssistantModal" className='btn px-1'><i class="ti ti-message ti-sm me-2"></i></button>
                                                 <button  data-bs-toggle="modal"
                                   data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
-                                                <button data-bs-toggle="modal"
+                                                <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
                                   data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
                                               </div>
                                             </td>
@@ -725,7 +804,7 @@ const toggleColumn = () => {
                     </div>
             </div>
 
-           
+            <form class="add-new-user pt-0" id="addNewUserForm"onSubmit={handleSubmit} >
                   <div class="modal fade" id="updateAssistantModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -754,8 +833,9 @@ const toggleColumn = () => {
                       </div>
                     </div>
                   </div>
+                  </form>
 
-                  
+                  <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={deleteAssist} >
                   <div class="modal fade" id="deleteAssistantModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -776,10 +856,10 @@ const toggleColumn = () => {
                             data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-primary" onclick="deleteAssistantApi()">
+                          <button type="submit" data-bs-dismiss="modal" class="btn btn-primary" >
                             <span id="delete-assistant-button-loader" style={{ 'block' : 'none' }}>
-                              <span class="spinner-border" role="status" aria-hidden="true"></span>
-                              <span class="visually-hidden">Loading...</span>
+                              {/* <span class="spinner-border" role="status" aria-hidden="true"></span>
+                              <span class="visually-hidden">Loading...</span> */}
                             </span>
                             <span class="ms-2">Delete Assistant</span>
                           </button>
@@ -787,8 +867,29 @@ const toggleColumn = () => {
                       </div>
                     </div>
                   </div>
-            
-
+                  </form>
+           
+                  <div className="container">
+      
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          className={`toast ${showToast ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-header">
+            <strong className="me-auto"> {showToastMessge}</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleToast}
+            ></button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
          
         </>
   )

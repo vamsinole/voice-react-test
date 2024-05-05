@@ -11,6 +11,11 @@ import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
 import Filter from '../../Components/Filter';
 
 const Users = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
 
   const [users, setUsers] = useState([]);
 
@@ -21,6 +26,10 @@ const Users = () => {
   console.log("token", token);
 
   useEffect(() => {
+    fetchVoiceAgents();
+  }, []);
+
+
     const fetchVoiceAgents = async () => {
       try {
         const response = await axios.get(baseurl + endpoint, {
@@ -36,21 +45,137 @@ const Users = () => {
       }
     };
 
-    fetchVoiceAgents();
-  }, []);
+
   const [isColumnVisible, setIsColumnVisible] = useState(false);
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
   };
-  // const totalCountName = voiceagents.length;
-  // const totalCountModel = voiceagents.reduce((total, item) => total + 1, 0); 
-  // const totalCountInstruc = voiceagents.reduce((total, item) => total + 1, 0);
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = voiceagents.slice(indexOfFirstItem, indexOfLastItem);
-   // Change page
-  //  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  //  const [isColumnVisible, setIsColumnVisible] = useState(false);
+
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    role: '',
+    website: '',
+    address:''
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const createvoiceAgent = USER_ENDPOINTS.getUsers;
+    console.log("formdatausers", formData);
+    try {
+      const response = await axios.post(baseurl + createvoiceAgent, {
+        name:formData.name,
+        email:formData.email,
+        password:formData.password,
+        phone:formData.phone,
+        role:"agent",
+        website:formData.website,
+        address:formData.address,
+        
+
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Created");
+    } catch (error) {
+      setShowToast(true);
+      setShowToastMessge("Error");
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  //editdata
+
+  const [editformData, editsetFormData] = useState({
+    address: '',
+    email: '',
+    name: '',
+    phone: '',
+    website: '',
+
+  });
+  const handleClickedit = async (event) => {
+    editsetFormData(event);
+  }
+
+  const edithandleInputChange = (event) => {
+    const { name, value } = event.target;
+    editsetFormData({
+      ...editformData,
+      [name]: value,
+    });
+  };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+   
+    // Do something with formData, for example, send it to an API
+    console.log("formdataedit", editformData);
+    const updateUsers = USER_ENDPOINTS.getUsers;
+    try {
+      const response = await axios.put(baseurl + updateUsers + '/' + editformData.id, editformData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Updated");
+     
+
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+
+
+  };
+
+  //Delete Functionality
+
+  const deleteUser = async (event) => {
+    event.preventDefault();
+    const deleteUser = USER_ENDPOINTS.getUsers;
+    console.log("editformData33", editformData);
+    try {
+      const response = await axios.delete(baseurl + deleteUser+'/'+editformData.id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        fetchVoiceAgents();
+      setShowToast(true);
+      setShowToastMessge("Deleted");
+
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+  
   return (
     <>
       <div class="layout-wrapper layout-content-navbar">
@@ -261,9 +386,9 @@ const Users = () => {
                               <td>{value.address}</td>
                               <td style={{ width: '70px' }}>
                                 <div className="d-flex acation-btns">
-                                  <button  data-bs-toggle="modal"
+                                  <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
                                   data-bs-target="#updateUserModal" className='btn px-1'><i class="ti ti-edit ti-sm me-2"></i></button>
-                                  <button data-bs-toggle="modal"
+                                  <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
                                   data-bs-target="#deleteUserModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
                                 </div>
                               </td>
@@ -309,18 +434,18 @@ const Users = () => {
                         data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                      <form class="add-new-user pt-0" id="addNewUserForm" onsubmit="return false">
+                      <form class="add-new-user pt-0" id="addNewUserForm"onSubmit={handleSubmit} >
                         <div class="row mb-3">
                           <label class="col-sm-12 col-form-label" for="basic-default-name">Name</label>
                           <div class="col-sm-12">
-                            <input type="text" class="form-control" id="basic-default-name" placeholder="John Doe" />
+                            <input type="text" class="form-control" id="basic-default-name" name='name'  value={formData.name} onChange={handleInputChange} placeholder="John Doe" />
                           </div>
                         </div>
                         <div class="row mb-3">
                           <label class="col-sm-12 col-form-label" for="basic-default-email">Email</label>
                           <div class="col-sm-12">
                             <div class="input-group input-group-merge">
-                              <input type="text" id="basic-default-email" class="form-control" placeholder="john.doe"
+                              <input type="email" id="basic-default-email" class="form-control" name='email' value={formData.email} onChange={handleInputChange} placeholder="john.doe"
                                 aria-label="john.doe" aria-describedby="basic-default-email2" />
                               <span class="input-group-text" id="basic-default-email2">@example.com</span>
                             </div>
@@ -330,7 +455,7 @@ const Users = () => {
                         <div class="row mb-3">
                           <label class="col-sm-12 col-form-label" for="basic-default-phone">Phone No</label>
                           <div class="col-sm-12">
-                            <input type="text" id="basic-default-phone" class="form-control phone-mask"
+                            <input type="text" id="basic-default-phone" class="form-control phone-mask" name='phone' value={formData.phone} onChange={handleInputChange}
                               placeholder="658 799 8941" aria-label="658 799 8941" aria-describedby="basic-default-phone" />
                           </div>
                         </div>
@@ -338,7 +463,7 @@ const Users = () => {
                           <label class="col-sm-12 col-form-label" for="basic-default-password">Password</label>
                           <div class="col-sm-12">
                             <div class="input-group input-group-merge">
-                              <input type="password" class="form-control" id="basic-default-password" />
+                              <input type="password" class="form-control" name='password' value={formData.password} onChange={handleInputChange} id="basic-default-password" />
                               <span class="input-group-text cursor-pointer" id="basic-default-password2"><i
                                 class="ti ti-eye-off"></i></span>
                             </div>
@@ -347,17 +472,17 @@ const Users = () => {
                         <div class="row mb-3">
                           <label class="col-sm-12 col-form-label" for="basic-default-website">Website</label>
                           <div class="col-sm-12">
-                            <input type="text" class="form-control" id="basic-default-website" placeholder="example.com" />
+                            <input type="text" class="form-control" id="basic-default-website" name='website' value={formData.website} onChange={handleInputChange} placeholder="example.com" />
                           </div>
                         </div>
                         <div class="row mb-3">
                           <label class="col-sm-12 col-form-label" for="basic-default-address">Address</label>
                           <div class="col-sm-12">
-                            <textarea id="basic-default-address" class="form-control" placeholder="" aria-label=""
+                            <textarea id="basic-default-address" class="form-control" name='address' value={formData.address} onChange={handleInputChange} placeholder="" aria-label=""
                               aria-describedby="basic-icon-default-message2"></textarea>
                           </div>
                         </div>
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" onclick="createUser()">
+                        <button type="submit" data-bs-dismiss="offcanvas" class="btn btn-primary me-sm-3 me-1 data-submit" onclick="createUser()">
                           
                           <span class="ms-2">Submit</span>
                         </button>
@@ -384,39 +509,42 @@ const Users = () => {
                           <h5 class="modal-title" id="exampleModalLabel1">Update User</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleUpdate} >
                         <div class="modal-body">
                           <div class="row">
                             <div class="col mb-3">
                               <label for="update-user-main-name" class="form-label">Name</label>
-                              <input type="text" id="update-user-main-name" class="form-control"
+                              <input type="text" id="update-user-main-name" class="form-control" value={editformData?.name} name='name' onChange={edithandleInputChange}
                                 placeholder="Enter Name" />
                             </div>
                           </div>
                           <div class="row">
                             <div class="col mb-3">
                               <label for="update-user-main-email" class="form-label">Email</label>
-                              <input type="text" id="update-user-main-email" class="form-control"
+                              <input type="email" id="update-user-main-email" value={editformData?.email} name='email' onChange={edithandleInputChange} class="form-control"
                                 placeholder="Enter email" />
                             </div>
                           </div>
                           <div class="row">
                             <div class="col mb-3">
                               <label for="update-user-main-phone" class="form-label">Phone</label>
-                              <input type="email" id="update-user-main-phone" class="form-control"
+                              <input type="text" id="update-user-main-phone"  value={editformData?.phone} name='phone' onChange={edithandleInputChange}
+                               class="form-control"
                                 placeholder="658 799 8941" />
                             </div>
                           </div>
                           <div class="row">
                             <div class="col mb-3">
                               <label for="update-user-main-website" class="form-label">Website</label>
-                              <input type="text" id="update-user-main-website" class="form-control"
+                              <input type="text" id="update-user-main-website"  value={editformData?.website} name='website' onChange={edithandleInputChange}
+                               class="form-control"
                                 placeholder="Enter Webiste" />
                             </div>
                           </div>
                           <div class="row">
                             <div class="col mb-3">
                               <label for="update-user-main-address" class="form-label">Address</label>
-                              <input type="text" id="update-user-main-address" class="form-control"
+                              <input type="text" id="update-user-main-address" value={editformData?.address} name='address' onChange={edithandleInputChange} class="form-control"
                                 placeholder="Address" />
                             </div>
                           </div>
@@ -426,17 +554,20 @@ const Users = () => {
                             data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-primary" onclick="updateUserApi()"><span
+                          <button type="submit" data-bs-dismiss="modal" class="btn btn-primary" ><span
                               id="update-user-button-loader" style={{ 'block' : 'none' }}>
-                              <span class="spinner-border" role="status" aria-hidden="true"></span>
-                              <span class="visually-hidden">Loading...</span>
+                              {/* <span class="spinner-border" role="status" aria-hidden="true"></span>
+                              <span class="visually-hidden">Loading...</span> */}
                             </span>
                             <span class="ms-2">Save Changes</span></button>
                         </div>
+                        </form>
                       </div>
                     </div>
                   </div>
                   {/* Delete User Modal Start */}
+
+                  <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={deleteUser} >
                   <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -457,10 +588,10 @@ const Users = () => {
                             data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-primary" onclick="deleteUserApi()">
+                          <button type="submit" class="btn btn-primary" onclick="deleteUserApi()">
                             <span id="delete-user-button-loader" style={{ 'block' : 'none' }}>
-                              <span class="spinner-border" role="status" aria-hidden="true"></span>
-                              <span class="visually-hidden">Loading...</span>
+                              {/* <span class="spinner-border" role="status" aria-hidden="true"></span>
+                              <span class="visually-hidden">Loading...</span> */}
                             </span>
                             <span class="ms-2">Delete User</span>
                           </button>
@@ -468,6 +599,29 @@ const Users = () => {
                       </div>
                     </div>
                   </div>
+                  </form>
+
+                  <div className="container">
+      
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          className={`toast ${showToast ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-header">
+            <strong className="me-auto"> {showToastMessge}</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleToast}
+            ></button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
 
     </>
   )
