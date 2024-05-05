@@ -28,6 +28,8 @@ const Knowledge = () => {
   const [options, setOptions] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedValuedrop, setSelectedValuedrop] = useState('');
+
+  const [selectedslno, setSelectedslno] = useState('');
   
 
 
@@ -200,11 +202,11 @@ const handleInputChange = (event) => {
 const handleClick = async (value) => {
   // Do something with the value, like sending it to an API or updating state
   console.log('Clicked with value:', value);
-
+  setSelectedslno(value.sno)
   const createKnowledge = USER_ENDPOINTS.getKnowledge;
 
   try {
-    const response =  await axios.post(baseurl+createKnowledge+'/'+value,
+    const response =  await axios.post(baseurl+createKnowledge+'/'+value.sno,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -321,7 +323,7 @@ console.log("selectedValue",selectedValuedrop)
     console.error('Error fetching users:', error);
   }
 };
-
+//selectedslno
 
   return (
     <>
@@ -592,9 +594,9 @@ console.log("selectedValue",selectedValuedrop)
                                         <td>{key+1}</td>
                                         <td>{value}</td>
                                         <td style={{ width: '70px' }}>
-                                        <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
                                         <i class="ti ti-trash ti-sm mx-2 pointer"></i>
-                                        </button>
+                                        </button> */}
                                           {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
@@ -646,9 +648,9 @@ console.log("selectedValue",selectedValuedrop)
                                         <td>{key+1}</td>
                                         <td>{value.url}</td>
                                         <td style={{ width: '70px' }}>
-                                        <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
                                         <i class="ti ti-trash ti-sm mx-2 pointer"></i>
-                                        </button>
+                                        </button> */}
                                           {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
@@ -699,7 +701,7 @@ console.log("selectedValue",selectedValuedrop)
                                         <td>{value.answer}</td>
                                         <td style={{ width: '70px' }}>
                                           <div className="d-flex acation-btns">
-                                            <button className='btn px-1' onClick={() => handleClick(value.sno)}><i className="ti ti-trash ti-sm mx-2"></i></button>
+                                            <button className='btn px-1' onClick={() => handleClick(value)}><i className="ti ti-trash ti-sm mx-2"></i></button>
                                           </div>
                                         </td>
                                       </tr>
