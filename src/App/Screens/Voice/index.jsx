@@ -17,6 +17,29 @@ const Voice = () => {
   const token = localStorage.getItem("token");
   console.log("token", token);
 
+  const [dataFromApi, setDataFromApi] = useState(null);
+
+  const endpointassist = USER_ENDPOINTS.getassist;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(baseurl + endpointassist, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setDataFromApi(response.data.data);
+
+        console.log("assistntapi", response.data.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   useEffect(() => {
     const fetchVoiceAgents = async () => {
       try {
@@ -79,6 +102,44 @@ const Voice = () => {
   const handleDropdownClick = (event) => {
     // This stops the dropdown from closing when the dropdown content is clicked
     event.stopPropagation();
+  };
+
+  const [formData, setFormData] = useState({
+    name: "",
+    type: "",
+    assistant_id: "",
+    is_assistant_connected: "",
+    incoming_call_greeting: "",
+    outgoing_call_greeting: "",
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // Do something with formData, for example, send it to an API
+    console.log("formdata", formData);
+
+    const createKnowledge = USER_ENDPOINTS.getKnowledge;
+    console.log("formdata", formData);
+    try {
+      const response = await axios.post(
+        baseurl + createKnowledge,
+        { name: formData.knowledgename },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = response.data.data.token;
+      console.log("dataapi", data);
+      //localStorage.setItem('token', token);
+
+      //navigate('/assistant');
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
   return (
@@ -352,6 +413,19 @@ const Voice = () => {
                           <table class="datatables-voice-agents table">
                             <thead class="border-top">
                               <tr>
+                                <th className="w-px-14">
+                                  <div class="form-check mb-0">
+                                    <input
+                                      class="email-list-item-input form-check-input"
+                                      type="checkbox"
+                                      id="email-1"
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      for="email-1"
+                                    ></label>
+                                  </div>
+                                </th>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Phone</th>
@@ -363,6 +437,19 @@ const Voice = () => {
                               {voiceagents.map((value, key) => {
                                 return (
                                   <tr key={key}>
+                                    <td>
+                                      <div class="form-check mb-0">
+                                        <input
+                                          class="email-list-item-input form-check-input"
+                                          type="checkbox"
+                                          id="email-1"
+                                        />
+                                        <label
+                                          class="form-check-label"
+                                          for="email-1"
+                                        ></label>
+                                      </div>
+                                    </td>
                                     <td>{value.name}</td>
                                     <td>{value.type}</td>
                                     <td>{value.phone_number}</td>
@@ -464,7 +551,7 @@ const Voice = () => {
                           <form
                             class="add-new-user pt-0"
                             id="addNewUserForm"
-                            onsubmit="return false"
+                            onSubmit={handleSubmit}
                           >
                             <div class="row mb-3">
                               <label
@@ -477,6 +564,7 @@ const Voice = () => {
                                 <input
                                   type="text"
                                   class="form-control"
+                                  name="name"
                                   id="basic-default-agent-name"
                                   placeholder="John Doe"
                                 />
@@ -490,7 +578,11 @@ const Voice = () => {
                                 Type
                               </label>
                               <div class="col-sm-12">
-                                <select id="agent-type" class="form-select">
+                                <select
+                                  id="agent-type"
+                                  name="type"
+                                  class="form-select"
+                                >
                                   <option value="" selected>
                                     Select Type
                                   </option>
@@ -516,6 +608,16 @@ const Voice = () => {
                                   <option value="" selected>
                                     Select Assistant
                                   </option>
+                                  <option value="30">cs-tesxt-2</option>
+                                  {dataFromApi
+                                    ? dataFromApi.map((value, key) => {
+                                        //  {console.log("datafromapi",JSON.stringify(value.name))}
+                                        <option value="asdasdsa">
+                                          {" "}
+                                          klnjj
+                                        </option>;
+                                      })
+                                    : null}
                                 </select>
                               </div>
                             </div>

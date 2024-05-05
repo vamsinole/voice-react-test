@@ -25,6 +25,7 @@ const Knowledge = () => {
   const token = localStorage.getItem("token");
   console.log("token", token);
   useEffect(() => {
+    setSelectedValue(2);
     const fetchVoiceAgents = async () => {
       try {
         const response = await axios.get(baseurl + endpoint, {
@@ -46,8 +47,9 @@ const Knowledge = () => {
   }, []);
 
   const handleSelectChange = (event) => {
-    // console.log("selectedvalue",JSON.parse(event.target.value));
+    setSelectedValue(event.target.value);
     let obj = JSON.parse(event.target.value);
+    console.log("selectedvalue", obj.id);
     setFiles(obj.files);
     setUrls(obj.urls);
     setFaq(obj.faqs);
@@ -119,6 +121,74 @@ const Knowledge = () => {
   // Toggle the visibility and adjust classes
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
+  };
+
+  const [formData, setFormData] = useState({
+    knowledgename: "",
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // Do something with formData, for example, send it to an API
+    console.log("formdata", formData);
+
+    const createKnowledge = USER_ENDPOINTS.getKnowledge;
+    console.log("formdata", formData);
+    try {
+      const response = await axios.post(
+        baseurl + createKnowledge,
+        { name: formData.knowledgename },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = response.data.data.token;
+      console.log("dataapi", data);
+      //localStorage.setItem('token', token);
+
+      //navigate('/assistant');
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleClick = async (value) => {
+    // Do something with the value, like sending it to an API or updating state
+    console.log("Clicked with value:", value);
+
+    const createKnowledge = USER_ENDPOINTS.getKnowledge;
+
+    try {
+      const response = await axios.post(
+        baseurl + createKnowledge + "/" + value,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = response.data.data.token;
+      console.log("dataapi", data);
+      //localStorage.setItem('token', token);
+
+      //navigate('/assistant');
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
   return (
@@ -510,6 +580,9 @@ const Knowledge = () => {
                                           <td style={{ width: "70px" }}>
                                             <button
                                               className="btn px-1 la-lg"
+                                              onClick={() =>
+                                                handleClick(value.sno)
+                                              }
                                               data-bs-toggle="modal"
                                               data-bs-target="#updateAgentModal"
                                             >
@@ -577,6 +650,9 @@ const Knowledge = () => {
                                         <td style={{ width: "70px" }}>
                                           <button
                                             className="btn px-1 la-lg"
+                                            onClick={() =>
+                                              handleClick(value.sno)
+                                            }
                                             data-bs-toggle="modal"
                                             data-bs-target="#updateAgentModal"
                                           >
@@ -644,7 +720,12 @@ const Knowledge = () => {
                                         <td>{value.answer}</td>
                                         <td style={{ width: "70px" }}>
                                           <div className="d-flex acation-btns">
-                                            <button className="btn px-1">
+                                            <button
+                                              className="btn px-1"
+                                              onClick={() =>
+                                                handleClick(value.sno)
+                                              }
+                                            >
                                               <i className="ti ti-trash ti-sm mx-2"></i>
                                             </button>
                                           </div>
@@ -694,39 +775,44 @@ const Knowledge = () => {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col mb-3">
-                      <label for="kbs-name" class="form-label">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="kbs-name"
-                        class="form-control"
-                        placeholder="Enter Name"
-                      />
+                <form class="mb-3" onSubmit={handleSubmit}>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col mb-3">
+                        <label for="kbs-name" class="form-label">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          id="kbs-name"
+                          class="form-control"
+                          placeholder="Enter Name"
+                          name="knowledgename"
+                          value={formData.knowledgename}
+                          onChange={handleInputChange}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-label-secondary"
-                    id="create-kbs-close"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="create-kbs-close"
-                    data-bs-dismiss="modal"
-                  >
-                    Create Knowledge base
-                  </button>
-                </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-label-secondary"
+                      id="create-kbs-close"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      id="create-kbs-close"
+                      data-bs-dismiss="modal"
+                    >
+                      Create Knowledge base
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
