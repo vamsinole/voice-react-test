@@ -18,6 +18,34 @@ const Voice = () => {
   const token=localStorage.getItem('token');
   console.log("token",token);
 
+
+  const [dataFromApi, setDataFromApi] = useState(null);
+
+
+  const endpointassist = USER_ENDPOINTS.getassist;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(baseurl + endpointassist, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        setDataFromApi(response.data.data);
+
+        console.log("assistntapi",response.data.data);
+
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+
+
   useEffect(() => {
     const fetchVoiceAgents = async () => {
       try {
@@ -81,6 +109,45 @@ const toggleColumn = () => {
 const handleDropdownClick = (event) => {
   // This stops the dropdown from closing when the dropdown content is clicked
   event.stopPropagation();
+};
+
+
+const [formData, setFormData] = useState({
+  name: '',
+  type:'',
+  assistant_id:'',
+  is_assistant_connected:'',
+  incoming_call_greeting:'',
+  outgoing_call_greeting:''
+});
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  // Do something with formData, for example, send it to an API
+  console.log("formdata",formData);
+
+  const createKnowledge = USER_ENDPOINTS.getKnowledge;
+  console.log("formdata",formData);
+  try {
+    const response =  await axios.post(baseurl+createKnowledge,{"name": formData.knowledgename},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+const data = response.data.data.token;
+console.log("dataapi",data)
+//localStorage.setItem('token', token);
+
+//navigate('/assistant');
+
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+
+
 };
 
   return (
@@ -342,17 +409,17 @@ const handleDropdownClick = (event) => {
                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                  <form class="add-new-user pt-0" id="addNewUserForm" onsubmit="return false">
+                  <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleSubmit} >
                     <div class="row mb-3">
                       <label class="col-sm-12 col-form-label" for="basic-default-agent-name">Name</label>
                       <div class="col-sm-12">
-                        <input type="text" class="form-control" id="basic-default-agent-name" placeholder="John Doe" />
+                        <input type="text" class="form-control" name='name' id="basic-default-agent-name" placeholder="John Doe" />
                       </div>
                     </div>
                     <div class="row mb-3 select2-primary">
                       <label class="col-sm-12 col-form-label" for="agent-type">Type</label>
                       <div class="col-sm-12">
-                        <select id="agent-type" class="form-select">
+                        <select id="agent-type" name="type" class="form-select">
                           <option value="" selected>Select Type</option>
                           <option value="voice_incoming">Voice Incoming</option>
                           <option value="voice_outgoing">Voice Outgoing</option>
@@ -363,8 +430,15 @@ const handleDropdownClick = (event) => {
                     <div class="row mb-3 select2-primary">
                       <label class="form-label" for="agent-assistant">Attach an Assistant</label>
                       <div class="col-sm-12">
+                       
                         <select id="agent-assistant" class="form-select">
                           <option value="" selected>Select Assistant</option>
+                          <option value="30" >cs-tesxt-2</option>
+                          {dataFromApi ? dataFromApi.map((value, key) => {
+                            
+                            //  {console.log("datafromapi",JSON.stringify(value.name))}
+                            <option  value='asdasdsa'> klnjj</option>
+                           }) : null}
                         </select>
                       </div>
                     </div>
