@@ -123,6 +123,10 @@ const Voice = () => {
   const [editformData, editsetFormData] = useState({
     name: '',
     assistant_id: '',
+    phone_number:'',
+    speak:'',
+    to_number:''
+
   });
 
 
@@ -149,7 +153,7 @@ const Voice = () => {
       const response = await axios.put(baseurl + createvoiceAgent + '/' + editformData.id, {
         assistant_id: editformData.assistant_id,
         name: editformData.name,
-        phone_number: 'NA'
+        phone_number: editformData.phone_number
       },
         {
           headers: {
@@ -209,7 +213,9 @@ const Voice = () => {
           },
         });
 
-      fetchData();
+        fetchData();
+        setShowToast(true);
+        setShowToastMessge("Call Successfully done");
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -591,7 +597,7 @@ const Voice = () => {
 
                   <div className="mb-3">
                     <label htmlFor="name">Phone number</label>
-                    <input type="text" name='phone' value={editformData?.phone_number} onChange={edithandleInputChange} className='form-control' />
+                    <input type="text" name='phone_number' value={editformData?.phone_number} onChange={edithandleInputChange} className='form-control' />
                   </div>
 
                   <div className="mb-3">
@@ -619,6 +625,7 @@ const Voice = () => {
 
 
       {/* modal popup VioceEdit start*/}
+   
       <div class="modal fade" id="callUserModal" tabindex="-1" aria-labelledby="VioceEditLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -644,12 +651,13 @@ const Voice = () => {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Call User</button>
+              <button type="submit"  data-bs-dismiss="modal" class="btn btn-primary">Call User</button>
             </div>
             </form>
           </div>
         </div>
       </div>
+      
       {/* modal popup VioceEdit end*/}
 
       {/* modal popup VioceEdit start*/}

@@ -283,12 +283,12 @@ const Customers = () => {
                               <td>{value.phone}</td>
                               <td>{value.address}</td>
                               <td style={{ width: '70px' }}>
-                                <div className="d-flex acation-btns">
+                                {/* <div className="d-flex acation-btns">
                                 <button data-bs-toggle="modal"
                                   data-bs-target="#updateCustomerModal" className='btn px-1'><i class="ti ti-edit ti-sm me-2"></i></button>
                                   <button data-bs-toggle="modal"
                                   data-bs-target="#deleteCustomerModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
-                                </div>
+                                </div> */}
                               </td>
                             </tr>
                           );

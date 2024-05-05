@@ -310,12 +310,12 @@ const Actions = () => {
                               <td>{value.sms.to}</td>
                               <td>{value.sms.content}</td>
                               <td style={{ width: '70px' }}>
-                                <div className="d-flex acation-btns">
+                                {/* <div className="d-flex acation-btns">
                                   <button data-bs-toggle="modal"
                                   data-bs-target="#updateUserModal" className='btn px-1'><i class="ti ti-edit ti-sm me-2"></i></button>
                                   <button data-bs-toggle="modal"
                                   data-bs-target="#deleteUserModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
-                                </div>
+                                </div> */}
                               </td>
                             </tr>
                           );

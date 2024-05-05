@@ -856,7 +856,7 @@ console.log("selectedValue",selectedValuedrop)
                   <button type="button" class="btn btn-label-secondary" id="add-url-close" data-bs-dismiss="modal">
                     Close
                   </button>
-                  <button type="submit" class="btn btn-primary" ><span id="add-url-button-loader"
+                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" ><span id="add-url-button-loader"
                       style={{ 'block' : 'none' }}>
                       <span class="spinner-border" role="status" aria-hidden="true"></span>
                       <span class="visually-hidden">Loading...</span>
