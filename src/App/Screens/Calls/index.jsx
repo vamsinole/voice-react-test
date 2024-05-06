@@ -20,11 +20,35 @@ const Calls = () => {
   const [messagetime, setmessagetime] = useState('');
 
 
-
   const baseurl = env.baseUrl;
-  const endpoint = USER_ENDPOINTS.getvoicecall;
-
   const token = localStorage.getItem('token');
+  const endpointVoice = USER_ENDPOINTS.agentdata;
+
+  const [dataAgent, setVoiceAgent] = useState(null);
+  useEffect(() => {
+    const fetchUsers = async () => {
+
+      try {
+        const response = await axios.get(baseurl + endpointVoice, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responceVoice", response.data.data)
+  
+
+        setVoiceAgent(response.data.data);
+  
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+     
+
+
+    };
+
+    fetchUsers();
+  }, []);
 
   console.log("baseurl", baseurl);
 
@@ -33,6 +57,8 @@ const Calls = () => {
     fetchVoicecalls();
   }, []);
 
+
+  const endpoint = USER_ENDPOINTS.getvoicecall;
   const fetchVoicecalls = async () => {
     try {
       const response = await axios.get(baseurl + endpoint + selectedValue + '?pagenumber=0&pagesize=10', {
@@ -125,8 +151,11 @@ const Calls = () => {
                     <div className="col-sm-4 offset-4">
                       <select id="voice-agent-call" value={selectedValue} onChange={changeVoiceAgent} className="select2 form-select">
                         <option value="" selected>Select Agent</option>
-                        <option value="23" selected>gpt</option>
-                        <option value="22" selected>alex</option>
+                        {dataAgent?.map(option => (
+                                              <option key={option.id} value={option.id}>
+                                                {option.name}
+                                              </option>
+                                              ))}
                       </select>
                     </div>
                   </div>
