@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -23,7 +24,7 @@ axiosInstance.interceptors.request.use(
     if (token===null) {
      
       //navigate('/login');
-      window.location.href = '/login';
+      window.location.href = 'http://dev.contactswing.com/login';
       // Redirect to login page
       // history.push('/login');
       // return Promise.reject('No token available. Redirecting to login.');

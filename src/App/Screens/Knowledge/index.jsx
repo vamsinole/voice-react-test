@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom'
 
 const Knowledge = () => {
 
+  const [fileloading, setfileLoading] = useState(false);
+
   const [showToast, setShowToast] = useState(false);
   const [showToastMessge, setShowToastMessge] = useState(false);
   const toggleToast = () => {
@@ -827,6 +829,7 @@ console.log("selectedValue",selectedValuedrop)
                        style={{ 'block' : 'none' }}>
                       <span class="spinner-border" role="status" aria-hidden="true"></span>
                       <span class="visually-hidden">Loading...</span>
+                      
                     </span>
                     <span class="ms-2">Add File</span></button>
                 </div>
