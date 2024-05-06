@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../axiosInterceptor';
 import { USER_ENDPOINTS } from '../../../config/enpoints';
 import NewAssistantBar from '../../Components/NewAssistantBar';
 import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';

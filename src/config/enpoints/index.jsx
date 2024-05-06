@@ -9,6 +9,8 @@ export const USER_ENDPOINTS = {
     login:`/v1/login`,
     makecall:`/v1/voicecalls`,
     createChat:`/v1/ai/chat`,
+    addIntent:`/v1/voiceassistants`,
+    getmodel:`/v1/ai/models`
 
    
     

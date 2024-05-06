@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react'
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
 import { USER_ENDPOINTS } from '../../../config/enpoints';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../axiosInterceptor';
 import env from '../../../config';
 import { json } from 'react-router-dom';
 

@@ -2,7 +2,8 @@
 import React, { useState } from 'react'
 import './Styles.scss';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+ import axios from 'axios';
+// import axios from '../axiosInterceptor';
 import env from '../../../config';
 import { USER_ENDPOINTS } from '../../../config/enpoints';
 import { useNavigate } from 'react-router-dom';
