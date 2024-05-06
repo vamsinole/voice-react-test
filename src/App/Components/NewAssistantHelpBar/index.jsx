@@ -10,19 +10,19 @@ const NewAssistantHelpBar = () => {
               <div className='container-fluid'>
                 <div className='row d-flex align-items-center'>
                   <div className='col-lg-2'>
-                  <div className='d-grid txt-color fz'>
-                  <i class="fa-solid fa-comments"></i>
+                  <div className='txt-color fz'>
+                  <i class="fa-solid fa-comments me-2"></i>
                     Chat
                   </div>
                   </div>
                   <div className='col-lg-2'>
-                  <div className='d-grid txt-color fz'>
-                  <i class="fa-solid fa-address-book"></i>
+                  <div className='txt-color fz'>
+                  <i class="fa-solid fa-address-book me-2"></i>
                     Contacts
                   </div>
                   </div>
                   <div className='col-lg-6'>
-                  <div className='d-grid txt-color'>
+                  <div className='txt-color'>
                   </div>
                   </div>
                   <div className='col-lg-2'>

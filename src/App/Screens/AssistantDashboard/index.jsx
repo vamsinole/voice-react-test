@@ -38,9 +38,36 @@ const AssistantDashboard = () => {
           <NewAssistantBar/>
           <div className='container-fluid'>
                 <div className='row mt-3'>
-                  <div className='col-md-4'>
+                  <div className="col-md-12">
+                    <ul className='d-flex justify-content-end m-0 p-0 list-unstyled'>
+                      <li>
+                      <button onClick={toggleTrainColumn} class="btn" type="button">
+                        <i class="ti ti-world-share ti-md me-1"></i>
+                        Publish
+                      </button>
+                      </li>
+                      <li> <button onClick={toggleTrainColumn} class="btn" type="button">
+                        <i class="ti ti-settings ti-md me-1"></i>
+                        Train Assistant
+                      </button>
+                      </li>
+                      <li>
+                      <button onClick={toggleColumn} class="btn" type="button">
+                        <i class="ti ti-messages ti-md me-1"></i>
+                        Test Agent
+                      </button>
+                      </li>
+                    </ul>
                   </div>
-                  <div class="col-md-2 offset-4 text-end">
+                  {/* <div className='col-md-4'>
+                  </div> */}
+                  {/* <div class="col-md-2 offset-2 text-end">
+                        <button onClick={toggleTrainColumn} class="btn" type="button">
+                        <i class="ti ti-settings ti-md me-1"></i>
+                        Publish
+                      </button>
+                  </div>
+                  <div class="col-md-2 offset-1 text-end">
                         <button onClick={toggleTrainColumn} class="btn" type="button">
                         <i class="ti ti-settings ti-md me-1"></i>
                         Train Assistant
@@ -53,7 +80,7 @@ const AssistantDashboard = () => {
                         Test Agent
                       </button>
                     </span>
-                  </div>
+                  </div> */}
                 </div>
           </div>
             <div class="content-wrapper">
@@ -85,6 +112,7 @@ const AssistantDashboard = () => {
 
                         <div class="tab-content p-0">
                         <div id="Dashboard" class="tab-pane active"> 
+                        <div className="dashboardscroll">
                         <div class="row mt-4">
                             <div class="col-md-6 mb-3">
                                 <div class="cardDimensions ">
@@ -129,9 +157,9 @@ const AssistantDashboard = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* table start */}
+                         {/* table start */}
 
-                            <div className='border-top border-bottom'>
+                         <div className='border-top border-bottom'>
                                 <h6 className='mt-3'>Recent calls</h6>
                             </div>
 
@@ -184,11 +212,13 @@ const AssistantDashboard = () => {
                             </table>
                             </div>
                         {/* table end */}
-
+                        
+                        </div>
                         </div>
 
                         {/* Configure start  */}
-                        <div id="Configure" class="tab-pane fade"> 
+                        <div id="Configure" class="tab-pane fade">
+                        <div className="cofigurescroll">
                         <section className="img-upload">
                             <div className="imgMain">
                                 <h6>Image (optional)</h6>
@@ -351,12 +381,15 @@ const AssistantDashboard = () => {
                                     </div>
                                 </div>
                             </section>
+                          </div> 
+                        
                         </div>
                         {/* Configure end  */}
 
 
                         {/* Prompt start  */}
-                        <div id="Prompt" class="tab-pane fade"> 
+                        <div id="Prompt" class="tab-pane fade">
+                          <div className='promptscroll'>
                           <div className="d-flex justify-content-between mt-3">
                             <div>
                               <h6 className='mb-1'>2. Write your prompt</h6>
@@ -422,6 +455,7 @@ const AssistantDashboard = () => {
                               </div>
                             </div>
                           </div>
+                          </div>
                         </div>
                         {/* Prompt end  */}
                       </div>
@@ -457,8 +491,8 @@ const AssistantDashboard = () => {
                           </div>
                           <div class="d-flex align-items-center">
                             <i class="ti ti-phone-call cursor-pointer d-sm-block d-none me-3"></i>
-                            <i class="ti ti-video cursor-pointer d-sm-block d-none me-3"></i>
-                            <i class="ti ti-search cursor-pointer d-sm-block d-none me-3"></i>
+                            {/* <i class="ti ti-video cursor-pointer d-sm-block d-none me-3"></i> */}
+                            {/* <i class="ti ti-search cursor-pointer d-sm-block d-none me-3"></i> */}
                             <div class="dropdown d-flex align-self-center">
                               <button
                                 class="btn p-0"
@@ -470,11 +504,11 @@ const AssistantDashboard = () => {
                                 <i class="ti ti-dots-vertical"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="chat-header-actions">
-                                <a class="dropdown-item" href="javascript:void(0);">View Contact</a>
+                                {/* <a class="dropdown-item" href="javascript:void(0);">View Contact</a>
                                 <a class="dropdown-item" href="javascript:void(0);">Mute Notifications</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Block Contact</a>
+                                <a class="dropdown-item" href="javascript:void(0);">Block Contact</a> */}
                                 <a class="dropdown-item" href="javascript:void(0);">Clear Chat</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Report</a>
+                                {/* <a class="dropdown-item" href="javascript:void(0);">Report</a> */}
                               </div>
                             </div>
                           </div>

@@ -477,14 +477,14 @@ const deleteAssist = async (event) => {
                                 </div>
                                 <div className={isColumnVisible ? "col-md-8" : "col-md-12"} id="kbs-content">
                                 <div className="card">
-                                <div class="card-header border-bottom">
+                                <div class="card-header p-0 px-4 py-2 border-bottom">
                                 <h4 class="card-title pull-left">Assistants</h4>
                                 </div>
                                 <div className="card-datatable table-responsive">
                                 <div className="table-scrollable">
                                 <table className='table'>
                                     <thead>
-                                      <tr>
+                                      <tr className='position-sticky top-0 z-1 bg-white'>
                                         <th className='w-px-14'>
                                         <div class="form-check mb-0">
                                   <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />

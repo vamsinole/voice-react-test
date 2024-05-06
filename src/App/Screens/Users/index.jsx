@@ -175,6 +175,13 @@ const Users = () => {
       console.error('Error fetching users:', error);
     }
   };
+
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(prevState => !prevState);
+  };
   
   return (
     <>
@@ -349,14 +356,17 @@ const Users = () => {
                 </div>
                 <div className={isColumnVisible ? "col-md-8" : "col-md-12"}>
                 <div class="card">
-                  <div class="card-header border-bottom">
+                  <div class="card-header p-0 px-4 py-2 border-bottom">
                     <h4 class="card-title pull-left">Users</h4>
+                    <table>
+                      
+                    </table>
                   </div>
                   <div class="card-datatable table-responsive">
                   <div className="table-scrollable">
                   <table class="datatables-voice-agents table">
                       <thead class="border-top">
-                        <tr>
+                        <tr className='position-sticky top-0 z-1 bg-white'>
                         <th className='w-px-14'>
                           <div class="form-check mb-0">
                                   <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
@@ -463,9 +473,10 @@ const Users = () => {
                           <label class="col-sm-12 col-form-label" for="basic-default-password">Password</label>
                           <div class="col-sm-12">
                             <div class="input-group input-group-merge">
-                              <input type="password" class="form-control" name='password' value={formData.password} onChange={handleInputChange} id="basic-default-password" />
-                              <span class="input-group-text cursor-pointer" id="basic-default-password2"><i
-                                class="ti ti-eye-off"></i></span>
+                              <input type={showPassword ? 'text' : 'password'} class="form-control" name='password' value={formData.password} onChange={handleInputChange} id="password" />
+                              <span class="input-group-text cursor-pointer" id="password" onClick={handleTogglePassword}>
+                              <i className={showPassword ? "ti ti-eye" : "ti ti-eye-off"}></i>
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -602,8 +613,11 @@ const Users = () => {
                   </form>
 
                   <div className="container">
+                  {/* <div class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+
+                  </div> */}
       
-      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div className="toast-container position-fixed top-0 start-0 p-3">
         <div
           className={`toast ${showToast ? 'show' : ''}`}
           role="alert"
@@ -611,6 +625,8 @@ const Users = () => {
           aria-atomic="true"
         >
           <div className="toast-header">
+          <i class="ti ti-bell ti-xs me-2 text-danger"></i>
+          {/* <i class="ti ti-bell ti-xs me-2 text-success"></i> */}
             <strong className="me-auto"> {showToastMessge}</strong>
             <button
               type="button"
