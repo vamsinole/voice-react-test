@@ -492,7 +492,7 @@ const AssistantDashboard = () => {
                           <div class="d-flex align-items-center">
                             <i class="ti ti-phone-call cursor-pointer d-sm-block d-none me-3"></i>
                             {/* <i class="ti ti-video cursor-pointer d-sm-block d-none me-3"></i> */}
-                            {/* <i class="ti ti-search cursor-pointer d-sm-block d-none me-3"></i> */}
+                            <i class="ti ti-search cursor-pointer d-sm-block d-none me-3"></i>
                             <div class="dropdown d-flex align-self-center">
                               <button
                                 class="btn p-0"
