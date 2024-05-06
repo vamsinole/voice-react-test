@@ -41,7 +41,7 @@ const Home = () => {
       }
     };
 
-    fetchUsers();
+   
  
 
   const [parentValue, setParentValue] = useState('');
@@ -224,39 +224,53 @@ const [formData, setFormData] = useState({
   name: '',
 });
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  const createvoiceAgent = USER_ENDPOINTS.getUsers;
-  console.log("formdatausers", formData);
-  // try {
-  //   const response = await axios.post(baseurl + createvoiceAgent, {
-  //     name:formData.name
-  //   },
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
 
-  //     fetchVoiceAgents();
-  //   // setShowToast(true);
-  //   // setShowToastMessge("Created");
-  // } catch (error) {
-  //   // setShowToast(true);
-  //   // setShowToastMessge("Error");
-  //   console.error('Error fetching users:', error);
-  // }
+
+
+const handleInputChangecall = (event) => {
+  const { name, value } = event.target;
+  editsetFormData({
+    ...editformData,
+    [name]: value,
+  });
 };
-
-
 const [editformData, editsetFormData] = useState({
   address: '',
+  text:''
 });
 
 const handleClickedit = async (event) => {
+  console.log("event",event);
   editsetFormData(event);
 }
+
+
+
+
+
+const createChatHandle = async (event) => {
+ 
+  event.preventDefault();
+  const createChat = USER_ENDPOINTS.createChat;
+  console.log("editformData33", editformData);
+  try {
+    const response = await axios.post(baseurl + createChat+'/'+editformData.id,
+    {model:'null',text:editformData.text},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Added Responce successfully");
+
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
 
 const deleteAssist = async (event) => {
   event.preventDefault();
@@ -463,14 +477,14 @@ const deleteAssist = async (event) => {
                                 </div>
                                 <div className={isColumnVisible ? "col-md-8" : "col-md-12"} id="kbs-content">
                                 <div className="card">
-                                <div class="card-header border-bottom">
+                                <div class="card-header p-0 px-4 py-2 border-bottom">
                                 <h4 class="card-title pull-left">Assistants</h4>
                                 </div>
                                 <div className="card-datatable table-responsive">
                                 <div className="table-scrollable">
                                 <table className='table'>
                                     <thead>
-                                      <tr>
+                                      <tr className='position-sticky top-0 z-1 bg-white'>
                                         <th className='w-px-14'>
                                         <div class="form-check mb-0">
                                   <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
@@ -500,9 +514,9 @@ const deleteAssist = async (event) => {
                                             <td>{value.type}</td>
                                             <td style={{ width: '70px' }}>
                                               <div className="d-flex acation-btns">
-                                              <button  data-bs-toggle="modal"
-                                  data-bs-target="#updateAssistantModal" className='btn px-1'><i class="ti ti-message ti-sm me-2"></i></button>
-                                                <button  data-bs-toggle="modal"
+                                              {/* <button  data-bs-toggle="modal"
+                                  data-bs-target="#updateAssistantModal" className='btn px-1'><i class="ti ti-message ti-sm me-2"></i></button> */}
+                                                <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
                                   data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
                                                 <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
                                   data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
@@ -714,6 +728,8 @@ const deleteAssist = async (event) => {
                   </form>
                 </div>
                                     </div>
+
+                                  
                                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTestAssistant"
                                       aria-labelledby="offcanvasTestAssistantLabel">
                                       <div class="offcanvas-header">
@@ -722,16 +738,16 @@ const deleteAssist = async (event) => {
                                           data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                       </div>
                                       <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                                        <form class="add-new-assistant pt-0" id="addNewAssistantForm" onsubmit="return false">
+                                        <form class="add-new-assistant pt-0" id="addNewAssistantForm">
                                           <div class="mb-3">
                                             <label class="form-label" for="test-instruction">Instruction</label>
                                             <input type="text" class="form-control" id="test-instruction" placeholder="Ask me anything"
-                                              name="name" aria-label="Ask me anything" />
+                                              name="text" aria-label="Ask me anything" />
                                           </div>
                                           <div class="mb-3">
                                             <label class="form-label" id="test-assistant-response"></label>
                                           </div>
-                                          <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" onclick="testAssistant()">
+                                          <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" >
                                             <span id="test-assistant-button-loader" style={{ display: 'none' }}>
                                               <span class="spinner-border" role="status" aria-hidden="true"></span>
                                               <span class="visually-hidden">Loading...</span>
@@ -742,6 +758,8 @@ const deleteAssist = async (event) => {
                                         </form>
                                       </div>
                                     </div>
+                               
+
                                 </div>
                                 </div>
                               </div>
@@ -752,7 +770,9 @@ const deleteAssist = async (event) => {
                     </div>
                 </div>
             </div>
-            
+
+
+            <form class="mb-3"  onSubmit={createChatHandle}>
             <div class="modal fade" id="testAssistantModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -771,7 +791,9 @@ const deleteAssist = async (event) => {
                               <div class="chat-history-footer shadow-sm">
                                 <div class="form-send-message d-flex justify-content-between align-items-center">
                                   <div class="col-sm-9 pull-left">
-                                    <input id="assistant-chat-input"
+                                    <input id="assistant-chat-input" name="text"
+                                        value={editformData.text}
+                                        onChange={handleInputChangecall}
                                       class="form-control message-input border-0 me-3 shadow-none"
                                       placeholder="Type your message here" />
                                   </div>
@@ -779,7 +801,7 @@ const deleteAssist = async (event) => {
                                     <div class="message-actions d-flex align-items-center">
                                       <i class="speech-to-text ti ti-microphone ti-sm cursor-pointer me-3"
                                         id="microphone" onclick="startListening()"></i>
-                                      <button onclick="testAssistantApi()"
+                                      <button type='submit' data-bs-dismiss="modal"
                                         class="btn btn-primary d-flex send-msg-btn pull-right">
                                         <span id="test-assistant-button-loader" style={{ 'block' : 'none' }}>
                                           <span class="spinner-border" role="status" aria-hidden="true"></span>
@@ -803,8 +825,9 @@ const deleteAssist = async (event) => {
                       </div>
                     </div>
             </div>
+            </form>
 
-            <form class="add-new-user pt-0" id="addNewUserForm"onSubmit={handleSubmit} >
+           
                   <div class="modal fade" id="updateAssistantModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -816,7 +839,10 @@ const deleteAssist = async (event) => {
                           <div class="row">
                             <div class="col mb-3">
                               <label for="new-intent" class="form-label">Intent</label>
-                              <input type="text" id="new-intent" class="form-control" placeholder="Enter intent" />
+                              <input type="text" id="new-intent" class="form-control" name='text'
+                              value={formData.text}
+                              onChange={handleInputChangecall}
+                              placeholder="Enter intent" />
                             </div>
                           </div>
                         </div>
@@ -824,7 +850,7 @@ const deleteAssist = async (event) => {
                           <button type="button" class="btn btn-label-secondary" id="new-intent-close" data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-primary" onclick="addIntentApi()"><span id="new-intent-button-loader" style={{ 'block' : 'none' }}>
+                          <button type="submit" class="btn btn-primary" ><span id="new-intent-button-loader" style={{ 'block' : 'none' }}>
                               <span class="spinner-border" role="status" aria-hidden="true"></span>
                               <span class="visually-hidden">Loading...</span>
                             </span>
@@ -833,7 +859,7 @@ const deleteAssist = async (event) => {
                       </div>
                     </div>
                   </div>
-                  </form>
+                  
 
                   <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={deleteAssist} >
                   <div class="modal fade" id="deleteAssistantModal" tabindex="-1" aria-hidden="true">
