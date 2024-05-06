@@ -1,9 +1,14 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import Header from '../../Components/Header'
 import './Styles.scss';
 import MultipleSelectDropdown from '../../Components/MultipleSelectDropdown';
 import NewAssistantBar from '../../Components/NewAssistantBar';
 import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
+import { USER_ENDPOINTS } from '../../../config/enpoints';
+import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+import axios from '../axiosInterceptor';
+import env from '../../../config';
 
 
 
@@ -23,8 +28,155 @@ const AssistantDashboard = () => {
     setIsTrainColumnVisible(!isTrainColumnVisible);
   };
 
+  const baseurl = env.baseUrl;
+  const token = localStorage.getItem('token');
+  const endpointmodel = USER_ENDPOINTS.getmodel;
+
+  const [dataModel, setDataModel] = useState(null);
+  useEffect(() => {
+    const fetchUsers = async () => {
+
+      try {
+        const response = await axios.get(baseurl + endpointmodel, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responceModel", response.data.data)
+  
+  
+        setDataModel(response.data.data);
+  
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+     
 
 
+    };
+
+    fetchUsers();
+  }, []);
+
+  const [dataKnowledge, setDataKnowldge] = useState(null);
+  const endpointKnowledge = USER_ENDPOINTS.getKnowledge;
+  useEffect(() => {
+    const fetchUsers = async () => {
+
+      try {
+        const response = await axios.get(baseurl + endpointKnowledge, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responceKnowledge", response.data.data)
+  
+  
+        setDataKnowldge(response.data.data);
+  
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+     
+
+
+    };
+
+    fetchUsers();
+  }, []);
+
+
+  const [assistData, setAssistData] = useState(null);
+  const endpointAssist = USER_ENDPOINTS.getassist;
+  useEffect(() => {
+    const fetchUsers = async () => {
+
+      try {
+        const response = await axios.get(baseurl + endpointAssist, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responceAssist", response.data.data)
+  
+  
+        setAssistData(response.data.data);
+  
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+     
+
+
+    };
+
+    fetchUsers();
+  }, []);
+
+
+
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
+
+
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const [formData, setFormData] = useState({
+    name: "", 
+    nikname: "", 
+    description: "", 
+    image_url: "", 
+    type : "", 
+    synthesizer: "", 
+    country: "", 
+    enable_recordings : "", 
+    daily_budget: "", 
+    monthly_budget : "", 
+    incoming_call_greeting : "", 
+    outgoing_call_greeting : "", 
+    ai_type : "", 
+    temperature : 1, 
+    instructions : "", 
+    intents : [
+        ""
+    ], 
+    entities: [
+        ""
+    ], 
+    ai_api_key: "", 
+    kbs_id: 1 
+  });
+
+  const endpoint = USER_ENDPOINTS.addIntent;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("formdataaddinc", formData);
+    try {
+      const response = await axios.post(baseurl + endpoint, formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+      setShowToast(true);
+      setShowToastMessge("Created");
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
   
    
 
@@ -217,6 +369,7 @@ const AssistantDashboard = () => {
                         </div>
 
                         {/* Configure start  */}
+                        <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleSubmit} >
                         <div id="Configure" class="tab-pane fade">
                         <div className="cofigurescroll">
                         <section className="img-upload">
@@ -241,27 +394,32 @@ const AssistantDashboard = () => {
                                     <div className="col-md-4">
                                         <h6 className='mb-0'>Name</h6>
                                         <label htmlFor="" className='mb-2'>What name will your assistant go by </label>
-                                        <input type="text" className='form-control' placeholder='Bright Horizons Realty' />
+                                        <input type="text" className='form-control' name='name' value={formData.name} onChange={handleInputChange} placeholder='Bright Horizons Realty' />
                                     </div>
                                     <div className="col-md-4">
                                         <h6 className='mb-0'>Assitant Type</h6>
                                         <label htmlFor="" className='mb-2'>
                                             assistant's role
                                         </label>
-                                        <select name="" id="" className='form-select'>
-                                            <option value="">
-                                            Voice
-                                                {/* <div>GPT-4 Turbo <small> Open AI </small></div> */}
-                                            </option>
-                                            <option value="">Email</option>
-                                            <option value="">Chat</option>
-                                            <option value="">SMS</option>
+
+                                        <select  id="" name='type' value={formData.type} onChange={handleInputChange}  className='form-select'>
+                                        <option value="">--Select--</option>
+                                        <option value="voice_incoming">voice incoming</option>
+                                        <option value="voice_outgoing">voice outgoing</option>
+                                        <option value="voice_both">voice both</option>
+                                        <option value="live_agent">live agent</option>
+
+                                            {/* {assistData?.map(option => (
+                                              <option key={option.id} value={option.id}>
+                                                {option.name}
+                                              </option>
+                                              ))} */}
                                         </select>
                                     </div>
                                     <div className="col-md-3 col-8 position-relative">
                                         <h6 className='mb-0'>Name</h6>
                                         <label htmlFor="" className='mb-2'>What name will your assistant go by </label>
-                                        <input type="text" className='form-control' placeholder='Paul' />
+                                        <input type="text" className='form-control'  name='nikname' value={formData.nikname} onChange={handleInputChange} placeholder='Paul' />
                                         <i class="las la-pen config-pen mb-4"></i>
                                     </div>
                                     <div className="col-md-1 col-4 px-lg-0 mt-5">
@@ -276,11 +434,13 @@ const AssistantDashboard = () => {
                                         <label htmlFor="" className='mb-2'>
                                             Opt for speed or depth to suit your assistant's role
                                         </label>
-                                        <select name="" id="" className='form-select'>
-                                            <option value="">
-                                                <div>GPT-4 Turbo <small> Open AI </small></div>
-                                              
-                                            </option>
+                                        <select  name='ai_type' value={formData.ai_type} onChange={handleInputChange} id="" className='form-select'>
+                                            <option value="">--Select--</option>
+                                            {dataModel?.map(option => (
+                                              <option key={option.id} value={option.model}>
+                                                {option.model}
+                                              </option>
+                                              ))}
                                         </select>
                                     </div>
                                     <div className="col-md-6">
@@ -288,8 +448,8 @@ const AssistantDashboard = () => {
                                         <label htmlFor="" className='mb-2'>
                                         Balance voice quality and response speed
                                         </label>
-                                        <select name="" id="" className='form-select'>
-                                            <option value="">Standard</option>
+                                        <select  id="" name='synthesizer' value={formData.synthesizer} onChange={handleInputChange} className='form-select'>
+                                            <option value="Standard">Standard</option>
                                         </select>
                                     </div>
 
@@ -306,7 +466,7 @@ const AssistantDashboard = () => {
                                     <div className="col-md-6 mt-3">
                                         <h6 className='mb-0'>Custom greeting</h6>
                                         <label htmlFor="" className='mb-2'>The opening line for your assistant's call</label>
-                                        <input type="text" className='form-control' placeholder='Hey! Whom am i talkng to?' />
+                                        <input type="text" className='form-control'  name='incoming_call_greeting' value={formData.incoming_call_greeting} onChange={handleInputChange} placeholder='Hey! Whom am i talkng to?' />
                                     </div>
 
                                     <div className="col-md-6 mt-3">
@@ -337,7 +497,7 @@ const AssistantDashboard = () => {
                                       <div className="row">
                                         <div className="col-md-5 mt-3">
                                           <h6 className='mb-0'>Max daily budget <i class="las la-info-circle la-lg"></i></h6>
-                                          <input type="text" className='form-control' placeholder='USD 6' />
+                                          <input type="text" className='form-control'  name='monthly_budget' value={formData.monthly_budget} onChange={handleInputChange} placeholder='USD 6' />
                                         <p className='lh-sm'><small>
                                           When the running cost exceeds this limit, the campanign will no longer be active and you will be notified.</small>
                                         </p>
@@ -368,14 +528,23 @@ const AssistantDashboard = () => {
                                     </div>
                                     <div className="col-md-6 mt-3">
                                       <h5 className='mb-0'>Add Knowledge base</h5>
-                                      <input type="text" className='form-control' placeholder='Enter Knowlege base' />
+                                      
+                                      <select  name='kbs_id' value={formData.kbs_id} onChange={handleInputChange} id="" className='form-select'>
+                                            <option value="">--Select--</option>
+                                            {dataKnowledge?.map(option => (
+                                              <option key={option.id} value={option.id}>
+                                                {option.name}
+                                              </option>
+                                              ))}
+                                        </select>
+                                      {/* <input type="text" className='form-control' placeholder='Enter Knowlege base' /> */}
                                     </div>
 
                                     <div className="col-md-12 my-3 text-center">
                                       <button type="button" class="btn btn-outline-secondary me-3 " >
                                       Close
                                       </button>
-                                      <button type="button" class="btn btn-primary ">
+                                      <button type="submit" class="btn btn-primary ">
                                         Add intent
                                       </button>
                                     </div>
@@ -384,6 +553,7 @@ const AssistantDashboard = () => {
                           </div> 
                         
                         </div>
+                        </form>
                         {/* Configure end  */}
 
 
@@ -492,7 +662,7 @@ const AssistantDashboard = () => {
                           <div class="d-flex align-items-center">
                             <i class="ti ti-phone-call cursor-pointer d-sm-block d-none me-3"></i>
                             {/* <i class="ti ti-video cursor-pointer d-sm-block d-none me-3"></i> */}
-                            {/* <i class="ti ti-search cursor-pointer d-sm-block d-none me-3"></i> */}
+                            <i class="ti ti-search cursor-pointer d-sm-block d-none me-3"></i>
                             <div class="dropdown d-flex align-self-center">
                               <button
                                 class="btn p-0"
@@ -976,7 +1146,27 @@ const AssistantDashboard = () => {
           </div>
         </div>
       </div>
-
+      <div className="container">
+      
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          className={`toast ${showToast ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-header">
+            <strong className="me-auto"> {showToastMessge}</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleToast}
+            ></button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
 
     </>
   )

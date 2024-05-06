@@ -4,11 +4,12 @@ import env from '../../../config';
 import Header from '../../Components/Header';
 import TopMenu from '../../Components/TopMenu';
 import NewAssistantBar from '../../Components/NewAssistantBar';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../axiosInterceptor';
 import { Link } from 'react-router-dom'
 import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
 import { USER_ENDPOINTS } from '../../../config/enpoints';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = () => {
@@ -22,6 +23,12 @@ const Home = () => {
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getassist;
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+
+  // If token is not available, redirect to login page
+  if (token===null) {
+    navigate('/login');
+  }
 
   useEffect(() => {
     fetchUsers();

@@ -5,7 +5,8 @@ import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
 import { USER_ENDPOINTS } from '../../../config/enpoints';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../axiosInterceptor';
 import NewAssistantBar from '../../Components/NewAssistantBar';
 import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
 
@@ -16,6 +17,7 @@ const Actions = () => {
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getaction;
   const token = localStorage.getItem('token');
+  
 
 
   useEffect(() => {
@@ -41,6 +43,32 @@ const Actions = () => {
     };
 
     fetchUsers();
+  }, []);
+
+
+  const [voiceagents, setVoiceAgent] = useState([]);
+  const endpointVoice = USER_ENDPOINTS.agentdata;
+  useEffect(() => {
+    const fetchVoice = async () => {
+
+      try {
+        const response = await axios.get(baseurl + endpointVoice, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("responceVoice22", response.data.data);
+        setVoiceAgent(response.data.data);
+  
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+     
+
+
+    };
+
+    fetchVoice();
   }, []);
 
   const changeVoiceAgent = async (event) => {
@@ -268,8 +296,14 @@ const Actions = () => {
                     <div class="col-4 offset-4 mb-3">
                       <select id="knowledge-base-dd" onChange={changeVoiceAgent} class="form-select">
                       <option value="" selected>Select Agent</option>
-                        <option value="23" selected>gpt</option>
-                        <option value="22" selected>alex</option>
+                        {/* <option value="23" selected>gpt</option>
+                        <option value="22" selected>alex</option> */}
+                        {voiceagents.map(option => (
+
+                          <option key={option.id} value={option.id}>
+                            {option.name}
+                          </option>
+                          ))}
                       </select>
                     </div>
                   </div>
@@ -310,12 +344,12 @@ const Actions = () => {
                               <td>{value.sms.to}</td>
                               <td>{value.sms.content}</td>
                               <td style={{ width: '70px' }}>
-                                {/* <div className="d-flex acation-btns">
+                                <div className="d-flex acation-btns">
                                   <button data-bs-toggle="modal"
                                   data-bs-target="#updateUserModal" className='btn px-1'><i class="ti ti-edit ti-sm me-2"></i></button>
                                   <button data-bs-toggle="modal"
                                   data-bs-target="#deleteUserModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
-                                </div> */}
+                                </div>
                               </td>
                             </tr>
                           );
@@ -469,7 +503,13 @@ const Actions = () => {
                                 <div class="col mb-3">
                                   <label for="action-agent" class="form-label">Voice Agent</label>
                                   <select id="action-agent" class="form-select">
+                                  <option value=''>--Select--</option>
+                                  {voiceagents.map(option => (
 
+                                      <option key={option.id} value={option.id}>
+                                        {option.name}
+                                      </option>
+                                      ))}
                                   </select>
                                 </div>
                               </div>
