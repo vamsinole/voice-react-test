@@ -56,6 +56,10 @@ const Actions = () => {
 
   };
 
+  
+
+  
+
 
   const [voiceagents, setVoiceAgent] = useState([]);
   const endpointVoice = USER_ENDPOINTS.agentdata;
@@ -136,8 +140,12 @@ const Actions = () => {
 
   const endpointDelete = USER_ENDPOINTS.getaction;
   const updateActionObj = async (event) => {
-     console.log("deleteval",event)
+     console.log("updatevalorg",event)
      setActionobj(event)
+
+     setFormData(event);
+
+    console.log("updateval",formData,)
     
   };
 
@@ -167,42 +175,73 @@ const Actions = () => {
   });
 };
 
+
+
+
 const [formData, setFormData] = useState({
   assistant_id: '',
   name: "",
   action_name: "", // need to get from dilaogflow actions 
   type: "",
-  email : [
-      {
-          to: "", // can be comma seperated values 
-          cc: null,
-          subject: "",
-          content: "",
-          parameters : [
-              "",
-              ""
-          ]
-      }
+  to: "", // can be comma seperated values 
+  cc: null,
+  subject: "",
+  content: "",
+  parameters : [
+      "",
+      ""
   ],
-  sms: [
-      {
-          type: "",
-          to: "",
-          content : "",
-          parameters : []
-      }
-  ],
-  webhook : [{
-      url : "",
-      method : "",
-      body : {},
-      qs : {},
-      headers : {},
-      parameter : [""],
-      response_map : [""],
-      status_code_map : [""]
-  }]
+  smstype: "",
+  smsto: "",
+  smscontent : "",
+  smsparameters : [],
+  url : "",
+  method : "",
+  body : {},
+  qs : {},
+  headers : {},
+  parameter : [""],
+  response_map : [""],
+  status_code_map : [""]
+  
 });
+
+
+
+//unsetformData
+
+const newActionView = async (event) => {
+    
+
+  setFormData({
+    assistant_id: '',
+    name: "",
+    action_name: "", // need to get from dilaogflow actions 
+    type: "",
+    to: "", // can be comma seperated values 
+    cc: null,
+    subject: "",
+    content: "",
+    parameters : [
+        "",
+        ""
+    ],
+    smstype: "",
+    smsto: "",
+    smscontent : "",
+    smsparameters : [],
+    url : "",
+    method : "",
+    body : {},
+    qs : {},
+    headers : {},
+    parameter : [""],
+    response_map : [""],
+    status_code_map : [""]
+    
+  });
+ 
+};
 
 //create action api
 
@@ -212,7 +251,97 @@ const handleSubmit = async (event) => {
   const createvoiceAgent = USER_ENDPOINTS.getUsers;
   console.log("formdatausers", formData);
   try {
-    const response = await axios.post(baseurl + endpointCreate + Actionobj.agent_id , {formData},
+    const response = await axios.post(baseurl + endpointCreate + formData.action_name , {
+      "assistant_id": formData.assistant_id,
+      "name": formData.name,
+      "action_name": formData.action_name, // need to get from dilaogflow actions 
+      "type": formData.type,
+      "email": [
+          {
+              "to": formData.to, // can be comma seperated values 
+              "cc": formData.cc,
+              "subject": formData.subject,
+              "content": formData.content,
+              "parameters": []
+          }
+      ],
+      "sms": [
+          {
+              "type": formData.smstype,
+              "to": "",
+              "content": formData.smscontent,
+              "parameters": []
+          }
+      ],
+      "webhook": [{
+          "url" : formData.url,
+          "method" : formData.method,
+          "body" : {key:formData.bodykey,value:formData.bodyvalue},
+          "qs" : {},
+          "headers" : {key:formData.headerkey,value:formData.headervalue},
+          "parameter" : [""],
+          "response_map" : [""],
+          "status_code_map" : [""]
+      }]
+  },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Created Successfully");
+  } catch (error) {
+    setShowToast(true);
+    setShowToastMessge("Error");
+    console.error('Error fetching users:', error);
+  }
+};
+
+//UpdateAction
+
+const endpointUpdate = USER_ENDPOINTS.getaction;
+const handleUpdate = async (event) => {
+  event.preventDefault();
+  const createvoiceAgent = USER_ENDPOINTS.getUsers;
+  console.log("formdatausers", formData);
+  try {
+    const response = await axios.put(baseurl + endpointUpdate + Actionobj.agent_id+'/'+ Actionobj.id, {
+      "assistant_id": formData.assistant_id,
+      "name": formData.name,
+      "action_name": formData.action_name, // need to get from dilaogflow actions 
+      "type": formData.type,
+      "email": [
+          {
+              "to": formData.to, // can be comma seperated values 
+              "cc": formData.cc,
+              "subject": formData.subject,
+              "content": formData.content,
+              "parameters": []
+          }
+      ],
+      "sms": [
+          {
+              "type": formData.smstype,
+              "to": "",
+              "content": formData.smscontent,
+              "parameters": []
+          }
+      ],
+      "webhook": [{
+          "url" : formData.url,
+          "method" : formData.method,
+          "body" : {key:formData.bodykey,value:formData.bodyvalue},
+          "qs" : {},
+          "headers" : {key:formData.headerkey,value:formData.headervalue},
+          "parameter" : [""],
+          "response_map" : [""],
+          "status_code_map" : [""]
+      }]
+  },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -229,32 +358,6 @@ const handleSubmit = async (event) => {
     console.error('Error fetching users:', error);
   }
 };
-
-//UpdateAction
-
-const endpointUpdate = USER_ENDPOINTS.getaction;
-const handleUpdate = async (event) => {
-  event.preventDefault();
-  const createvoiceAgent = USER_ENDPOINTS.getUsers;
-  console.log("formdatausers", formData);
-  try {
-    const response = await axios.post(baseurl + endpointUpdate + Actionobj.agent_id+'/'+ Actionobj.id, {formData},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      fetchUsers();
-    setShowToast(true);
-    setShowToastMessge("Created");
-  } catch (error) {
-    setShowToast(true);
-    setShowToastMessge("Error");
-    console.error('Error fetching users:', error);
-  }
-};
 const modules = {
   toolbar: [
     [{ 'font': [] }, { 'size': [] }],
@@ -265,6 +368,94 @@ const modules = {
     ['clean']
   ],
 };
+
+
+const [assistData, setAssistData] = useState(null);
+const endpointAssist = USER_ENDPOINTS.getassist;
+useEffect(() => {
+  const fetchUsers = async () => {
+
+    try {
+      const response = await axios.get(baseurl + endpointAssist, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log("responceAssist", response.data.data)
+
+
+      setAssistData(response.data.data);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+   
+
+
+  };
+
+  fetchUsers();
+}, []);
+
+
+const [apiView, setApiView] = useState(true);
+const [mailview, setMailView] = useState(false);
+const [smsView, setSmsView] = useState(false);
+
+const [selectedValue, setSelectedValue] = useState('');
+
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+
+    const atype = event.target.value;
+
+  console.log("actionType",atype,event.target.value)
+
+  const { name, value } = event.target.value;
+  setFormData({
+    ...formData,
+    ['type']: event.target.value,
+  });
+
+  if(atype=='sms'){
+    setMailView(false)
+    setApiView(false)
+    setSmsView(true)
+  }else if(atype=='email'){
+    setSmsView(false)
+    setApiView(false)
+    setMailView(true)
+  }else{
+    setSmsView(false)
+    setMailView(false)
+    setApiView(true)
+  }
+
+  };
+
+
+  const [editorContent, setEditorContent] = useState('');
+
+  const handleEditorChange = (content) => {
+    // setEditorContent(content);
+    setFormData({
+      ...formData,
+      ['smscontent']: content,
+    });
+  };
+
+
+  
+
+  const handleEmailEditorChange = (content) => {
+    // setEditorContent(content);
+    setFormData({
+      ...formData,
+      ['content']: content,
+    });
+  };
+  
+
 
   return (
     <>
@@ -333,7 +524,7 @@ const modules = {
                       <li><a class="dropdown-item" href="#">List</a></li>
                       <li><a class="dropdown-item" href="#">Sheet</a></li>
                     </ul>
-                    <button type="button" class="btn btn-primary pull-right" data-bs-toggle="modal"
+                    <button type="button"   onClick={newActionView}  class="btn btn-primary pull-right" data-bs-toggle="modal"
                       data-bs-target="#createActionModal">
                       <span class="ti-xs ti ti-plus me-1"></span>New Action
                     </button>
@@ -545,6 +736,7 @@ const modules = {
       </div>
           
                               {/* Update User Start */}
+                              <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleUpdate} >
                               <div class="modal fade updateaction" id="updateUserModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -556,12 +748,12 @@ const modules = {
                             <div class="modal-body">
                               <div class="row">
                                 <div class="col mb-3">
-                                  <label for="action-agent" class="form-label">Voice Agent</label>
-                                  <select id="action-agent" class="form-select">
+                                  <label for="action-agent" class="form-label">Voice Agent </label>
+                                  <select id="action-agent" class="form-select" name='action_name' value={formData.action_name} onChange={handleInputChange}>
                                   <option value=''>--Select--</option>
                                   {voiceagents.map(option => (
 
-                                      <option key={option.id} value={option.id}>
+                                      <option key={option.id} value={option.id} >
                                         {option.name}
                                       </option>
                                       ))}
@@ -571,93 +763,109 @@ const modules = {
                               <div class="row">
                                 <div class="col mb-3">
                                   <label for="action-assistant" class="form-label">Assistant</label>
-                                  <select id="action-assistant" onchange="changeActionAssistant()" class="form-select">
+                                  <select id="action-assistant" name='assistant_id' value={formData.assistant_id} onChange={handleInputChange} class="form-select">
                                     <option value="" selected>Select assistant</option>
+                                    {assistData?.map(option => (
+                                              <option key={option.id} value={option.id}>
+                                                {option.name}
+                                              </option>
+                                              ))} 
                                   </select>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col mb-3">
                                   <label for="action-name" class="form-label">Name</label>
-                                  <input type="text" id="action-name" class="form-control" placeholder="Enter Name" />
+                                  <input type="text" id="action-name" name='name' value={formData.name} onChange={handleInputChange} class="form-control" placeholder="Enter Name" />
                                 </div>
                               </div>
 
                               <div class="row">
                                 <div class="col mb-3">
-                                  <label for="select-intent-picker" class="form-label">Select Intents</label>
+                                  {/* <label for="select-intent-picker" class="form-label">Select Intents</label>
                                   <select id="select-intent-picker" class="select2 form-select">
-                                  </select>
+                                  </select> */}
+                                  <label for="action-name" class="form-label">Intents</label>
+                                  <input type="text" id="action-name"  class="form-control" placeholder="Enter Intents" />
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col mb-3">
                                   <label class="form-label" for="action-type">Action type</label>
-                                  <select id="action-type" onchange="changeActionType()" class="form-select">
-                                    <option value="" selected>Select Type</option>
-                                    <option value="webhook">API</option>
+                                  <select id="action-type" name='type' onChange={handleSelectChange} value={selectedValue} class="form-select">
+                                    {/* <option value="" >Select Type</option> */}
+                                    <option value="webhook" selected>API</option>
                                     <option value="email">Send Email</option>
                                     <option value="sms">Send SMS</option>
                                   </select>
                                 </div>
                               </div>
                               {/* API SELECT START */}
+                              {apiView && (
+                              <div >
                               <div class="row">
                             <label for="action-subject" class="form-label">API headers</label>
                             <div class="row">
                               <div class="col-5 mb-3">
-                                <input type="text" class="form-control"placeholder="Key" />
+                                <input type="text" name='headerkey' value={formData.headerkey}  onChange={handleInputChange} class="form-control"placeholder="Key" />
                               </div>
                               <div class="col-5 mb-3">
-                                <input type="text" class="form-control" placeholder="Value" />
+                                <input type="text" name='headervalue' value={formData.headervalue}  onChange={handleInputChange} class="form-control" placeholder="Value" />
                               </div>
-                              <div class="col-2 mb-3">
+                              {/* <div class="col-2 mb-3">
                                 <button type="button" class="btn btn-icon btn-label-primary">
                                   <span class="ti ti-plus"></span>
                                 </button>
                                 <button type="button"  class="btn btn-icon btn-label-primary">
                                   <span class="ti ti-trash"></span>
                                 </button>
-                              </div>
+                              </div> */}
                             </div>
 
                               </div>
+                               
                               <div class="row">
                             <label for="action-subject" class="form-label">API body <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" title="Please give the API data in application/json format"></i></label>
                             <div class="col-5 mb-3">
-                              <input type="text" class="form-control" placeholder="Key" />
+                              <input type="text" class="form-control" name='bodykey' value={formData.bodykey} onChange={handleInputChange} placeholder="Key" />
                             </div>
+                            
                             <div class="col-5 mb-3">
-                              <input type="text" class="form-control" placeholder="Value" />
+                              <input type="text" class="form-control" name='bodyval' value={formData.bodyval} onChange={handleInputChange} placeholder="Value" />
                             </div>
-                            <div class="col-2 mb-3">
+                            {/* <div class="col-2 mb-3">
                               <button type="button" class="btn btn-icon btn-label-primary">
                                 <span class="ti ti-plus"></span>
                               </button>
                               <button type="button" class="btn btn-icon btn-label-primary">
                                 <span class="ti ti-trash"></span>
                               </button>
-                            </div>
+                            </div> */}
                               </div>
+                           
+                              </div>
+                               ) }
                               {/* API SELECT END */}
                               
                               {/* SEND EMAIL SELECT START */}
+                              {mailview && (
+                              <div>
                               <div class="row">
                               <div class="col mb-3">
                                 <label for="action-to-email-inp" class="form-label">To Email</label>
-                                <input type="text" class="form-control" placeholder="Enter Email" />
+                                <input type="text" class="form-control" name='to' value={formData.to} onChange={handleInputChange} placeholder="Enter Email" />
                               </div>
                               </div>
                               <div class="row">
                               <div class="col mb-3">
                                 <label for="action-cc-email-inp" class="form-label">CC</label>
-                                <input type="text" class="form-control" placeholder="CC" />
+                                <input type="text" class="form-control" name='cc' value={formData.cc} onChange={handleInputChange} placeholder="CC" />
                               </div>
                               </div>
                               <div class="row">
                               <div class="col mb-3">
                                 <label for="action-subject" class="form-label">Email Subject</label>
-                                <input type="text" class="form-control" placeholder="Enter Name" />
+                                <input type="text" class="form-control" name='subject' value={formData.subject} onChange={handleInputChange} placeholder="Enter Name" />
                               </div>
                               </div>
                               <div class="row">
@@ -666,7 +874,7 @@ const modules = {
                                 <label class="card-header">Email content</label>
                                 <div class="card-body">
                                 <ReactQuill
-                                modules={modules}
+                                modules={modules} name='content'  value={ formData.email[0].content } onChange={handleEmailEditorChange}
                                  style={{ minHeight: '300px' }}
                                 />
 
@@ -675,14 +883,18 @@ const modules = {
                               </div>
                             </div>
                               </div>
+                              </div>
+                              )}
                               {/* SEND EMAIL SELECT END */}
 
                               {/* SEND SMS START */}
+                              {smsView && (
+                              <div>
                               <div class="row" id="action-to-type">
                               <div class="col mb-3">
                                 <label class="form-label" for="action-to-type-dd">To type</label>
-                                <select id="action-to-type-dd" class="form-select">
-                                  <option value="callers" selected="">Caller</option>
+                                <select id="action-to-type-dd" name='smstype' value={formData.smstype} onChange={handleInputChange} class="form-select">
+                                  <option value="callers" selected>Caller</option>
                                   <option value="agents">Agents</option>
                                 </select>
                               </div>
@@ -693,7 +905,7 @@ const modules = {
                                 <label class="card-header">SMS content</label>
                                 <div class="card-body">
                                 <ReactQuill
-                                modules={modules}
+                                modules={modules}   value={formData.smscontent} onChange={handleEditorChange}
                                  style={{ minHeight: '300px' }}
                                 />
 
@@ -702,6 +914,8 @@ const modules = {
                               </div>
                             </div>
                               </div>
+                              </div>
+                              )}
                               {/* SEND SMS END */}
 
                             </div>
@@ -710,12 +924,13 @@ const modules = {
                                 data-bs-dismiss="modal">
                                 Close
                               </button>
-                              <button type="button" class="btn btn-primary" onclick="createAction()">
-                                <span class="ms-2">Create Action</span></button>
+                              <button type="submit" data-bs-dismiss="modal" class="btn btn-primary" onclick="createAction()">
+                                <span class="ms-2">Update Action</span></button>
                             </div>
                           </div>
                         </div>
                               </div>
+                              </form>
                   {/* Delete User Modal Start */}
                   
                   <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
@@ -751,7 +966,8 @@ const modules = {
                   </div>
 
                   {/* Create Action */}
-                  <div class="modal fade" id="createActionModal" tabindex="-1" aria-hidden="true">
+                  <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={handleSubmit} >
+                  <div class="modal fade" id="createActionModal"  tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -763,7 +979,7 @@ const modules = {
                               <div class="row">
                                 <div class="col mb-3">
                                   <label for="action-agent" class="form-label">Voice Agent</label>
-                                  <select id="action-agent" class="form-select">
+                                  <select id="action-agent" name='action_name' value={formData.action_name} onChange={handleInputChange}  class="form-select">
                                   <option value=''>--Select--</option>
                                   {voiceagents.map(option => (
 
@@ -777,93 +993,110 @@ const modules = {
                               <div class="row">
                                 <div class="col mb-3">
                                   <label for="action-assistant" class="form-label">Assistant</label>
-                                  <select id="action-assistant" onchange="changeActionAssistant()" class="form-select">
+                                  <select id="action-assistant" name='assistant_id' value={formData.assistant_id} onChange={handleInputChange}  class="form-select">
                                     <option value="" selected>Select assistant</option>
+                                    {assistData?.map(option => (
+                                              <option key={option.id} value={option.id}>
+                                                {option.name}
+                                              </option>
+                                              ))} 
                                   </select>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col mb-3">
                                   <label for="action-name" class="form-label">Name</label>
-                                  <input type="text" id="action-name" class="form-control" placeholder="Enter Name" />
+                                  <input type="text" id="action-name" name='name' value={formData.name} onChange={handleInputChange} class="form-control" placeholder="Enter Name" />
                                 </div>
                               </div>
 
                               <div class="row">
                                 <div class="col mb-3">
-                                  <label for="select-intent-picker" class="form-label">Select Intents</label>
-                                  <select id="select-intent-picker" class="select2 form-select">
-                                  </select>
+                                  {/* <label for="select-intent-picker" class="form-label">Select Intents</label> */}
+                                  {/* <select id="select-intent-picker" class="select2 form-select">
+                                  </select> */}
+                                 <label for="action-name" class="form-label">Intents</label>
+                                  <input type="text" id="action-name"  class="form-control" placeholder="Enter Intents" />
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col mb-3">
                                   <label class="form-label" for="action-type">Action type</label>
-                                  <select id="action-type" onchange="changeActionType()" class="form-select">
-                                    <option value="" selected>Select Type</option>
-                                    <option value="webhook">API</option>
+                                  <select id="action-type" name='type' onChange={handleSelectChange} value={selectedValue} class="form-select">
+                                    {/* <option value="" >Select Type</option> */}
+                                    <option value="webhook" selected>API</option>
                                     <option value="email">Send Email</option>
                                     <option value="sms">Send SMS</option>
                                   </select>
                                 </div>
                               </div>
                               {/* API SELECT START */}
+                              
+                              {apiView && (
+                              <div >
                               <div class="row">
                             <label for="action-subject" class="form-label">API headers</label>
                             <div class="row">
                               <div class="col-5 mb-3">
-                                <input type="text" class="form-control"placeholder="Key" />
+                                <input type="text" name='headerkey' value={formData.headerkey}  onChange={handleInputChange} class="form-control"placeholder="Key" />
                               </div>
                               <div class="col-5 mb-3">
-                                <input type="text" class="form-control" placeholder="Value" />
+                                <input type="text" name='headervalue' value={formData.headervalue}  onChange={handleInputChange} class="form-control" placeholder="Value" />
                               </div>
-                              <div class="col-2 mb-3">
+                              {/* <div class="col-2 mb-3">
                                 <button type="button" class="btn btn-icon btn-label-primary">
                                   <span class="ti ti-plus"></span>
                                 </button>
                                 <button type="button"  class="btn btn-icon btn-label-primary">
                                   <span class="ti ti-trash"></span>
                                 </button>
-                              </div>
+                              </div> */}
                             </div>
 
                               </div>
+                               
                               <div class="row">
                             <label for="action-subject" class="form-label">API body <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" title="Please give the API data in application/json format"></i></label>
                             <div class="col-5 mb-3">
-                              <input type="text" class="form-control" placeholder="Key" />
+                              <input type="text" class="form-control" name='bodykey' value={formData.bodykey} onChange={handleInputChange} placeholder="Key" />
                             </div>
+                            
                             <div class="col-5 mb-3">
-                              <input type="text" class="form-control" placeholder="Value" />
+                              <input type="text" class="form-control" name='bodyval' value={formData.bodyval} onChange={handleInputChange} placeholder="Value" />
                             </div>
-                            <div class="col-2 mb-3">
+                            {/* <div class="col-2 mb-3">
                               <button type="button" class="btn btn-icon btn-label-primary">
                                 <span class="ti ti-plus"></span>
                               </button>
                               <button type="button" class="btn btn-icon btn-label-primary">
                                 <span class="ti ti-trash"></span>
                               </button>
-                            </div>
+                            </div> */}
                               </div>
+                           
+                              </div>
+                               ) }
                               {/* API SELECT END */}
                               
                               {/* SEND EMAIL SELECT START */}
+                              {mailview && (
+                              <div>
                               <div class="row">
                               <div class="col mb-3">
                                 <label for="action-to-email-inp" class="form-label">To Email</label>
-                                <input type="text" class="form-control" placeholder="Enter Email" />
+                                <input type="text" class="form-control" name='to' value={formData.to} onChange={handleInputChange} placeholder="Enter Email" />
                               </div>
                               </div>
                               <div class="row">
                               <div class="col mb-3">
                                 <label for="action-cc-email-inp" class="form-label">CC</label>
-                                <input type="text" class="form-control" placeholder="CC" />
+                                <input type="text" class="form-control" name='cc' value={formData.cc} onChange={handleInputChange} placeholder="CC" />
                               </div>
                               </div>
                               <div class="row">
                               <div class="col mb-3">
                                 <label for="action-subject" class="form-label">Email Subject</label>
-                                <input type="text" class="form-control" placeholder="Enter Name" />
+                                <input type="text" class="form-control" name='subject' value={formData.subject} onChange={handleInputChange} placeholder="Enter Name" />
                               </div>
                               </div>
                               <div class="row">
@@ -872,7 +1105,7 @@ const modules = {
                                 <label class="card-header">Email content</label>
                                 <div class="card-body">
                                 <ReactQuill
-                                modules={modules}
+                                modules={modules}  value={formData.content} onChange={handleEmailEditorChange}
                                  style={{ minHeight: '300px' }}
                                 />
 
@@ -881,14 +1114,18 @@ const modules = {
                               </div>
                             </div>
                               </div>
+                              </div>
+                              )}
                               {/* SEND EMAIL SELECT END */}
 
                               {/* SEND SMS START */}
+                              {smsView && (
+                              <div>
                               <div class="row" id="action-to-type">
                               <div class="col mb-3">
                                 <label class="form-label" for="action-to-type-dd">To type</label>
-                                <select id="action-to-type-dd" class="form-select">
-                                  <option value="callers" selected="">Caller</option>
+                                <select id="action-to-type-dd" name='smstype' value={formData.smstype} onChange={handleInputChange} class="form-select">
+                                  <option value="callers" selected>Caller</option>
                                   <option value="agents">Agents</option>
                                 </select>
                               </div>
@@ -899,7 +1136,7 @@ const modules = {
                                 <label class="card-header">SMS content</label>
                                 <div class="card-body">
                                 <ReactQuill
-                                modules={modules}
+                                modules={modules}   value={formData.smscontent} onChange={handleEditorChange}
                                  style={{ minHeight: '300px' }}
                                 />
 
@@ -908,6 +1145,8 @@ const modules = {
                               </div>
                             </div>
                               </div>
+                              </div>
+                              )}
                               {/* SEND SMS END */}
 
                             </div>
@@ -916,12 +1155,13 @@ const modules = {
                                 data-bs-dismiss="modal">
                                 Close
                               </button>
-                              <button type="button" class="btn btn-primary" onclick="createAction()">
+                              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" >
                                 <span class="ms-2">Create Action</span></button>
                             </div>
                           </div>
                         </div>
                       </div>
+                      </form>
 
 
 
