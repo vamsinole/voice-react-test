@@ -16,9 +16,6 @@ import 'react-quill/dist/quill.snow.css';
   
 
 const Actions = () => {
-<<<<<<< HEAD
-  
-=======
 
   const [showToast, setShowToast] = useState(false);
   const [showToastMessge, setShowToastMessge] = useState(false);
@@ -26,7 +23,6 @@ const Actions = () => {
     setShowToast(!showToast);
   };
 
->>>>>>> 57ec0c491a67ed55ef5008b4f6c795ee5d001fda
 
   const [dataFromApi, setDataFromApi] = useState(null);
   const baseurl = env.baseUrl;
