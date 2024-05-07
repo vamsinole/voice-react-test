@@ -16,7 +16,17 @@ import 'react-quill/dist/quill.snow.css';
   
 
 const Actions = () => {
+<<<<<<< HEAD
   
+=======
+
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
+
+>>>>>>> 57ec0c491a67ed55ef5008b4f6c795ee5d001fda
 
   const [dataFromApi, setDataFromApi] = useState(null);
   const baseurl = env.baseUrl;
@@ -26,31 +36,31 @@ const Actions = () => {
 
 
   useEffect(() => {
-    
-    const fetchUsers = async () => {
-
-      try {
-        const response = await axios.get(baseurl + endpoint + '23', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        console.log("responceActions", response.data.data)
-  
-  
-        setDataFromApi(response.data.data);
-  
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-     
-
-
-    };
-
     fetchUsers();
   }, []);
-  
+
+  const fetchUsers = async () => {
+
+    try {
+      const response = await axios.get(baseurl + endpoint + '23', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log("responceActions", response.data.data)
+
+
+      setDataFromApi(response.data.data);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+   
+
+
+  };
+
+
   const [voiceagents, setVoiceAgent] = useState([]);
   const endpointVoice = USER_ENDPOINTS.agentdata;
   useEffect(() => {
@@ -123,17 +133,133 @@ const Actions = () => {
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
   };
-  const modules = {
-    toolbar: [
-      [{ 'font': [] }, { 'size': [] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ 'color': [] }, { 'background': [] }],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      ['link', 'image', 'video'],
-      ['clean']
-    ],
-  };
+
   
+
+  const [Actionobj, setActionobj] = useState('');
+
+  const endpointDelete = USER_ENDPOINTS.getaction;
+  const updateActionObj = async (event) => {
+     console.log("deleteval",event)
+     setActionobj(event)
+    
+  };
+
+  const deleteRecord = async (event) => {
+   // Make API call with the new selected value
+   try {
+     const response = await axios.delete(baseurl + endpointDelete+Actionobj.agent_id+'/'+Actionobj.id, {
+       headers: {
+         Authorization: `Bearer ${token}`
+       }
+     });
+     fetchUsers();
+     setShowToast(true);
+     setShowToastMessge("Deleted Successfully");
+
+   } catch (error) {
+     console.error('Error fetching data:', error);
+   }
+ };
+
+
+ const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
+const [formData, setFormData] = useState({
+  assistant_id: '',
+  name: "",
+  action_name: "", // need to get from dilaogflow actions 
+  type: "",
+  email : [
+      {
+          to: "", // can be comma seperated values 
+          cc: null,
+          subject: "",
+          content: "",
+          parameters : [
+              "",
+              ""
+          ]
+      }
+  ],
+  sms: [
+      {
+          type: "",
+          to: "",
+          content : "",
+          parameters : []
+      }
+  ],
+  webhook : [{
+      url : "",
+      method : "",
+      body : {},
+      qs : {},
+      headers : {},
+      parameter : [""],
+      response_map : [""],
+      status_code_map : [""]
+  }]
+});
+
+//create action api
+
+const endpointCreate = USER_ENDPOINTS.getaction;
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const createvoiceAgent = USER_ENDPOINTS.getUsers;
+  console.log("formdatausers", formData);
+  try {
+    const response = await axios.post(baseurl + endpointCreate + Actionobj.agent_id , {formData},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Updated");
+  } catch (error) {
+    setShowToast(true);
+    setShowToastMessge("Error");
+    console.error('Error fetching users:', error);
+  }
+};
+
+//UpdateAction
+
+const endpointUpdate = USER_ENDPOINTS.getaction;
+const handleUpdate = async (event) => {
+  event.preventDefault();
+  const createvoiceAgent = USER_ENDPOINTS.getUsers;
+  console.log("formdatausers", formData);
+  try {
+    const response = await axios.post(baseurl + endpointUpdate + Actionobj.agent_id+'/'+ Actionobj.id, {formData},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Created");
+  } catch (error) {
+    setShowToast(true);
+    setShowToastMessge("Error");
+    console.error('Error fetching users:', error);
+  }
+};
+
   return (
     <>
       <div class="layout-wrapper layout-content-navbar">
@@ -361,10 +487,10 @@ const Actions = () => {
                               <td>{value.sms.content}</td>
                               <td style={{ width: '70px' }}>
                                 <div className="d-flex acation-btns">
-                                  <button data-bs-toggle="modal"
+                                  <button data-bs-toggle="modal"  onClick={() => updateActionObj(value)}
                                   data-bs-target="#updateUserModal" className='btn px-1'><i class="ti ti-edit ti-sm me-2"></i></button>
-                                  <button data-bs-toggle="modal"
-                                  data-bs-target="#deleteUserModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
+                                  <button data-bs-toggle="modal" onClick={() => updateActionObj(value)}
+                                  data-bs-target="#deleteUserModal"  className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
                                 </div>
                               </td>
                             </tr>
@@ -585,6 +711,7 @@ const Actions = () => {
                         </div>
                               </div>
                   {/* Delete User Modal Start */}
+                  
                   <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -605,7 +732,7 @@ const Actions = () => {
                             data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-primary" onclick="deleteUserApi()">
+                          <button type="button" class="btn btn-primary" onClick={deleteRecord} >
                             <span id="delete-user-button-loader" style={{ 'block' : 'none' }}>
                               <span class="spinner-border" role="status" aria-hidden="true"></span>
                               <span class="visually-hidden">Loading...</span>
@@ -789,6 +916,31 @@ const Actions = () => {
                           </div>
                         </div>
                       </div>
+
+
+
+                        
+          <div className="container">
+      
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          className={`toast ${showToast ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-header">
+            <strong className="me-auto"> {showToastMessge}</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleToast}
+            ></button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
     </>
   )
 }
