@@ -19,6 +19,10 @@ import NewAssistant from './App/Screens/NewAssistant';
 import AssistantDashboard from './App/Screens/AssistantDashboard';
 import AuthLogin from './App/Screens/AuthLogin';
 
+import LandingPage from './App/Screens/LandingPage';
+import Privacy from './App/Screens/Privacy';
+import Terms from './App/Screens/Terms';
+
 
 
 const publicRoutes = [
@@ -38,6 +42,9 @@ const publicRoutes = [
   { path: 'newassistant', component: NewAssistant },
   { path: 'assistant-dashboard', component: AssistantDashboard },
   { path: 'login', component: AuthLogin },
+  { path: 'landing', component: LandingPage },
+  { path: 'terms', component: Terms },
+  { path: 'privacy', component: Privacy },
 
 
   // { path: '*', component: Pagenotfound },
