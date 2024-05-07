@@ -20,3 +20,25 @@
   .card-title{
     margin-bottom: 0px;
   }
+
+//   .ql-snow.ql-toolbar, .ql-snow .ql-toolbar
+// {
+//   border: 0.0625rem solid #dbdade;
+// }
+// .ql-snow .ql-formats, .ql-bubble .ql-formats{
+//   display: inline-block;
+//     margin-right: 0.9375rem;
+//     vertical-align: middle;
+// }
+// .ql-snow .ql-picker{
+//   color: #6f6b7d;
+// }
+// .ql-snow .ql-picker.ql-font, .ql-bubble .ql-picker.ql-font{
+//   width: 6.75rem;
+// }
+.updateaction{
+  .modal-body{
+max-height: calc(74.8vh - 125px); 
+overflow-y: auto;
+  }
+}
