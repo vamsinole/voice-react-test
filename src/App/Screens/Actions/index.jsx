@@ -1,6 +1,6 @@
 // import React from 'react'
 import Header from '../../Components/Header'
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect, useRef  } from 'react'
 import env from '../../../config';
 import './Styles.scss';
 import TopMenu from '../../Components/TopMenu';
@@ -9,11 +9,22 @@ import { USER_ENDPOINTS } from '../../../config/enpoints';
 import axios from '../axiosInterceptor';
 import NewAssistantBar from '../../Components/NewAssistantBar';
 import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; 
+
+
+  
 
 const Actions = () => {
+
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
+
+
   const [dataFromApi, setDataFromApi] = useState(null);
-
-
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getaction;
   const token = localStorage.getItem('token');
@@ -21,29 +32,29 @@ const Actions = () => {
 
 
   useEffect(() => {
-    const fetchUsers = async () => {
-
-      try {
-        const response = await axios.get(baseurl + endpoint + '23', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        console.log("responceActions", response.data.data)
-  
-  
-        setDataFromApi(response.data.data);
-  
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-     
-
-
-    };
-
     fetchUsers();
   }, []);
+
+  const fetchUsers = async () => {
+
+    try {
+      const response = await axios.get(baseurl + endpoint + '23', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log("responceActions", response.data.data)
+
+
+      setDataFromApi(response.data.data);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+   
+
+
+  };
 
 
   const [voiceagents, setVoiceAgent] = useState([]);
@@ -118,6 +129,143 @@ const Actions = () => {
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
   };
+
+  
+
+  const [Actionobj, setActionobj] = useState('');
+
+  const endpointDelete = USER_ENDPOINTS.getaction;
+  const updateActionObj = async (event) => {
+     console.log("deleteval",event)
+     setActionobj(event)
+    
+  };
+
+  const deleteRecord = async (event) => {
+   // Make API call with the new selected value
+   try {
+     const response = await axios.delete(baseurl + endpointDelete+Actionobj.agent_id+'/'+Actionobj.id, {
+       headers: {
+         Authorization: `Bearer ${token}`
+       }
+     });
+     fetchUsers();
+     setShowToast(true);
+     setShowToastMessge("Deleted Successfully");
+
+   } catch (error) {
+     console.error('Error fetching data:', error);
+   }
+ };
+
+
+ const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
+const [formData, setFormData] = useState({
+  assistant_id: '',
+  name: "",
+  action_name: "", // need to get from dilaogflow actions 
+  type: "",
+  email : [
+      {
+          to: "", // can be comma seperated values 
+          cc: null,
+          subject: "",
+          content: "",
+          parameters : [
+              "",
+              ""
+          ]
+      }
+  ],
+  sms: [
+      {
+          type: "",
+          to: "",
+          content : "",
+          parameters : []
+      }
+  ],
+  webhook : [{
+      url : "",
+      method : "",
+      body : {},
+      qs : {},
+      headers : {},
+      parameter : [""],
+      response_map : [""],
+      status_code_map : [""]
+  }]
+});
+
+//create action api
+
+const endpointCreate = USER_ENDPOINTS.getaction;
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const createvoiceAgent = USER_ENDPOINTS.getUsers;
+  console.log("formdatausers", formData);
+  try {
+    const response = await axios.post(baseurl + endpointCreate + Actionobj.agent_id , {formData},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Updated");
+  } catch (error) {
+    setShowToast(true);
+    setShowToastMessge("Error");
+    console.error('Error fetching users:', error);
+  }
+};
+
+//UpdateAction
+
+const endpointUpdate = USER_ENDPOINTS.getaction;
+const handleUpdate = async (event) => {
+  event.preventDefault();
+  const createvoiceAgent = USER_ENDPOINTS.getUsers;
+  console.log("formdatausers", formData);
+  try {
+    const response = await axios.post(baseurl + endpointUpdate + Actionobj.agent_id+'/'+ Actionobj.id, {formData},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Created");
+  } catch (error) {
+    setShowToast(true);
+    setShowToastMessge("Error");
+    console.error('Error fetching users:', error);
+  }
+};
+const modules = {
+  toolbar: [
+    [{ 'font': [] }, { 'size': [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    ['link', 'image', 'video'],
+    ['clean']
+  ],
+};
+
   return (
     <>
       <div class="layout-wrapper layout-content-navbar">
@@ -345,10 +493,10 @@ const Actions = () => {
                               <td>{value.sms.content}</td>
                               <td style={{ width: '70px' }}>
                                 <div className="d-flex acation-btns">
-                                  <button data-bs-toggle="modal"
+                                  <button data-bs-toggle="modal"  onClick={() => updateActionObj(value)}
                                   data-bs-target="#updateUserModal" className='btn px-1'><i class="ti ti-edit ti-sm me-2"></i></button>
-                                  <button data-bs-toggle="modal"
-                                  data-bs-target="#deleteUserModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
+                                  <button data-bs-toggle="modal" onClick={() => updateActionObj(value)}
+                                  data-bs-target="#deleteUserModal"  className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
                                 </div>
                               </td>
                             </tr>
@@ -397,66 +545,179 @@ const Actions = () => {
       </div>
           
                               {/* Update User Start */}
-      <div class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel1">Update User</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              <div class="modal fade updateaction" id="updateUserModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel1">Update Action</h5>
+                              <button type="button" class="btn-close" id="create-action-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="col mb-3">
+                                  <label for="action-agent" class="form-label">Voice Agent</label>
+                                  <select id="action-agent" class="form-select">
+                                  <option value=''>--Select--</option>
+                                  {voiceagents.map(option => (
+
+                                      <option key={option.id} value={option.id}>
+                                        {option.name}
+                                      </option>
+                                      ))}
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col mb-3">
+                                  <label for="action-assistant" class="form-label">Assistant</label>
+                                  <select id="action-assistant" onchange="changeActionAssistant()" class="form-select">
+                                    <option value="" selected>Select assistant</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col mb-3">
+                                  <label for="action-name" class="form-label">Name</label>
+                                  <input type="text" id="action-name" class="form-control" placeholder="Enter Name" />
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col mb-3">
+                                  <label for="select-intent-picker" class="form-label">Select Intents</label>
+                                  <select id="select-intent-picker" class="select2 form-select">
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col mb-3">
+                                  <label class="form-label" for="action-type">Action type</label>
+                                  <select id="action-type" onchange="changeActionType()" class="form-select">
+                                    <option value="" selected>Select Type</option>
+                                    <option value="webhook">API</option>
+                                    <option value="email">Send Email</option>
+                                    <option value="sms">Send SMS</option>
+                                  </select>
+                                </div>
+                              </div>
+                              {/* API SELECT START */}
+                              <div class="row">
+                            <label for="action-subject" class="form-label">API headers</label>
+                            <div class="row">
+                              <div class="col-5 mb-3">
+                                <input type="text" class="form-control"placeholder="Key" />
+                              </div>
+                              <div class="col-5 mb-3">
+                                <input type="text" class="form-control" placeholder="Value" />
+                              </div>
+                              <div class="col-2 mb-3">
+                                <button type="button" class="btn btn-icon btn-label-primary">
+                                  <span class="ti ti-plus"></span>
+                                </button>
+                                <button type="button"  class="btn btn-icon btn-label-primary">
+                                  <span class="ti ti-trash"></span>
+                                </button>
+                              </div>
+                            </div>
+
+                              </div>
+                              <div class="row">
+                            <label for="action-subject" class="form-label">API body <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" title="Please give the API data in application/json format"></i></label>
+                            <div class="col-5 mb-3">
+                              <input type="text" class="form-control" placeholder="Key" />
+                            </div>
+                            <div class="col-5 mb-3">
+                              <input type="text" class="form-control" placeholder="Value" />
+                            </div>
+                            <div class="col-2 mb-3">
+                              <button type="button" class="btn btn-icon btn-label-primary">
+                                <span class="ti ti-plus"></span>
+                              </button>
+                              <button type="button" class="btn btn-icon btn-label-primary">
+                                <span class="ti ti-trash"></span>
+                              </button>
+                            </div>
+                              </div>
+                              {/* API SELECT END */}
+                              
+                              {/* SEND EMAIL SELECT START */}
+                              <div class="row">
+                              <div class="col mb-3">
+                                <label for="action-to-email-inp" class="form-label">To Email</label>
+                                <input type="text" class="form-control" placeholder="Enter Email" />
+                              </div>
+                              </div>
+                              <div class="row">
+                              <div class="col mb-3">
+                                <label for="action-cc-email-inp" class="form-label">CC</label>
+                                <input type="text" class="form-control" placeholder="CC" />
+                              </div>
+                              </div>
+                              <div class="row">
+                              <div class="col mb-3">
+                                <label for="action-subject" class="form-label">Email Subject</label>
+                                <input type="text" class="form-control" placeholder="Enter Name" />
+                              </div>
+                              </div>
+                              <div class="row">
+                            <div class="col-12">
+                              <div class="card">
+                                <label class="card-header">Email content</label>
+                                <div class="card-body">
+                                <ReactQuill
+                                modules={modules}
+                                 style={{ minHeight: '300px' }}
+                                />
+
+                                
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                              {/* SEND EMAIL SELECT END */}
+
+                              {/* SEND SMS START */}
+                              <div class="row" id="action-to-type">
+                              <div class="col mb-3">
+                                <label class="form-label" for="action-to-type-dd">To type</label>
+                                <select id="action-to-type-dd" class="form-select">
+                                  <option value="callers" selected="">Caller</option>
+                                  <option value="agents">Agents</option>
+                                </select>
+                              </div>
+                              </div>
+                              <div class="row">
+                            <div class="col-12">
+                              <div class="card">
+                                <label class="card-header">SMS content</label>
+                                <div class="card-body">
+                                <ReactQuill
+                                modules={modules}
+                                 style={{ minHeight: '300px' }}
+                                />
+
+                                
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                              {/* SEND SMS END */}
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-label-secondary" id="create-user-modal-close"
+                                data-bs-dismiss="modal">
+                                Close
+                              </button>
+                              <button type="button" class="btn btn-primary" onclick="createAction()">
+                                <span class="ms-2">Create Action</span></button>
+                            </div>
+                          </div>
                         </div>
-                        <div class="modal-body">
-                          <div class="row">
-                            <div class="col mb-3">
-                              <label for="update-user-main-name" class="form-label">Name</label>
-                              <input type="text" id="update-user-main-name" class="form-control"
-                                placeholder="Enter Name" />
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col mb-3">
-                              <label for="update-user-main-email" class="form-label">Email</label>
-                              <input type="text" id="update-user-main-email" class="form-control"
-                                placeholder="Enter email" />
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col mb-3">
-                              <label for="update-user-main-phone" class="form-label">Phone</label>
-                              <input type="email" id="update-user-main-phone" class="form-control"
-                                placeholder="658 799 8941" />
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col mb-3">
-                              <label for="update-user-main-website" class="form-label">Website</label>
-                              <input type="text" id="update-user-main-website" class="form-control"
-                                placeholder="Enter Webiste" />
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col mb-3">
-                              <label for="update-user-main-address" class="form-label">Address</label>
-                              <input type="text" id="update-user-main-address" class="form-control"
-                                placeholder="Address" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-label-secondary" id="update-user-modal-close"
-                            data-bs-dismiss="modal">
-                            Close
-                          </button>
-                          <button type="button" class="btn btn-primary" onclick="updateUserApi()"><span
-                              id="update-user-button-loader" style={{ 'block' : 'none' }}>
-                              <span class="spinner-border" role="status" aria-hidden="true"></span>
-                              <span class="visually-hidden">Loading...</span>
-                            </span>
-                            <span class="ms-2">Save Changes</span></button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                              </div>
                   {/* Delete User Modal Start */}
+                  
                   <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -477,7 +738,7 @@ const Actions = () => {
                             data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-primary" onclick="deleteUserApi()">
+                          <button type="button" class="btn btn-primary" onClick={deleteRecord} >
                             <span id="delete-user-button-loader" style={{ 'block' : 'none' }}>
                               <span class="spinner-border" role="status" aria-hidden="true"></span>
                               <span class="visually-hidden">Loading...</span>
@@ -546,7 +807,109 @@ const Actions = () => {
                                   </select>
                                 </div>
                               </div>
-                             
+                              {/* API SELECT START */}
+                              <div class="row">
+                            <label for="action-subject" class="form-label">API headers</label>
+                            <div class="row">
+                              <div class="col-5 mb-3">
+                                <input type="text" class="form-control"placeholder="Key" />
+                              </div>
+                              <div class="col-5 mb-3">
+                                <input type="text" class="form-control" placeholder="Value" />
+                              </div>
+                              <div class="col-2 mb-3">
+                                <button type="button" class="btn btn-icon btn-label-primary">
+                                  <span class="ti ti-plus"></span>
+                                </button>
+                                <button type="button"  class="btn btn-icon btn-label-primary">
+                                  <span class="ti ti-trash"></span>
+                                </button>
+                              </div>
+                            </div>
+
+                              </div>
+                              <div class="row">
+                            <label for="action-subject" class="form-label">API body <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" title="Please give the API data in application/json format"></i></label>
+                            <div class="col-5 mb-3">
+                              <input type="text" class="form-control" placeholder="Key" />
+                            </div>
+                            <div class="col-5 mb-3">
+                              <input type="text" class="form-control" placeholder="Value" />
+                            </div>
+                            <div class="col-2 mb-3">
+                              <button type="button" class="btn btn-icon btn-label-primary">
+                                <span class="ti ti-plus"></span>
+                              </button>
+                              <button type="button" class="btn btn-icon btn-label-primary">
+                                <span class="ti ti-trash"></span>
+                              </button>
+                            </div>
+                              </div>
+                              {/* API SELECT END */}
+                              
+                              {/* SEND EMAIL SELECT START */}
+                              <div class="row">
+                              <div class="col mb-3">
+                                <label for="action-to-email-inp" class="form-label">To Email</label>
+                                <input type="text" class="form-control" placeholder="Enter Email" />
+                              </div>
+                              </div>
+                              <div class="row">
+                              <div class="col mb-3">
+                                <label for="action-cc-email-inp" class="form-label">CC</label>
+                                <input type="text" class="form-control" placeholder="CC" />
+                              </div>
+                              </div>
+                              <div class="row">
+                              <div class="col mb-3">
+                                <label for="action-subject" class="form-label">Email Subject</label>
+                                <input type="text" class="form-control" placeholder="Enter Name" />
+                              </div>
+                              </div>
+                              <div class="row">
+                            <div class="col-12">
+                              <div class="card">
+                                <label class="card-header">Email content</label>
+                                <div class="card-body">
+                                <ReactQuill
+                                modules={modules}
+                                 style={{ minHeight: '300px' }}
+                                />
+
+                                
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                              {/* SEND EMAIL SELECT END */}
+
+                              {/* SEND SMS START */}
+                              <div class="row" id="action-to-type">
+                              <div class="col mb-3">
+                                <label class="form-label" for="action-to-type-dd">To type</label>
+                                <select id="action-to-type-dd" class="form-select">
+                                  <option value="callers" selected="">Caller</option>
+                                  <option value="agents">Agents</option>
+                                </select>
+                              </div>
+                              </div>
+                              <div class="row">
+                            <div class="col-12">
+                              <div class="card">
+                                <label class="card-header">SMS content</label>
+                                <div class="card-body">
+                                <ReactQuill
+                                modules={modules}
+                                 style={{ minHeight: '300px' }}
+                                />
+
+                                
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                              {/* SEND SMS END */}
+
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-label-secondary" id="create-user-modal-close"
@@ -559,6 +922,31 @@ const Actions = () => {
                           </div>
                         </div>
                       </div>
+
+
+
+                        
+          <div className="container">
+      
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          className={`toast ${showToast ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-header">
+            <strong className="me-auto"> {showToastMessge}</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleToast}
+            ></button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
     </>
   )
 }

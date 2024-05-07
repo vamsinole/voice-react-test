@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom'
 
 const Knowledge = () => {
 
+  const [fileloading, setfileLoading] = useState(false);
+
   const [showToast, setShowToast] = useState(false);
   const [showToastMessge, setShowToastMessge] = useState(false);
   const toggleToast = () => {
@@ -292,7 +294,7 @@ const handleFileChange = (event) => {
 
 const handleSubmitfile = async (event) => {
   event.preventDefault();
-
+  setfileLoading(true)
   if (!selectedFile) {
     console.error('No file selected');
     return;
@@ -320,6 +322,7 @@ console.log("selectedValue",selectedValuedrop)
       fetchVoiceAgents();
     setShowToast(true);
     setShowToastMessge("Url Added");
+    setfileLoading(false)
   } catch (error) {
     console.error('Error fetching users:', error);
   }
@@ -825,8 +828,17 @@ console.log("selectedValue",selectedValuedrop)
                   </button>
                   <button type="submit"  data-bs-dismiss="modal" class="btn btn-primary" onclick="addFile()"><span id="add-file-button-loader"
                        style={{ 'block' : 'none' }}>
-                      <span class="spinner-border" role="status" aria-hidden="true"></span>
-                      <span class="visually-hidden">Loading...</span>
+                      
+                     
+                      {/* {loading ? (<span class="visually-hidden">Loading...</span>) : (} */}
+
+                        {fileloading ? (
+                          <span class="spinner-border" role="status" aria-hidden="true"></span>
+                          // <span class="visually-hidden">dsfdLoading...</span>
+                        ) : (
+                        <span></span>
+                        )}
+
                     </span>
                     <span class="ms-2">Add File</span></button>
                 </div>
