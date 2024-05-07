@@ -24,7 +24,7 @@ axiosInstance.interceptors.request.use(
     if (token===null) {
      
       //navigate('/login');
-      window.location.href = 'http://dev.contactswing.com/login';
+      window.location.href = window.location.origin+'/login';
       // Redirect to login page
       // history.push('/login');
       // return Promise.reject('No token available. Redirecting to login.');
