@@ -255,6 +255,16 @@ const handleUpdate = async (event) => {
     console.error('Error fetching users:', error);
   }
 };
+const modules = {
+  toolbar: [
+    [{ 'font': [] }, { 'size': [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    ['link', 'image', 'video'],
+    ['clean']
+  ],
+};
 
   return (
     <>
