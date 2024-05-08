@@ -301,6 +301,23 @@ const deleteAssist = async (event) => {
   }
 };
 
+const [selectAll, setSelectAll] = useState(false);
+const [selectedItems, setSelectedItems] = useState([]);
+const handleSelectAll = (e) => {
+  const isChecked = e.target.checked;
+  setSelectAll(isChecked);
+  setSelectedItems(isChecked ? dataFromApi.map(item => item.id) : []);
+};
+const handleCheckboxChange = (e, id) => {
+  const isChecked = e.target.checked;
+  if (isChecked) {
+    setSelectedItems(prev => [...prev, id]);
+  } else {
+    setSelectedItems(prev => prev.filter(item => item !== id));
+  }
+};
+
+
   return (
     <>
             <div className="layout-wrapper layout-content-navbar">
@@ -494,9 +511,15 @@ const deleteAssist = async (event) => {
                                       <tr className='position-sticky top-0 z-1 bg-white'>
                                         <th className='w-px-14'>
                                         <div class="form-check mb-0">
-                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
-                                  <label class="form-check-label" for="email-1"></label>
-                                </div>
+                                        <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              checked={selectAll}
+                                              onChange={handleSelectAll}
+                                            />
+                                        {/* <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" /> */}
+                                        <label class="form-check-label" for="email-1"></label>
+                                      </div>
                                         </th>
                                         <th>NAME</th>
                                         <th>MODEL</th>
@@ -506,7 +529,34 @@ const deleteAssist = async (event) => {
                                       </tr>
                                     </thead>
                                     <tbody>
-                                    {dataFromApi ? dataFromApi.map((value, key) => {
+                                      {dataFromApi.map((value, key) => (
+                                      <tr key={key}>
+                                        <td className='w-px-14'>
+                                          <div className="form-check mb-0">
+                                            <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              checked={selectedItems.includes(value.id)}
+                                              onChange={(e) => handleCheckboxChange(e, value.id)}
+                                            />
+                                            <label className="form-check-label"></label>
+                                          </div>
+                                        </td>
+                                        <td>{value.name}</td>
+                                        <td>{value.model}</td>
+                                        <td>{value.instruc}</td>
+                                        <td>{value.type}</td>
+                                        <td style={{ width: '70px' }}>
+                                          <div className="d-flex action-btns">
+                                          <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
+                                  data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
+                                                <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
+                                  data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                    {/* {dataFromApi ? dataFromApi.map((value, key) => {
                                         return (
                                           <tr key={key}>
                                             <td className='w-px-14'>
@@ -521,8 +571,7 @@ const deleteAssist = async (event) => {
                                             <td>{value.type}</td>
                                             <td style={{ width: '70px' }}>
                                               <div className="d-flex acation-btns">
-                                              {/* <button  data-bs-toggle="modal"
-                                  data-bs-target="#updateAssistantModal" className='btn px-1'><i class="ti ti-message ti-sm me-2"></i></button> */}
+                                              
                                                 <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
                                   data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
                                                 <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
@@ -531,7 +580,7 @@ const deleteAssist = async (event) => {
                                             </td>
                                           </tr>
                                         );
-                                      }) : null}
+                                      }) : null} */}
                                     </tbody>
                                     
                                   </table>

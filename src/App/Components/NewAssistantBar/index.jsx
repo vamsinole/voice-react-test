@@ -4,32 +4,7 @@ import React, {  useState, useRef, useEffect} from 'react'
 import './Styles.scss';
 
 const NewAssistantBar = () => {
-    // const handleDropdownClick = (event) => {
-       
-    //     event.stopPropagation();
-    // };
     
-   
-    // const [show, setShow] = useState(false);
-    // const dropdownRef = useRef(null);
-    
-    
-    
-    // useEffect(() => {
-    //     function handleClickOutside(event) {
-    //         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-    //             setShow(false);
-    //         }
-    //     }
-    
-    //     document.addEventListener('mousedown', handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleClickOutside);
-    //     };
-    // }, [dropdownRef]);
-    
-    
-    // const toggleDropdown = () => setShow(!show);
     return (
         <>
                     
@@ -60,7 +35,7 @@ const NewAssistantBar = () => {
                       </button>
                       <i class="ti ti-bell ti-md"></i>
                       <i class="lab la-gg-circle"></i>
-                      <i class="ti ti-settings ti-md"></i>
+                      <Link className="nav-link" to="/userscontrols"><i class="ti ti-settings ti-md"></i></Link>
                       <div className="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                                 <ul className="navbar-nav flex-row align-items-center ms-auto">
 

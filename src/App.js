@@ -18,6 +18,8 @@ import Emails from './App/Screens/Emails';
 import NewAssistant from './App/Screens/NewAssistant';
 import AssistantDashboard from './App/Screens/AssistantDashboard';
 import AuthLogin from './App/Screens/AuthLogin';
+import Setting from './App/Screens/Setting';
+import UsersControls from './App/Screens/UsersControls';
 
 
 
@@ -38,6 +40,8 @@ const publicRoutes = [
   { path: 'newassistant', component: NewAssistant },
   { path: 'assistant-dashboard', component: AssistantDashboard },
   { path: 'login', component: AuthLogin },
+  { path: 'setting', component: Setting },
+  { path: 'userscontrols', component: UsersControls },
   
 
   // { path: '*', component: Pagenotfound },
@@ -45,7 +49,7 @@ const publicRoutes = [
 
 function App() {
 
-  localStorage.removeItem('token')
+  // localStorage.removeItem('token')
   
   return (
     <>
