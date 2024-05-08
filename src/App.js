@@ -49,7 +49,6 @@ const publicRoutes = [
 
 function App() {
 
-  // localStorage.removeItem('token')
   
   return (
     <>
