@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -31,7 +33,7 @@ const TopMenu = () => {
                 <div className="avatar avatar-online">
                   <img
                     src="assets/img/avatars/1.png"
-                    alt
+                    alt="Avatar"
                     className="h-auto rounded-circle"
                   />
                 </div>
@@ -47,7 +49,7 @@ const TopMenu = () => {
                         <div className="avatar avatar-online">
                           <img
                             src="assets/img/avatars/1.png"
-                            alt
+                            alt="Avatar other"
                             className="h-auto rounded-circle"
                           />
                         </div>

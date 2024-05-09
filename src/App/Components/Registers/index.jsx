@@ -1,18 +1,8 @@
-import React, { useState } from 'react'
-import '../Login/Styles.scss'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
+import React from "react";
+import "../Login/Styles.scss";
 
 const Register = () => {
-  
+  return <></>;
+};
 
-  
-  return (
-    <>
-    
-    </>
-  )
-}
-
-export default Register
+export default Register;

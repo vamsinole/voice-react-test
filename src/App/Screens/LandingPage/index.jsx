@@ -334,12 +334,18 @@ const LandingPage = () => {
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link fw-medium" href="#landingFeatures">
+                        <a
+                          className="nav-link fw-medium"
+                          href="#landingFeatures"
+                        >
                           Features
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link fw-medium" href="#landingContact">
+                        <a
+                          className="nav-link fw-medium"
+                          href="#landingContact"
+                        >
                           Contact us
                         </a>
                       </li>
@@ -387,7 +393,8 @@ const LandingPage = () => {
                             data-theme="system"
                           >
                             <span className="align-middle">
-                              <i className="ti ti-device-desktop me-2"></i>System
+                              <i className="ti ti-device-desktop me-2"></i>
+                              System
                             </span>
                           </a>
                         </li>
@@ -500,7 +507,10 @@ const LandingPage = () => {
                 <div className="landing-hero-blank"></div>
               </section>
 
-              <section id="landingFeatures" className="section-py landing-features">
+              <section
+                id="landingFeatures"
+                className="section-py landing-features"
+              >
                 <div className="container">
                   <div className="text-center mb-3 pb-1">
                     <span className="badge bg-label-primary">Features</span>
@@ -625,7 +635,9 @@ const LandingPage = () => {
                           alt="google docs"
                         />
                       </div>
-                      <h5 className="mb-3">Natural Language Processing (NLP)</h5>
+                      <h5 className="mb-3">
+                        Natural Language Processing (NLP)
+                      </h5>
                       <p className="features-icon-description">
                         Our bots are equipped with state-of-the-art NLP
                         capabilities, allowing them to understand and process
@@ -1266,7 +1278,9 @@ const LandingPage = () => {
               >
                 <div className="container">
                   <div className="text-center mb-3 pb-1">
-                    <span className="badge bg-label-primary">Pricing Plans</span>
+                    <span className="badge bg-label-primary">
+                      Pricing Plans
+                    </span>
                   </div>
                   <h3 className="text-center mb-1">
                     <span className="position-relative fw-bold z-1">
@@ -1751,7 +1765,10 @@ const LandingPage = () => {
                             </li>
                           </ul>
                           <div className="d-grid mt-4 pt-3">
-                            <a href="payment-page.html" className="btn btn-primary">
+                            <a
+                              href="payment-page.html"
+                              className="btn btn-primary"
+                            >
                               Get Started
                             </a>
                           </div>
@@ -2345,7 +2362,10 @@ const LandingPage = () => {
                                 ></textarea>
                               </div>
                               <div className="col-12">
-                                <button type="submit" className="btn btn-primary">
+                                <button
+                                  type="submit"
+                                  className="btn btn-primary"
+                                >
                                   Send inquiry
                                 </button>
                               </div>
