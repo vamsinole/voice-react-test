@@ -529,7 +529,7 @@ const handleCheckboxChange = (e, id) => {
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      {dataFromApi.map((value, key) => (
+                                      {dataFromApi && dataFromApi.map((value, key) => (
                                       <tr key={key}>
                                         <td className='w-px-14'>
                                           <div className="form-check mb-0">
