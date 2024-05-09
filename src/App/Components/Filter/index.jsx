@@ -11,9 +11,9 @@ const Filter = ({ options }) => {
 
   return (
     <div className="col-md-4">
-      <span class="dropdown FilterDropdown">
-        <button onClick={toggleColumn} class="btn" type="button">
-          <i class="ti ti-filter ti-md"></i>
+      <span className="dropdown FilterDropdown">
+        <button onClick={toggleColumn} className="btn" type="button">
+          <i className="ti ti-filter ti-md"></i>
         </button>
       </span>
     </div>

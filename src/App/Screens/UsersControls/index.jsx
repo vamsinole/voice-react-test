@@ -286,22 +286,22 @@ const UsersControls = () => {
 
   return (
     <>
-      <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
+      <div className="layout-wrapper layout-content-navbar">
+        <div className="layout-container">
           <SettingControls />
           <div className="layout-page">
             <NewAssistantBar />
-            <div class="content-wrapper">
-              <div class="container-fluid flex-grow-1 container-p-y pt-0">
+            <div className="content-wrapper">
+              <div className="container-fluid flex-grow-1 container-p-y pt-0">
                 <div className="row">
                   <div className=""></div>
                   <div className="py-4">
-                    <div class="nav-align-top nav-tabs-shadow mb-4">
-                      <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
+                    <div className="nav-align-top nav-tabs-shadow mb-4">
+                      <ul className="nav nav-tabs" role="tablist">
+                        <li className="nav-item">
                           <button
                             type="button"
-                            class="nav-link active"
+                            className="nav-link active"
                             role="tab"
                             data-bs-toggle="tab"
                             data-bs-target="#navs-top-users"
@@ -311,10 +311,10 @@ const UsersControls = () => {
                             Users
                           </button>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <button
                             type="button"
-                            class="nav-link"
+                            className="nav-link"
                             role="tab"
                             data-bs-toggle="tab"
                             data-bs-target="#navs-top-profiles"
@@ -324,10 +324,10 @@ const UsersControls = () => {
                             Profiles
                           </button>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <button
                             type="button"
-                            class="nav-link"
+                            className="nav-link"
                             role="tab"
                             data-bs-toggle="tab"
                             data-bs-target="#navs-top-roles"
@@ -337,10 +337,10 @@ const UsersControls = () => {
                             Roles
                           </button>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <button
                             type="button"
-                            class="nav-link"
+                            className="nav-link"
                             role="tab"
                             data-bs-toggle="tab"
                             data-bs-target="#navs-top-compliance"
@@ -351,20 +351,20 @@ const UsersControls = () => {
                           </button>
                         </li>
                       </ul>
-                      <div class="tab-content setting-controls">
+                      <div className="tab-content setting-controls">
                         <div
-                          class="tab-pane fade show active"
+                          className="tab-pane fade show active"
                           id="navs-top-users"
                           role="tabpanel"
                         >
-                          <div class="col-12">
-                            <div class="card-header row">
-                              <div class="col-4">
-                                <ul class="nav nav-tabs" role="tablist">
-                                  <li class="nav-item">
+                          <div className="col-12">
+                            <div className="card-header row">
+                              <div className="col-4">
+                                <ul className="nav nav-tabs" role="tablist">
+                                  <li className="nav-item">
                                     <button
                                       type="button"
-                                      class="nav-link active"
+                                      className="nav-link active"
                                       role="tab"
                                       data-bs-toggle="tab"
                                       data-bs-target="#navs-top-usersActive"
@@ -377,10 +377,10 @@ const UsersControls = () => {
                                       </span>
                                     </button>
                                   </li>
-                                  <li class="nav-item">
+                                  <li className="nav-item">
                                     <button
                                       type="button"
-                                      class="nav-link"
+                                      className="nav-link"
                                       role="tab"
                                       data-bs-toggle="tab"
                                       data-bs-target="#navs-top-usersInactive"
@@ -393,10 +393,10 @@ const UsersControls = () => {
                                       </span>
                                     </button>
                                   </li>
-                                  <li class="nav-item">
+                                  <li className="nav-item">
                                     <button
                                       type="button"
-                                      class="nav-link"
+                                      className="nav-link"
                                       role="tab"
                                       data-bs-toggle="tab"
                                       data-bs-target="#navs-top-usersInvited"
@@ -406,10 +406,10 @@ const UsersControls = () => {
                                       Invited
                                     </button>
                                   </li>
-                                  <li class="nav-item">
+                                  <li className="nav-item">
                                     <button
                                       type="button"
-                                      class="nav-link"
+                                      className="nav-link"
                                       role="tab"
                                       data-bs-toggle="tab"
                                       data-bs-target="#navs-top-deleted"
@@ -424,37 +424,37 @@ const UsersControls = () => {
                                   </li>
                                 </ul>
                               </div>
-                              <div class="col-4">
+                              <div className="col-4">
                                 <button
                                   type="button"
-                                  class="btn btn-primary pull-right"
+                                  className="btn btn-primary pull-right"
                                   data-bs-toggle="offcanvas"
                                   data-bs-target="#offcanvasAddAgent"
                                   aria-controls="offcanvasAddAgent"
                                 >
-                                  <span class="ti-xs ti ti-plus me-1"></span>New
-                                  User
+                                  <span className="ti-xs ti ti-plus me-1"></span>
+                                  New User
                                 </button>
 
-                                {/* <button type="button" class="btn btn-primary pull-right rounded-pill" data-bs-toggle="modal"
+                                {/* <button type="button" className="btn btn-primary pull-right rounded-pill" data-bs-toggle="modal"
                                   data-bs-target="#newUser">
-                                  <span class="ti-xs ti ti-plus me-1"></span>New User
+                                  <span className="ti-xs ti ti-plus me-1"></span>New User
                                 </button> */}
                               </div>
                             </div>
-                            <div class="card-datatable table-responsive">
+                            <div className="card-datatable table-responsive">
                               <div className="results">
-                                <div class="tab-content">
+                                <div className="tab-content">
                                   <div
-                                    class="tab-pane fade show active"
+                                    className="tab-pane fade show active"
                                     id="navs-top-usersActive"
                                     role="tabpanel"
                                   >
-                                    <div class="col-12">
-                                      <div class="card-header row">
-                                        <div class="card">
-                                          <div class="table-responsive text-nowrap">
-                                            <table class="table table-bordered">
+                                    <div className="col-12">
+                                      <div className="card-header row">
+                                        <div className="card">
+                                          <div className="table-responsive text-nowrap">
+                                            <table className="table table-bordered">
                                               <thead>
                                                 <tr>
                                                   <th>Full Name</th>
@@ -466,10 +466,10 @@ const UsersControls = () => {
                                               <tbody>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -481,21 +481,21 @@ const UsersControls = () => {
                                                   <td className="justify-content-end d-flex">
                                                     <button
                                                       type="button"
-                                                      class="btn pull-right"
+                                                      className="btn pull-right"
                                                       data-bs-toggle="offcanvas"
                                                       data-bs-target="#offcanvasEditUser"
                                                       aria-controls="offcanvasEditUser"
                                                     >
-                                                      <i class="ti ti-edit ti-sm me-2"></i>
+                                                      <i className="ti ti-edit ti-sm me-2"></i>
                                                     </button>
                                                   </td>
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -507,10 +507,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -522,10 +522,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -543,15 +543,15 @@ const UsersControls = () => {
                                     </div>
                                   </div>
                                   <div
-                                    class="tab-pane fade show "
+                                    className="tab-pane fade show "
                                     id="navs-top-usersInactive"
                                     role="tabpanel"
                                   >
-                                    <div class="col-12">
-                                      <div class="card-header row">
-                                        <div class="card">
-                                          <div class="table-responsive text-nowrap">
-                                            <table class="table table-bordered">
+                                    <div className="col-12">
+                                      <div className="card-header row">
+                                        <div className="card">
+                                          <div className="table-responsive text-nowrap">
+                                            <table className="table table-bordered">
                                               <thead>
                                                 <tr>
                                                   <th>Full Name</th>
@@ -563,10 +563,10 @@ const UsersControls = () => {
                                               <tbody>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -578,10 +578,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -593,10 +593,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -608,10 +608,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -629,15 +629,15 @@ const UsersControls = () => {
                                     </div>
                                   </div>
                                   <div
-                                    class="tab-pane fade show "
+                                    className="tab-pane fade show "
                                     id="navs-top-usersInvited"
                                     role="tabpanel"
                                   >
-                                    <div class="col-12">
-                                      <div class="card-header border-bottom row">
-                                        <div class="card">
-                                          <div class="table-responsive text-nowrap">
-                                            <table class="table table-bordered">
+                                    <div className="col-12">
+                                      <div className="card-header border-bottom row">
+                                        <div className="card">
+                                          <div className="table-responsive text-nowrap">
+                                            <table className="table table-bordered">
                                               <thead>
                                                 <tr>
                                                   <th>Full Name</th>
@@ -649,10 +649,10 @@ const UsersControls = () => {
                                               <tbody>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -664,10 +664,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -679,10 +679,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -694,10 +694,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -715,15 +715,15 @@ const UsersControls = () => {
                                     </div>
                                   </div>
                                   <div
-                                    class="tab-pane fade show "
+                                    className="tab-pane fade show "
                                     id="navs-top-deleted"
                                     role="tabpanel"
                                   >
-                                    <div class="col-12">
-                                      <div class="card-header border-bottom row">
-                                        <div class="card">
-                                          <div class="table-responsive text-nowrap">
-                                            <table class="table table-bordered">
+                                    <div className="col-12">
+                                      <div className="card-header border-bottom row">
+                                        <div className="card">
+                                          <div className="table-responsive text-nowrap">
+                                            <table className="table table-bordered">
                                               <thead>
                                                 <tr>
                                                   <th>Full Name</th>
@@ -735,10 +735,10 @@ const UsersControls = () => {
                                               <tbody>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -750,10 +750,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -765,10 +765,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -780,10 +780,10 @@ const UsersControls = () => {
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                    <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                                    <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                       K
                                                     </i>
-                                                    <span class="fw-medium">
+                                                    <span className="fw-medium">
                                                       Kumar
                                                     </span>
                                                   </td>
@@ -806,36 +806,36 @@ const UsersControls = () => {
                           </div>
                         </div>
                         <div
-                          class="tab-pane fade show "
+                          className="tab-pane fade show "
                           id="navs-top-profiles"
                           role="tabpanel"
                         >
-                          <div class="col-12">
-                            <div class="card-header border-bottom row">
-                              <div class="col-8">
-                                <h4 class="card-title mb-3">Profiles</h4>
+                          <div className="col-12">
+                            <div className="card-header border-bottom row">
+                              <div className="col-8">
+                                <h4 className="card-title mb-3">Profiles</h4>
                                 <p>
                                   Profile help you define a set of permission
                                 </p>
                               </div>
-                              <div class="col-4">
+                              <div className="col-4">
                                 <button
                                   type="button"
-                                  class="btn btn-primary pull-right"
+                                  className="btn btn-primary pull-right"
                                   data-bs-toggle="modal"
                                   data-bs-target="#newProfile"
                                 >
-                                  <span class="ti-xs ti ti-plus me-1"></span>
+                                  <span className="ti-xs ti ti-plus me-1"></span>
                                   Create New Role
                                 </button>
                               </div>
                             </div>
-                            <div class="card-datatable table-responsive">
-                              <div class="card-header border-bottom row">
-                                <div class="card">
-                                  <div class="table-responsive text-nowrap">
+                            <div className="card-datatable table-responsive">
+                              <div className="card-header border-bottom row">
+                                <div className="card">
+                                  <div className="table-responsive text-nowrap">
                                     <div className="table-scrollable">
-                                      <table class="table table-bordered">
+                                      <table className="table table-bordered">
                                         <thead>
                                           <tr className="position-sticky top-0 z-1 bg-white">
                                             <th>Profile Name</th>
@@ -875,7 +875,7 @@ const UsersControls = () => {
                                             <td>Team Lead</td>
                                             <td>-</td>
                                             <td>
-                                              <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                              <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                 AN
                                               </i>
                                               Alex Noah
@@ -885,7 +885,7 @@ const UsersControls = () => {
                                             <td>Team Lead</td>
                                             <td>-</td>
                                             <td>
-                                              <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                              <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                 AN
                                               </i>
                                               Alex Noah
@@ -895,7 +895,7 @@ const UsersControls = () => {
                                             <td>Team Lead</td>
                                             <td>-</td>
                                             <td>
-                                              <i class="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
+                                              <i className="badge px-2 py-2 bg-primary rounded-pill ms-auto me-2">
                                                 AN
                                               </i>
                                               Alex Noah
@@ -911,36 +911,36 @@ const UsersControls = () => {
                           </div>
                         </div>
                         <div
-                          class="tab-pane fade show "
+                          className="tab-pane fade show "
                           id="navs-top-roles"
                           role="tabpanel"
                         >
-                          <div class="col-12">
-                            <div class="card-header border-bottom row">
-                              <div class="col-8">
-                                <h4 class="card-title mb-3">Roles</h4>
+                          <div className="col-12">
+                            <div className="card-header border-bottom row">
+                              <div className="col-8">
+                                <h4 className="card-title mb-3">Roles</h4>
                                 <p>
                                   Roles help you define visiblity levels for
                                   records in your org.
                                 </p>
                               </div>
-                              <div class="col-4">
+                              <div className="col-4">
                                 <button
                                   type="button"
-                                  class="btn btn-primary pull-right"
+                                  className="btn btn-primary pull-right"
                                   data-bs-toggle="modal"
                                   data-bs-target="#newRole"
                                 >
-                                  <span class="ti-xs ti ti-plus me-1"></span>
+                                  <span className="ti-xs ti ti-plus me-1"></span>
                                   Create New Role
                                 </button>
                               </div>
                             </div>
-                            <div class="card-datatable table-responsive">
-                              <div class="col-md-6 col-12">
-                                <div class="card mb-4">
-                                  <h5 class="card-header">Basic</h5>
-                                  <div class="card-body">
+                            <div className="card-datatable table-responsive">
+                              <div className="col-md-6 col-12">
+                                <div className="card mb-4">
+                                  <h5 className="card-header">Basic</h5>
+                                  <div className="card-body">
                                     <div id="jstree-basic">
                                       <ul>
                                         <li data-jstree='{"icon" : "ti ti-folder"}'>
@@ -955,7 +955,7 @@ const UsersControls = () => {
                                           </ul>
                                         </li>
                                         <li
-                                          class="jstree-open"
+                                          className="jstree-open"
                                           data-jstree='{"icon" : "ti ti-folder"}'
                                         >
                                           img
@@ -972,7 +972,7 @@ const UsersControls = () => {
                                           </ul>
                                         </li>
                                         <li
-                                          class="jstree-open"
+                                          className="jstree-open"
                                           data-jstree='{"icon" : "ti ti-folder"}'
                                         >
                                           js
@@ -1012,28 +1012,28 @@ const UsersControls = () => {
                           </div>
                         </div>
                         <div
-                          class="tab-pane fade show "
+                          className="tab-pane fade show "
                           id="navs-top-compliance"
                           role="tabpanel"
                         >
-                          <div class="col-12">
-                            <div class="card-header border-bottom row">
-                              <div class="col-8">
-                                <h4 class="card-title mb-3">Compliance</h4>
+                          <div className="col-12">
+                            <div className="card-header border-bottom row">
+                              <div className="col-8">
+                                <h4 className="card-title mb-3">Compliance</h4>
                               </div>
-                              <div class="col-4">
+                              <div className="col-4">
                                 <button
                                   type="button"
-                                  class="btn btn-primary pull-right"
+                                  className="btn btn-primary pull-right"
                                   data-bs-toggle="modal"
                                   data-bs-target="#newFaqModal"
                                 >
-                                  <span class="ti-xs ti ti-plus me-1"></span>New
-                                  FAQ
+                                  <span className="ti-xs ti ti-plus me-1"></span>
+                                  New FAQ
                                 </button>
                               </div>
                             </div>
-                            <div class="card-datatable table-responsive">
+                            <div className="card-datatable table-responsive">
                               Compliance Main Tab
                             </div>
                           </div>
@@ -1050,56 +1050,56 @@ const UsersControls = () => {
           {/* New User Modal Start */}
 
           <div
-            class="offcanvas offcanvas-end"
-            tabindex="-1"
+            className="offcanvas offcanvas-end"
+            tabIndex="-1"
             id="offcanvasAddAgent"
             aria-labelledby="offcanvasAddAgentLabel"
           >
-            <div class="offcanvas-header">
-              <h5 id="offcanvasAddAgentLabel" class="offcanvas-title">
+            <div className="offcanvas-header">
+              <h5 id="offcanvasAddAgentLabel" className="offcanvas-title">
                 Add User
               </h5>
               <button
                 type="button"
                 id="close-add-agent-canvas"
-                class="btn-close text-reset"
+                className="btn-close text-reset"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-              <form class="add-new-user pt-0" id="addNewUserForm">
-                <div class="modal-body">
-                  <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-fullname">
+            <div className="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
+              <form className="add-new-user pt-0" id="addNewUserForm">
+                <div className="modal-body">
+                  <div className="mb-3 fv-plugins-icon-container">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Full Name
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter Full Name"
                       name="userFullname"
                       aria-label="Enter Full Name"
                     />
                   </div>
-                  <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-email">
+                  <div className="mb-3 fv-plugins-icon-container">
+                    <label className="form-label" htmlFor="add-user-email">
                       Email
                     </label>
                     <input
                       type="text"
                       id="add-user-email"
-                      class="form-control"
+                      className="form-control"
                       placeholder="john.doe@example.com"
                       aria-label="john.doe@example.com"
                       name="userEmail"
                     />
                   </div>
-                  <div class="mb-3">
-                    <label class="form-label" for="user-role">
+                  <div className="mb-3">
+                    <label className="form-label" htmlFor="user-role">
                       User Role
                     </label>
-                    <select id="user-role" class="form-select">
+                    <select id="user-role" className="form-select">
                       <option value="subscriber">Subscriber</option>
                       <option value="editor">Editor</option>
                       <option value="maintainer">Maintainer</option>
@@ -1107,29 +1107,29 @@ const UsersControls = () => {
                       <option value="admin">Admin</option>
                     </select>
                   </div>
-                  <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-fullname">
+                  <div className="mb-3 fv-plugins-icon-container">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Profile
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Profile"
                       name="Profile"
                       aria-label="Enter Profile"
                     />
                   </div>
                 </div>
-                <div class="modal-footer">
+                <div className="modal-footer">
                   <button
                     type="submit"
-                    class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
+                    className="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
                   >
                     Submit
                   </button>
                   <button
                     type="reset"
-                    class="btn btn-label-secondary waves-effect"
+                    className="btn btn-label-secondary waves-effect"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                   >
@@ -1144,56 +1144,56 @@ const UsersControls = () => {
 
           {/* New Edit User  End */}
           <div
-            class="offcanvas offcanvas-end"
-            tabindex="-1"
+            className="offcanvas offcanvas-end"
+            tabIndex="-1"
             id="offcanvasEditUser"
             aria-labelledby="offcanvasAddAgentLabel"
           >
-            <div class="offcanvas-header">
-              <h5 id="offcanvasAddAgentLabel" class="offcanvas-title">
+            <div className="offcanvas-header">
+              <h5 id="offcanvasAddAgentLabel" className="offcanvas-title">
                 Update User
               </h5>
               <button
                 type="button"
                 id="close-add-agent-canvas"
-                class="btn-close text-reset"
+                className="btn-close text-reset"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-              <form class="add-new-user pt-0" id="addNewUserForm">
-                <div class="modal-body">
-                  <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-fullname">
+            <div className="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
+              <form className="add-new-user pt-0" id="addNewUserForm">
+                <div className="modal-body">
+                  <div className="mb-3 fv-plugins-icon-container">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Full Name
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter Full Name"
                       name="userFullname"
                       aria-label="Enter Full Name"
                     />
                   </div>
-                  <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-email">
+                  <div className="mb-3 fv-plugins-icon-container">
+                    <label className="form-label" htmlFor="add-user-email">
                       Email
                     </label>
                     <input
                       type="text"
                       id="add-user-email"
-                      class="form-control"
+                      className="form-control"
                       placeholder="john.doe@example.com"
                       aria-label="john.doe@example.com"
                       name="userEmail"
                     />
                   </div>
-                  <div class="mb-3">
-                    <label class="form-label" for="user-role">
+                  <div className="mb-3">
+                    <label className="form-label" htmlFor="user-role">
                       User Role
                     </label>
-                    <select id="user-role" class="form-select">
+                    <select id="user-role" className="form-select">
                       <option value="subscriber">Subscriber</option>
                       <option value="editor">Editor</option>
                       <option value="maintainer">Maintainer</option>
@@ -1201,29 +1201,29 @@ const UsersControls = () => {
                       <option value="admin">Admin</option>
                     </select>
                   </div>
-                  <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-fullname">
+                  <div className="mb-3 fv-plugins-icon-container">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Profile
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Profile"
                       name="Profile"
                       aria-label="Enter Profile"
                     />
                   </div>
                 </div>
-                <div class="modal-footer">
+                <div className="modal-footer">
                   <button
                     type="submit"
-                    class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
+                    className="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
                   >
                     Submit
                   </button>
                   <button
                     type="reset"
-                    class="btn btn-label-secondary waves-effect"
+                    className="btn btn-label-secondary waves-effect"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                   >
@@ -1238,46 +1238,46 @@ const UsersControls = () => {
 
           {/* New Profile Modal Start */}
           <div
-            class="modal fade"
+            className="modal fade"
             id="newProfile"
-            tabindex="-1"
+            tabIndex="-1"
             aria-hidden="true"
           >
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header"></div>
-                <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework">
-                  <div class="modal-body">
-                    <div class="mb-3 fv-plugins-icon-container">
-                      <label class="form-label" for="add-user-fullname">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header"></div>
+                <form className="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework">
+                  <div className="modal-body">
+                    <div className="mb-3 fv-plugins-icon-container">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Full Name
                       </label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Full Name"
                         name="userFullname"
                         aria-label="Enter Full Name"
                       />
                     </div>
-                    <div class="mb-3 fv-plugins-icon-container">
-                      <label class="form-label" for="add-user-email">
+                    <div className="mb-3 fv-plugins-icon-container">
+                      <label className="form-label" htmlFor="add-user-email">
                         Email
                       </label>
                       <input
                         type="text"
                         id="add-user-email"
-                        class="form-control"
+                        className="form-control"
                         placeholder="john.doe@example.com"
                         aria-label="john.doe@example.com"
                         name="userEmail"
                       />
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="user-role">
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="user-role">
                         User Role
                       </label>
-                      <select id="user-role" class="form-select">
+                      <select id="user-role" className="form-select">
                         <option value="subscriber">Subscriber</option>
                         <option value="editor">Editor</option>
                         <option value="maintainer">Maintainer</option>
@@ -1285,29 +1285,29 @@ const UsersControls = () => {
                         <option value="admin">Admin</option>
                       </select>
                     </div>
-                    <div class="mb-3 fv-plugins-icon-container">
-                      <label class="form-label" for="add-user-fullname">
+                    <div className="mb-3 fv-plugins-icon-container">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Profile
                       </label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Profile"
                         name="Profile"
                         aria-label="Enter Profile"
                       />
                     </div>
                   </div>
-                  <div class="modal-footer">
+                  <div className="modal-footer">
                     <button
                       type="submit"
-                      class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
+                      className="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
                     >
                       Submit
                     </button>
                     <button
                       type="reset"
-                      class="btn btn-label-secondary waves-effect"
+                      className="btn btn-label-secondary waves-effect"
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     >
@@ -1320,42 +1320,47 @@ const UsersControls = () => {
           </div>
           {/* New Profile Modal Start */}
           {/* New Role Modal Start */}
-          <div class="modal fade" id="newRole" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header"></div>
-                <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework">
-                  <div class="modal-body">
-                    <div class="mb-3 fv-plugins-icon-container">
-                      <label class="form-label" for="add-user-fullname">
+          <div
+            className="modal fade"
+            id="newRole"
+            tabIndex="-1"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header"></div>
+                <form className="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework">
+                  <div className="modal-body">
+                    <div className="mb-3 fv-plugins-icon-container">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Full Name
                       </label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Full Name"
                         name="userFullname"
                         aria-label="Enter Full Name"
                       />
                     </div>
-                    <div class="mb-3 fv-plugins-icon-container">
-                      <label class="form-label" for="add-user-email">
+                    <div className="mb-3 fv-plugins-icon-container">
+                      <label className="form-label" htmlFor="add-user-email">
                         Email
                       </label>
                       <input
                         type="text"
                         id="add-user-email"
-                        class="form-control"
+                        className="form-control"
                         placeholder="john.doe@example.com"
                         aria-label="john.doe@example.com"
                         name="userEmail"
                       />
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="user-role">
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="user-role">
                         User Role
                       </label>
-                      <select id="user-role" class="form-select">
+                      <select id="user-role" className="form-select">
                         <option value="subscriber">Subscriber</option>
                         <option value="editor">Editor</option>
                         <option value="maintainer">Maintainer</option>
@@ -1363,29 +1368,29 @@ const UsersControls = () => {
                         <option value="admin">Admin</option>
                       </select>
                     </div>
-                    <div class="mb-3 fv-plugins-icon-container">
-                      <label class="form-label" for="add-user-fullname">
+                    <div className="mb-3 fv-plugins-icon-container">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Profile
                       </label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Profile"
                         name="Profile"
                         aria-label="Enter Profile"
                       />
                     </div>
                   </div>
-                  <div class="modal-footer">
+                  <div className="modal-footer">
                     <button
                       type="submit"
-                      class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
+                      className="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light"
                     >
                       Submit
                     </button>
                     <button
                       type="reset"
-                      class="btn btn-label-secondary waves-effect"
+                      className="btn btn-label-secondary waves-effect"
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     >

@@ -14,6 +14,9 @@ import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 
 const Knowledge = () => {
   const [fileloading, setfileLoading] = useState(false);
+  const [addingFaq, setAddingFaq] = useState(false);
+  const [addingUrl, setAddingUrl] = useState(false);
+  const [addingFile, setAddingFile] = useState(false);
 
   const [showToast, setShowToast] = useState(false);
   const [showToastMessge, setShowToastMessge] = useState(false);
@@ -180,6 +183,7 @@ const Knowledge = () => {
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
     try {
+      setAddingUrl(true);
       const response = await axios.post(
         baseurl + addurl + "/" + selectedValuedrop + "/add_file",
         {
@@ -194,7 +198,7 @@ const Knowledge = () => {
         }
       );
       console.log(response);
-
+      setAddingUrl(false);
       fetchVoiceAgents();
       setShowToast(true);
       setShowToastMessge("Url Added");
@@ -209,6 +213,7 @@ const Knowledge = () => {
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
     try {
+      setAddingFaq(true);
       const response = await axios.post(
         baseurl + addurl + "/" + selectedValuedrop + "/add_file",
         {
@@ -223,7 +228,7 @@ const Knowledge = () => {
         }
       );
       console.log(response);
-
+      setAddingFaq(false);
       fetchVoiceAgents();
       setShowToast(true);
       setShowToastMessge("Url Added");
@@ -260,6 +265,7 @@ const Knowledge = () => {
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdatafiles", formData);
     try {
+      setAddingFile(true);
       const response = await axios.post(
         baseurl + addurl + "/" + selectedValuedrop + "/add_file",
         {
@@ -274,7 +280,7 @@ const Knowledge = () => {
         }
       );
       console.log(response);
-
+      setAddingFile(false);
       fetchVoiceAgents();
       setShowToast(true);
       setShowToastMessge("Url Added");
@@ -287,42 +293,46 @@ const Knowledge = () => {
 
   return (
     <>
-      <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
+      <div className="layout-wrapper layout-content-navbar">
+        <div className="layout-container">
           <Header />
           <div className="layout-page">
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row my-3">
                 <div className="col-md-4" onClick={handleDropdownClick}>
-                  <span class="dropdown FilterDropdown">
-                    <button onClick={toggleColumn} class="btn" type="button">
-                      <i class="ti ti-filter ti-md"></i>
+                  <span className="dropdown FilterDropdown">
+                    <button
+                      onClick={toggleColumn}
+                      className="btn"
+                      type="button"
+                    >
+                      <i className="ti ti-filter ti-md"></i>
                     </button>
                   </span>
-                  <span class="dropdown">
+                  <span className="dropdown">
                     <button
-                      class="btn dropdown-toggle border rounded-pill"
+                      className="btn dropdown-toggle border rounded-pill"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       May 2023 Candidates
                     </button>
-                    <div class="dropdown-menu" style={{ width: "300px" }}>
-                      <ul class="nav nav-tabs">
-                        <li class="nav-item">
+                    <div className="dropdown-menu" style={{ width: "300px" }}>
+                      <ul className="nav nav-tabs">
+                        <li className="nav-item">
                           <a
-                            class="nav-link active"
+                            className="nav-link active"
                             data-bs-toggle="tab"
                             href="#AllViews"
                           >
                             All Views
                           </a>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <a
-                            class="nav-link"
+                            className="nav-link"
                             data-bs-toggle="tab"
                             href="#Favorites"
                           >
@@ -330,19 +340,19 @@ const Knowledge = () => {
                           </a>
                         </li>
                       </ul>
-                      <div class="tab-content px-3 pb-0">
-                        <div class="tab-pane  active" id="AllViews">
+                      <div className="tab-content px-3 pb-0">
+                        <div className="tab-pane  active" id="AllViews">
                           <input
                             type="text"
                             className="form-control position-relative"
                           />
-                          <i class="las la-search la-lg"></i>
+                          <i className="las la-search la-lg"></i>
 
                           <div className="SharedWithCard">
                             <h5 className="mb-2 mt-3">Shared with me</h5>
                             <p>
-                              <i class="las la-star text-primary"></i> Move to
-                              Bench/Training
+                              <i className="las la-star text-primary"></i> Move
+                              to Bench/Training
                             </p>
 
                             <h5 className="mb-2 mt-3">Public Views</h5>
@@ -354,24 +364,24 @@ const Knowledge = () => {
                             </ul>
                           </div>
                           <button className="btn text-primary">
-                            <i class="las la-plus la-lg"></i> Create View
+                            <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
                         {/* AllViews tab end */}
 
-                        <div class="tab-pane fade" id="Favorites">
+                        <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
                 </div>
-                <div class="col-4 mb-3">
+                <div className="col-4 mb-3">
                   <select
                     id="knowledge-base-dd"
                     value={selectedValue}
                     onChange={handleSelectChange}
-                    class="form-select"
+                    className="form-select"
                   >
                     <option value="">Select Knowledge base</option>
                     {console.log("knowledge", knowledge)}
@@ -384,44 +394,44 @@ const Knowledge = () => {
                 </div>
                 <div className="col-md-4 text-end">
                   <button
-                    class="btn dropdown-toggle border rounded-pill  me-3"
+                    className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="las la-bars la-lg"></i>
+                    <i className="las la-bars la-lg"></i>
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         List
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Sheet
                       </a>
                     </li>
                   </ul>
                   <a
-                    class="btn btn-primary pull-right text-white"
+                    className="btn btn-primary pull-right text-white"
                     data-bs-toggle="modal"
                     data-bs-target="#createKbsModal"
                   >
-                    <span class="ti-xs ti ti-plus me-1"></span> New Knowledge
-                    base
+                    <span className="ti-xs ti ti-plus me-1"></span> New
+                    Knowledge base
                   </a>
                 </div>
               </div>
             </div>
 
-            <div class="content-wrapper">
-              <div class="container-fluid flex-grow-1 container-p-y pt-0">
+            <div className="content-wrapper">
+              <div className="container-fluid flex-grow-1 container-p-y pt-0">
                 {/* <div className='row'>
-                  <div class="col-4 offset-3 mb-3">
-                    <label class="form-label" for="knowledge-base-dd">Select Knowledge base</label>
+                  <div className="col-4 offset-3 mb-3">
+                    <label className="form-label" htmlFor="knowledge-base-dd">Select Knowledge base</label>
 
-                    <select id="knowledge-base-dd" value={selectedValue} onChange={handleSelectChange} class="form-select">
+                    <select id="knowledge-base-dd" value={selectedValue} onChange={handleSelectChange} className="form-select">
 
                       <option value="">Select an option</option>
                       {console.log("knowledge", knowledge)}
@@ -433,31 +443,31 @@ const Knowledge = () => {
                       ))}
                     </select>
                   </div>
-                  <div class="col-1 mb-3">
-                    <div class="d-flex align-items-center mt-4">
+                  <div className="col-1 mb-3">
+                    <div className="d-flex align-items-center mt-4">
                     <button className='btn px-1 la-lg' data-bs-toggle="modal" data-bs-target="#updateAgentModal">
-                    <i class="ti ti-trash ti-sm mx-2 pointer"></i>
+                    <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                     </button>
                       
                     </div>
                   </div>
-                  <div class="col-4 mb-3">
-                    <button type="button" class="btn btn-primary pull-left mt-4" data-bs-toggle="modal"
+                  <div className="col-4 mb-3">
+                    <button type="button" className="btn btn-primary pull-left mt-4" data-bs-toggle="modal"
                       data-bs-target="#createKbsModal">
-                      <span class="ti-xs ti ti-plus me-1"></span>New Knowledge base
+                      <span className="ti-xs ti ti-plus me-1"></span>New Knowledge base
                     </button>
                   </div>
                 </div> */}
                 <div className="row">
                   <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                     <div className="card">
-                      {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                      {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                       {/* accourdian start */}
-                      <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
+                      <div className="accordion" id="accordionExample">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingOne">
                             <button
-                              class="accordion-button"
+                              className="accordion-button"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseOne"
@@ -469,13 +479,13 @@ const Knowledge = () => {
                           </h2>
                           <div
                             id="collapseOne"
-                            class="accordion-collapse collapse show"
+                            className="accordion-collapse collapse show"
                             aria-labelledby="headingOne"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">
+                            <div className="accordion-body">
                               <div>
-                                {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                                {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                                 <input
                                   type="text"
                                   placeholder="Choose a property"
@@ -536,10 +546,10 @@ const Knowledge = () => {
                             </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingTwo">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingTwo">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseTwo"
@@ -551,17 +561,19 @@ const Knowledge = () => {
                           </h2>
                           <div
                             id="collapseTwo"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingTwo"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 2</div>
+                            <div className="accordion-body">
+                              Heading content 2
+                            </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingThree">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingThree">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseThree"
@@ -573,11 +585,13 @@ const Knowledge = () => {
                           </h2>
                           <div
                             id="collapseThree"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingThree"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 3</div>
+                            <div className="accordion-body">
+                              Heading content 3
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -585,15 +599,19 @@ const Knowledge = () => {
                     </div>
                   </div>
                   <div
-                    className={isColumnVisible ? "col-md-8" : "col-md-12"}
+                    className={
+                      isColumnVisible
+                        ? "col-md-8 kbs-height"
+                        : "col-md-12 kbs-height"
+                    }
                     id="kbs-content"
                   >
-                    <div class="nav-align-top nav-tabs-shadow mb-4">
-                      <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
+                    <div className="nav-align-top nav-tabs-shadow mb-4">
+                      <ul className="nav nav-tabs" role="tablist">
+                        <li className="nav-item">
                           <button
                             type="button"
-                            class="nav-link active"
+                            className="nav-link active"
                             role="tab"
                             data-bs-toggle="tab"
                             data-bs-target="#navs-top-files"
@@ -603,10 +621,10 @@ const Knowledge = () => {
                             Files
                           </button>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <button
                             type="button"
-                            class="nav-link"
+                            className="nav-link"
                             role="tab"
                             data-bs-toggle="tab"
                             data-bs-target="#navs-top-url"
@@ -616,10 +634,10 @@ const Knowledge = () => {
                             URLs
                           </button>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <button
                             type="button"
-                            class="nav-link"
+                            className="nav-link"
                             role="tab"
                             data-bs-toggle="tab"
                             data-bs-target="#navs-top-faqs"
@@ -630,102 +648,102 @@ const Knowledge = () => {
                           </button>
                         </li>
                       </ul>
-                      <div class="tab-content">
+                      <div className="tab-content">
                         <div
-                          class="tab-pane fade show active"
+                          className="tab-pane fade show active"
                           id="navs-top-files"
                           role="tabpanel"
                         >
-                          <div class="col-12">
-                            <div class="card-header row">
-                              <div class="col-8">
-                                <h4 class="card-title">Files</h4>
+                          <div className="col-12">
+                            <div className="card-header row">
+                              <div className="col-8">
+                                <h4 className="card-title">Files</h4>
                               </div>
-                              <div class="col-4">
+                              <div className="col-4">
                                 <button
                                   type="button"
-                                  class="btn btn-primary pull-right"
+                                  className="btn btn-primary pull-right"
                                   data-bs-toggle="modal"
                                   data-bs-target="#newFileModal"
                                 >
-                                  <span class="ti-xs ti ti-plus me-1"></span>New
-                                  File
+                                  <span className="ti-xs ti ti-plus me-1"></span>
+                                  New File
                                 </button>
                               </div>
                             </div>
-                            <div class="card-datatable table-responsive">
+                            <div className="card-datatable table-responsive">
                               <div className="results">
-                                <table class="datatables-files table">
-                                  <thead class="border-top">
+                                <table className="datatables-files table">
+                                  <thead className="border-top">
                                     <tr>
                                       <th>S.No</th>
                                       <th>URL</th>
-                                      <th>Actions</th>
+                                      {/* <th>Actions</th> */}
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {files.map((value, key) => {
-                                      console.log("mainvalue", value);
-
                                       return (
                                         <tr key={key}>
                                           <td>{key + 1}</td>
                                           <td>{value}</td>
-                                          <td style={{ width: "70px" }}>
-                                            {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
-                                        <i class="ti ti-trash ti-sm mx-2 pointer"></i>
+                                          {/* <td style={{ width: "70px" }}> */}
+                                          {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                                         </button> */}
-                                            {/* <div className="d-flex acation-btns">
+                                          {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
-                                          </td>
+                                          {/* </td> */}
                                         </tr>
                                       );
                                     })}
                                   </tbody>
                                 </table>
                               </div>
-
-                              <div
-                                class="parent-div text-center mt-2 mb-2"
-                                id="empty-files"
-                              >
-                                <label class="empty-files">
-                                  No Files at the moment.
-                                </label>
-                              </div>
+                              {!files ||
+                                (files.length === 0 && (
+                                  <div
+                                    className="parent-div text-center mt-2 mb-2"
+                                    id="empty-files"
+                                  >
+                                    <label className="empty-files">
+                                      No Files at the moment.
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                         </div>
                         <div
-                          class="tab-pane fade show "
+                          className="tab-pane fade show "
                           id="navs-top-url"
                           role="tabpanel"
                         >
-                          <div class="col-12">
-                            <div class="card-header border-bottom row">
-                              <div class="col-8">
-                                <h4 class="card-title mb-3">URLS</h4>
+                          <div className="col-12">
+                            <div className="card-header border-bottom row">
+                              <div className="col-8">
+                                <h4 className="card-title mb-3">URLS</h4>
                               </div>
-                              <div class="col-4">
+                              <div className="col-4">
                                 <button
                                   type="button"
-                                  class="btn btn-primary pull-right"
+                                  className="btn btn-primary pull-right"
                                   data-bs-toggle="modal"
                                   data-bs-target="#newUrlModal"
                                 >
-                                  <span class="ti-xs ti ti-plus me-1"></span>New
-                                  URLS
+                                  <span className="ti-xs ti ti-plus me-1"></span>
+                                  New URLS
                                 </button>
                               </div>
                             </div>
-                            <div class="card-datatable table-responsive">
-                              <table class="datatables-files table">
-                                <thead class="border-top">
+                            <div className="card-datatable table-responsive">
+                              <table className="datatables-files table">
+                                <thead className="border-top">
                                   <tr>
                                     <th>S.No</th>
                                     <th>URL</th>
-                                    <th>Actions</th>
+                                    {/* <th>Actions</th> */}
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -734,61 +752,63 @@ const Knowledge = () => {
                                       <tr key={key}>
                                         <td>{key + 1}</td>
                                         <td>{value.url}</td>
-                                        <td style={{ width: "70px" }}>
-                                          {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
-                                        <i class="ti ti-trash ti-sm mx-2 pointer"></i>
+                                        {/* <td style={{ width: "70px" }}> */}
+                                        {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                                         </button> */}
-                                          {/* <div className="d-flex acation-btns">
+                                        {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
-                                        </td>
+                                        {/* </td> */}
                                       </tr>
                                     );
                                   })}
                                 </tbody>
                               </table>
-
-                              <div
-                                class="parent-div text-center mt-2 mb-2"
-                                id="empty-files"
-                              >
-                                <label class="empty-files">
-                                  No Files at the moment.
-                                </label>
-                              </div>
+                              {!urls ||
+                                (urls.length === 0 && (
+                                  <div
+                                    className="parent-div text-center mt-2 mb-2"
+                                    id="empty-files"
+                                  >
+                                    <label className="empty-files">
+                                      No URLs at the moment.
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                         </div>
                         <div
-                          class="tab-pane fade show "
+                          className="tab-pane fade show "
                           id="navs-top-faqs"
                           role="tabpanel"
                         >
-                          <div class="col-12">
-                            <div class="card-header border-bottom row">
-                              <div class="col-8">
-                                <h4 class="card-title mb-3">FAQs</h4>
+                          <div className="col-12">
+                            <div className="card-header border-bottom row">
+                              <div className="col-8">
+                                <h4 className="card-title mb-3">FAQs</h4>
                               </div>
-                              <div class="col-4">
+                              <div className="col-4">
                                 <button
                                   type="button"
-                                  class="btn btn-primary pull-right"
+                                  className="btn btn-primary pull-right"
                                   data-bs-toggle="modal"
                                   data-bs-target="#newFaqModal"
                                 >
-                                  <span class="ti-xs ti ti-plus me-1"></span>New
-                                  FAQ
+                                  <span className="ti-xs ti ti-plus me-1"></span>
+                                  New FAQ
                                 </button>
                               </div>
                             </div>
-                            <div class="card-datatable table-responsive">
-                              <table class="datatables-files table">
-                                <thead class="border-top">
+                            <div className="card-datatable table-responsive">
+                              <table className="datatables-files table">
+                                <thead className="border-top">
                                   <tr>
                                     <th>S.No</th>
                                     <th>QUESTION</th>
                                     <th>ANSWER</th>
-                                    <th>Actions</th>
+                                    {/* <th>Actions</th> */}
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -798,7 +818,7 @@ const Knowledge = () => {
                                         <td>{key + 1}</td>
                                         <td>{value.question}</td>
                                         <td>{value.answer}</td>
-                                        <td style={{ width: "70px" }}>
+                                        {/* <td style={{ width: "70px" }}>
                                           <div className="d-flex acation-btns">
                                             <button
                                               className="btn px-1"
@@ -807,21 +827,23 @@ const Knowledge = () => {
                                               <i className="ti ti-trash ti-sm mx-2"></i>
                                             </button>
                                           </div>
-                                        </td>
+                                        </td> */}
                                       </tr>
                                     );
                                   })}
                                 </tbody>
                               </table>
-
-                              <div
-                                class="parent-div text-center mt-2 mb-2"
-                                id="empty-files"
-                              >
-                                <label class="empty-files">
-                                  No Files at the moment.
-                                </label>
-                              </div>
+                              {!faq ||
+                                (faq.length === 0 && (
+                                  <div
+                                    className="parent-div text-center mt-2 mb-2"
+                                    id="empty-files"
+                                  >
+                                    <label className="empty-files">
+                                      No FAQs at the moment.
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                         </div>
@@ -835,35 +857,35 @@ const Knowledge = () => {
           </div>
 
           <div
-            class="modal fade"
+            className="modal fade"
             id="createKbsModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-hidden="true"
           >
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel1">
                     Create Knowledge base
                   </h5>
                   <button
                     type="button"
-                    class="btn-close"
+                    className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                   ></button>
                 </div>
-                <form class="mb-3" onSubmit={handleSubmit}>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col mb-3">
-                        <label for="kbs-name" class="form-label">
+                <form className="mb-3" onSubmit={handleSubmit}>
+                  <div className="modal-body">
+                    <div className="row">
+                      <div className="col mb-3">
+                        <label htmlFor="kbs-name" className="form-label">
                           Name
                         </label>
                         <input
                           type="text"
                           id="kbs-name"
-                          class="form-control"
+                          className="form-control"
                           placeholder="Enter Name"
                           name="knowledgename"
                           value={formData.knowledgename}
@@ -872,10 +894,10 @@ const Knowledge = () => {
                       </div>
                     </div>
                   </div>
-                  <div class="modal-footer">
+                  <div className="modal-footer">
                     <button
                       type="button"
-                      class="btn btn-label-secondary"
+                      className="btn btn-label-secondary"
                       id="create-kbs-close"
                       data-bs-dismiss="modal"
                     >
@@ -883,7 +905,7 @@ const Knowledge = () => {
                     </button>
                     <button
                       type="submit"
-                      class="btn btn-primary"
+                      className="btn btn-primary"
                       id="create-kbs-close"
                       data-bs-dismiss="modal"
                     >
@@ -899,39 +921,39 @@ const Knowledge = () => {
 
       {/* modal popup Knowledge delete start*/}
       <div
-        class="modal fade"
+        className="modal fade"
         id="updateAgentModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="VioceEditLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="VioceEditLabel">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="VioceEditLabel">
                 Delete Knowledge base
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <div className="container">
                 <p>Are you sure you want to delete this Knowledge base?</p>
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">
+              <button type="button" className="btn btn-primary">
                 Delete Knowledge base
               </button>
             </div>
@@ -942,37 +964,40 @@ const Knowledge = () => {
 
       {/* modal popup New File Start*/}
       <form
-        class="add-new-user pt-0"
+        className="add-new-user pt-0"
         id="addNewUserForm"
         onSubmit={handleSubmitfile}
       >
         <div
-          class="modal fade"
+          className="modal fade"
           id="newFileModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel1">
                   Add File
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <div class="card">
-                  <h5 class="card-header">Upload files</h5>
-                  <div class="card-body">
-                    <label for="kbs-file" class="pointer dz-message needsclick">
+              <div className="modal-body">
+                <div className="card">
+                  <h5 className="card-header">Upload files</h5>
+                  <div className="card-body">
+                    <label
+                      htmlFor="kbs-file"
+                      className="pointer dz-message needsclick"
+                    >
                       Drop file here or click to upload. Limit : 10 MB
                     </label>
-                    <div class="fallback">
+                    <div className="fallback">
                       <input
                         id="kbs-file"
                         name="file"
@@ -981,23 +1006,23 @@ const Knowledge = () => {
                       />
                     </div>
                     <div
-                      class="parent-div"
+                      className="parent-div"
                       id="kbs-filename-parent"
-                      style={{ block: "none" }}
+                      style={{ display: "none" }}
                     >
-                      <label class="form-label"></label>
+                      <label className="form-label"></label>
                       <i
-                        class="ti ti-x pull-right pointer"
+                        className="ti ti-x pull-right pointer"
                         id="kbs-clear-file"
                       ></i>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-label-secondary"
+                  className="btn btn-label-secondary"
                   id="add-file-close"
                   data-bs-dismiss="modal"
                 >
@@ -1006,24 +1031,26 @@ const Knowledge = () => {
                 <button
                   type="submit"
                   data-bs-dismiss="modal"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   onclick="addFile()"
                 >
-                  <span id="add-file-button-loader" style={{ block: "none" }}>
-                    {/* {loading ? (<span class="visually-hidden">Loading...</span>) : (} */}
+                  {addingFile && (
+                    <span id="add-file-button-loader">
+                      {/* {loading ? (<span className="visually-hidden">Loading...</span>) : (} */}
 
-                    {fileloading ? (
-                      <span
-                        class="spinner-border"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                    ) : (
-                      // <span class="visually-hidden">dsfdLoading...</span>
-                      <span></span>
-                    )}
-                  </span>
-                  <span class="ms-2">Add File</span>
+                      {fileloading ? (
+                        <span
+                          className="spinner-border"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                      ) : (
+                        // <span className="visually-hidden">dsfdLoading...</span>
+                        <span></span>
+                      )}
+                    </span>
+                  )}
+                  <span className="ms-2">Add File</span>
                 </button>
               </div>
             </div>
@@ -1033,39 +1060,39 @@ const Knowledge = () => {
       {/* modal popup New File End*/}
       {/* modal popup New URLs Start*/}
       <form
-        class="add-new-user pt-0"
+        className="add-new-user pt-0"
         id="addNewUserForm"
         onSubmit={handleSubmitUrl}
       >
         <div
-          class="modal fade"
+          className="modal fade"
           id="newUrlModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel1">
                   Add URL
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="kbs-url" class="form-label">
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label htmlFor="kbs-url" className="form-label">
                       URL
                     </label>
                     <input
                       type="text"
                       id="kbs-url"
-                      class="form-control"
+                      className="form-control"
                       name="url"
                       value={formData.url}
                       onChange={handleInputChange}
@@ -1074,10 +1101,10 @@ const Knowledge = () => {
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-label-secondary"
+                  className="btn btn-label-secondary"
                   id="add-url-close"
                   data-bs-dismiss="modal"
                 >
@@ -1085,18 +1112,20 @@ const Knowledge = () => {
                 </button>
                 <button
                   type="submit"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   data-bs-dismiss="modal"
                 >
-                  <span id="add-url-button-loader" style={{ block: "none" }}>
-                    <span
-                      class="spinner-border"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Loading...</span>
-                  </span>
-                  <span class="ms-2">Add URL</span>
+                  {addingUrl && (
+                    <span id="add-url-button-loader">
+                      <span
+                        className="spinner-border"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Loading...</span>
+                    </span>
+                  )}
+                  <span className="ms-2">Add URL</span>
                 </button>
               </div>
             </div>
@@ -1107,39 +1136,39 @@ const Knowledge = () => {
       {/* modal popup New Faq Start*/}
 
       <form
-        class="add-new-user pt-0"
+        className="add-new-user pt-0"
         id="addNewUserForm"
         onSubmit={handleSubmitfaq}
       >
         <div
-          class="modal fade"
+          className="modal fade"
           id="newFaqModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel1">
                   Add Faq
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="kbs-faq-question" class="form-label">
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label htmlFor="kbs-faq-question" className="form-label">
                       Question
                     </label>
                     <input
                       type="text"
                       id="kbs-faq-question"
-                      class="form-control"
+                      className="form-control"
                       name="question"
                       value={formData.question}
                       onChange={handleInputChange}
@@ -1147,9 +1176,9 @@ const Knowledge = () => {
                     />
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="kbs-faq-answer" class="form-label">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label htmlFor="kbs-faq-answer" className="form-label">
                       Answer
                     </label>
                     <input
@@ -1158,16 +1187,16 @@ const Knowledge = () => {
                       name="answer"
                       value={formData.answer}
                       onChange={handleInputChange}
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter Answer"
                     />
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-label-secondary"
+                  className="btn btn-label-secondary"
                   id="add-faq-close"
                   data-bs-dismiss="modal"
                 >
@@ -1175,18 +1204,20 @@ const Knowledge = () => {
                 </button>
                 <button
                   type="submit"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   data-bs-dismiss="modal"
                 >
-                  <span id="add-faq-button-loader" style={{ block: "none" }}>
-                    <span
-                      class="spinner-border"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Loading...</span>
-                  </span>
-                  <span class="ms-2">Add Faq</span>
+                  {addingFaq && (
+                    <span id="add-faq-button-loader">
+                      <span
+                        className="spinner-border"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Loading...</span>
+                    </span>
+                  )}
+                  <span className="ms-2">Add Faq</span>
                 </button>
               </div>
             </div>

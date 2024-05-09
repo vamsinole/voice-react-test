@@ -73,7 +73,7 @@ const SettingControls = () => {
                                 
                             </a></li>
                             <li className="menu-item"><a className="menu-link">
-                            <i class="ti ti-mail ti-sm"></i>
+                            <i className="ti ti-mail ti-sm"></i>
                                 
                                 <Link className="nav-link align-middle ms-2" to="/emails">Emails</Link>
                                 

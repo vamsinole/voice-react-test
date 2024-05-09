@@ -150,9 +150,7 @@ const Calls = () => {
                         onChange={changeVoiceAgent}
                         className="select2 form-select"
                       >
-                        <option value="" selected>
-                          Select Agent
-                        </option>
+                        <option value="">Select Agent</option>
                         {dataAgent?.map((option) => (
                           <option key={option.id} value={option.id}>
                             {option.name}
@@ -168,25 +166,25 @@ const Calls = () => {
                   <div className="card mb-4">
                     <div className="card-body">
                       <div className="col-12 text-center mb-3">
-                        <div class="parent-div">
-                          <div class="row" id="main-chat-container">
-                            <div class="chat-parent mt-2">
-                              <div class="row mb-3">
-                                <div class="app-chat card overflow-hidden">
-                                  <div class="row g-0 mt-2 mb-2">
-                                    <div class="col app-chat-contacts app-sidebar flex-grow-0 overflow-hidden border-end">
-                                      <div class="sidebar-body ps ps--active-y">
-                                        <div class="chat-contact-list-item-title">
-                                          <h5 class="text-primary mb-0 px-4 pt-3 pb-2">
+                        <div className="parent-div">
+                          <div className="row" id="main-chat-container">
+                            <div className="chat-parent mt-2">
+                              <div className="row mb-3">
+                                <div className="app-chat card overflow-hidden">
+                                  <div className="row g-0 mt-2 mb-2">
+                                    <div className="col app-chat-contacts app-sidebar flex-grow-0 overflow-hidden border-end">
+                                      <div className="sidebar-body ps ps--active-y">
+                                        <div className="chat-contact-list-item-title">
+                                          <h5 className="text-primary mb-0 px-4 pt-3 pb-2">
                                             Chats
                                           </h5>
                                         </div>
                                         <ul
-                                          class="list-unstyled chat-contact-list listpointer"
+                                          className="list-unstyled chat-contact-list listpointer"
                                           id="chat-list"
                                         >
-                                          <li class="chat-contact-list-item chat-list-item-0">
-                                            <h6 class="text-muted mb-0">
+                                          <li className="chat-contact-list-item chat-list-item-0">
+                                            <h6 className="text-muted mb-0">
                                               No Chats Found
                                             </h6>
                                           </li>
@@ -195,18 +193,17 @@ const Calls = () => {
                                             ? dataFromApi.map((value, key) => {
                                                 return (
                                                   <li
-                                                    class="chat-contact-list-item "
                                                     className={
                                                       activeItem === value
-                                                        ? "active"
-                                                        : ""
+                                                        ? "chat-contact-list-item active"
+                                                        : "chat-contact-list-item"
                                                     }
                                                     onClick={() =>
                                                       handleItemClick(value)
                                                     }
                                                   >
-                                                    <a class="d-flex align-items-center">
-                                                      <div class="chat-contact-info flex-grow-1 ms-2">
+                                                    <a className="d-flex align-items-center">
+                                                      <div className="chat-contact-info flex-grow-1 ms-2">
                                                         <div
                                                           key={key}
                                                           onClick={() =>
@@ -215,9 +212,9 @@ const Calls = () => {
                                                             )
                                                           }
                                                         >
-                                                          <h6 class="chat-contact-name text-truncate m-0 text-lg-start ">
+                                                          <h6 className="chat-contact-name text-truncate m-0 text-lg-start ">
                                                             {value.to}
-                                                            <p class="chat-contact-status text-truncate mb-0 text-end">
+                                                            <p className="chat-contact-status text-truncate mb-0 text-end">
                                                               {value.end_time}
                                                             </p>
                                                           </h6>
@@ -231,46 +228,46 @@ const Calls = () => {
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="col app-chat-history bg-body">
-                                      <div class="chat-history-wrapper">
-                                        <div class="chat-history-header border-bottom">
-                                          <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex overflow-hidden align-items-center">
+                                    <div className="col app-chat-history bg-body">
+                                      <div className="chat-history-wrapper">
+                                        <div className="chat-history-header border-bottom">
+                                          <div className="d-flex justify-content-between align-items-center">
+                                            <div className="d-flex overflow-hidden align-items-center">
                                               <i
-                                                class="ti ti-menu-2 ti-sm cursor-pointer d-lg-none d-block me-2"
+                                                className="ti ti-menu-2 ti-sm cursor-pointer d-lg-none d-block me-2"
                                                 data-bs-toggle="sidebar"
                                                 data-overlay
                                                 data-target="#app-chat-contacts"
                                               ></i>
-                                              <div class="flex-shrink-0 avatar">
+                                              <div className="flex-shrink-0 avatar">
                                                 <img
                                                   src="../../assets/img/avatars/2.png"
                                                   alt="Avatar"
-                                                  class="rounded-circle"
+                                                  className="rounded-circle"
                                                   data-bs-toggle="sidebar"
                                                   data-overlay
                                                   data-target="#app-chat-sidebar-right"
                                                 />
                                               </div>
-                                              <div class="chat-contact-info flex-grow-1 ms-2">
-                                                <h6 class="m-0">
+                                              <div className="chat-contact-info flex-grow-1 ms-2">
+                                                <h6 className="m-0">
                                                   {messagename}
                                                 </h6>
-                                                <small class="user-status text-muted">
+                                                <small className="user-status text-muted">
                                                   {messagetime}
                                                 </small>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="chat-history-body bg-body">
+                                        <div className="chat-history-body bg-body">
                                           <ul
-                                            class="list-unstyled chat-history"
+                                            className="list-unstyled chat-history"
                                             id="chat-history"
                                           >
-                                            <li class="chat-message chat-message-right">
-                                              <div class="d-flex overflow-hidden">
-                                                <div class="chat-message-wrapper text-white flex-grow-1">
+                                            <li className="chat-message chat-message-right">
+                                              <div className="d-flex overflow-hidden">
+                                                <div className="chat-message-wrapper text-white flex-grow-1">
                                                   {textMessge
                                                     ? textMessge.map(
                                                         (value, key) => {
@@ -288,7 +285,7 @@ const Calls = () => {
                                                                   : "left-content"
                                                               }
                                                             >
-                                                              <p class="mb-0">
+                                                              <p className="mb-0">
                                                                 {value.text}
                                                               </p>
                                                             </div>
@@ -297,12 +294,12 @@ const Calls = () => {
                                                       )
                                                     : null}
                                                 </div>
-                                                <div class="user-avatar flex-shrink-0 ms-3">
-                                                  <div class="avatar avatar-sm">
+                                                <div className="user-avatar flex-shrink-0 ms-3">
+                                                  <div className="avatar avatar-sm">
                                                     <img
                                                       src="../../assets/img/avatars/1.png"
                                                       alt="Avatar"
-                                                      class="rounded-circle"
+                                                      className="rounded-circle"
                                                     />
                                                   </div>
                                                 </div>

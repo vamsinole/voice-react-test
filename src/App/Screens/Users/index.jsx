@@ -184,42 +184,46 @@ const Users = () => {
 
   return (
     <>
-      <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
+      <div className="layout-wrapper layout-content-navbar">
+        <div className="layout-container">
           <Header />
           <div className="layout-page">
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <span class="dropdown FilterDropdown">
-                    <button onClick={toggleColumn} class="btn" type="button">
-                      <i class="ti ti-filter ti-md"></i>
+                  <span className="dropdown FilterDropdown">
+                    <button
+                      onClick={toggleColumn}
+                      className="btn"
+                      type="button"
+                    >
+                      <i className="ti ti-filter ti-md"></i>
                     </button>
                   </span>
-                  <span class="dropdown">
+                  <span className="dropdown">
                     <button
-                      class="btn dropdown-toggle border rounded-pill"
+                      className="btn dropdown-toggle border rounded-pill"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       May 2023 Candidates
                     </button>
-                    <div class="dropdown-menu" style={{ width: "300px" }}>
-                      <ul class="nav nav-tabs">
-                        <li class="nav-item">
+                    <div className="dropdown-menu" style={{ width: "300px" }}>
+                      <ul className="nav nav-tabs">
+                        <li className="nav-item">
                           <a
-                            class="nav-link active"
+                            className="nav-link active"
                             data-bs-toggle="tab"
                             href="#AllViews"
                           >
                             All Views
                           </a>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <a
-                            class="nav-link"
+                            className="nav-link"
                             data-bs-toggle="tab"
                             href="#Favorites"
                           >
@@ -227,19 +231,19 @@ const Users = () => {
                           </a>
                         </li>
                       </ul>
-                      <div class="tab-content px-3 pb-0">
-                        <div class="tab-pane  active" id="AllViews">
+                      <div className="tab-content px-3 pb-0">
+                        <div className="tab-pane  active" id="AllViews">
                           <input
                             type="text"
                             className="form-control position-relative"
                           />
-                          <i class="las la-search la-lg"></i>
+                          <i className="las la-search la-lg"></i>
 
                           <div className="SharedWithCard">
                             <h5 className="mb-2 mt-3">Shared with me</h5>
                             <p>
-                              <i class="las la-star text-primary"></i> Move to
-                              Bench/Training
+                              <i className="las la-star text-primary"></i> Move
+                              to Bench/Training
                             </p>
 
                             <h5 className="mb-2 mt-3">Public Views</h5>
@@ -251,64 +255,64 @@ const Users = () => {
                             </ul>
                           </div>
                           <button className="btn text-primary">
-                            <i class="las la-plus la-lg"></i> Create View
+                            <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
                         {/* AllViews tab end */}
 
-                        <div class="tab-pane fade" id="Favorites">
+                        <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
                 </div>
-                <div class="col-4 mb-3"></div>
+                <div className="col-4 mb-3"></div>
                 <div className="col-md-4 text-end">
                   <button
-                    class="btn dropdown-toggle border rounded-pill  me-3"
+                    className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="las la-bars la-lg"></i>
+                    <i className="las la-bars la-lg"></i>
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         List
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Sheet
                       </a>
                     </li>
                   </ul>
                   <button
                     type="button"
-                    class="btn btn-primary pull-right"
+                    className="btn btn-primary pull-right"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasAddUser"
                     aria-controls="offcanvasAddUser"
                   >
-                    <span class="ti-xs ti ti-plus me-1"></span>New User
+                    <span className="ti-xs ti ti-plus me-1"></span>New User
                   </button>
                 </div>
               </div>
             </div>
-            <div class="content-wrapper">
-              <div class="container-fluid flex-grow-1 container-p-y">
+            <div className="content-wrapper">
+              <div className="container-fluid flex-grow-1 container-p-y">
                 <div className="row">
                   <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                     <div className="card">
-                      {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                      {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                       {/* accourdian start */}
-                      <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
+                      <div className="accordion" id="accordionExample">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingOne">
                             <button
-                              class="accordion-button"
+                              className="accordion-button"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseOne"
@@ -320,13 +324,13 @@ const Users = () => {
                           </h2>
                           <div
                             id="collapseOne"
-                            class="accordion-collapse collapse show"
+                            className="accordion-collapse collapse show"
                             aria-labelledby="headingOne"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">
+                            <div className="accordion-body">
                               <div>
-                                {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                                {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                                 <input
                                   type="text"
                                   placeholder="Choose a property"
@@ -387,10 +391,10 @@ const Users = () => {
                             </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingTwo">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingTwo">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseTwo"
@@ -402,17 +406,19 @@ const Users = () => {
                           </h2>
                           <div
                             id="collapseTwo"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingTwo"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 2</div>
+                            <div className="accordion-body">
+                              Heading content 2
+                            </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingThree">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingThree">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseThree"
@@ -424,11 +430,13 @@ const Users = () => {
                           </h2>
                           <div
                             id="collapseThree"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingThree"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 3</div>
+                            <div className="accordion-body">
+                              Heading content 3
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -436,26 +444,26 @@ const Users = () => {
                     </div>
                   </div>
                   <div className={isColumnVisible ? "col-md-8" : "col-md-12"}>
-                    <div class="card">
-                      <div class="card-header p-0 px-4 py-2 border-bottom">
-                        <h4 class="card-title pull-left">Users</h4>
+                    <div className="card">
+                      <div className="card-header p-0 px-4 py-2 border-bottom">
+                        <h4 className="card-title pull-left">Users</h4>
                         <table></table>
                       </div>
-                      <div class="card-datatable table-responsive">
+                      <div className="card-datatable table-responsive">
                         <div className="table-scrollable">
-                          <table class="datatables-voice-agents table">
-                            <thead class="border-top">
+                          <table className="datatables-voice-agents table">
+                            <thead className="border-top">
                               <tr className="position-sticky top-0 z-1 bg-white">
                                 <th className="w-px-14">
-                                  <div class="form-check mb-0">
+                                  <div className="form-check mb-0">
                                     <input
-                                      class="email-list-item-input form-check-input"
+                                      className="email-list-item-input form-check-input"
                                       type="checkbox"
                                       id="email-1"
                                     />
                                     <label
-                                      class="form-check-label"
-                                      for="email-1"
+                                      className="form-check-label"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
@@ -470,15 +478,15 @@ const Users = () => {
                                 return (
                                   <tr key={key}>
                                     <td className="w-px-14">
-                                      <div class="form-check mb-0">
+                                      <div className="form-check mb-0">
                                         <input
-                                          class="email-list-item-input form-check-input"
+                                          className="email-list-item-input form-check-input"
                                           type="checkbox"
                                           id="email-1"
                                         />
                                         <label
-                                          class="form-check-label"
-                                          for="email-1"
+                                          className="form-check-label"
+                                          htmlFor="email-1"
                                         ></label>
                                       </div>
                                     </td>
@@ -498,7 +506,7 @@ const Users = () => {
                                           data-bs-target="#updateUserModal"
                                           className="btn px-1"
                                         >
-                                          <i class="ti ti-edit ti-sm me-2"></i>
+                                          <i className="ti ti-edit ti-sm me-2"></i>
                                         </button>
                                         <button
                                           data-bs-toggle="modal"
@@ -544,43 +552,43 @@ const Users = () => {
                         </div>
                       </div>
                       <div
-                        class="offcanvas offcanvas-end"
-                        tabindex="-1"
+                        className="offcanvas offcanvas-end"
+                        tabIndex="-1"
                         id="offcanvasAddUser"
                         aria-labelledby="offcanvasAddUserLabel"
                       >
-                        <div class="offcanvas-header">
+                        <div className="offcanvas-header">
                           <h5
                             id="offcanvasAddUserLabel"
-                            class="offcanvas-title"
+                            className="offcanvas-title"
                           >
                             Add User
                           </h5>
                           <button
                             type="button"
                             id="close-add-user-canvas"
-                            class="btn-close text-reset"
+                            className="btn-close text-reset"
                             data-bs-dismiss="offcanvas"
                             aria-label="Close"
                           ></button>
                         </div>
-                        <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
+                        <div className="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
                           <form
-                            class="add-new-user pt-0"
+                            className="add-new-user pt-0"
                             id="addNewUserForm"
                             onSubmit={handleSubmit}
                           >
-                            <div class="row mb-3">
+                            <div className="row mb-3">
                               <label
-                                class="col-sm-12 col-form-label"
-                                for="basic-default-name"
+                                className="col-sm-12 col-form-label"
+                                htmlFor="basic-default-name"
                               >
                                 Name
                               </label>
-                              <div class="col-sm-12">
+                              <div className="col-sm-12">
                                 <input
                                   type="text"
-                                  class="form-control"
+                                  className="form-control"
                                   id="basic-default-name"
                                   name="name"
                                   value={formData.name}
@@ -589,19 +597,19 @@ const Users = () => {
                                 />
                               </div>
                             </div>
-                            <div class="row mb-3">
+                            <div className="row mb-3">
                               <label
-                                class="col-sm-12 col-form-label"
-                                for="basic-default-email"
+                                className="col-sm-12 col-form-label"
+                                htmlFor="basic-default-email"
                               >
                                 Email
                               </label>
-                              <div class="col-sm-12">
-                                <div class="input-group input-group-merge">
+                              <div className="col-sm-12">
+                                <div className="input-group input-group-merge">
                                   <input
                                     type="email"
                                     id="basic-default-email"
-                                    class="form-control"
+                                    className="form-control"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
@@ -610,29 +618,29 @@ const Users = () => {
                                     aria-describedby="basic-default-email2"
                                   />
                                   <span
-                                    class="input-group-text"
+                                    className="input-group-text"
                                     id="basic-default-email2"
                                   >
                                     @example.com
                                   </span>
                                 </div>
-                                <div class="form-text">
+                                <div className="form-text">
                                   You can use letters, numbers & periods
                                 </div>
                               </div>
                             </div>
-                            <div class="row mb-3">
+                            <div className="row mb-3">
                               <label
-                                class="col-sm-12 col-form-label"
-                                for="basic-default-phone"
+                                className="col-sm-12 col-form-label"
+                                htmlFor="basic-default-phone"
                               >
                                 Phone No
                               </label>
-                              <div class="col-sm-12">
+                              <div className="col-sm-12">
                                 <input
                                   type="text"
                                   id="basic-default-phone"
-                                  class="form-control phone-mask"
+                                  className="form-control phone-mask"
                                   name="phone"
                                   value={formData.phone}
                                   onChange={handleInputChange}
@@ -642,25 +650,25 @@ const Users = () => {
                                 />
                               </div>
                             </div>
-                            <div class="row mb-3">
+                            <div className="row mb-3">
                               <label
-                                class="col-sm-12 col-form-label"
-                                for="basic-default-password"
+                                className="col-sm-12 col-form-label"
+                                htmlFor="basic-default-password"
                               >
                                 Password
                               </label>
-                              <div class="col-sm-12">
-                                <div class="input-group input-group-merge">
+                              <div className="col-sm-12">
+                                <div className="input-group input-group-merge">
                                   <input
                                     type={showPassword ? "text" : "password"}
-                                    class="form-control"
+                                    className="form-control"
                                     name="password"
                                     value={formData.password}
                                     onChange={handleInputChange}
                                     id="password"
                                   />
                                   <span
-                                    class="input-group-text cursor-pointer"
+                                    className="input-group-text cursor-pointer"
                                     id="password"
                                     onClick={handleTogglePassword}
                                   >
@@ -675,17 +683,17 @@ const Users = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="row mb-3">
+                            <div className="row mb-3">
                               <label
-                                class="col-sm-12 col-form-label"
-                                for="basic-default-website"
+                                className="col-sm-12 col-form-label"
+                                htmlFor="basic-default-website"
                               >
                                 Website
                               </label>
-                              <div class="col-sm-12">
+                              <div className="col-sm-12">
                                 <input
                                   type="text"
-                                  class="form-control"
+                                  className="form-control"
                                   id="basic-default-website"
                                   name="website"
                                   value={formData.website}
@@ -694,17 +702,17 @@ const Users = () => {
                                 />
                               </div>
                             </div>
-                            <div class="row mb-3">
+                            <div className="row mb-3">
                               <label
-                                class="col-sm-12 col-form-label"
-                                for="basic-default-address"
+                                className="col-sm-12 col-form-label"
+                                htmlFor="basic-default-address"
                               >
                                 Address
                               </label>
-                              <div class="col-sm-12">
+                              <div className="col-sm-12">
                                 <textarea
                                   id="basic-default-address"
-                                  class="form-control"
+                                  className="form-control"
                                   name="address"
                                   value={formData.address}
                                   onChange={handleInputChange}
@@ -717,14 +725,14 @@ const Users = () => {
                             <button
                               type="submit"
                               data-bs-dismiss="offcanvas"
-                              class="btn btn-primary me-sm-3 me-1 data-submit"
+                              className="btn btn-primary me-sm-3 me-1 data-submit"
                               onclick="createUser()"
                             >
-                              <span class="ms-2">Submit</span>
+                              <span className="ms-2">Submit</span>
                             </button>
                             <button
                               type="reset"
-                              class="btn btn-label-secondary"
+                              className="btn btn-label-secondary"
                               data-bs-dismiss="offcanvas"
                             >
                               Cancel
@@ -736,7 +744,7 @@ const Users = () => {
                   </div>
                 </div>
               </div>
-              <div class="content-backdrop fade"></div>
+              <div className="content-backdrop fade"></div>
             </div>
             <NewAssistantHelpBar />
           </div>
@@ -744,39 +752,42 @@ const Users = () => {
       </div>
       {/* Update User Start */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="updateUserModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel1">
                 Update User
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
             <form
-              class="add-new-user pt-0"
+              className="add-new-user pt-0"
               id="addNewUserForm"
               onSubmit={handleUpdate}
             >
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="update-user-main-name" class="form-label">
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label
+                      htmlFor="update-user-main-name"
+                      className="form-label"
+                    >
                       Name
                     </label>
                     <input
                       type="text"
                       id="update-user-main-name"
-                      class="form-control"
+                      className="form-control"
                       value={editformData?.name}
                       name="name"
                       onChange={edithandleInputChange}
@@ -784,9 +795,12 @@ const Users = () => {
                     />
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="update-user-main-email" class="form-label">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label
+                      htmlFor="update-user-main-email"
+                      className="form-label"
+                    >
                       Email
                     </label>
                     <input
@@ -795,14 +809,17 @@ const Users = () => {
                       value={editformData?.email}
                       name="email"
                       onChange={edithandleInputChange}
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter email"
                     />
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="update-user-main-phone" class="form-label">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label
+                      htmlFor="update-user-main-phone"
+                      className="form-label"
+                    >
                       Phone
                     </label>
                     <input
@@ -811,14 +828,17 @@ const Users = () => {
                       value={editformData?.phone}
                       name="phone"
                       onChange={edithandleInputChange}
-                      class="form-control"
+                      className="form-control"
                       placeholder="658 799 8941"
                     />
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="update-user-main-website" class="form-label">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label
+                      htmlFor="update-user-main-website"
+                      className="form-label"
+                    >
                       Website
                     </label>
                     <input
@@ -827,14 +847,17 @@ const Users = () => {
                       value={editformData?.website}
                       name="website"
                       onChange={edithandleInputChange}
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter Webiste"
                     />
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="update-user-main-address" class="form-label">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label
+                      htmlFor="update-user-main-address"
+                      className="form-label"
+                    >
                       Address
                     </label>
                     <input
@@ -843,16 +866,16 @@ const Users = () => {
                       value={editformData?.address}
                       name="address"
                       onChange={edithandleInputChange}
-                      class="form-control"
+                      className="form-control"
                       placeholder="Address"
                     />
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-label-secondary"
+                  className="btn btn-label-secondary"
                   id="update-user-modal-close"
                   data-bs-dismiss="modal"
                 >
@@ -861,16 +884,16 @@ const Users = () => {
                 <button
                   type="submit"
                   data-bs-dismiss="modal"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                 >
                   <span
                     id="update-user-button-loader"
-                    style={{ block: "none" }}
+                    style={{ display: "none" }}
                   >
-                    {/* <span class="spinner-border" role="status" aria-hidden="true"></span>
-                              <span class="visually-hidden">Loading...</span> */}
+                    {/* <span className="spinner-border" role="status" aria-hidden="true"></span>
+                              <span className="visually-hidden">Loading...</span> */}
                   </span>
-                  <span class="ms-2">Save Changes</span>
+                  <span className="ms-2">Save Changes</span>
                 </button>
               </div>
             </form>
@@ -879,39 +902,43 @@ const Users = () => {
       </div>
       {/* Delete User Modal Start */}
 
-      <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={deleteUser}>
+      <form
+        className="add-new-user pt-0"
+        id="addNewUserForm"
+        onSubmit={deleteUser}
+      >
         <div
-          class="modal fade"
+          className="modal fade"
           id="deleteUserModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel1">
                   Delete user
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="update-user-name" class="form-label">
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label htmlFor="update-user-name" className="form-label">
                       Are you sure you want to delete this User?
                     </label>
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-label-secondary"
+                  className="btn btn-label-secondary"
                   id="delete-user-modal-close"
                   data-bs-dismiss="modal"
                 >
@@ -919,17 +946,17 @@ const Users = () => {
                 </button>
                 <button
                   type="submit"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   onclick="deleteUserApi()"
                 >
                   <span
                     id="delete-user-button-loader"
-                    style={{ block: "none" }}
+                    style={{ display: "none" }}
                   >
-                    {/* <span class="spinner-border" role="status" aria-hidden="true"></span>
-                              <span class="visually-hidden">Loading...</span> */}
+                    {/* <span className="spinner-border" role="status" aria-hidden="true"></span>
+                              <span className="visually-hidden">Loading...</span> */}
                   </span>
-                  <span class="ms-2">Delete User</span>
+                  <span className="ms-2">Delete User</span>
                 </button>
               </div>
             </div>
@@ -938,7 +965,7 @@ const Users = () => {
       </form>
 
       <div className="container">
-        {/* <div class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+        {/* <div className="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
 
                   </div> */}
 
@@ -950,13 +977,13 @@ const Users = () => {
             aria-atomic="true"
           >
             <div className="toast-header">
-              <i class="ti ti-bell ti-xs me-2 text-danger"></i>
-              {/* <i class="ti ti-bell ti-xs me-2 text-success"></i> */}
+              <i className="ti ti-bell ti-xs me-2 text-danger"></i>
+              {/* <i className="ti ti-bell ti-xs me-2 text-success"></i> */}
               <strong className="me-auto"> {showToastMessge}</strong>
               <button
                 type="button"
                 className="btn-close"
-                onClick={toggleToast}
+                onclick={toggleToast}
               ></button>
             </div>
           </div>

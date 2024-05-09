@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Styles.scss";
@@ -7,9 +7,13 @@ import "./Styles.scss";
 const Header = () => {
   const navigate = useNavigate();
 
-  if (localStorage.getItem("token") === null) {
-    // alert(localStorage.getItem('token'))
+  const [path] = useState(() => {
+    let init_value = "";
+    init_value = window.location.pathname.replace("/", "");
+    return init_value;
+  });
 
+  if (localStorage.getItem("token") === null) {
     navigate("/login");
   }
 
@@ -31,28 +35,28 @@ const Header = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
                     fill="#7367F0"
                   />
                   <path
                     opacity="0.06"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
                     fill="#161616"
                   />
                   <path
                     opacity="0.06"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
                     fill="#161616"
                   />
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
                     fill="#7367F0"
                   />
@@ -65,7 +69,11 @@ const Header = () => {
           </div>
           <div className="menu-inner-shadow"></div>
           <ul className="menu-inner py-1">
-            <li className="menu-item">
+            <li
+              className={
+                path === "knowledge" ? "menu-item active" : "menu-item"
+              }
+            >
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-files"></i>
                 {/* <div data-i18n="Knowledge Base">Knowledge Base</div> */}
@@ -74,7 +82,7 @@ const Header = () => {
                 </Link>
               </a>
             </li>
-            <li className="menu-item">
+            <li className={path === "voice" ? "menu-item active" : "menu-item"}>
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-microphone"></i>
                 <Link className="nav-link" to="/voice">
@@ -83,7 +91,7 @@ const Header = () => {
                 {/* <div data-i18n="Voice Agents">Voice Agents</div> */}
               </a>
             </li>
-            <li className="menu-item">
+            <li className={path === "users" ? "menu-item active" : "menu-item"}>
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-user"></i>
                 <Link className="nav-link" to="/users">
@@ -92,7 +100,7 @@ const Header = () => {
                 {/* <div data-i18n="Users">Users</div> */}
               </a>
             </li>
-            <li className="menu-item">
+            <li className={path === "calls" ? "menu-item active" : "menu-item"}>
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-phone-call"></i>
                 <Link className="nav-link" to="/calls">
@@ -101,7 +109,11 @@ const Header = () => {
                 {/* <div data-i18n="Calls">Calls</div> */}
               </a>
             </li>
-            <li className="menu-item">
+            <li
+              className={
+                path === "assistants" ? "menu-item active" : "menu-item"
+              }
+            >
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-brain"></i>
                 <Link className="nav-link" to="/assistant">
@@ -110,7 +122,9 @@ const Header = () => {
               </a>
             </li>
 
-            <li className="menu-item">
+            <li
+              className={path === "actions" ? "menu-item active" : "menu-item"}
+            >
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-checkup-list"></i>
                 <Link className="nav-link" to="/actions">
@@ -119,7 +133,11 @@ const Header = () => {
                 {/* <div data-i18n="Actions">Actions</div> */}
               </a>
             </li>
-            <li className="menu-item">
+            <li
+              className={
+                path === "customers" ? "menu-item active" : "menu-item"
+              }
+            >
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-users-group"></i>
                 <Link className="nav-link" to="/customers">
@@ -128,7 +146,9 @@ const Header = () => {
                 {/* <div data-i18n="Customers">Customers</div> */}
               </a>
             </li>
-            <li className="menu-item">
+            <li
+              className={path === "orders" ? "menu-item active" : "menu-item"}
+            >
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-shopping-cart"></i>
                 <Link className="nav-link" to="/orders">
@@ -137,9 +157,11 @@ const Header = () => {
                 {/* <div data-i18n="Orders">Orders</div> */}
               </a>
             </li>
-            <li className="menu-item">
+            <li
+              className={path === "emails" ? "menu-item active" : "menu-item"}
+            >
               <a className="menu-link">
-                <i class="ti ti-mail ti-sm"></i>
+                <i className="ti ti-mail ti-sm"></i>
                 {/* <i className="menu-icon tf-icons ti ti-shopping-cart"></i> */}
                 <Link className="nav-link align-middle ms-2" to="/emails">
                   Emails

@@ -76,42 +76,46 @@ const Customers = () => {
 
   return (
     <>
-      <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
+      <div className="layout-wrapper layout-content-navbar">
+        <div className="layout-container">
           <Header />
           <div className="layout-page">
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <span class="dropdown FilterDropdown">
-                    <button onClick={toggleColumn} class="btn" type="button">
-                      <i class="ti ti-filter ti-md"></i>
+                  <span className="dropdown FilterDropdown">
+                    <button
+                      onClick={toggleColumn}
+                      className="btn"
+                      type="button"
+                    >
+                      <i className="ti ti-filter ti-md"></i>
                     </button>
                   </span>
-                  <span class="dropdown">
+                  <span className="dropdown">
                     <button
-                      class="btn dropdown-toggle border rounded-pill"
+                      className="btn dropdown-toggle border rounded-pill"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       May 2023 Candidates
                     </button>
-                    <div class="dropdown-menu" style={{ width: "300px" }}>
-                      <ul class="nav nav-tabs">
-                        <li class="nav-item">
+                    <div className="dropdown-menu" style={{ width: "300px" }}>
+                      <ul className="nav nav-tabs">
+                        <li className="nav-item">
                           <a
-                            class="nav-link active"
+                            className="nav-link active"
                             data-bs-toggle="tab"
                             href="#AllViews"
                           >
                             All Views
                           </a>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <a
-                            class="nav-link"
+                            className="nav-link"
                             data-bs-toggle="tab"
                             href="#Favorites"
                           >
@@ -119,19 +123,19 @@ const Customers = () => {
                           </a>
                         </li>
                       </ul>
-                      <div class="tab-content px-3 pb-0">
-                        <div class="tab-pane  active" id="AllViews">
+                      <div className="tab-content px-3 pb-0">
+                        <div className="tab-pane  active" id="AllViews">
                           <input
                             type="text"
                             className="form-control position-relative"
                           />
-                          <i class="las la-search la-lg"></i>
+                          <i className="las la-search la-lg"></i>
 
                           <div className="SharedWithCard">
                             <h5 className="mb-2 mt-3">Shared with me</h5>
                             <p>
-                              <i class="las la-star text-primary"></i> Move to
-                              Bench/Training
+                              <i className="las la-star text-primary"></i> Move
+                              to Bench/Training
                             </p>
 
                             <h5 className="mb-2 mt-3">Public Views</h5>
@@ -143,64 +147,64 @@ const Customers = () => {
                             </ul>
                           </div>
                           <button className="btn text-primary">
-                            <i class="las la-plus la-lg"></i> Create View
+                            <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
                         {/* AllViews tab end */}
 
-                        <div class="tab-pane fade" id="Favorites">
+                        <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
                 </div>
-                <div class="col-4 mb-3"></div>
+                <div className="col-4 mb-3"></div>
                 <div className="col-md-4 text-end">
                   <button
-                    class="btn dropdown-toggle border rounded-pill  me-3"
+                    className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="las la-bars la-lg"></i>
+                    <i className="las la-bars la-lg"></i>
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         List
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Sheet
                       </a>
                     </li>
                   </ul>
                   <button
                     type="button"
-                    class="btn btn-primary pull-right"
+                    className="btn btn-primary pull-right"
                     onClick={() => newagentEvent("value1")}
                     data-bs-toggle="modal"
                     data-bs-target="#createCustomerModal"
                   >
-                    <span class="ti-xs ti ti-plus me-1"></span>New Customer
+                    <span className="ti-xs ti ti-plus me-1"></span>New Customer
                   </button>
                 </div>
               </div>
             </div>
-            <div class="content-wrapper">
-              <div class="container-fluid flex-grow-1 container-p-y">
+            <div className="content-wrapper">
+              <div className="container-fluid flex-grow-1 container-p-y">
                 <div className="row">
                   <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                     <div className="card">
-                      {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                      {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                       {/* accourdian start */}
-                      <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
+                      <div className="accordion" id="accordionExample">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingOne">
                             <button
-                              class="accordion-button"
+                              className="accordion-button"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseOne"
@@ -212,13 +216,13 @@ const Customers = () => {
                           </h2>
                           <div
                             id="collapseOne"
-                            class="accordion-collapse collapse show"
+                            className="accordion-collapse collapse show"
                             aria-labelledby="headingOne"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">
+                            <div className="accordion-body">
                               <div>
-                                {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                                {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                                 <input
                                   type="text"
                                   placeholder="Choose a property"
@@ -279,10 +283,10 @@ const Customers = () => {
                             </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingTwo">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingTwo">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseTwo"
@@ -294,17 +298,19 @@ const Customers = () => {
                           </h2>
                           <div
                             id="collapseTwo"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingTwo"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 2</div>
+                            <div className="accordion-body">
+                              Heading content 2
+                            </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingThree">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingThree">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseThree"
@@ -316,11 +322,13 @@ const Customers = () => {
                           </h2>
                           <div
                             id="collapseThree"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingThree"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 3</div>
+                            <div className="accordion-body">
+                              Heading content 3
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -328,25 +336,25 @@ const Customers = () => {
                     </div>
                   </div>
                   <div className={isColumnVisible ? "col-md-8" : "col-md-12"}>
-                    <div class="card">
-                      <div class="card-header border-bottom">
-                        <h4 class="card-title pull-left">Customers</h4>
+                    <div className="card">
+                      <div className="card-header border-bottom">
+                        <h4 className="card-title pull-left">Customers</h4>
                       </div>
-                      <div class="card-datatable table-responsive">
+                      <div className="card-datatable table-responsive">
                         <div className="table-scrollable">
-                          <table class="datatables-voice-agents table">
-                            <thead class="border-top">
+                          <table className="datatables-voice-agents table">
+                            <thead className="border-top">
                               <tr>
                                 <th className="w-px-14">
-                                  <div class="form-check mb-0">
+                                  <div className="form-check mb-0">
                                     <input
-                                      class="email-list-item-input form-check-input"
+                                      className="email-list-item-input form-check-input"
                                       type="checkbox"
                                       id="email-1"
                                     />
                                     <label
-                                      class="form-check-label"
-                                      for="email-1"
+                                      className="form-check-label"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
@@ -361,15 +369,15 @@ const Customers = () => {
                                 return (
                                   <tr key={key}>
                                     <td className="w-px-14">
-                                      <div class="form-check mb-0">
+                                      <div className="form-check mb-0">
                                         <input
-                                          class="email-list-item-input form-check-input"
+                                          className="email-list-item-input form-check-input"
                                           type="checkbox"
                                           id="email-1"
                                         />
                                         <label
-                                          class="form-check-label"
-                                          for="email-1"
+                                          className="form-check-label"
+                                          htmlFor="email-1"
                                         ></label>
                                       </div>
                                     </td>
@@ -379,7 +387,7 @@ const Customers = () => {
                                     <td style={{ width: "70px" }}>
                                       {/* <div className="d-flex acation-btns">
                                 <button data-bs-toggle="modal"
-                                  data-bs-target="#updateCustomerModal" className='btn px-1'><i class="ti ti-edit ti-sm me-2"></i></button>
+                                  data-bs-target="#updateCustomerModal" className='btn px-1'><i className="ti ti-edit ti-sm me-2"></i></button>
                                   <button data-bs-toggle="modal"
                                   data-bs-target="#deleteCustomerModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
                                 </div> */}
@@ -405,7 +413,7 @@ const Customers = () => {
         <ul className="pagination">
           {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
             <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-              <button className="page-link" onClick={() => paginate(index + 1)}>
+              <button className="page-link" onclick={() => paginate(index + 1)}>
                 {index + 1}
               </button>
             </li>
@@ -422,7 +430,7 @@ const Customers = () => {
                   </div>
                 </div>
               </div>
-              <div class="content-backdrop fade"></div>
+              <div className="content-backdrop fade"></div>
             </div>
             <NewAssistantHelpBar />
           </div>
@@ -431,95 +439,107 @@ const Customers = () => {
 
       {/* Update Customer */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="updateCustomerModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel1">
                 Update Customer
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="update-user-main-name" class="form-label">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="update-user-main-name" className="form-label">
                     Name
                   </label>
                   <input
                     type="text"
                     id="update-user-main-name"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter Name"
                   />
                 </div>
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="update-user-main-email" class="form-label">
+              <div className="row">
+                <div className="col mb-3">
+                  <label
+                    htmlFor="update-user-main-email"
+                    className="form-label"
+                  >
                     Email
                   </label>
                   <input
                     type="text"
                     id="update-user-main-email"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter email"
                   />
                 </div>
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="update-user-main-phone" class="form-label">
+              <div className="row">
+                <div className="col mb-3">
+                  <label
+                    htmlFor="update-user-main-phone"
+                    className="form-label"
+                  >
                     Phone
                   </label>
                   <input
                     type="email"
                     id="update-user-main-phone"
-                    class="form-control"
+                    className="form-control"
                     placeholder="658 799 8941"
                   />
                 </div>
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="update-user-main-website" class="form-label">
+              <div className="row">
+                <div className="col mb-3">
+                  <label
+                    htmlFor="update-user-main-website"
+                    className="form-label"
+                  >
                     Website
                   </label>
                   <input
                     type="text"
                     id="update-user-main-website"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter Webiste"
                   />
                 </div>
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="update-user-main-address" class="form-label">
+              <div className="row">
+                <div className="col mb-3">
+                  <label
+                    htmlFor="update-user-main-address"
+                    className="form-label"
+                  >
                     Address
                   </label>
                   <input
                     type="text"
                     id="update-user-main-address"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Address"
                   />
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-label-secondary"
+                className="btn btn-label-secondary"
                 id="update-user-modal-close"
                 data-bs-dismiss="modal"
               >
@@ -527,18 +547,21 @@ const Customers = () => {
               </button>
               <button
                 type="button"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 onclick="updateUserApi()"
               >
-                <span id="update-user-button-loader" style={{ block: "none" }}>
+                <span
+                  id="update-user-button-loader"
+                  style={{ display: "none" }}
+                >
                   <span
-                    class="spinner-border"
+                    className="spinner-border"
                     role="status"
                     aria-hidden="true"
                   ></span>
-                  <span class="visually-hidden">Loading...</span>
+                  <span className="visually-hidden">Loading...</span>
                 </span>
-                <span class="ms-2">Save Changes</span>
+                <span className="ms-2">Save Changes</span>
               </button>
             </div>
           </div>
@@ -546,37 +569,37 @@ const Customers = () => {
       </div>
       {/* Delete Customer Modal Start */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="deleteCustomerModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel1">
                 Delete Customer
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="update-user-name" class="form-label">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="update-user-name" className="form-label">
                     Are you sure you want to delete this Customer?
                   </label>
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-label-secondary"
+                className="btn btn-label-secondary"
                 id="delete-user-modal-close"
                 data-bs-dismiss="modal"
               >
@@ -584,18 +607,21 @@ const Customers = () => {
               </button>
               <button
                 type="button"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 onclick="deleteUserApi()"
               >
-                <span id="delete-user-button-loader" style={{ block: "none" }}>
+                <span
+                  id="delete-user-button-loader"
+                  style={{ display: "none" }}
+                >
                   <span
-                    class="spinner-border"
+                    className="spinner-border"
                     role="status"
                     aria-hidden="true"
                   ></span>
-                  <span class="visually-hidden">Loading...</span>
+                  <span className="visually-hidden">Loading...</span>
                 </span>
-                <span class="ms-2">Delete User</span>
+                <span className="ms-2">Delete User</span>
               </button>
             </div>
           </div>
@@ -603,48 +629,48 @@ const Customers = () => {
       </div>
       {/* Create Customer */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="createCustomerModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel1">
                 Create Customer
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 id="create-action-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="action-agent" class="form-label">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="action-agent" className="form-label">
                     Voice Agent
                   </label>
-                  <select id="action-agent" class="form-select"></select>
+                  <select id="action-agent" className="form-select"></select>
                 </div>
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="action-assistant" class="form-label">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="action-assistant" className="form-label">
                     Assistant
                   </label>
-                  {/* <select id="action-assistant" onchange="changeActionAssistant()" class="form-select">
-                                    <option value="" selected>Select assistant</option>
+                  {/* <select id="action-assistant" onchange="changeActionAssistant()" className="form-select">
+                                    <option value="">Select assistant</option>
                                   </select> */}
 
                   <select
                     name="assistant_id"
                     value={formData.assistant_id}
                     onChange={handleInputChange}
-                    class="form-select"
+                    className="form-select"
                   >
                     <option value="">Select Assistant</option>
                     {dataFromApi?.map((option) => (
@@ -655,44 +681,42 @@ const Customers = () => {
                   </select>
                 </div>
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="action-name" class="form-label">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="action-name" className="form-label">
                     Name
                   </label>
                   <input
                     type="text"
                     id="action-name"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter Name"
                   />
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="select-intent-picker" class="form-label">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="select-intent-picker" className="form-label">
                     Select Intents
                   </label>
                   <select
                     id="select-intent-picker"
-                    class="select2 form-select"
+                    className="select2 form-select"
                   ></select>
                 </div>
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label class="form-label" for="action-type">
+              <div className="row">
+                <div className="col mb-3">
+                  <label className="form-label" htmlFor="action-type">
                     Action type
                   </label>
                   <select
                     id="action-type"
                     onchange="changeActionType()"
-                    class="form-select"
+                    className="form-select"
                   >
-                    <option value="" selected>
-                      Select Type
-                    </option>
+                    <option value="">Select Type</option>
                     <option value="webhook">API</option>
                     <option value="email">Send Email</option>
                     <option value="sms">Send SMS</option>
@@ -700,10 +724,10 @@ const Customers = () => {
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-label-secondary"
+                className="btn btn-label-secondary"
                 id="create-user-modal-close"
                 data-bs-dismiss="modal"
               >
@@ -711,10 +735,10 @@ const Customers = () => {
               </button>
               <button
                 type="button"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 onclick="createAction()"
               >
-                <span class="ms-2">Create Customer</span>
+                <span className="ms-2">Create Customer</span>
               </button>
             </div>
           </div>

@@ -319,35 +319,39 @@ const Home = () => {
             <div className="container-fluid">
               <div className="row my-3">
                 <div className="col-md-4">
-                  <span class="dropdown FilterDropdown">
-                    <button onClick={toggleColumn} class="btn" type="button">
-                      <i class="ti ti-filter ti-md"></i>
+                  <span className="dropdown FilterDropdown">
+                    <button
+                      onClick={toggleColumn}
+                      className="btn"
+                      type="button"
+                    >
+                      <i className="ti ti-filter ti-md"></i>
                     </button>
                   </span>
 
-                  <span class="dropdown">
+                  <span className="dropdown">
                     <button
-                      class="btn dropdown-toggle border rounded-pill"
+                      className="btn dropdown-toggle border rounded-pill"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       May 2023 Candidates
                     </button>
-                    <div class="dropdown-menu" style={{ width: "300px" }}>
-                      <ul class="nav nav-tabs">
-                        <li class="nav-item">
+                    <div className="dropdown-menu" style={{ width: "300px" }}>
+                      <ul className="nav nav-tabs">
+                        <li className="nav-item">
                           <a
-                            class="nav-link active"
+                            className="nav-link active"
                             data-bs-toggle="tab"
                             href="#AllViews"
                           >
                             All Views
                           </a>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                           <a
-                            class="nav-link"
+                            className="nav-link"
                             data-bs-toggle="tab"
                             href="#Favorites"
                           >
@@ -355,19 +359,19 @@ const Home = () => {
                           </a>
                         </li>
                       </ul>
-                      <div class="tab-content px-3 pb-0">
-                        <div class="tab-pane  active" id="AllViews">
+                      <div className="tab-content px-3 pb-0">
+                        <div className="tab-pane  active" id="AllViews">
                           <input
                             type="text"
                             className="form-control position-relative"
                           />
-                          <i class="las la-search la-lg"></i>
+                          <i className="las la-search la-lg"></i>
 
                           <div className="SharedWithCard">
                             <h5 className="mb-2 mt-3">Shared with me</h5>
                             <p>
-                              <i class="las la-star text-primary"></i> Move to
-                              Bench/Training
+                              <i className="las la-star text-primary"></i> Move
+                              to Bench/Training
                             </p>
 
                             <h5 className="mb-2 mt-3">Public Views</h5>
@@ -379,48 +383,49 @@ const Home = () => {
                             </ul>
                           </div>
                           <button className="btn text-primary">
-                            <i class="las la-plus la-lg"></i> Create View
+                            <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
 
-                        <div class="tab-pane fade" id="Favorites">
+                        <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
                 </div>
-                <div class="col-4 mb-3"></div>
+                <div className="col-4 mb-3"></div>
                 <div className="col-md-4 text-end">
                   <button
-                    class="btn dropdown-toggle border rounded-pill  me-3"
+                    className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="las la-bars la-lg"></i>
+                    <i className="las la-bars la-lg"></i>
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         List
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Sheet
                       </a>
                     </li>
                   </ul>
-                  {/* <a class="btn btn-primary pull-right text-white" data-bs-toggle="modal"
+                  {/* <a className="btn btn-primary pull-right text-white" data-bs-toggle="modal"
                       data-bs-target="#createKbsModal">
-                    <span class="ti-xs ti ti-plus me-1"></span> Create Assistant
+                    <span className="ti-xs ti ti-plus me-1"></span> Create Assistant
                     </a> */}
                   <Link
                     className="btn btn-primary pull-right text-white"
                     to="/assistant-dashboard"
                   >
-                    <span class="ti-xs ti ti-plus me-1"></span> Create Assistant
+                    <span className="ti-xs ti ti-plus me-1"></span> Create
+                    Assistant
                   </Link>
                 </div>
               </div>
@@ -431,13 +436,13 @@ const Home = () => {
                 <div className="row">
                   <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                     <div className="card">
-                      {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                      {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                       {/* accourdian start */}
-                      <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
+                      <div className="accordion" id="accordionExample">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingOne">
                             <button
-                              class="accordion-button"
+                              className="accordion-button"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseOne"
@@ -449,13 +454,13 @@ const Home = () => {
                           </h2>
                           <div
                             id="collapseOne"
-                            class="accordion-collapse collapse show"
+                            className="accordion-collapse collapse show"
                             aria-labelledby="headingOne"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">
+                            <div className="accordion-body">
                               <div>
-                                {/* <h6><i class="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
+                                {/* <h6><i className="las la-angle-left fw-600"></i>  Filter Consultants</h6> */}
                                 <input
                                   type="text"
                                   placeholder="Choose a property"
@@ -516,10 +521,10 @@ const Home = () => {
                             </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingTwo">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingTwo">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseTwo"
@@ -531,17 +536,19 @@ const Home = () => {
                           </h2>
                           <div
                             id="collapseTwo"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingTwo"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 2</div>
+                            <div className="accordion-body">
+                              Heading content 2
+                            </div>
                           </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingThree">
+                        <div className="accordion-item">
+                          <h2 className="accordion-header" id="headingThree">
                             <button
-                              class="accordion-button collapsed"
+                              className="accordion-button collapsed"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target="#collapseThree"
@@ -553,11 +560,13 @@ const Home = () => {
                           </h2>
                           <div
                             id="collapseThree"
-                            class="accordion-collapse collapse"
+                            className="accordion-collapse collapse"
                             aria-labelledby="headingThree"
                             data-bs-parent="#accordionExample"
                           >
-                            <div class="accordion-body">Heading content 3</div>
+                            <div className="accordion-body">
+                              Heading content 3
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -569,8 +578,8 @@ const Home = () => {
                     id="kbs-content"
                   >
                     <div className="card">
-                      <div class="card-header p-0 px-4 py-2 border-bottom">
-                        <h4 class="card-title pull-left">Assistants</h4>
+                      <div className="card-header p-0 px-4 py-2 border-bottom">
+                        <h4 className="card-title pull-left">Assistants</h4>
                       </div>
                       <div className="card-datatable table-responsive">
                         <div className="table-scrollable">
@@ -578,17 +587,17 @@ const Home = () => {
                             <thead>
                               <tr className="position-sticky top-0 z-1 bg-white">
                                 <th className="w-px-14">
-                                  <div class="form-check mb-0">
+                                  <div className="form-check mb-0">
                                     <input
                                       className="form-check-input"
                                       type="checkbox"
                                       checked={selectAll}
                                       onChange={handleSelectAll}
                                     />
-                                    {/* <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" /> */}
+                                    {/* <input className="email-list-item-input form-check-input" type="checkbox" id="email-1" /> */}
                                     <label
-                                      class="form-check-label"
-                                      for="email-1"
+                                      className="form-check-label"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
@@ -648,9 +657,9 @@ const Home = () => {
                                         return (
                                           <tr key={key}>
                                             <td className='w-px-14'>
-                                            <div class="form-check mb-0">
-                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
-                                  <label class="form-check-label" for="email-1"></label>
+                                            <div className="form-check mb-0">
+                                  <input className="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label className="form-check-label" htmlFor="email-1"></label>
                                 </div>
                                             </td>
                                             <td>{value.name}</td>
@@ -729,55 +738,58 @@ const Home = () => {
                       </div>
 
                       <div
-                        class="offcanvas offcanvas-end"
-                        tabindex="-1"
+                        className="offcanvas offcanvas-end"
+                        tabIndex="-1"
                         id="offcanvasAddAssistant"
                         aria-labelledby="offcanvasAddAssistantLabel"
                       >
-                        <div class="offcanvas-header">
+                        <div className="offcanvas-header">
                           <h5
                             id="offcanvasAddAssistantLabel"
-                            class="offcanvas-title"
+                            className="offcanvas-title"
                           >
                             Add Assistant
                           </h5>
                           <button
                             type="button"
-                            class="btn-close text-reset"
+                            className="btn-close text-reset"
                             id="close-add-assistant-canvas"
                             data-bs-dismiss="offcanvas"
                             aria-label="Close"
                           ></button>
                         </div>
-                        <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
+                        <div className="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
                           <form
-                            class="add-new-assistant pt-0"
+                            className="add-new-assistant pt-0"
                             id="addNewAssistantForm"
                             onsubmit="return false"
                           >
-                            <div class="mb-3">
-                              <label class="form-label" for="assistant-name">
+                            <div className="mb-3">
+                              <label
+                                className="form-label"
+                                htmlFor="assistant-name"
+                              >
                                 Assistant Name
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 id="assistant-name"
                                 placeholder="John Doe"
                                 name="name"
                                 aria-label="John Doe"
                               />
                             </div>
-                            <div class="mb-3">
+                            <div className="mb-3">
                               <label
-                                class="form-label"
-                                for="assistant-description"
+                                className="form-label"
+                                htmlFor="assistant-description"
                               >
                                 Assistant description
                               </label>
                               <textarea
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 id="assistant-description"
                                 placeholder="Hello"
                                 name="description"
@@ -785,14 +797,17 @@ const Home = () => {
                               ></textarea>
                             </div>
                             <div>
-                              <div class="mb-3">
-                                <label class="form-label" for="assistant-type">
+                              <div className="mb-3">
+                                <label
+                                  className="form-label"
+                                  htmlFor="assistant-type"
+                                >
                                   Type
                                 </label>
                                 <select
                                   value={parentValue}
                                   onChange={handleParentChange}
-                                  class="form-select"
+                                  className="form-select"
                                 >
                                   <option value="">Select Type</option>
                                   {parentOptions.map((option) => (
@@ -807,17 +822,17 @@ const Home = () => {
                               </div>
 
                               {parentValue && (
-                                <div class="mb-3">
+                                <div className="mb-3">
                                   <label
-                                    class="form-label"
-                                    for="dialogflow-type"
+                                    className="form-label"
+                                    htmlFor="dialogflow-type"
                                   >
                                     Base Type
                                   </label>
                                   <select
                                     value={childValue}
                                     onChange={handleChildChange}
-                                    class="form-select"
+                                    className="form-select"
                                   >
                                     <option value="">Select Type</option>
                                     {getChildOptions(parentValue).map(
@@ -882,23 +897,25 @@ const Home = () => {
                                       name="apiKey"
                                     />
                                   </div>
-                                  <div class="mb-3" id="open-ai-files">
-                                    <div class="card">
-                                      <h5 class="card-header">Upload files</h5>
-                                      <div class="card-body">
+                                  <div className="mb-3" id="open-ai-files">
+                                    <div className="card">
+                                      <h5 className="card-header">
+                                        Upload files
+                                      </h5>
+                                      <div className="card-body">
                                         <form
-                                          class="dropzone needsclick"
+                                          className="dropzone needsclick"
                                           id="dropzone-multi"
                                         >
                                           <label
-                                            for="assistant-file"
-                                            class="pointer dz-message needsclick"
+                                            htmlFor="assistant-file"
+                                            className="pointer dz-message needsclick"
                                           >
                                             Drop file here or click to upload
                                             (CSV or XLSX file only). Limit : 100
                                             MB
                                           </label>
-                                          <div class="fallback">
+                                          <div className="fallback">
                                             <input
                                               id="assistant-file"
                                               name="file"
@@ -906,12 +923,12 @@ const Home = () => {
                                             />
                                           </div>
                                           <div
-                                            class="parent-div"
+                                            className="parent-div"
                                             id="filename-parent"
                                           >
-                                            <label class="form-label"></label>
+                                            <label className="form-label"></label>
                                             <i
-                                              class="ti ti-x pull-right pointer"
+                                              className="ti ti-x pull-right pointer"
                                               id="clear-file"
                                             ></i>
                                           </div>
@@ -923,19 +940,19 @@ const Home = () => {
                               )}
                             </div>
 
-                            {/* <div class="mb-3">
-                      <label class="form-label" for="assistant-type">Type</label>
+                            {/* <div className="mb-3">
+                      <label className="form-label" htmlFor="assistant-type">Type</label>
                       <select id="assistant-type" onchange="changeAssistantType()"
-                       class="form-select">
-                        <option value="" selected>Select Type</option>
+                       className="form-select">
+                        <option value="">Select Type</option>
                         <option value="open_ai">Open AI GPT</option>
                         <option value="dialogflow">Dilogflow</option>
                       </select>
                     </div> */}
-                            {/* <div class="mb-3" id="dialogflow-type-parent" style={{ display: 'none' }}>
-                      <label class="form-label" for="dialogflow-type">Base Type</label>
-                      <select id="dialogflow-type" onchange="changeAssistantType()" class="form-select">
-                        <option value="" selected>Select Type</option>
+                            {/* <div className="mb-3" id="dialogflow-type-parent" style={{ display: 'none' }}>
+                      <label className="form-label" htmlFor="dialogflow-type">Base Type</label>
+                      <select id="dialogflow-type" onchange="changeAssistantType()" className="form-select">
+                        <option value="">Select Type</option>
                         <option value="dining-out">Dining Out</option>
                         <option value="banking">Banking</option>
                         <option value="job-interview">Job Interview</option>
@@ -945,17 +962,21 @@ const Home = () => {
                       </select>
                     </div> */}
                             <div
-                              class="mb-3"
+                              className="mb-3"
                               id="open-ai-model"
                               style={{ display: "none" }}
                             >
-                              <label class="form-label" for="assistant-model">
+                              <label
+                                className="form-label"
+                                htmlFor="assistant-model"
+                              >
                                 Model type
                               </label>
-                              <select id="assistant-model" class="form-select">
-                                <option value="" selected>
-                                  Select Model
-                                </option>
+                              <select
+                                id="assistant-model"
+                                className="form-select"
+                              >
+                                <option value="">Select Model</option>
                                 <option value="gpt-3.5-turbo-0125">
                                   GPT-3.5-turbo-0125 (Recommended)
                                 </option>
@@ -969,34 +990,37 @@ const Home = () => {
                             </div>
 
                             <div
-                              class="mb-3"
+                              className="mb-3"
                               id="open-ai-instructions"
                               style={{ display: "none" }}
                             >
                               <label
-                                class="form-label"
-                                for="assistant-instructions"
+                                className="form-label"
+                                htmlFor="assistant-instructions"
                               >
                                 Instructions
                               </label>
                               <textarea
                                 type="text"
                                 id="assistant-instructions"
-                                class="form-control"
+                                className="form-control"
                                 placeholder="Act as a Maths teacher"
                                 aria-label="Act as a Maths teacher"
                                 name="instructions"
                               ></textarea>
                             </div>
                             <div
-                              class="mb-3"
+                              className="mb-3"
                               id="open-ai-api-key"
                               style={{ display: "none" }}
                             >
-                              <label class="form-label" for="assistant-api-key">
+                              <label
+                                className="form-label"
+                                htmlFor="assistant-api-key"
+                              >
                                 API Key{" "}
                                 <span
-                                  class="ti ti-info-circle tf-icons"
+                                  className="ti ti-info-circle tf-icons"
                                   data-bs-toggle="tooltip"
                                   data-bs-placement="right"
                                   title="This is optional, we will use our key if you leave this empty"
@@ -1005,7 +1029,7 @@ const Home = () => {
                               <input
                                 type="text"
                                 id="assistant-api-key"
-                                class="form-control"
+                                className="form-control"
                                 placeholder="API key"
                                 aria-label="API key"
                                 name="apiKey"
@@ -1013,25 +1037,25 @@ const Home = () => {
                             </div>
 
                             <div
-                              class="mb-3"
+                              className="mb-3"
                               id="open-ai-files"
                               style={{ display: "none" }}
                             >
-                              <div class="card">
-                                <h5 class="card-header">Upload files</h5>
-                                <div class="card-body">
+                              <div className="card">
+                                <h5 className="card-header">Upload files</h5>
+                                <div className="card-body">
                                   <form
-                                    class="dropzone needsclick"
+                                    className="dropzone needsclick"
                                     id="dropzone-multi"
                                   >
                                     <label
-                                      for="assistant-file"
-                                      class="pointer dz-message needsclick"
+                                      htmlFor="assistant-file"
+                                      className="pointer dz-message needsclick"
                                     >
                                       Drop file here or click to upload (CSV or
                                       XLSX file only). Limit : 100 MB
                                     </label>
-                                    <div class="fallback">
+                                    <div className="fallback">
                                       <input
                                         id="assistant-file"
                                         name="file"
@@ -1039,13 +1063,13 @@ const Home = () => {
                                       />
                                     </div>
                                     <div
-                                      class="parent-div"
+                                      className="parent-div"
                                       id="filename-parent"
                                       style={{ display: "none" }}
                                     >
-                                      <label class="form-label"></label>
+                                      <label className="form-label"></label>
                                       <i
-                                        class="ti ti-x pull-right pointer"
+                                        className="ti ti-x pull-right pointer"
                                         id="clear-file"
                                       ></i>
                                     </div>
@@ -1055,25 +1079,27 @@ const Home = () => {
                             </div>
                             <button
                               type="submit"
-                              class="btn btn-primary me-sm-3 me-1 data-submit"
-                              onclick="createAssistant()"
+                              className="btn btn-primary me-sm-3 me-1 data-submit"
+                              onClick="createAssistant()"
                             >
                               <span
                                 id="create-assistant-button-loader"
                                 style={{ display: "none" }}
                               >
                                 <span
-                                  class="spinner-border"
+                                  className="spinner-border"
                                   role="status"
                                   aria-hidden="true"
                                 ></span>
-                                <span class="visually-hidden">Loading...</span>
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
                               </span>
-                              <span class="ms-2">Create Assistant</span>
+                              <span className="ms-2">Create Assistant</span>
                             </button>
                             <button
                               type="reset"
-                              class="btn btn-label-secondary"
+                              className="btn btn-label-secondary"
                               data-bs-dismiss="offcanvas"
                             >
                               Cancel
@@ -1083,70 +1109,75 @@ const Home = () => {
                       </div>
 
                       <div
-                        class="offcanvas offcanvas-end"
-                        tabindex="-1"
+                        className="offcanvas offcanvas-end"
+                        tabIndex="-1"
                         id="offcanvasTestAssistant"
                         aria-labelledby="offcanvasTestAssistantLabel"
                       >
-                        <div class="offcanvas-header">
+                        <div className="offcanvas-header">
                           <h5
                             id="offcanvasTestAssistantLabel"
-                            class="offcanvas-title"
+                            className="offcanvas-title"
                           >
                             Test Assistant
                           </h5>
                           <button
                             type="button"
-                            class="btn-close text-reset"
+                            className="btn-close text-reset"
                             id="close-test-assistant-canvas"
                             data-bs-dismiss="offcanvas"
                             aria-label="Close"
                           ></button>
                         </div>
-                        <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
+                        <div className="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
                           <form
-                            class="add-new-assistant pt-0"
+                            className="add-new-assistant pt-0"
                             id="addNewAssistantForm"
                           >
-                            <div class="mb-3">
-                              <label class="form-label" for="test-instruction">
+                            <div className="mb-3">
+                              <label
+                                className="form-label"
+                                htmlFor="test-instruction"
+                              >
                                 Instruction
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 id="test-instruction"
                                 placeholder="Ask me anything"
                                 name="text"
                                 aria-label="Ask me anything"
                               />
                             </div>
-                            <div class="mb-3">
+                            <div className="mb-3">
                               <label
-                                class="form-label"
+                                className="form-label"
                                 id="test-assistant-response"
                               ></label>
                             </div>
                             <button
                               type="submit"
-                              class="btn btn-primary me-sm-3 me-1 data-submit"
+                              className="btn btn-primary me-sm-3 me-1 data-submit"
                             >
                               <span
                                 id="test-assistant-button-loader"
                                 style={{ display: "none" }}
                               >
                                 <span
-                                  class="spinner-border"
+                                  className="spinner-border"
                                   role="status"
                                   aria-hidden="true"
                                 ></span>
-                                <span class="visually-hidden">Loading...</span>
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
                               </span>
-                              <span class="ms-2">Test</span>
+                              <span className="ms-2">Test</span>
                             </button>
                             <button
                               type="reset"
-                              class="btn btn-label-secondary"
+                              className="btn btn-label-secondary"
                               data-bs-dismiss="offcanvas"
                             >
                               Cancel
@@ -1164,72 +1195,74 @@ const Home = () => {
         </div>
       </div>
 
-      <form class="mb-3" onSubmit={createChatHandle}>
+      <form className="mb-3" onSubmit={createChatHandle}>
         <div
-          class="modal fade"
+          className="modal fade"
           id="testAssistantModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel1">
                   Test assistant
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body app-chat">
-                <div class="col app-chat-history">
-                  <div class="chat-history-wrapper">
-                    <div class="chat-history-body bg-body">
+              <div className="modal-body app-chat">
+                <div className="col app-chat-history">
+                  <div className="chat-history-wrapper">
+                    <div className="chat-history-body bg-body">
                       <ul
-                        class="list-unstyled chat-history"
+                        className="list-unstyled chat-history"
                         id="testing-assistant-chat"
                       ></ul>
                     </div>
-                    <div class="chat-history-footer shadow-sm">
-                      <div class="form-send-message d-flex justify-content-between align-items-center">
-                        <div class="col-sm-9 pull-left">
+                    <div className="chat-history-footer shadow-sm">
+                      <div className="form-send-message d-flex justify-content-between align-items-center">
+                        <div className="col-sm-9 pull-left">
                           <input
                             id="assistant-chat-input"
                             name="text"
                             value={editformData.text}
                             onChange={handleInputChangecall}
-                            class="form-control message-input border-0 me-3 shadow-none"
+                            className="form-control message-input border-0 me-3 shadow-none"
                             placeholder="Type your message here"
                           />
                         </div>
-                        <div class="col-sm-3 pull-right">
-                          <div class="message-actions d-flex align-items-center">
+                        <div className="col-sm-3 pull-right">
+                          <div className="message-actions d-flex align-items-center">
                             <i
-                              class="speech-to-text ti ti-microphone ti-sm cursor-pointer me-3"
+                              className="speech-to-text ti ti-microphone ti-sm cursor-pointer me-3"
                               id="microphone"
-                              onclick="startListening()"
+                              onClick="startListening()"
                             ></i>
                             <button
                               type="submit"
                               data-bs-dismiss="modal"
-                              class="btn btn-primary d-flex send-msg-btn pull-right"
+                              className="btn btn-primary d-flex send-msg-btn pull-right"
                             >
                               <span
                                 id="test-assistant-button-loader"
-                                style={{ block: "none" }}
+                                style={{ display: "none" }}
                               >
                                 <span
-                                  class="spinner-border"
+                                  className="spinner-border"
                                   role="status"
                                   aria-hidden="true"
                                 ></span>
-                                <span class="visually-hidden">Loading...</span>
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
                               </span>
-                              <span class="ms-2">
-                                <i class="ti ti-send me-md-1 me-0"></i>
+                              <span className="ms-2">
+                                <i className="ti ti-send me-md-1 me-0"></i>
                               </span>
                             </button>
                           </div>
@@ -1239,41 +1272,41 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <div class="modal-footer"></div>
+              <div className="modal-footer"></div>
             </div>
           </div>
         </div>
       </form>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="updateAssistantModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel1">
                 Add intent
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="new-intent" class="form-label">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="new-intent" className="form-label">
                     Intent
                   </label>
                   <input
                     type="text"
                     id="new-intent"
-                    class="form-control"
+                    className="form-control"
                     name="text"
                     value={formData.text}
                     onChange={handleInputChangecall}
@@ -1282,25 +1315,25 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-label-secondary"
+                className="btn btn-label-secondary"
                 id="new-intent-close"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
-              <button type="submit" class="btn btn-primary">
-                <span id="new-intent-button-loader" style={{ block: "none" }}>
+              <button type="submit" className="btn btn-primary">
+                <span id="new-intent-button-loader" style={{ display: "none" }}>
                   <span
-                    class="spinner-border"
+                    className="spinner-border"
                     role="status"
                     aria-hidden="true"
                   ></span>
-                  <span class="visually-hidden">Loading...</span>
+                  <span className="visually-hidden">Loading...</span>
                 </span>
-                <span class="ms-2">Add intent</span>
+                <span className="ms-2">Add intent</span>
               </button>
             </div>
           </div>
@@ -1308,42 +1341,45 @@ const Home = () => {
       </div>
 
       <form
-        class="add-new-user pt-0"
+        className="add-new-user pt-0"
         id="addNewUserForm"
         onSubmit={deleteAssist}
       >
         <div
-          class="modal fade"
+          className="modal fade"
           id="deleteAssistantModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel1">
                   Delete assistant
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="update-assistant-name" class="form-label">
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col mb-3">
+                    <label
+                      htmlFor="update-assistant-name"
+                      className="form-label"
+                    >
                       Are you sure you want to delete this Assistant?
                     </label>
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-label-secondary"
+                  className="btn btn-label-secondary"
                   id="delete-assistant-modal-close"
                   data-bs-dismiss="modal"
                 >
@@ -1352,16 +1388,16 @@ const Home = () => {
                 <button
                   type="submit"
                   data-bs-dismiss="modal"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                 >
                   <span
                     id="delete-assistant-button-loader"
-                    style={{ block: "none" }}
+                    style={{ display: "none" }}
                   >
-                    {/* <span class="spinner-border" role="status" aria-hidden="true"></span>
-                              <span class="visually-hidden">Loading...</span> */}
+                    {/* <span className="spinner-border" role="status" aria-hidden="true"></span>
+                              <span className="visually-hidden">Loading...</span> */}
                   </span>
-                  <span class="ms-2">Delete Assistant</span>
+                  <span className="ms-2">Delete Assistant</span>
                 </button>
               </div>
             </div>

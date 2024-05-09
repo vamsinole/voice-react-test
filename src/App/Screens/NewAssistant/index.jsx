@@ -6,8 +6,8 @@ import "./Styles.scss";
 const NewAssistant = () => {
   return (
     <>
-      <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
+      <div className="layout-wrapper layout-content-navbar">
+        <div className="layout-container">
           <Header />
         </div>
       </div>
