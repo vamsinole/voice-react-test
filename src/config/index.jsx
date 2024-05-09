@@ -1,5 +1,5 @@
 const env={
-     baseUrl:'http://146.148.89.120',
+     baseUrl:'http://dev.contactswing.com',
     // baseUrlLocal:'http://'+window.location.host || env.baseUrl,
     //baseUrl:'http://'+window.location.host || env.baseUrl,
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://146.148.89.120', // Replace with your API base URL
+  baseURL: 'http://dev.contactswing.com', // Replace with your API base URL
 });
 
 
