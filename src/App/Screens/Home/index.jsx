@@ -4,21 +4,35 @@ import env from '../../../config';
 import Header from '../../Components/Header';
 import TopMenu from '../../Components/TopMenu';
 import NewAssistantBar from '../../Components/NewAssistantBar';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../axiosInterceptor';
 import { Link } from 'react-router-dom'
 import NewAssistantHelpBar from '../../Components/NewAssistantHelpBar';
 import { USER_ENDPOINTS } from '../../../config/enpoints';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessge, setShowToastMessge] = useState(false);
+  const toggleToast = () => {
+    setShowToast(!showToast);
+  };
 
   const [dataFromApi, setDataFromApi] = useState(null);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getassist;
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
-useEffect(() => {
+  // If token is not available, redirect to login page
+  if (token===null) {
+    navigate('/login');
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
     const fetchUsers = async () => {
       try {
         const response = await axios.get(baseurl + endpoint, {
@@ -34,8 +48,8 @@ useEffect(() => {
       }
     };
 
-    fetchUsers();
-  }, []);
+   
+ 
 
   const [parentValue, setParentValue] = useState('');
   const [childValue, setChildValue] = useState('');
@@ -201,6 +215,109 @@ const handleChildChange = (event) => {
 const toggleColumn = () => {
   setIsColumnVisible(!isColumnVisible);
 };
+
+
+//add inted
+
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
+const [formData, setFormData] = useState({
+  name: '',
+});
+
+
+
+
+const handleInputChangecall = (event) => {
+  const { name, value } = event.target;
+  editsetFormData({
+    ...editformData,
+    [name]: value,
+  });
+};
+const [editformData, editsetFormData] = useState({
+  address: '',
+  text:''
+});
+
+const handleClickedit = async (event) => {
+  console.log("event",event);
+  editsetFormData(event);
+}
+
+
+
+
+
+const createChatHandle = async (event) => {
+ 
+  event.preventDefault();
+  const createChat = USER_ENDPOINTS.createChat;
+  console.log("editformData33", editformData);
+  try {
+    const response = await axios.post(baseurl + createChat+'/'+editformData.id,
+    {model:'null',text:editformData.text},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Added Responce successfully");
+
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
+const deleteAssist = async (event) => {
+  event.preventDefault();
+  const deleteassist = USER_ENDPOINTS.getassist;
+  console.log("editformData33", editformData);
+  try {
+    const response = await axios.delete(baseurl + deleteassist+'/'+editformData.id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      fetchUsers();
+    setShowToast(true);
+    setShowToastMessge("Deleted");
+
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
+const [selectAll, setSelectAll] = useState(false);
+const [selectedItems, setSelectedItems] = useState([]);
+const handleSelectAll = (e) => {
+  const isChecked = e.target.checked;
+  setSelectAll(isChecked);
+  setSelectedItems(isChecked ? dataFromApi.map(item => item.id) : []);
+};
+const handleCheckboxChange = (e, id) => {
+  const isChecked = e.target.checked;
+  if (isChecked) {
+    setSelectedItems(prev => [...prev, id]);
+  } else {
+    setSelectedItems(prev => prev.filter(item => item !== id));
+  }
+};
+
+
   return (
     <>
             <div className="layout-wrapper layout-content-navbar">
@@ -288,7 +405,7 @@ const toggleColumn = () => {
                       
 
                         <div className="content-wrapper">
-                            <div className="container-xxl flex-grow-1 container-p-y">
+                            <div className="container-fluid flex-grow-1 container-p-y">
                               <div className="row">
                               <div className={isColumnVisible ? "col-md-4" : "d-none"}>
                               <div className='card'>
@@ -384,14 +501,26 @@ const toggleColumn = () => {
                                 </div>
                                 <div className={isColumnVisible ? "col-md-8" : "col-md-12"} id="kbs-content">
                                 <div className="card">
-                                <div class="card-header border-bottom">
+                                <div class="card-header p-0 px-4 py-2 border-bottom">
                                 <h4 class="card-title pull-left">Assistants</h4>
                                 </div>
                                 <div className="card-datatable table-responsive">
                                 <div className="table-scrollable">
                                 <table className='table'>
                                     <thead>
-                                      <tr>
+                                      <tr className='position-sticky top-0 z-1 bg-white'>
+                                        <th className='w-px-14'>
+                                        <div class="form-check mb-0">
+                                        <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              checked={selectAll}
+                                              onChange={handleSelectAll}
+                                            />
+                                        {/* <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" /> */}
+                                        <label class="form-check-label" for="email-1"></label>
+                                      </div>
+                                        </th>
                                         <th>NAME</th>
                                         <th>MODEL</th>
                                         <th>INSTRUCTIONS</th>
@@ -400,23 +529,58 @@ const toggleColumn = () => {
                                       </tr>
                                     </thead>
                                     <tbody>
-                                    {dataFromApi ? dataFromApi.map((value, key) => {
+                                      {dataFromApi.map((value, key) => (
+                                      <tr key={key}>
+                                        <td className='w-px-14'>
+                                          <div className="form-check mb-0">
+                                            <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              checked={selectedItems.includes(value.id)}
+                                              onChange={(e) => handleCheckboxChange(e, value.id)}
+                                            />
+                                            <label className="form-check-label"></label>
+                                          </div>
+                                        </td>
+                                        <td>{value.name}</td>
+                                        <td>{value.model}</td>
+                                        <td>{value.instruc}</td>
+                                        <td>{value.type}</td>
+                                        <td style={{ width: '70px' }}>
+                                          <div className="d-flex action-btns">
+                                          <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
+                                  data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
+                                                <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
+                                  data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                    {/* {dataFromApi ? dataFromApi.map((value, key) => {
                                         return (
                                           <tr key={key}>
+                                            <td className='w-px-14'>
+                                            <div class="form-check mb-0">
+                                  <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" />
+                                  <label class="form-check-label" for="email-1"></label>
+                                </div>
+                                            </td>
                                             <td>{value.name}</td>
                                             <td>{value.model}</td>
                                             <td>{value.instruc}</td>
                                             <td>{value.type}</td>
                                             <td style={{ width: '70px' }}>
                                               <div className="d-flex acation-btns">
-                                              <button className='btn px-1'><i className="lar la-edit la-lg"></i></button>
-                                                <button className='btn px-1'><i className="las la-play la-lg"></i></button>
-                                                <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
+                                              
+                                                <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
+                                  data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
+                                                <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
+                                  data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
                                               </div>
                                             </td>
                                           </tr>
                                         );
-                                      }) : null}
+                                      }) : null} */}
                                     </tbody>
                                     
                                   </table>
@@ -428,11 +592,19 @@ const toggleColumn = () => {
                                     <td>Total Count: {totalCountName}</td>
                                     <td>Count of Model: {totalCountModel}</td>
                                     <td>Count of INSTRUCTIONS: {totalCountInstruc}</td> 
-                                    <td></td>
+                                    <td className='d-flex justify-content-end align-items-center'>
+                                      Records per page:
+                                      <select name="" id="" className='form-select w-px-75'>
+                                      <option value="">50</option>
+                                      <option value="">100</option>
+                                      <option value="">150</option>
+                                      <option value="">200</option>
+                                  </select>
+                                    </td>
                                     <td>
                                       {/* Pagination */}
                               {totalItems > itemsPerPage && (
-                                <ul className="pagination">
+                                <ul className="pagination mb-0">
                                   {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
                                     <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
                                       <button className="page-link" onClick={() => paginate(index + 1)}>
@@ -612,6 +784,8 @@ const toggleColumn = () => {
                   </form>
                 </div>
                                     </div>
+
+                                  
                                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTestAssistant"
                                       aria-labelledby="offcanvasTestAssistantLabel">
                                       <div class="offcanvas-header">
@@ -620,16 +794,16 @@ const toggleColumn = () => {
                                           data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                       </div>
                                       <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                                        <form class="add-new-assistant pt-0" id="addNewAssistantForm" onsubmit="return false">
+                                        <form class="add-new-assistant pt-0" id="addNewAssistantForm">
                                           <div class="mb-3">
                                             <label class="form-label" for="test-instruction">Instruction</label>
                                             <input type="text" class="form-control" id="test-instruction" placeholder="Ask me anything"
-                                              name="name" aria-label="Ask me anything" />
+                                              name="text" aria-label="Ask me anything" />
                                           </div>
                                           <div class="mb-3">
                                             <label class="form-label" id="test-assistant-response"></label>
                                           </div>
-                                          <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" onclick="testAssistant()">
+                                          <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" >
                                             <span id="test-assistant-button-loader" style={{ display: 'none' }}>
                                               <span class="spinner-border" role="status" aria-hidden="true"></span>
                                               <span class="visually-hidden">Loading...</span>
@@ -640,6 +814,8 @@ const toggleColumn = () => {
                                         </form>
                                       </div>
                                     </div>
+                               
+
                                 </div>
                                 </div>
                               </div>
@@ -651,6 +827,151 @@ const toggleColumn = () => {
                 </div>
             </div>
 
+
+            <form class="mb-3"  onSubmit={createChatHandle}>
+            <div class="modal fade" id="testAssistantModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel1">Test assistant</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body app-chat">
+                          <div class="col app-chat-history">
+                            <div class="chat-history-wrapper">
+                              <div class="chat-history-body bg-body">
+                                <ul class="list-unstyled chat-history" id="testing-assistant-chat">
+
+                                </ul>
+                              </div>
+                              <div class="chat-history-footer shadow-sm">
+                                <div class="form-send-message d-flex justify-content-between align-items-center">
+                                  <div class="col-sm-9 pull-left">
+                                    <input id="assistant-chat-input" name="text"
+                                        value={editformData.text}
+                                        onChange={handleInputChangecall}
+                                      class="form-control message-input border-0 me-3 shadow-none"
+                                      placeholder="Type your message here" />
+                                  </div>
+                                  <div class="col-sm-3 pull-right">
+                                    <div class="message-actions d-flex align-items-center">
+                                      <i class="speech-to-text ti ti-microphone ti-sm cursor-pointer me-3"
+                                        id="microphone" onclick="startListening()"></i>
+                                      <button type='submit' data-bs-dismiss="modal"
+                                        class="btn btn-primary d-flex send-msg-btn pull-right">
+                                        <span id="test-assistant-button-loader" style={{ 'block' : 'none' }}>
+                                          <span class="spinner-border" role="status" aria-hidden="true"></span>
+                                          <span class="visually-hidden">Loading...</span>
+                                        </span>
+                                        <span class="ms-2"><i class="ti ti-send me-md-1 me-0"></i></span>
+                                        
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          
+                         
+
+                        </div>
+                      </div>
+                    </div>
+            </div>
+            </form>
+
+           
+                  <div class="modal fade" id="updateAssistantModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel1">Add intent</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col mb-3">
+                              <label for="new-intent" class="form-label">Intent</label>
+                              <input type="text" id="new-intent" class="form-control" name='text'
+                              value={formData.text}
+                              onChange={handleInputChangecall}
+                              placeholder="Enter intent" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-label-secondary" id="new-intent-close" data-bs-dismiss="modal">
+                            Close
+                          </button>
+                          <button type="submit" class="btn btn-primary" ><span id="new-intent-button-loader" style={{ 'block' : 'none' }}>
+                              <span class="spinner-border" role="status" aria-hidden="true"></span>
+                              <span class="visually-hidden">Loading...</span>
+                            </span>
+                            <span class="ms-2">Add intent</span></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                  <form class="add-new-user pt-0" id="addNewUserForm" onSubmit={deleteAssist} >
+                  <div class="modal fade" id="deleteAssistantModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel1">Delete assistant</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col mb-3">
+                              <label for="update-assistant-name" class="form-label">Are you sure you want to delete this
+                                Assistant?</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-label-secondary" id="delete-assistant-modal-close"
+                            data-bs-dismiss="modal">
+                            Close
+                          </button>
+                          <button type="submit" data-bs-dismiss="modal" class="btn btn-primary" >
+                            <span id="delete-assistant-button-loader" style={{ 'block' : 'none' }}>
+                              {/* <span class="spinner-border" role="status" aria-hidden="true"></span>
+                              <span class="visually-hidden">Loading...</span> */}
+                            </span>
+                            <span class="ms-2">Delete Assistant</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </form>
+           
+                  <div className="container">
+      
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          className={`toast ${showToast ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-header">
+            <strong className="me-auto"> {showToastMessge}</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleToast}
+            ></button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
          
         </>
   )

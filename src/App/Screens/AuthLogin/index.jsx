@@ -2,7 +2,8 @@
 import React, { useState } from 'react'
 import './Styles.scss';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+ import axios from 'axios';
+// import axios from '../axiosInterceptor';
 import env from '../../../config';
 import { USER_ENDPOINTS } from '../../../config/enpoints';
 import { useNavigate } from 'react-router-dom';
@@ -43,6 +44,12 @@ const AuthLogin = () => {
 
 
     };
+    // const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(prevState => !prevState);
+  };
   
   return (
     <>
@@ -130,7 +137,7 @@ const AuthLogin = () => {
                 </div>
                 <div class="input-group input-group-merge">
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     id="password"
                     class="form-control"
                     name="password"
@@ -141,8 +148,12 @@ const AuthLogin = () => {
                     required
                      />
                      
-                  <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                  <span class="input-group-text cursor-pointer" id="password" onClick={handleTogglePassword}>
+                  <i className={showPassword ? "ti ti-eye" : "ti ti-eye-off"}></i>
+                  </span>
                 </div>
+                
+
               </div>
               <div class="mb-3">
                 <div class="form-check">
