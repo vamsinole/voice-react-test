@@ -4,13 +4,48 @@ import React, { useState, useRef, useEffect } from "react";
 import "./Styles.scss";
 
 const NewAssistantBar = () => {
+<<<<<<< HEAD
   // const handleDropdownClick = (event) => {
+=======
+    
+    return (
+        <>
+                    
+            <div class="">
+              <div className='container-fluid top-strip-bg'>
+                <div className='row'>
+                  <div className='col-lg-3 d-flex align-items-center'>
+                    <div className='search-border rounded-pill px-2'>
+                      <a class="top-strip-bg dropdown-toggle text-white px-2" data-bs-toggle="dropdown" aria-expanded="false">
+                        All
+                      </a>
+                      <input type="text" className="allInput border-0 search-icon" placeholder='Search(ctrl + k)' />
+                      <i class="las la-search la-lg mt-1"></i>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
+                    </div>
+                  </div>
+>>>>>>> 4e1e64e19d66f85c5fadd0247317b8436d908085
 
   //     event.stopPropagation();
   // };
 
+<<<<<<< HEAD
   // const [show, setShow] = useState(false);
   // const dropdownRef = useRef(null);
+=======
+                      <button className='btn btn-sm btn-success p-0 py-0 m-0 mt-1 me-2' style={{ height: "26px" }}>
+                        <i class="ti ti-plus ti-md py-0 m-0 my-0"></i>
+                      </button>
+                      <i class="ti ti-bell ti-md"></i>
+                      <i class="lab la-gg-circle"></i>
+                      <Link className="nav-link" to="/userscontrols"><i class="ti ti-settings ti-md"></i></Link>
+                      <div className="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                                <ul className="navbar-nav flex-row align-items-center ms-auto">
+>>>>>>> 4e1e64e19d66f85c5fadd0247317b8436d908085
 
   // useEffect(() => {
   //     function handleClickOutside(event) {

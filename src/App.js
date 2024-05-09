@@ -18,6 +18,8 @@ import Emails from './App/Screens/Emails';
 import NewAssistant from './App/Screens/NewAssistant';
 import AssistantDashboard from './App/Screens/AssistantDashboard';
 import AuthLogin from './App/Screens/AuthLogin';
+import Setting from './App/Screens/Setting';
+import UsersControls from './App/Screens/UsersControls';
 
 import LandingPage from './App/Screens/LandingPage';
 import Privacy from './App/Screens/Privacy';
@@ -42,16 +44,26 @@ const publicRoutes = [
   { path: 'newassistant', component: NewAssistant },
   { path: 'assistant-dashboard', component: AssistantDashboard },
   { path: 'login', component: AuthLogin },
+<<<<<<< HEAD
   { path: 'landing', component: LandingPage },
   { path: 'terms', component: Terms },
   { path: 'privacy', component: Privacy },
 
+=======
+  { path: 'setting', component: Setting },
+  { path: 'userscontrols', component: UsersControls },
+  
+>>>>>>> 4e1e64e19d66f85c5fadd0247317b8436d908085
 
   // { path: '*', component: Pagenotfound },
 ]
 
 function App() {
 
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 4e1e64e19d66f85c5fadd0247317b8436d908085
   return (
     <>
 
