@@ -2,6 +2,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../../Components/Header";
 import "./Styles.scss";
 import NewAssistantBar from "../../Components/NewAssistantBar";
@@ -13,7 +14,7 @@ import env from "../../../config";
 import { callAPI } from "../../Components/Utils";
 import { WithContext as ReactTags } from "react-tag-input";
 
-const AssistantDashboard = () => {
+const EditAssistant = () => {
   const [isColumnVisible, setIsColumnVisible] = useState(false);
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
@@ -22,6 +23,8 @@ const AssistantDashboard = () => {
   const toggleTrainColumn = () => {
     setIsTrainColumnVisible(!isTrainColumnVisible);
   };
+
+  const params = useParams();
 
   const [intents, setIntents] = useState([]);
 
@@ -121,13 +124,39 @@ const AssistantDashboard = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(baseurl + endpointAssist, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          baseurl + endpointAssist + "/" + params.id,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         console.log("responceAssist", response.data.data);
-
+        let temp_var = response.data.data,
+          temp_data = {
+            name: temp_var.name,
+            nikname: temp_var.nikname,
+            description: temp_var.description,
+            image_url: temp_var.image_url,
+            type: temp_var.type,
+            synthesizer: temp_var.synthesizer,
+            country: temp_var.country,
+            enable_recordings:
+              temp_var.enable_recordings === "1" ? true : false,
+            daily_budget: temp_var.daily_budget,
+            monthly_budget: temp_var.monthly_budget,
+            incoming_call_greeting: temp_var.incoming_call_greeting,
+            outgoing_call_greeting: temp_var.outgoing_call_greeting,
+            ai_type: temp_var.ai_type,
+            temperature: 1,
+            instructions: temp_var.instructions,
+            intents: temp_var.intents,
+            entities: temp_var.entities,
+            ai_api_key: temp_var.ai_api_key,
+            kbs_id: temp_var.kbs_id,
+          };
+        setFormData(temp_data);
         setAssistData(response.data.data);
         console.log(assistData);
       } catch (error) {
@@ -200,8 +229,8 @@ const AssistantDashboard = () => {
     }
     try {
       const response = await callAPI(
-        "POST",
-        baseurl + endpoint,
+        "PUT",
+        baseurl + endpoint + "/" + params.id,
         JSON.stringify(formData),
         token
       );
@@ -306,7 +335,7 @@ const AssistantDashboard = () => {
                         <div className="dash">
                           {/* new tabs */}
                           <ul className="nav nav-tabs pt-0-i" role="tablist">
-                            {/* <li className="nav-item">
+                            <li className="nav-item">
                               <a
                                 className="nav-link active"
                                 data-bs-toggle="tab"
@@ -314,10 +343,10 @@ const AssistantDashboard = () => {
                               >
                                 Dashboard
                               </a>
-                            </li> */}
+                            </li>
                             <li className="nav-item">
                               <a
-                                className="nav-link active"
+                                className="nav-link"
                                 data-bs-toggle="tab"
                                 href="#Configure"
                               >
@@ -343,7 +372,7 @@ const AssistantDashboard = () => {
                           {/* new tabs */}
 
                           <div className="tab-content p-0">
-                            {/* <div id="Dashboard" className="tab-pane active">
+                            <div id="Dashboard" className="tab-pane active">
                               <div className="dashboardscroll">
                                 <div className="row mt-4">
                                   <div className="col-md-6 mb-3">
@@ -401,6 +430,7 @@ const AssistantDashboard = () => {
                                     </div>
                                   </div>
                                 </div>
+                                {/* table start */}
 
                                 <div className="border-top border-bottom">
                                   <h6 className="mt-3">Recent calls</h6>
@@ -464,10 +494,19 @@ const AssistantDashboard = () => {
                                     </tbody>
                                   </table>
                                 </div>
+                                {/* table end */}
                               </div>
-                            </div> */}
+                            </div>
 
-                            <div id="Configure" className="tab-pane active">
+                            {/* Configure start  */}
+                            {/* <form
+                              className="add-new-user pt-0"
+                              id="addNewUserForm"
+                              onSubmit={handleSubmit}
+                            >
+                              
+                            </form> */}
+                            <div id="Configure" className="tab-pane fade">
                               <div className="cofigurescroll">
                                 <section className="img-upload">
                                   <div className="mt-2">
@@ -1591,4 +1630,4 @@ const AssistantDashboard = () => {
   );
 };
 
-export default AssistantDashboard;
+export default EditAssistant;

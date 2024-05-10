@@ -210,11 +210,6 @@ const Home = () => {
   const totalCountModel = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has a model
   const totalCountInstruc = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has instructions
 
-  // Pagination logic
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = TblData.slice(indexOfFirstItem, indexOfLastItem);
-
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [isColumnVisible, setIsColumnVisible] = useState(false);
@@ -422,7 +417,7 @@ const Home = () => {
                     </a> */}
                   <Link
                     className="btn btn-primary pull-right text-white"
-                    to="/assistant-dashboard"
+                    to="/new-assistant"
                   >
                     <span className="ti-xs ti ti-plus me-1"></span> Create
                     Assistant
@@ -603,7 +598,7 @@ const Home = () => {
                                 </th>
                                 <th>NAME</th>
                                 <th>MODEL</th>
-                                <th>INSTRUCTIONS</th>
+                                <th>STATUS</th>
                                 <th>TYPE</th>
                                 <th style={{ width: "70px" }}>ACTION</th>
                               </tr>
@@ -627,20 +622,24 @@ const Home = () => {
                                         <label className="form-check-label"></label>
                                       </div>
                                     </td>
-                                    <td>{value.name}</td>
-                                    <td>{value.model}</td>
-                                    <td>{value.instruc}</td>
+                                    <td>
+                                      <a href={"/assistant/" + value.id}>
+                                        {value.name}
+                                      </a>
+                                    </td>
+                                    <td>{value.ai_type}</td>
+                                    <td>{value.status}</td>
                                     <td>{value.type}</td>
                                     <td style={{ width: "70px" }}>
                                       <div className="d-flex action-btns">
-                                        <button
+                                        {/* <button
                                           data-bs-toggle="modal"
                                           onClick={() => handleClickedit(value)}
                                           data-bs-target="#testAssistantModal"
                                           className="btn px-1"
                                         >
                                           <i className="ti ti-player-play ti-sm me-2"></i>
-                                        </button>
+                                        </button> */}
                                         <button
                                           data-bs-toggle="modal"
                                           onClick={() => handleClickedit(value)}

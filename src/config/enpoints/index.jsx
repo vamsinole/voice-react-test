@@ -5,7 +5,7 @@ export const USER_ENDPOINTS = {
   getKnowledge: `/v1/knowledge_base`,
   getvoicecall: `/v1/voicecalls/`,
   getaction: `/v1/actions/`,
-  getassist: `/v1/ai/assistants`,
+  getassist: `/v1/voiceassistants`,
   login: `/v1/login`,
   makecall: `/v1/voicecalls`,
   createChat: `/v1/ai/chat`,
