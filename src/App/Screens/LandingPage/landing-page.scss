@@ -1,17 +1,17 @@
-@import '../../styles/global.scss'; // Import global styles and variables
-@import '../../styles/globalStyle.scss';
+@import "../../styles/global.scss"; // Import global styles and variables
+@import "../../styles/globalStyle.scss";
 .card-header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
-.card-datatable table td{
-    padding: 0.2rem 1.25rem;
+.card-datatable table td {
+  padding: 0.2rem 1.25rem;
 }
 .acation-btns {
-    display: flex;
-    button:hover {
-        color: #7367f0;
-    }
+  display: flex;
+  button:hover {
+    color: #7367f0;
+  }
 }
 
 $white: #fff !default;
@@ -31,8 +31,8 @@ $gray-900: rgba($black, 0.9) !default;
 
 // scss-docs-start gray-colors-map
 $grays: (
-  '25': $gray-25,
-  '50': $gray-50
+  "25": $gray-25,
+  "50": $gray-50,
 ) !default;
 // scss-docs-end gray-colors-map
 
@@ -74,55 +74,67 @@ $body-color: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
 $rgba-to-hex-bg-inverted: #000 !default; // (C)
 $border-color: rgba-to-hex($gray-200, $rgba-to-hex-bg) !default;
 
-
 .landing-footer {
-    .footer-link {
-      transition: $btn-transition;
-      &:hover {
-        opacity: 0.8;
-      }
+  .footer-link {
+    transition: $btn-transition;
+    &:hover {
+      opacity: 0.8;
     }
-    .footer-top {
-      padding: 3.5rem 0;
-      .footer-bg {
-        object-position: center;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-      }
+  }
+  .footer-top {
+    padding: 3.5rem 0;
+    .footer-bg {
+      object-position: center;
+      position: absolute;
+      top: 0;
+      bottom: 0;
     }
-    .footer-form {
-      max-width: 22.25rem;
-      input {
-        background-color: $body-bg;
+  }
+  .footer-form {
+    max-width: 22.25rem;
+    input {
+      background-color: $body-bg;
+      border-color: $border-color;
+      color: $footer-text;
+      &:hover:not([disabled]):not([focus]) {
         border-color: $border-color;
-        color: $footer-text;
-        &:hover:not([disabled]):not([focus]) {
-          border-color: $border-color;
-        }
-        &::placeholder {
-          color: rgba($footer-text, 0.5);
-        }
       }
-      label {
+      &::placeholder {
         color: rgba($footer-text, 0.5);
       }
     }
-  }
-  
-  .light-style {
-    .landing-footer {
-      .footer-link,
-      .footer-text {
-        color: $footer-text;
-      }
-      .footer-title {
-        color: $white;
-      }
-      .footer-bottom {
-        background-color: $footer-bottom-bg;
-      }
+    label {
+      color: rgba($footer-text, 0.5);
     }
   }
-  
-  
+}
+
+.light-style {
+  .landing-footer {
+    .footer-link,
+    .footer-text {
+      color: $footer-text;
+    }
+    .footer-title {
+      color: $white;
+    }
+    .footer-bottom {
+      background-color: $footer-bottom-bg;
+    }
+  }
+}
+
+.features-icon-wrapper {
+  gap: 100px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.section-py {
+  margin-top: -40px;
+}
+
+#landingPricing {
+  margin-top: -120px;
+}

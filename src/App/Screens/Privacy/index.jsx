@@ -190,7 +190,7 @@ const Privacy = () => {
 
         <div className="row">
           <div className="col-12 mt-4">
-            <div className="container mt-4">
+            <div className="container inner-container">
               <header>
                 <h1>Privacy Policy</h1>
               </header>
@@ -411,7 +411,7 @@ const Privacy = () => {
             </div>
           </div>
         </div>
-
+        {/* --footer-- */}
         <div className="row mt-4">
           <div className="col-12 mt-4">
             <footer class="landing-footer bg-body footer-text">
@@ -507,8 +507,88 @@ const Privacy = () => {
                     </div>
                   </div>
                 </div>
+                <div className="d-flex mt-4 justify-content-around align-items-center">
+                  {/* <div className="text-center"></div> */}
+                  <div className="text-center" style={{ marginLeft: "30%" }}>
+                    <span className="footer-text">
+                      Copyright
+                      <script>document.write(new Date().getFullYear());</script>
+                    </span>{" "}
+                    <a href="/landing" target="_blank">
+                      Contact Swing 2024
+                    </a>
+                  </div>
+                  <div class="row justify-content-center">
+                    <div class="col-1">
+                      <a
+                        href="https://www.linkedin.com/company/contactswing"
+                        class="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/github-light.png"
+                          alt="linkedin icon"
+                        />
+                      </a>
+                    </div>
+                    <div class="col-1">
+                      <a
+                        href="https://www.facebook.com/ContactSwinginc"
+                        class="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/facebook-light.png"
+                          alt="facebook icon"
+                        />
+                      </a>
+                    </div>
+                    {/* <div class="col-1">
+                      <a
+                        href="https://twitter.com/pixinvents"
+                        class="footer-link me-3"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/twitter-light.png"
+                          alt="twitter icon"
+                        />
+                      </a>
+                    </div> */}
+                    <div class="col-1">
+                      <a
+                        href="https://www.instagram.com/ContactSwing/"
+                        class="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/instagram-light.png"
+                          alt="instagram icon"
+                        />
+                      </a>
+                    </div>
+                    <div class="col-1">
+                      <a
+                        href="https://www.youtube.com/@ContactSwing"
+                        class="footer-link"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/instagram-light.png"
+                          alt="youtube icon"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="footer-bottom py-3">
+
+              {/* <div class="footer-bottom py-3">
                 <div class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
                   <div class="mb-2 mb-md-0">
                     <span class="footer-text">
@@ -580,7 +660,7 @@ const Privacy = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </footer>
           </div>
         </div>

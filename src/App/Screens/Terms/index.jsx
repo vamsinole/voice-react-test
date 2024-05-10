@@ -192,19 +192,24 @@ const Terms = () => {
 
         <div className="row">
           <div className="col-12 mt-4">
-            <div className="container mt-4">
+            <div className="container inner-container  ">
               <header>
                 <h1>
                   Welcome and thank you for your interest in ContactSwing.
                 </h1>
               </header>
-              <section>
+              <section className="">
                 <p>
-                  These Terms of Service ("Terms") govern the use of the Service
-                  (defined in Section 1.1) provided by ContactSwing. These Terms
-                  are a legally binding contract between ContactSwing
-                  ('ContactSwing") and [________________________________]
-                  ("Customer") regarding your use of the Service.
+                  ContactSwing operates the website{" "}
+                  <a href="https://contactswing.com">
+                    https://contactswing.com
+                  </a>{" "}
+                  (the &quot;Service&quot;). Welcome, and thank you for your
+                  interest in ContactSwing. These Website Terms of Service
+                  (&quot;Terms&quot;) govern your use of our Service (defined in
+                  Section 1.1). These Terms are a legally binding contract
+                  between you and ContactSwing regarding your use of the
+                  Service.
                 </p>
                 <p>
                   By accessing or using the service the Customer agrees that it
@@ -300,7 +305,8 @@ const Terms = () => {
                   it needs to access the account, and it accepts responsibility
                   for all activities that occur under your account. If you
                   believe that your account is no longer secure, then you must
-                  immediately notify us at support@contactswing.com.
+                  immediately notify us at{" "}
+                  <strong>support@contactswing.com</strong>.
                 </p>
               </section>
               <section>
@@ -460,10 +466,10 @@ const Terms = () => {
                   property very seriously. If you believe that any materials
                   made available on the Service have been used or exploited in a
                   manner that infringes an intellectual property right you own
-                  or control, then please promptly send an email to
-                  info@contactswing.com. Any notice alleging that materials on
-                  the Service infringe intellectual property rights must include
-                  the following information:
+                  or control, then please promptly send an email to{" "}
+                  <strong>info@contactswing.com</strong>. Any notice alleging
+                  that materials on the Service infringe intellectual property
+                  rights must include the following information:
                 </p>
                 <p>
                   8.1. An electronic or physical signature of the person
@@ -527,10 +533,10 @@ const Terms = () => {
                   on the Service, or suspend or terminate your access to the
                   Service, at any time for any reason or no reason, with or
                   without notice. You may terminate your account and these Terms
-                  at any time by contacting customer service at
-                  info@contactswing.com or following any other procedures
-                  pursuant to the functionalities and/or information available
-                  on the Service.
+                  at any time by contacting customer service at{" "}
+                  <strong>info@contactswing.com</strong> or following any other
+                  procedures pursuant to the functionalities and/or information
+                  available on the Service.
                 </p>
                 <p>
                   10.3. Effect of Termination. Upon termination of these Terms:
@@ -671,8 +677,8 @@ const Terms = () => {
                 <p>
                   14.5. Contact Information. The Service is offered by
                   ContactSwing, located in Berlin, Germany. You may contact us
-                  by sending correspondence to that address or by emailing us at
-                  info@contactswing.com.
+                  by sending correspondence to that address or by emailing us at{" "}
+                  <strong>info@contactswing.com</strong>.
                 </p>
                 <p>
                   14.6. No Support. We are under no obligation to provide
@@ -710,11 +716,12 @@ const Terms = () => {
                   CONNECTION WITH ANY USE OF THE AI PLATFORM BY OR FOR THE
                   BENEFIT OF ANY AGENCY OR INSTRUMENTALITY OF ANY GOVERNMENT. IF
                   YOU ARE SEEKING TO ACCESS THE AI PLATFORM ON BEHALF OF ANY
-                  SUCH ENTITY, THEN YOU MUST CONTACT ContactSwing AT
-                  info@contactswing.com AND ENTER INTO A SEPARATELY NEGOTIATED
-                  LICENSE AGREEMENT WITH ContactSwing. ALL USE OF THE AI
-                  PLATFORM IN VIOLATION OF THE PRECEDING SENTENCES IN THIS
-                  PARAGRAPH CONSTITUTES A MATERIAL BREACH OF THIS AGREEMENT.
+                  SUCH ENTITY, THEN YOU MUST CONTACT ContactSwing AT{" "}
+                  <strong>info@contactswing.com</strong> AND ENTER INTO A
+                  SEPARATELY NEGOTIATED LICENSE AGREEMENT WITH ContactSwing. ALL
+                  USE OF THE AI PLATFORM IN VIOLATION OF THE PRECEDING SENTENCES
+                  IN THIS PARAGRAPH CONSTITUTES A MATERIAL BREACH OF THIS
+                  AGREEMENT.
                 </p>
               </section>
               <section>
@@ -1442,13 +1449,13 @@ const Terms = () => {
                   o. Contact Information. The AI Platform is offered by
                   ContactSwing, located in Berlin, Germany. Licensee may contact
                   us by sending correspondence to that address or by emailing us
-                  at info@contactswing.com
+                  at <strong>info@contactswing.com</strong>
                 </p>
               </section>
             </div>
           </div>
         </div>
-
+        {/* --footer-- */}
         <div className="row mt-4">
           <div className="col-12 mt-4">
             <footer class="landing-footer bg-body footer-text">
@@ -1544,8 +1551,87 @@ const Terms = () => {
                     </div>
                   </div>
                 </div>
+                <div className="d-flex mt-4 justify-content-around align-items-center">
+                  {/* <div className="text-center"></div> */}
+                  <div className="text-center" style={{ marginLeft: "30%" }}>
+                    <span className="footer-text">
+                      Copyright
+                      <script>document.write(new Date().getFullYear());</script>
+                    </span>{" "}
+                    <a href="/landing" target="_blank">
+                      Contact Swing 2024
+                    </a>
+                  </div>
+                  <div class="row justify-content-center">
+                    <div class="col-1">
+                      <a
+                        href="https://www.linkedin.com/company/contactswing"
+                        class="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/github-light.png"
+                          alt="linkedin icon"
+                        />
+                      </a>
+                    </div>
+                    <div class="col-1">
+                      <a
+                        href="https://www.facebook.com/ContactSwinginc"
+                        class="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/facebook-light.png"
+                          alt="facebook icon"
+                        />
+                      </a>
+                    </div>
+                    {/* <div class="col-1">
+                      <a
+                        href="https://twitter.com/pixinvents"
+                        class="footer-link me-3"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/twitter-light.png"
+                          alt="twitter icon"
+                        />
+                      </a>
+                    </div> */}
+                    <div class="col-1">
+                      <a
+                        href="https://www.instagram.com/ContactSwing/"
+                        class="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/instagram-light.png"
+                          alt="instagram icon"
+                        />
+                      </a>
+                    </div>
+                    <div class="col-1">
+                      <a
+                        href="https://www.youtube.com/@ContactSwing"
+                        class="footer-link"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/instagram-light.png"
+                          alt="youtube icon"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="footer-bottom py-3">
+              {/* <div class="footer-bottom py-3">
                 <div class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
                   <div class="mb-2 mb-md-0">
                     <span class="footer-text">
@@ -1617,7 +1703,7 @@ const Terms = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </footer>
           </div>
         </div>
