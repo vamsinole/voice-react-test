@@ -29,18 +29,20 @@ const Home = () => {
   if (token === null) {
     navigate("/login");
   }
+  const [gettingAssistants, setGettingAssistants] = useState(false);
 
   useEffect(() => {
     fetchUsers();
   }, []);
   const fetchUsers = async () => {
     try {
+      setGettingAssistants(true);
       const response = await axios.get(baseurl + endpoint, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      setGettingAssistants(false);
       setDataFromApi(response.data.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -604,7 +606,8 @@ const Home = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {dataFromApi &&
+                              {!gettingAssistants &&
+                                dataFromApi &&
                                 dataFromApi.map((value, key) => (
                                   <tr key={key}>
                                     <td className="w-px-14">
@@ -652,34 +655,19 @@ const Home = () => {
                                     </td>
                                   </tr>
                                 ))}
-                              {/* {dataFromApi ? dataFromApi.map((value, key) => {
-                                        return (
-                                          <tr key={key}>
-                                            <td className='w-px-14'>
-                                            <div className="form-check mb-0">
-                                  <input className="email-list-item-input form-check-input" type="checkbox" id="email-1" />
-                                  <label className="form-check-label" htmlFor="email-1"></label>
-                                </div>
-                                            </td>
-                                            <td>{value.name}</td>
-                                            <td>{value.model}</td>
-                                            <td>{value.instruc}</td>
-                                            <td>{value.type}</td>
-                                            <td style={{ width: '70px' }}>
-                                              <div className="d-flex acation-btns">
-                                              
-                                                <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
-                                  data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
-                                                <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
-                                  data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
-                                              </div>
-                                            </td>
-                                          </tr>
-                                        );
-                                      }) : null} */}
                             </tbody>
                           </table>
                         </div>
+                        {gettingAssistants && (
+                          <div className="parent-div text-center mt-2 mb-2">
+                            <span
+                              className="spinner-border"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
                         <div className="bottom-count">
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">

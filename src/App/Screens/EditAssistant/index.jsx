@@ -321,6 +321,7 @@ const EditAssistant = () => {
       JSON.stringify(temp_data),
       token
     );
+    setChatLoading(false);
     if (
       chat_object &&
       chat_object.data &&

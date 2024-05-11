@@ -79,7 +79,7 @@ const Header = () => {
             </li>
             <li
               className={
-                path === "assistant" || path === "new-assistant"
+                path === "assistant" || path === "new-assistant" || path === "/"
                   ? "menu-item active"
                   : "menu-item"
               }
