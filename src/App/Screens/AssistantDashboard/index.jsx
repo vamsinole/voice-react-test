@@ -12,6 +12,7 @@ import axios from "../axiosInterceptor";
 import env from "../../../config";
 import { callAPI } from "../../Components/Utils";
 import { WithContext as ReactTags } from "react-tag-input";
+import User from "./../../../assets/user.png";
 
 const AssistantDashboard = () => {
   const [isColumnVisible, setIsColumnVisible] = useState(false);
@@ -225,7 +226,18 @@ const AssistantDashboard = () => {
       token,
       "nojson"
     );
-    console.log(upload_image_object);
+    if (
+      upload_image_object &&
+      upload_image_object.data &&
+      upload_image_object.data.path &&
+      upload_image_object.data.path.length > 0
+    ) {
+      setFormData({
+        ...formData,
+        image_url: upload_image_object.data.path,
+      });
+    }
+    console.log(formData);
   }
 
   return (
@@ -474,7 +486,12 @@ const AssistantDashboard = () => {
                                     <h6>Image (optional)</h6>
                                     <div className="d-flex">
                                       <img
-                                        src="assets/img/avatars/1.png"
+                                        src={
+                                          formData.image_url &&
+                                          formData.image_url.length > 0
+                                            ? formData.image_url
+                                            : User
+                                        }
                                         alt="img"
                                         className="config-img"
                                       />
@@ -491,6 +508,7 @@ const AssistantDashboard = () => {
                                         </label>
                                         <input
                                           id="file-upload"
+                                          style={{ display: "none" }}
                                           onChange={(e) => uploadFile(e)}
                                           type="file"
                                         />
@@ -1055,7 +1073,12 @@ const AssistantDashboard = () => {
                                   <div className="user-avatar flex-shrink-0 ms-3">
                                     <div className="avatar avatar-sm">
                                       <img
-                                        src="../../assets/img/avatars/1.png"
+                                        src={
+                                          formData.image_url &&
+                                          formData.image_url.length > 0
+                                            ? formData.image_url
+                                            : User
+                                        }
                                         alt="Avatar"
                                         className="rounded-circle"
                                       />
@@ -1113,7 +1136,12 @@ const AssistantDashboard = () => {
                                   <div className="user-avatar flex-shrink-0 ms-3">
                                     <div className="avatar avatar-sm">
                                       <img
-                                        src="../../assets/img/avatars/1.png"
+                                        src={
+                                          formData.image_url &&
+                                          formData.image_url.length > 0
+                                            ? formData.image_url
+                                            : User
+                                        }
                                         alt="Avatar"
                                         className="rounded-circle"
                                       />
@@ -1170,7 +1198,12 @@ const AssistantDashboard = () => {
                                   <div className="user-avatar flex-shrink-0 ms-3">
                                     <div className="avatar avatar-sm">
                                       <img
-                                        src="../../assets/img/avatars/1.png"
+                                        src={
+                                          formData.image_url &&
+                                          formData.image_url.length > 0
+                                            ? formData.image_url
+                                            : User
+                                        }
                                         alt="Avatar"
                                         className="rounded-circle"
                                       />
@@ -1220,7 +1253,12 @@ const AssistantDashboard = () => {
                                   <div className="user-avatar flex-shrink-0 ms-3">
                                     <div className="avatar avatar-sm">
                                       <img
-                                        src="../../assets/img/avatars/1.png"
+                                        src={
+                                          formData.image_url &&
+                                          formData.image_url.length > 0
+                                            ? formData.image_url
+                                            : User
+                                        }
                                         alt="Avatar"
                                         className="rounded-circle"
                                       />
@@ -1269,7 +1307,12 @@ const AssistantDashboard = () => {
                                   <div className="user-avatar flex-shrink-0 ms-3">
                                     <div className="avatar avatar-sm">
                                       <img
-                                        src="../../assets/img/avatars/1.png"
+                                        src={
+                                          formData.image_url &&
+                                          formData.image_url.length > 0
+                                            ? formData.image_url
+                                            : User
+                                        }
                                         alt="Avatar"
                                         className="rounded-circle"
                                       />
@@ -1309,258 +1352,6 @@ const AssistantDashboard = () => {
                     </div>
                   </div>
                   {/* Train Assistant */}
-
-                  {/* <div className={isTrainColumnVisible ? "col-md-4" : "d-none"}>
-                  <div className='card'>
-                  <div className="col app-chat-history bg-body">
-                    <div className="chat-history-wrapper">
-                      <div className="chat-history-header border-bottom">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div className="d-flex overflow-hidden align-items-center">
-                            <i
-                              className="ti ti-menu-2 ti-sm cursor-pointer d-lg-none d-block me-2"
-                              data-bs-toggle="sidebar"
-                              data-overlay
-                              data-target="#app-chat-contacts"></i>
-                            <div className="flex-shrink-0 avatar">
-                              <img
-                                src="../../assets/img/avatars/2.png"
-                                alt="Avatar"
-                                className="rounded-circle"
-                                data-bs-toggle="sidebar"
-                                data-overlay
-                                data-target="#app-chat-sidebar-right" />
-                            </div>
-                            <div className="chat-contact-info flex-grow-1 ms-2">
-                              <h6 className="m-0">Felecia Rower</h6>
-                              <small className="user-status text-muted">NextJS developer</small>
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center">
-                            <i className="ti ti-phone-call cursor-pointer d-sm-block d-none me-3"></i>
-                            <i className="ti ti-video cursor-pointer d-sm-block d-none me-3"></i>
-                            <i className="ti ti-search cursor-pointer d-sm-block d-none me-3"></i>
-                            <div className="dropdown d-flex align-self-center">
-                              <button
-                                className="btn p-0"
-                                type="button"
-                                id="chat-header-actions"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i className="ti ti-dots-vertical"></i>
-                              </button>
-                              <div className="dropdown-menu dropdown-menu-end" aria-labelledby="chat-header-actions">
-                                <a className="dropdown-item" href="javascript:void(0);">View Contact</a>
-                                <a className="dropdown-item" href="javascript:void(0);">Mute Notifications</a>
-                                <a className="dropdown-item" href="javascript:void(0);">Block Contact</a>
-                                <a className="dropdown-item" href="javascript:void(0);">Clear Chat</a>
-                                <a className="dropdown-item" href="javascript:void(0);">Report</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="chat-history-body bg-body">
-                        <ul className="list-unstyled chat-history">
-                          <li className="chat-message chat-message-right">
-                            <div className="d-flex overflow-hidden">
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">How can we help? We're here for you! 😄</p>
-                                </div>
-                                <div className="text-end text-muted mt-1">
-                                  <i className="ti ti-checks ti-xs me-1 text-success"></i>
-                                  <small>10:00 AM</small>
-                                </div>
-                              </div>
-                              <div className="user-avatar flex-shrink-0 ms-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/1.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message">
-                            <div className="d-flex overflow-hidden">
-                              <div className="user-avatar flex-shrink-0 me-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/2.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">Hey John, I am looking for the best admin template.</p>
-                                  <p className="mb-0">Could you please help me to find it out? 🤔</p>
-                                </div>
-                                <div className="chat-message-text mt-2">
-                                  <p className="mb-0">It should be Bootstrap 5 compatible.</p>
-                                </div>
-                                <div className="text-muted mt-1">
-                                  <small>10:02 AM</small>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message chat-message-right">
-                            <div className="d-flex overflow-hidden">
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">Vuexy has all the components you'll ever need in a app.</p>
-                                </div>
-                                <div className="text-end text-muted mt-1">
-                                  <i className="ti ti-checks ti-xs me-1 text-success"></i>
-                                  <small>10:03 AM</small>
-                                </div>
-                              </div>
-                              <div className="user-avatar flex-shrink-0 ms-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/1.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message">
-                            <div className="d-flex overflow-hidden">
-                              <div className="user-avatar flex-shrink-0 me-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/2.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">Looks clean and fresh UI. 😃</p>
-                                </div>
-                                <div className="chat-message-text mt-2">
-                                  <p className="mb-0">It's perfect for my next project.</p>
-                                </div>
-                                <div className="chat-message-text mt-2">
-                                  <p className="mb-0">How can I purchase it?</p>
-                                </div>
-                                <div className="text-muted mt-1">
-                                  <small>10:05 AM</small>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message chat-message-right">
-                            <div className="d-flex overflow-hidden">
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">Thanks, you can purchase it.</p>
-                                </div>
-                                <div className="text-end text-muted mt-1">
-                                  <i className="ti ti-checks ti-xs me-1 text-success"></i>
-                                  <small>10:06 AM</small>
-                                </div>
-                              </div>
-                              <div className="user-avatar flex-shrink-0 ms-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/1.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message">
-                            <div className="d-flex overflow-hidden">
-                              <div className="user-avatar flex-shrink-0 me-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/2.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">I will purchase it for sure. 👍</p>
-                                </div>
-                                <div className="chat-message-text mt-2">
-                                  <p className="mb-0">Thanks.</p>
-                                </div>
-                                <div className="text-muted mt-1">
-                                  <small>10:08 AM</small>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message chat-message-right">
-                            <div className="d-flex overflow-hidden">
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">Great, Feel free to get in touch.</p>
-                                </div>
-                                <div className="text-end text-muted mt-1">
-                                  <i className="ti ti-checks ti-xs me-1 text-success"></i>
-                                  <small>10:10 AM</small>
-                                </div>
-                              </div>
-                              <div className="user-avatar flex-shrink-0 ms-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/1.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message">
-                            <div className="d-flex overflow-hidden">
-                              <div className="user-avatar flex-shrink-0 me-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/2.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                              <div className="chat-message-wrapper flex-grow-1">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">Do you have design files for Vuexy?</p>
-                                </div>
-                                <div className="text-muted mt-1">
-                                  <small>10:15 AM</small>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="chat-message chat-message-right">
-                            <div className="d-flex overflow-hidden">
-                              <div className="chat-message-wrapper flex-grow-1 w-50">
-                                <div className="chat-message-text">
-                                  <p className="mb-0">
-                                    Yes that's correct documentation file, Design files are included with the template.
-                                  </p>
-                                </div>
-                                <div className="text-end text-muted mt-1">
-                                  <i className="ti ti-checks ti-xs me-1"></i>
-                                  <small>10:15 AM</small>
-                                </div>
-                              </div>
-                              <div className="user-avatar flex-shrink-0 ms-3">
-                                <div className="avatar avatar-sm">
-                                  <img src="../../assets/img/avatars/1.png" alt="Avatar" className="rounded-circle" />
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      
-                      <div className="chat-history-footer shadow-sm">
-                        <form className="form-send-message d-flex justify-content-between align-items-center">
-                          <input
-                            className="form-control message-input border-0 me-3 shadow-none"
-                            placeholder="Type your message here" />
-                          <div className="message-actions d-flex align-items-center">
-                            <i className="speech-to-text ti ti-microphone ti-sm cursor-pointer"></i>
-                            <label htmlFor="attach-doc" className="form-label mb-0">
-                              <i className="ti ti-photo ti-sm cursor-pointer mx-3"></i>
-                              <input type="file" id="attach-doc" hidden />
-                            </label>
-                            <button className="btn btn-primary d-flex send-msg-btn">
-                              <i className="ti ti-send me-md-1 me-0"></i>
-                              <span className="align-middle d-md-inline-block d-none">Send</span>
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                   </div>
-                  </div>         */}
                 </div>
               </div>
             </div>

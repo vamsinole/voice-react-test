@@ -31,6 +31,7 @@
 }
 .config-img {
     width: 60px;
+    height: 60px;
     border-radius: 6px;
     margin:0 20px 10px 0;
 }
@@ -107,15 +108,15 @@
   }
   .app-chat-history .chat-history-footer {
     padding: .575rem .5rem;
-    margin: 0 1.5rem;
+    margin: 0 !important;
     border-radius: .375rem;
 }
 .shadow-sm {
   box-shadow: 0 .125rem .25rem rgba(165, 163, 174, .3) !important;
 }
 .app-chat-history .chat-history-body{
-  height: calc(100vh - 20.5rem);
-  padding: 2rem 1.5rem;
+  height: calc(100vh - 17.5rem) !important;
+  padding: 1rem !important;
   overflow: hidden;
 }
 
@@ -249,4 +250,67 @@
   svg {
     padding: 0 5px;
   }
+}
+
+.bg-body-white {
+  background-color: white;
+}
+
+.avatar-sm {
+  position: relative;
+  width: 1.875rem;
+  height: 1.875rem;
+  cursor: pointer;
+}
+
+.avatar-sm img {
+  height: 100%;
+  width: 100%;
+}
+
+.chat-history-assist {
+  float: left;
+  width: 96%;
+  overflow-y: auto;
+  max-height: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.chat-message .chat-message-text {
+  padding: 4px 8px;
+  border-radius: 5px;
+  max-width: 90%;
+  background-color: rgb(117, 117, 244);
+}
+
+.chat-message-right .chat-message-text {
+  padding: 4px 8px;
+  border-radius: 5px;
+  max-width: 90%;
+  background-color: #eae9e9;
+}
+
+.text-white {
+  color: white;
+}
+
+.chat-message-text {
+  font-size: 14px !important;
+}
+
+.pull-left {
+  float: left;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.pull-right {
+  float: right;
+}
+
+.send-msg-btn {
+  padding: 10px;
 }
