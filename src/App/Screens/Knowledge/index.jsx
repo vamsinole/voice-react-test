@@ -30,7 +30,6 @@ const Knowledge = () => {
   const [faq, setFaq] = useState([]);
 
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedValuedrop, setSelectedValuedrop] = useState("");
 
   const [selectedslno, setSelectedslno] = useState("");
 
@@ -44,7 +43,7 @@ const Knowledge = () => {
     fetchVoiceAgents();
   }, []);
 
-  const fetchVoiceAgents = async () => {
+  const fetchVoiceAgents = async (id) => {
     try {
       const response = await axios.get(baseurl + endpoint, {
         headers: {
@@ -53,9 +52,19 @@ const Knowledge = () => {
       });
       console.log("responceorg", response.data.data.urls);
       setKnowledge(response.data.data);
-      setFiles(response.data.data[0].files);
-      setUrls(response.data.data[0].urls);
-      setFaq(response.data.data[0].faqs);
+      let temp = response.data.data.map((item) => {
+        if (item.id === id) {
+          setFiles(item.files);
+          setUrls(item.urls);
+          setFaq(item.faqs);
+        }
+        return item;
+      });
+      if (!id) {
+        setFiles(response.data.data[0].files);
+        setUrls(response.data.data[0].urls);
+        setFaq(response.data.data[0].faqs);
+      }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -63,12 +72,14 @@ const Knowledge = () => {
 
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
-    let obj = JSON.parse(event.target.value);
-    setSelectedValuedrop(obj.id);
-    console.log("selectedvalue", obj.id);
-    setFiles(obj.files);
-    setUrls(obj.urls);
-    setFaq(obj.faqs);
+    let temmp_kb = knowledge.map((item) => {
+      if (event.target.value === item.id) {
+        setFiles(item.files);
+        setUrls(item.urls);
+        setFaq(item.faqs);
+      }
+      return item;
+    });
   };
 
   const handleDropdownClick = (event) => {
@@ -116,6 +127,11 @@ const Knowledge = () => {
 
     const createKnowledge = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
+    if (!formData.knowledgename || formData.knowledgename.length === 0) {
+      setShowToast(true);
+      setShowToastMessge("Name cannot be empty");
+      return "";
+    }
     try {
       const response = await axios.post(
         baseurl + createKnowledge,
@@ -132,7 +148,7 @@ const Knowledge = () => {
 
       fetchVoiceAgents();
       setShowToast(true);
-      setShowToastMessge("Created");
+      setShowToastMessge("Knowledge base has been created");
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
@@ -179,13 +195,13 @@ const Knowledge = () => {
 
   const handleSubmitUrl = async (event) => {
     event.preventDefault();
-    console.log("selectedValue", selectedValuedrop);
+    console.log("selectedValue", selectedValue);
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
     try {
       setAddingUrl(true);
       const response = await axios.post(
-        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        baseurl + addurl + "/" + selectedValue + "/add_file",
         {
           type: "urls",
           urls: [{ url: formData.url }],
@@ -198,8 +214,12 @@ const Knowledge = () => {
         }
       );
       console.log(response);
+      setFormData({
+        ...formData,
+        url: "",
+      });
       setAddingUrl(false);
-      fetchVoiceAgents();
+      fetchVoiceAgents(selectedValue);
       setShowToast(true);
       setShowToastMessge("Url Added");
     } catch (error) {
@@ -209,13 +229,13 @@ const Knowledge = () => {
 
   const handleSubmitfaq = async (event) => {
     event.preventDefault();
-    console.log("selectedValue", selectedValuedrop);
+    console.log("selectedValue", selectedValue);
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
     try {
       setAddingFaq(true);
       const response = await axios.post(
-        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        baseurl + addurl + "/" + selectedValue + "/add_file",
         {
           type: "faqs",
           faqs: [{ question: formData.question, answer: formData.answer }],
@@ -229,7 +249,7 @@ const Knowledge = () => {
       );
       console.log(response);
       setAddingFaq(false);
-      fetchVoiceAgents();
+      fetchVoiceAgents(selectedValue);
       setShowToast(true);
       setShowToastMessge("Url Added");
     } catch (error) {
@@ -261,13 +281,13 @@ const Knowledge = () => {
     //formData.append('file', selectedFile);
     console.log("selectedFile", selectedFile);
 
-    console.log("selectedValue", selectedValuedrop);
+    console.log("selectedValue", selectedValue);
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdatafiles", formData);
     try {
       setAddingFile(true);
       const response = await axios.post(
-        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        baseurl + addurl + "/" + selectedValue + "/add_file",
         {
           type: "files",
           urls: selectedFile,
@@ -281,7 +301,7 @@ const Knowledge = () => {
       );
       console.log(response);
       setAddingFile(false);
-      fetchVoiceAgents();
+      fetchVoiceAgents(selectedValue);
       setShowToast(true);
       setShowToastMessge("Url Added");
       setfileLoading(false);
@@ -384,9 +404,8 @@ const Knowledge = () => {
                     className="form-select"
                   >
                     <option value="">Select Knowledge base</option>
-                    {console.log("knowledge", knowledge)}
-                    {knowledge.map((option) => (
-                      <option key={option.id} value={JSON.stringify(option)}>
+                    {knowledge.map((option, index) => (
+                      <option key={index} value={option.id}>
                         {option.name}
                       </option>
                     ))}

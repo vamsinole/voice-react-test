@@ -13,6 +13,7 @@ import env from "../../../config";
 import { callAPI } from "../../Components/Utils";
 import { WithContext as ReactTags } from "react-tag-input";
 import User from "./../../../assets/user.png";
+import { useNavigate } from "react-router-dom";
 
 const AssistantDashboard = () => {
   const [isColumnVisible, setIsColumnVisible] = useState(false);
@@ -25,6 +26,9 @@ const AssistantDashboard = () => {
   };
 
   const [intents, setIntents] = useState([]);
+  const [newId, setNewId] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleDelete = (i) => {
     setIntents(intents.filter((tag, index) => index !== i));
@@ -168,6 +172,7 @@ const AssistantDashboard = () => {
     incoming_call_greeting: "",
     outgoing_call_greeting: "",
     ai_type: "",
+    phone_number: "",
     temperature: 1,
     instructions: "",
     intents: [""],
@@ -207,7 +212,9 @@ const AssistantDashboard = () => {
         token
       );
       console.log(response);
+      setNewId(response.data.id);
       setShowToast(true);
+      navigate("/assistant");
       setShowToastMessge("Assistant has been created");
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -239,6 +246,36 @@ const AssistantDashboard = () => {
     }
     console.log(formData);
   }
+
+  const updatePrompts = async (event) => {
+    event.preventDefault();
+    if (!newId) {
+      setShowToast(true);
+      setShowToastMessge("Configure the assistant first");
+      return "";
+    }
+    if (!formData.instructions || formData.instructions.length === 0) {
+      setShowToast(true);
+      setShowToastMessge("Instructions cannot be empty");
+      return "";
+    }
+    let temp_json = {
+      instructions: formData.instructions,
+    };
+    try {
+      const response = await callAPI(
+        "PUT",
+        baseurl + endpoint + "/" + newId,
+        JSON.stringify(temp_json),
+        token
+      );
+      console.log(response);
+      setShowToast(true);
+      setShowToastMessge("Prompt has been updated");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
   return (
     <>
@@ -520,7 +557,10 @@ const AssistantDashboard = () => {
                                 <section>
                                   <div className="row mt-4">
                                     <div className="col-md-4 col-padding">
-                                      <h6 className="mb-0">Name</h6>
+                                      <h6 className="mb-0">
+                                        Name{" "}
+                                        <span className="required-dot">*</span>
+                                      </h6>
                                       <label htmlFor="" className="mb-2">
                                         What name will your assistant go by{" "}
                                       </label>
@@ -534,7 +574,10 @@ const AssistantDashboard = () => {
                                       />
                                     </div>
                                     <div className="col-md-4 col-padding">
-                                      <h6 className="mb-0">Assitant Type</h6>
+                                      <h6 className="mb-0">
+                                        Assitant Type{" "}
+                                        <span className="required-dot">*</span>
+                                      </h6>
                                       <label htmlFor="" className="mb-2">
                                         assistant's role
                                       </label>
@@ -597,7 +640,10 @@ const AssistantDashboard = () => {
                                   {/* <hr /> */}
                                   <div className="display-flex">
                                     <div className="col-md-6 col-padding">
-                                      <h6 className="mb-0">AI Model</h6>
+                                      <h6 className="mb-0">
+                                        AI Model{" "}
+                                        <span className="required-dot">*</span>
+                                      </h6>
                                       <label htmlFor="" className="mb-2">
                                         Opt for speed or depth to suit your
                                         assistant's role
@@ -749,7 +795,7 @@ const AssistantDashboard = () => {
                                             </small>
                                           </p>
                                         </div>
-                                        <div className="col-md-5 col-9 mt-3">
+                                        {/* <div className="col-md-5 col-9 mt-3">
                                           <h6 className="mb-0">
                                             Select Phone number{" "}
                                             <i className="las la-info-circle la-lg"></i>
@@ -757,13 +803,13 @@ const AssistantDashboard = () => {
                                           <select className="form-select">
                                             <option value="">+987654321</option>
                                           </select>
-                                        </div>
-                                        <div className="col-md-2 col-3 mt-3 pt-1 ps-0">
+                                        </div> */}
+                                        {/* <div className="col-md-2 col-3 mt-3 pt-1 ps-0">
                                           <button className="btn btn-outline-secondary mt-3 px-2">
                                             <i className="las la-times"></i>{" "}
                                             <small>Detach</small>{" "}
                                           </button>
-                                        </div>
+                                        </div> */}
                                       </div>
                                     </div>
                                     <div className="col-md-6 col-padding">
@@ -890,59 +936,19 @@ const AssistantDashboard = () => {
                                   </div>
                                 </div>
 
-                                <div className="form-control">
-                                  <ol className="ps-3 promt-ol-list">
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-                                  </ol>
+                                <div className="col-12">
+                                  <textarea
+                                    name="instructions"
+                                    placeholder="Fill your instructions here"
+                                    value={formData.instructions}
+                                    className="form-control"
+                                    rows={12}
+                                    onChange={handleInputChange}
+                                    id=""
+                                  ></textarea>
                                 </div>
 
-                                <h6 className="mt-4">1. Set up your action</h6>
+                                {/* <h6 className="mt-4">1. Set up your action</h6>
                                 <div className="row">
                                   <div className="col-md-4 col-lg-3">
                                     <div className="form-control p-lg-3">
@@ -982,6 +988,16 @@ const AssistantDashboard = () => {
                                       <p>Send a custom sms after the call</p>
                                     </div>
                                   </div>
+                                </div> */}
+
+                                <div className="col-md-12 my-3 text-center col-padding">
+                                  <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    onClick={updatePrompts}
+                                  >
+                                    Update Prompts
+                                  </button>
                                 </div>
                               </div>
                             </div>

@@ -225,6 +225,7 @@ const EditAssistant = () => {
     incoming_call_greeting: "",
     outgoing_call_greeting: "",
     ai_type: "",
+    phone_number: "",
     temperature: 1,
     instructions: "",
     intents: [""],
@@ -265,7 +266,7 @@ const EditAssistant = () => {
       );
       console.log(response);
       setShowToast(true);
-      setShowToastMessge("Assistant has been created");
+      setShowToastMessge("Assistant has been updated");
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -347,6 +348,31 @@ const EditAssistant = () => {
       setChatCallId(chat_object.data.call_id);
     }
   }
+
+  const updatePrompts = async (event) => {
+    event.preventDefault();
+    if (!formData.instructions || formData.instructions.length === 0) {
+      setShowToast(true);
+      setShowToastMessge("Instructions cannot be empty");
+      return "";
+    }
+    let temp_json = {
+      instructions: formData.instructions,
+    };
+    try {
+      const response = await callAPI(
+        "PUT",
+        baseurl + endpoint + "/" + params.id,
+        JSON.stringify(temp_json),
+        token
+      );
+      console.log(response);
+      setShowToast(true);
+      setShowToastMessge("Prompt has been updated");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
   return (
     <>
@@ -638,7 +664,10 @@ const EditAssistant = () => {
                                 <section>
                                   <div className="row mt-4">
                                     <div className="col-md-4 col-padding">
-                                      <h6 className="mb-0">Name</h6>
+                                      <h6 className="mb-0">
+                                        Name{" "}
+                                        <span className="required-dot">*</span>
+                                      </h6>
                                       <label htmlFor="" className="mb-2">
                                         What name will your assistant go by{" "}
                                       </label>
@@ -652,7 +681,10 @@ const EditAssistant = () => {
                                       />
                                     </div>
                                     <div className="col-md-4 col-padding">
-                                      <h6 className="mb-0">Assitant Type</h6>
+                                      <h6 className="mb-0">
+                                        Assitant Type{" "}
+                                        <span className="required-dot">*</span>
+                                      </h6>
                                       <label htmlFor="" className="mb-2">
                                         assistant's role
                                       </label>
@@ -706,7 +738,10 @@ const EditAssistant = () => {
                                   {/* <hr /> */}
                                   <div className="display-flex">
                                     <div className="col-md-6 col-padding">
-                                      <h6 className="mb-0">AI Model</h6>
+                                      <h6 className="mb-0">
+                                        AI Model{" "}
+                                        <span className="required-dot">*</span>
+                                      </h6>
                                       <label htmlFor="" className="mb-2">
                                         Opt for speed or depth to suit your
                                         assistant's role
@@ -863,16 +898,24 @@ const EditAssistant = () => {
                                             Select Phone number{" "}
                                             <i className="las la-info-circle la-lg"></i>
                                           </h6>
-                                          <select className="form-select">
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            name="phone_number"
+                                            value={formData.phone_number}
+                                            onChange={handleInputChange}
+                                            placeholder="+987654321"
+                                          />
+                                          {/* <select className="form-select">
                                             <option value="">+987654321</option>
-                                          </select>
+                                          </select> */}
                                         </div>
-                                        <div className="col-md-2 col-3 mt-3 pt-1 ps-0">
+                                        {/* <div className="col-md-2 col-3 mt-3 pt-1 ps-0">
                                           <button className="btn btn-outline-secondary mt-3 px-2">
                                             <i className="las la-times"></i>{" "}
                                             <small>Detach</small>{" "}
                                           </button>
-                                        </div>
+                                        </div> */}
                                       </div>
                                     </div>
                                     <div className="col-md-6 col-padding">
@@ -999,59 +1042,19 @@ const EditAssistant = () => {
                                   </div>
                                 </div>
 
-                                <div className="form-control">
-                                  <ol className="ps-3 promt-ol-list">
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-
-                                    <li>
-                                      Lorem Ipsum is simply dummy text of the
-                                      printing and typesetting industry. Lorem
-                                      Ipsum has been the industry's standard
-                                      dummy text ever since the 1500s, when an
-                                      unknown printer
-                                      <p>
-                                        * galley of type and scrambled it to
-                                        make a type specimen book.*
-                                      </p>
-                                    </li>
-                                  </ol>
+                                <div className="col-12">
+                                  <textarea
+                                    name="instructions"
+                                    placeholder="Fill your instructions here"
+                                    value={formData.instructions}
+                                    className="form-control"
+                                    rows={12}
+                                    onChange={handleInputChange}
+                                    id=""
+                                  ></textarea>
                                 </div>
 
-                                <h6 className="mt-4">1. Set up your action</h6>
+                                {/* <h6 className="mt-4">1. Set up your action</h6>
                                 <div className="row">
                                   <div className="col-md-4 col-lg-3">
                                     <div className="form-control p-lg-3">
@@ -1091,6 +1094,16 @@ const EditAssistant = () => {
                                       <p>Send a custom sms after the call</p>
                                     </div>
                                   </div>
+                                </div> */}
+
+                                <div className="col-md-12 my-3 text-center col-padding">
+                                  <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    onClick={updatePrompts}
+                                  >
+                                    Update Prompts
+                                  </button>
                                 </div>
                               </div>
                             </div>
