@@ -3,7 +3,6 @@
 // import React from 'react'
 import React, { useEffect } from "react";
 import "./terms.scss";
-import Logo from "./../../../assets/logo.png";
 
 const Terms = () => {
   const token = localStorage.getItem("token");
@@ -12,15 +11,15 @@ const Terms = () => {
 
   return (
     <>
-      <div className="">
-        <div className="row">
-          <div className="col-12">
-            <nav className="layout-navbar shadow-none py-0">
-              <div className="container">
-                <div className="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
-                  <div className="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
+      <div class="">
+        <div class="row">
+          <div class="col-12">
+            <nav class="layout-navbar shadow-none py-0">
+              <div class="container">
+                <div class="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
+                  <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
                     <button
-                      className="navbar-toggler border-0 px-0 me-2"
+                      class="navbar-toggler border-0 px-0 me-2"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -28,24 +27,57 @@ const Terms = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i className="ti ti-menu-2 ti-sm align-middle"></i>
+                      <i class="ti ti-menu-2 ti-sm align-middle"></i>
                     </button>
-                    <a href="/landing" className="app-brand-link">
-                      <span className="app-brand-logo demo">
-                        <img src={Logo} height={32} width={32} alt="" />
+                    <a href="/landing" class="app-brand-link">
+                      <span class="app-brand-logo demo">
+                        <svg
+                          width="32"
+                          height="22"
+                          viewBox="0 0 32 22"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                            fill="#7367F0"
+                          />
+                          <path
+                            opacity="0.06"
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                            fill="#161616"
+                          />
+                          <path
+                            opacity="0.06"
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                            fill="#161616"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                            fill="#7367F0"
+                          />
+                        </svg>
                       </span>
-                      <span className="app-brand-text demo menu-text fw-bold ms-2 ps-1">
+                      <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">
                         ContactSwing
                       </span>
                     </a>
                   </div>
 
                   <div
-                    className="collapse navbar-collapse landing-nav-menu"
+                    class="collapse navbar-collapse landing-nav-menu"
                     id="navbarSupportedContent"
                   >
                     <button
-                      className="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
+                      class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -53,29 +85,38 @@ const Terms = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i className="ti ti-x ti-sm"></i>
+                      <i class="ti ti-x ti-sm"></i>
                     </button>
-                    <ul className="navbar-nav me-auto">
-                      <li className="nav-item">
+                    <ul class="navbar-nav me-auto">
+                      <li class="nav-item">
                         <a
-                          className="nav-link fw-medium"
+                          class="nav-link fw-medium"
                           aria-current="page"
                           href="/landing"
                         >
                           Home
                         </a>
                       </li>
-                      <li className="nav-item">
+                      <li class="nav-item">
                         <a
-                          className="nav-link fw-medium"
+                          class="nav-link fw-medium"
                           href="/landing#landingFeatures"
                         >
                           Features
                         </a>
                       </li>
-                      <li className="nav-item">
+                      {/* <li class="nav-item">
                         <a
-                          className="nav-link fw-medium"
+                          class="nav-link fw-medium"
+                          aria-current="page"
+                          href="/landing#landingPricing"
+                        >
+                          Pricing
+                        </a>
+                      </li> */}
+                      <li class="nav-item">
+                        <a
+                          class="nav-link fw-medium"
                           href="/landing#landingContact"
                         >
                           Contact us
@@ -83,49 +124,48 @@ const Terms = () => {
                       </li>
                     </ul>
                   </div>
-                  <div className="landing-menu-overlay d-lg-none"></div>
+                  <div class="landing-menu-overlay d-lg-none"></div>
 
-                  <ul className="navbar-nav flex-row align-items-center ms-auto">
-                    <li className="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                  <ul class="navbar-nav flex-row align-items-center ms-auto">
+                    <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
                       <a
-                        className="nav-link dropdown-toggle hide-arrow"
+                        class="nav-link dropdown-toggle hide-arrow"
                         href="javascript:void(0);"
                         data-bs-toggle="dropdown"
                       >
-                        <i className="ti ti-sm"></i>
+                        <i class="ti ti-sm"></i>
                       </a>
-                      <ul className="dropdown-menu dropdown-menu-end dropdown-styles">
+                      <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
                         <li>
                           <a
-                            className="dropdown-item"
+                            class="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="light"
                           >
-                            <span className="align-middle">
-                              <i className="ti ti-sun me-2"></i>Light
+                            <span class="align-middle">
+                              <i class="ti ti-sun me-2"></i>Light
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            className="dropdown-item"
+                            class="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="dark"
                           >
-                            <span className="align-middle">
-                              <i className="ti ti-moon me-2"></i>Dark
+                            <span class="align-middle">
+                              <i class="ti ti-moon me-2"></i>Dark
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            className="dropdown-item"
+                            class="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="system"
                           >
-                            <span className="align-middle">
-                              <i className="ti ti-device-desktop me-2"></i>
-                              System
+                            <span class="align-middle">
+                              <i class="ti ti-device-desktop me-2"></i>System
                             </span>
                           </a>
                         </li>
@@ -135,21 +175,21 @@ const Terms = () => {
                     <li>
                       <a
                         href="/login"
-                        className="btn btn-primary mx-1"
+                        class="btn btn-primary mx-1"
                         target="_blank"
                       >
-                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span className="d-none d-md-block">Login</span>
+                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span class="d-none d-md-block">Login</span>
                       </a>
                     </li>
                     <li>
                       <a
                         href="/register"
-                        className="btn btn-primary mx-1"
+                        class="btn btn-primary mx-1"
                         target="_blank"
                       >
-                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span className="d-none d-md-block">Register</span>
+                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span class="d-none d-md-block">Register</span>
                       </a>
                     </li>
                   </ul>
@@ -1427,59 +1467,92 @@ const Terms = () => {
         {/* --footer-- */}
         <div className="row mt-4">
           <div className="col-12 mt-4">
-            <footer className="landing-footer bg-body footer-text">
-              <div className="footer-top position-relative overflow-hidden z-1">
+            <footer class="landing-footer bg-body footer-text">
+              <div class="footer-top position-relative overflow-hidden z-1">
                 <img
                   src="../../assets/img/front-pages/backgrounds/footer-bg-light.png"
                   alt="footer bg"
-                  className="footer-bg banner-bg-img z-n1"
+                  class="footer-bg banner-bg-img z-n1"
                   data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
                   data-app-dark-img="front-pages/backgrounds/footer-bg-dark.png"
                 />
-                <div className="container">
-                  <div className="row gx-0 gy-4 g-md-5">
-                    <div className="col-lg-5">
-                      <a href="/landing" className="app-brand-link mb-4">
-                        <span className="app-brand-logo demo">
-                          <img src={Logo} height={32} width={32} alt="" />
+                <div class="container">
+                  <div class="row gx-0 gy-4 g-md-5">
+                    <div class="col-lg-5">
+                      <a href="/landing" class="app-brand-link mb-4">
+                        <span class="app-brand-logo demo">
+                          <svg
+                            width="32"
+                            height="22"
+                            viewBox="0 0 32 22"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                              fill="#7367F0"
+                            />
+                            <path
+                              opacity="0.06"
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                              fill="#161616"
+                            />
+                            <path
+                              opacity="0.06"
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                              fill="#161616"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                              fill="#7367F0"
+                            />
+                          </svg>
                         </span>
-                        <span className="app-brand-text demo footer-link fw-bold ms-2 ps-1">
+                        <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">
                           ContactSwing
                         </span>
                       </a>
-                      <p className="footer-text footer-logo-description mb-4">
+                      <p class="footer-text footer-logo-description mb-4">
                         Transform Your Customer Interactions with Contact
                         Swing's Advanced Communication Solutions!
                       </p>
-                      <form className="footer-form">
-                        <label htmlFor="footer-email" className="small">
+                      <form class="footer-form">
+                        <label for="footer-email" class="small">
                           Subscribe to newsletter
                         </label>
-                        <div className="d-flex mt-1">
+                        <div class="d-flex mt-1">
                           <input
                             type="email"
-                            className="form-control rounded-0 rounded-start-bottom rounded-start-top"
+                            class="form-control rounded-0 rounded-start-bottom rounded-start-top"
                             id="footer-email"
                             placeholder="Your email"
                           />
                           <button
                             type="submit"
-                            className="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
+                            class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
                           >
                             Subscribe
                           </button>
                         </div>
                       </form>
                     </div>
-                    <div className="col-lg-2 col-md-4 col-sm-6">
-                      <ul className="list-unstyled">
-                        <li className="mb-3">
-                          <a href="/terms" className="footer-link">
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                      <ul class="list-unstyled">
+                        <li class="mb-3">
+                          <a href="/terms" class="footer-link">
                             Terms & Conditions
                           </a>
                         </li>
-                        <li className="mb-3">
-                          <a href="/privacy" className="footer-link">
+                        <li class="mb-3">
+                          <a href="/privacy" class="footer-link">
                             Privacy
                           </a>
                         </li>
@@ -1498,37 +1571,39 @@ const Terms = () => {
                       Contact Swing 2024
                     </a>
                   </div>
-                  <div className="row justify-content-center">
-                    <div className="col-1">
+                  <div class="social-logos row justify-content-center">
+                    <div class="col-1">
                       <a
                         href="https://www.linkedin.com/company/contactswing"
-                        className="footer-link "
+                        class="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          src="../../assets/img/front-pages/icons/github-light.png"
+                          class="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/linkedin.png"
                           alt="linkedin icon"
                         />
                       </a>
                     </div>
-                    <div className="col-1">
+                    <div class="col-1">
                       <a
                         href="https://www.facebook.com/ContactSwinginc"
-                        className="footer-link "
+                        class="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          src="../../assets/img/front-pages/icons/facebook-light.png"
+                          class="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/facebook2.png"
                           alt="facebook icon"
                         />
                       </a>
                     </div>
-                    {/* <div className="col-1">
+                    {/* <div class="col-1">
                       <a
                         href="https://twitter.com/pixinvents"
-                        className="footer-link me-3"
+                        class="footer-link me-3"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -1538,28 +1613,30 @@ const Terms = () => {
                         />
                       </a>
                     </div> */}
-                    <div className="col-1">
+                    <div class="col-1 footer-social-logo">
                       <a
                         href="https://www.instagram.com/ContactSwing/"
-                        className="footer-link "
+                        class="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          src="../../assets/img/front-pages/icons/instagram-light.png"
+                          class="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/instagram2.png"
                           alt="instagram icon"
                         />
                       </a>
                     </div>
-                    <div className="col-1">
+                    <div class="col-1">
                       <a
                         href="https://www.youtube.com/@ContactSwing"
-                        className="footer-link"
+                        class="footer-link"
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          src="../../assets/img/front-pages/icons/instagram-light.png"
+                          class="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/youtube.png"
                           alt="youtube icon"
                         />
                       </a>
@@ -1567,27 +1644,27 @@ const Terms = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="footer-bottom py-3">
-                <div className="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-                  <div className="mb-2 mb-md-0">
-                    <span className="footer-text">
+              {/* <div class="footer-bottom py-3">
+                <div class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                  <div class="mb-2 mb-md-0">
+                    <span class="footer-text">
                       ©
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
                       href="/"
                       target="_blank"
-                      className="fw-medium footer-link"
+                      class="fw-medium footer-link"
                       rel="noreferrer"
                     >
                       ContactSwing
                     </a>
-                    <span className="footer-text"> </span>
+                    <span class="footer-text"> </span>
                   </div>
                   <div>
                     <a
                       href="https://github.com/pixinvent"
-                      className="footer-link me-3"
+                      class="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1600,7 +1677,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://www.facebook.com/pixinvents/"
-                      className="footer-link me-3"
+                      class="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1613,7 +1690,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://twitter.com/pixinvents"
-                      className="footer-link me-3"
+                      class="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1626,7 +1703,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://www.instagram.com/pixinvents/"
-                      className="footer-link"
+                      class="footer-link"
                       target="_blank"
                       rel="noreferrer"
                     >

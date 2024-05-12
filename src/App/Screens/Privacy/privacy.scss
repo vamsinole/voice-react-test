@@ -8,10 +8,10 @@
   padding: 0.2rem 1.25rem;
 }
 .acation-btns {
-    display: flex;
-    button:hover {
-        color: #2FBFBE;
-    }
+  display: flex;
+  button:hover {
+    color: #7367f0;
+  }
 }
 
 $white: #fff !default;
@@ -39,7 +39,7 @@ $grays: (
 // scss-docs-start color-variables
 $blue: #007bff !default;
 $indigo: #6610f2 !default;
-$purple: #2FBFBE !default;
+$purple: #7367f0 !default;
 $pink: #e83e8c !default;
 $red: #ea5455 !default;
 $orange: #fd7e14 !default;
@@ -128,4 +128,12 @@ $border-color: rgba-to-hex($gray-200, $rgba-to-hex-bg) !default;
   width: 80%;
   background-color: white;
   border-radius: 10px;
+}
+.social-logos {
+  display: flex;
+  gap: 10px;
+}
+.footer-social-logo {
+  height: 26px;
+  width: 26px;
 }

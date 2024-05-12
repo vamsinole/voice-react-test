@@ -322,12 +322,12 @@ const Register = () => {
             </div>
 
             <div className="d-flex justify-content-center">
-              <a
+              {/* <a
                 href="javascript:;"
                 className="btn btn-icon btn-label-facebook me-3"
               >
                 <i className="tf-icons fa-brands fa-facebook-f fs-5"></i>
-              </a>
+              </a> */}
 
               <a
                 href="javascript:;"
@@ -336,9 +336,9 @@ const Register = () => {
                 <i className="tf-icons fa-brands fa-google fs-5"></i>
               </a>
 
-              <a href="javascript:;" className="btn btn-icon btn-label-twitter">
+              {/* <a href="javascript:;" className="btn btn-icon btn-label-twitter">
                 <i className="tf-icons fa-brands fa-twitter fs-5"></i>
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
