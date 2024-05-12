@@ -27,6 +27,13 @@ const Home = () => {
     navigate("/login");
   }
   const [gettingAssistants, setGettingAssistants] = useState(false);
+  const [callText, setCallText] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [callingId, setCallingId] = useState("");
+
+  async function handleClickCall(value) {
+    setCallingId(value.id);
+  }
 
   useEffect(() => {
     fetchUsers();
@@ -212,6 +219,7 @@ const Home = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [isColumnVisible, setIsColumnVisible] = useState(false);
+  const [callingUser, setCallingUser] = useState(false);
 
   // Toggle the visibility and adjust classes
   const toggleColumn = () => {
@@ -297,6 +305,46 @@ const Home = () => {
       setSelectedItems((prev) => [...prev, id]);
     } else {
       setSelectedItems((prev) => prev.filter((item) => item !== id));
+    }
+  };
+
+  const handleCall = async (event, id) => {
+    event.preventDefault();
+    const createvoiceAgent = USER_ENDPOINTS.makecall;
+    console.log("editformData33", editformData);
+    if (!callText || callText.length === 0) {
+      toast.error("Text cannot be empty", toastr_options);
+      return "";
+    }
+    if (!phoneNumber || phoneNumber.length === 0) {
+      toast.error("Phone number cannot be empty", toastr_options);
+      return "";
+    }
+    try {
+      setCallingUser(true);
+      const response = await axios.post(
+        baseurl + createvoiceAgent + "/" + callingId + "/makeCall",
+        {
+          speak: callText,
+          to_number: phoneNumber,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setCallingUser(false);
+      setCallText("");
+      setPhoneNumber("");
+      if (document.getElementById("close-call")) {
+        document.getElementById("close-call").click();
+      }
+      console.log(response);
+      toast.success("Call initiated successfully", toastr_options);
+    } catch (error) {
+      console.error("Error fetching users:", error);
     }
   };
 
@@ -630,14 +678,14 @@ const Home = () => {
                                     <td>{value.type}</td>
                                     <td style={{ width: "70px" }}>
                                       <div className="d-flex action-btns">
-                                        {/* <button
+                                        <button
                                           data-bs-toggle="modal"
-                                          onClick={() => handleClickedit(value)}
-                                          data-bs-target="#testAssistantModal"
+                                          onClick={() => handleClickCall(value)}
+                                          data-bs-target="#callUserModal"
                                           className="btn px-1"
                                         >
-                                          <i className="ti ti-player-play ti-sm me-2"></i>
-                                        </button> */}
+                                          <i className="ti ti-phone-call ti-sm me-2"></i>
+                                        </button>
                                         <button
                                           data-bs-toggle="modal"
                                           onClick={() => handleClickedit(value)}
@@ -1386,6 +1434,93 @@ const Home = () => {
           </div>
         </div>
       </form>
+
+      <div
+        className="modal fade"
+        id="callUserModal"
+        tabIndex="-1"
+        aria-labelledby="VioceEditLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="VioceEditLabel">
+                Call User
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            {/* <form
+              className="add-new-user pt-0"
+              id="addNewUserForm"
+              onSubmit={handleCall} */}
+            {/* > */}
+            <div className="modal-body">
+              <div className="parent-div p-3">
+                <div className="mb-3">
+                  <label htmlFor="name">Initial text</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="speak"
+                    required
+                    value={callText}
+                    onChange={(e) => setCallText(e.target.value)}
+                    placeholder="How can I help you?"
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="name">Phone number</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    required
+                    name="to_number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="658 799 8941"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                id="close-call"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                disabled={callingUser}
+                className="btn btn-primary"
+                onClick={(e) => handleCall(e)}
+              >
+                {callingUser && (
+                  <span id="create-kbs-button-loader">
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Loading...</span>
+                  </span>
+                )}
+                Call User
+              </button>
+            </div>
+            {/* </form> */}
+          </div>
+        </div>
+      </div>
 
       <ToastContainer />
     </>
