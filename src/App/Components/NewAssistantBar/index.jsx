@@ -49,10 +49,10 @@ const NewAssistantBar = () => {
 
             <div className="col-lg-9 mt-1">
               <div className="top_right-col d-flex justify-content-end align-items-center">
-                <p className="mb-0 me-3">
+                {/* <p className="mb-0 me-3">
                   Your are in free plan. <a href="#"> Upgrade</a> or{" "}
                   <a href="#">External Trail</a>
-                </p>
+                </p> */}
 
                 <button
                   className="btn btn-sm btn-success p-0 py-0 m-0 mt-1 me-2"

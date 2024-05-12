@@ -436,7 +436,7 @@ nav.layout-navbar.navbar-active::after {
   .navbar.landing-navbar
   .navbar-nav
   .nav-link.active {
-  color: #7367f0 !important;
+  color: #2fbfbe !important;
 }
 @media (max-width: 991.98px) {
   .light-style .layout-navbar .navbar.landing-navbar .landing-nav-menu {
@@ -467,7 +467,7 @@ nav.layout-navbar.navbar-active::after {
   > .nav-link,
 .dark-style .layout-navbar .navbar.landing-navbar .navbar-nav .nav-link.show,
 .dark-style .layout-navbar .navbar.landing-navbar .navbar-nav .nav-link.active {
-  color: #7367f0 !important;
+  color: #2fbfbe !important;
 }
 @media (max-width: 991.98px) {
   .dark-style .layout-navbar .navbar.landing-navbar .landing-nav-menu {

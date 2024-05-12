@@ -11,7 +11,7 @@
   background-clip: padding-box;
   display: none;
 }
-[dir=rtl] .twitter-typeahead .tt-menu {
+[dir="rtl"] .twitter-typeahead .tt-menu {
   float: right;
   left: auto !important;
   right: 0 !important;
@@ -36,7 +36,7 @@
 .twitter-typeahead .tt-hint {
   color: #999;
 }
-[dir=rtl] .twitter-typeahead .tt-input {
+[dir="rtl"] .twitter-typeahead .tt-input {
   direction: rtl;
 }
 
@@ -59,10 +59,11 @@
   color: #5d596c;
   padding: 0.42rem 1rem;
 }
-.light-style .twitter-typeahead .tt-suggestion:hover, .light-style .twitter-typeahead .tt-suggestion:focus {
+.light-style .twitter-typeahead .tt-suggestion:hover,
+.light-style .twitter-typeahead .tt-suggestion:focus {
   text-decoration: none;
-  color: #7367f0;
-  background-color: rgba(115, 103, 240, 0.08);
+  color: #2fbfbe;
+  background-color: rgba(47, 191, 190, 0.08);
 }
 
 .dark-style .twitter-typeahead .tt-menu {
@@ -81,10 +82,11 @@
   color: #cfd3ec;
   padding: 0.42rem 1rem;
 }
-.dark-style .twitter-typeahead .tt-menu .tt-suggestion:hover, .dark-style .twitter-typeahead .tt-menu .tt-suggestion:focus {
+.dark-style .twitter-typeahead .tt-menu .tt-suggestion:hover,
+.dark-style .twitter-typeahead .tt-menu .tt-suggestion:focus {
   text-decoration: none;
-  color: #7367f0;
-  background-color: rgba(115, 103, 240, 0.08);
+  color: #2fbfbe;
+  background-color: rgba(47, 191, 190, 0.08);
 }
 .dark-style .twitter-typeahead .tt-hint {
   color: #5e6692;
