@@ -11,18 +11,16 @@ import { USER_ENDPOINTS } from "../../../config/enpoints";
 import axios from "../axiosInterceptor";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
+import { callAPI, toastr_options } from "../../Components/Utils";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Knowledge = () => {
   const [fileloading, setfileLoading] = useState(false);
   const [addingFaq, setAddingFaq] = useState(false);
   const [addingUrl, setAddingUrl] = useState(false);
   const [addingFile, setAddingFile] = useState(false);
-
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
 
   const [knowledge, setKnowledge] = useState([]);
   const [files, setFiles] = useState([]);
@@ -39,21 +37,29 @@ const Knowledge = () => {
   const token = localStorage.getItem("token");
   console.log("token", token);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchVoiceAgents();
   }, []);
 
   const fetchVoiceAgents = async (id) => {
     try {
-      const response = await axios.get(baseurl + endpoint, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("responceorg", response.data.data.urls);
-      setKnowledge(response.data.data);
-      let temp = response.data.data.map((item) => {
+      // const response = await axios.get(baseurl + endpoint, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      let response = await callAPI("GET", baseurl + endpoint, "", token);
+      console.log(response);
+      if (response.authError) {
+        navigate("/login");
+      }
+      console.log("responceorg", response.data.urls);
+      setKnowledge(response.data);
+      let temp = response.data.map((item) => {
         if (item.id === id) {
+          setSelectedValue(item.id);
           setFiles(item.files);
           setUrls(item.urls);
           setFaq(item.faqs);
@@ -61,9 +67,10 @@ const Knowledge = () => {
         return item;
       });
       if (!id) {
-        setFiles(response.data.data[0].files);
-        setUrls(response.data.data[0].urls);
-        setFaq(response.data.data[0].faqs);
+        setSelectedValue(response.data[0].id);
+        setFiles(response.data[0].files);
+        setUrls(response.data[0].urls);
+        setFaq(response.data[0].faqs);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -128,8 +135,7 @@ const Knowledge = () => {
     const createKnowledge = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
     if (!formData.knowledgename || formData.knowledgename.length === 0) {
-      setShowToast(true);
-      setShowToastMessge("Name cannot be empty");
+      toast.error("Name cannot be empty", toastr_options);
       return "";
     }
     try {
@@ -145,10 +151,12 @@ const Knowledge = () => {
       );
 
       const data = response.data.data.token;
-
+      setFormData({
+        ...formData,
+        knowledgename: "",
+      });
       fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Knowledge base has been created");
+      toast.success("Knowledge base has been created", toastr_options);
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
@@ -220,8 +228,7 @@ const Knowledge = () => {
       });
       setAddingUrl(false);
       fetchVoiceAgents(selectedValue);
-      setShowToast(true);
-      setShowToastMessge("Url Added");
+      toast.success("Url Added", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -249,9 +256,16 @@ const Knowledge = () => {
       );
       console.log(response);
       setAddingFaq(false);
+      setFormData({
+        ...formData,
+        question: "",
+      });
+      setFormData({
+        ...formData,
+        answer: "",
+      });
       fetchVoiceAgents(selectedValue);
-      setShowToast(true);
-      setShowToastMessge("Url Added");
+      toast.success("FAQ has been added successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -276,34 +290,22 @@ const Knowledge = () => {
       console.error("No file selected");
       return;
     }
-
-    //const formData = new FormData();
-    //formData.append('file', selectedFile);
-    console.log("selectedFile", selectedFile);
-
-    console.log("selectedValue", selectedValue);
+    let formData = new FormData();
+    formData.append("type", "files");
+    formData.append("urls", selectedFile);
     const addurl = USER_ENDPOINTS.getKnowledge;
-    console.log("formdatafiles", formData);
     try {
       setAddingFile(true);
-      const response = await axios.post(
-        baseurl + addurl + "/" + selectedValue + "/add_file",
-        {
-          type: "files",
-          urls: selectedFile,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+      let upload_image_object = await callAPI(
+        "POST",
+        baseurl + "/v1/add_file",
+        formData,
+        token,
+        "nojson"
       );
-      console.log(response);
       setAddingFile(false);
       fetchVoiceAgents(selectedValue);
-      setShowToast(true);
-      setShowToastMessge("Url Added");
+      toast.success("File has been added successfully", toastr_options);
       setfileLoading(false);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -1245,25 +1247,7 @@ const Knowledge = () => {
       </form>
       {/* modal popup New Faq End*/}
 
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

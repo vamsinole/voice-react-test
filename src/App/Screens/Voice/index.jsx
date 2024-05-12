@@ -10,15 +10,12 @@ import axios from "../axiosInterceptor";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toastr_options } from "../../Components/Utils";
 
 const Voice = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
   const [gettingVoiceAgents, setGettingVoiceAgents] = useState(false);
-
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
 
   const [voiceagents, setVoiceAgent] = useState([]);
 
@@ -145,8 +142,7 @@ const Voice = () => {
       console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Updated");
+      toast.success("Agent has been updated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -167,8 +163,7 @@ const Voice = () => {
       console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Created");
+      toast.success("Agent has been created successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -209,8 +204,7 @@ const Voice = () => {
       console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Call Successfully done");
+      toast.success("Call initiated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -233,8 +227,7 @@ const Voice = () => {
       console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Deleted");
+      toast.success("Agent has been deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -1014,25 +1007,7 @@ const Voice = () => {
       </form>
       {/* modal popup VioceEdit end*/}
 
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

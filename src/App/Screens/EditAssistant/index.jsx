@@ -2,27 +2,25 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Components/Header";
 import "./Styles.scss";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 // import axios from 'axios';
-import axios from "../axiosInterceptor";
 import env from "../../../config";
-import { callAPI } from "../../Components/Utils";
+import { callAPI, toastr_options } from "../../Components/Utils";
 import { WithContext as ReactTags } from "react-tag-input";
 import User from "./../../../assets/user.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditAssistant = () => {
   const [isColumnVisible, setIsColumnVisible] = useState(false);
+  const [creatingAssistant, setCreatingAssistant] = useState(false);
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
-  };
-  const [isTrainColumnVisible, setIsTrainColumnVisible] = useState(false);
-  const toggleTrainColumn = () => {
-    setIsTrainColumnVisible(!isTrainColumnVisible);
   };
 
   const params = useParams();
@@ -103,41 +101,67 @@ const EditAssistant = () => {
 
   const baseurl = env.baseUrl;
   const token = localStorage.getItem("token");
-  const endpointmodel = USER_ENDPOINTS.getmodel;
+  // const endpointmodel = USER_ENDPOINTS.getmodel;
 
-  const [dataModel, setDataModel] = useState(null);
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(baseurl + endpointmodel, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceModel", response.data.data);
+  const [dataModel] = useState([
+    {
+      model: "gpt-3.5-turbo-0125",
+      name: "GPT 3.5",
+      disabled: false,
+    },
+    {
+      model: "gpt-4-0125-preview",
+      name: "GPT 4",
+      disabled: false,
+    },
+    {
+      model: "gemini",
+      name: "Gemini",
+      disabled: false,
+    },
+    {
+      model: "llama3",
+      name: "Llama 3",
+      disabled: true,
+    },
+    {
+      model: "claude3",
+      name: "Claude 3",
+      disabled: true,
+    },
+  ]);
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const response = await axios.get(baseurl + endpointmodel, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       console.log("responceModel", response.data.data);
 
-        setDataModel(response.data.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //       setDataModel(response.data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchUsers();
-  }, []);
+  //   fetchUsers();
+  // }, []);
 
   const [dataKnowledge, setDataKnowldge] = useState(null);
   const endpointKnowledge = USER_ENDPOINTS.getKnowledge;
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(baseurl + endpointKnowledge, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceKnowledge", response.data.data);
-
-        setDataKnowldge(response.data.data);
+        let get_kbs_obj = await callAPI(
+          "GET",
+          baseurl + endpointKnowledge,
+          "",
+          token
+        );
+        console.log("responceKnowledge", get_kbs_obj.data);
+        setDataKnowldge(get_kbs_obj.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -151,16 +175,14 @@ const EditAssistant = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(
+        let current_assistant_obj = await callAPI(
+          "GET",
           baseurl + endpointAssist + "/" + params.id,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          "",
+          token
         );
-        console.log("responceAssist", response.data.data);
-        let temp_var = response.data.data[0],
+        console.log("responceAssist", current_assistant_obj.data);
+        let temp_var = current_assistant_obj.data[0],
           temp_data = {
             name: temp_var.name,
             nikname: temp_var.nikname,
@@ -184,7 +206,7 @@ const EditAssistant = () => {
             kbs_id: temp_var.kbs_id,
           };
         setFormData(temp_data);
-        setAssistData(response.data.data);
+        setAssistData(current_assistant_obj.data);
         console.log(assistData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -194,14 +216,10 @@ const EditAssistant = () => {
     fetchUsers();
   }, []);
 
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
+  const navigate = useNavigate();
+
   const [chatLoading, setChatLoading] = useState(false);
   const [chatCallId, setChatCallId] = useState(false);
-
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -239,13 +257,11 @@ const EditAssistant = () => {
     event.preventDefault();
     console.log("formdataaddinc", formData);
     if (!formData.name || formData.name.length === 0) {
-      setShowToast(true);
-      setShowToastMessge("Name cannot be empty");
+      toast.error("Name cannot be empty", toastr_options);
       return "";
     }
     if (!formData.ai_type || formData.ai_type.length === 0) {
-      setShowToast(true);
-      setShowToastMessge("AI type cannot be empty");
+      toast.error("AI type cannot be empty", toastr_options);
       return "";
     }
     if (formData.enable_recordings) {
@@ -258,15 +274,30 @@ const EditAssistant = () => {
       formData.incoming_call_greeting = "";
     }
     try {
+      setCreatingAssistant(true);
       const response = await callAPI(
         "PUT",
         baseurl + endpoint + "/" + params.id,
         JSON.stringify(formData),
         token
       );
+      setCreatingAssistant(false);
+      if (response.authError) {
+        navigate("/login");
+      } else if (response.error || response.apiError) {
+        if (
+          response.error &&
+          response.error.message &&
+          response.error.message.length > 0
+        ) {
+          toast.error(response.error.message, toastr_options);
+        } else {
+          toast.error("Please try again later");
+        }
+      }
       console.log(response);
-      setShowToast(true);
-      setShowToastMessge("Assistant has been updated");
+      navigate("/assistant");
+      toast.success("Assistant has been updated", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -352,8 +383,7 @@ const EditAssistant = () => {
   const updatePrompts = async (event) => {
     event.preventDefault();
     if (!formData.instructions || formData.instructions.length === 0) {
-      setShowToast(true);
-      setShowToastMessge("Instructions cannot be empty");
+      toast.error("Instructions cannot be empty", toastr_options);
       return "";
     }
     let temp_json = {
@@ -367,12 +397,33 @@ const EditAssistant = () => {
         token
       );
       console.log(response);
-      setShowToast(true);
-      setShowToastMessge("Prompt has been updated");
+      toast.success("Prompt has been updated", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
+
+  async function clearTestingChat() {
+    toast.success("Chat has been cleared");
+    setMessages([]);
+    setChatCallId(null);
+  }
+
+  async function trainAssistant() {
+    let train_obj = await callAPI(
+      "POST",
+      baseurl +
+        USER_ENDPOINTS.getassist +
+        "/" +
+        params.id +
+        "/train/" +
+        formData.kbs_id,
+      "",
+      token
+    );
+    console.log(train_obj);
+    toast.success("Training has been initiated", toastr_options);
+  }
 
   return (
     <>
@@ -386,7 +437,7 @@ const EditAssistant = () => {
               <div className="row mt-1">
                 <div className="col-md-12">
                   <ul className="d-flex justify-content-end m-0 p-0 list-unstyled">
-                    <li>
+                    {/* <li>
                       <button
                         onClick={toggleTrainColumn}
                         className="btn"
@@ -395,11 +446,11 @@ const EditAssistant = () => {
                         <i className="ti ti-world-share ti-md me-1"></i>
                         Publish
                       </button>
-                    </li>
+                    </li> */}
                     <li>
                       {" "}
                       <button
-                        onClick={toggleTrainColumn}
+                        onClick={trainAssistant}
                         className="btn"
                         type="button"
                       >
@@ -414,33 +465,11 @@ const EditAssistant = () => {
                         type="button"
                       >
                         <i className="ti ti-messages ti-md me-1"></i>
-                        Test Agent
+                        Test Assistant
                       </button>
                     </li>
                   </ul>
                 </div>
-                {/* <div className='col-md-4'>
-                  </div> */}
-                {/* <div className="col-md-2 offset-2 text-end">
-                        <button onClick={toggleTrainColumn} className="btn" type="button">
-                        <i className="ti ti-settings ti-md me-1"></i>
-                        Publish
-                      </button>
-                  </div>
-                  <div className="col-md-2 offset-1 text-end">
-                        <button onClick={toggleTrainColumn} className="btn" type="button">
-                        <i className="ti ti-settings ti-md me-1"></i>
-                        Train Assistant
-                      </button>
-                  </div>
-                  <div className='col-md-2 text-end'>
-                  <span className="dropdown FilterDropdown">
-                      <button onClick={toggleColumn} className="btn" type="button">
-                        <i className="ti ti-messages ti-md me-1"></i>
-                        Test Agent
-                      </button>
-                    </span>
-                  </div> */}
               </div>
             </div>
             <div className="content-wrapper">
@@ -754,12 +783,13 @@ const EditAssistant = () => {
                                         className="form-select"
                                       >
                                         <option value="">--Select--</option>
-                                        {dataModel?.map((option) => (
+                                        {dataModel?.map((option, aiIndex) => (
                                           <option
-                                            key={option.id}
+                                            key={aiIndex}
                                             value={option.model}
+                                            disabled={option.disabled}
                                           >
-                                            {option.model}
+                                            {option.name}
                                           </option>
                                         ))}
                                       </select>
@@ -1011,9 +1041,22 @@ const EditAssistant = () => {
                                     </a>
                                     <button
                                       type="submit"
+                                      disabled={creatingAssistant}
                                       className="btn btn-primary"
                                       onClick={handleSubmit}
                                     >
+                                      {creatingAssistant && (
+                                        <span id="create-kbs-button-loader">
+                                          <span
+                                            class="spinner-border"
+                                            role="status"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span class="visually-hidden">
+                                            Loading...
+                                          </span>
+                                        </span>
+                                      )}
                                       Update Assistant
                                     </button>
                                   </div>
@@ -1161,6 +1204,7 @@ const EditAssistant = () => {
                                     <a
                                       className="dropdown-item"
                                       href="javascript:void(0);"
+                                      onClick={clearTestingChat}
                                     >
                                       Clear Chat
                                     </a>
@@ -1283,25 +1327,7 @@ const EditAssistant = () => {
           </div>
         </div>
       </div>
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

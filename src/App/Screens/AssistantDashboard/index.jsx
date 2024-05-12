@@ -7,23 +7,24 @@ import "./Styles.scss";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
-// import axios from 'axios';
-import axios from "../axiosInterceptor";
 import env from "../../../config";
-import { callAPI } from "../../Components/Utils";
+import { callAPI, toastr_options } from "../../Components/Utils";
 import { WithContext as ReactTags } from "react-tag-input";
 import User from "./../../../assets/user.png";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AssistantDashboard = () => {
-  const [isColumnVisible, setIsColumnVisible] = useState(false);
-  const toggleColumn = () => {
-    setIsColumnVisible(!isColumnVisible);
-  };
-  const [isTrainColumnVisible, setIsTrainColumnVisible] = useState(false);
-  const toggleTrainColumn = () => {
-    setIsTrainColumnVisible(!isTrainColumnVisible);
-  };
+  const [isColumnVisible] = useState(false);
+  const [creatingAssistant, setCreatingAssistant] = useState(false);
+  // const toggleColumn = () => {
+  //   setIsColumnVisible(!isColumnVisible);
+  // };
+  // const [isTrainColumnVisible, setIsTrainColumnVisible] = useState(false);
+  // const toggleTrainColumn = () => {
+  //   setIsTrainColumnVisible(!isTrainColumnVisible);
+  // };
 
   const [intents, setIntents] = useState([]);
   const [newId, setNewId] = useState([]);
@@ -78,41 +79,49 @@ const AssistantDashboard = () => {
 
   const baseurl = env.baseUrl;
   const token = localStorage.getItem("token");
-  const endpointmodel = USER_ENDPOINTS.getmodel;
+  // const endpointmodel = USER_ENDPOINTS.getmodel;
 
-  const [dataModel, setDataModel] = useState(null);
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(baseurl + endpointmodel, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceModel", response.data.data);
-
-        setDataModel(response.data.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  const [dataModel] = useState([
+    {
+      model: "gpt-3.5-turbo-0125",
+      name: "GPT 3.5",
+      disabled: false,
+    },
+    {
+      model: "gpt-4-0125-preview",
+      name: "GPT 4",
+      disabled: false,
+    },
+    {
+      model: "gemini",
+      name: "Gemini",
+      disabled: false,
+    },
+    {
+      model: "llama3",
+      name: "Llama 3",
+      disabled: true,
+    },
+    {
+      model: "claude3",
+      name: "Claude 3",
+      disabled: true,
+    },
+  ]);
 
   const [dataKnowledge, setDataKnowldge] = useState(null);
   const endpointKnowledge = USER_ENDPOINTS.getKnowledge;
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(baseurl + endpointKnowledge, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceKnowledge", response.data.data);
-
-        setDataKnowldge(response.data.data);
+        let get_kbs_obj = await callAPI(
+          "GET",
+          baseurl + endpointKnowledge,
+          "",
+          token
+        );
+        console.log("responceKnowledge", get_kbs_obj.data);
+        setDataKnowldge(get_kbs_obj.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -121,20 +130,20 @@ const AssistantDashboard = () => {
     fetchUsers();
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const [assistData, setAssistData] = useState(null);
   const endpointAssist = USER_ENDPOINTS.getassist;
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(baseurl + endpointAssist, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceAssist", response.data.data);
-
-        setAssistData(response.data.data);
-        console.log(assistData);
+        let assist_obj = await callAPI(
+          "GET",
+          baseurl + endpointAssist,
+          "",
+          token
+        );
+        console.log("responceAssist", assist_obj.data);
+        setAssistData(assist_obj.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -142,13 +151,6 @@ const AssistantDashboard = () => {
 
     fetchUsers();
   }, []);
-
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
-
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -186,13 +188,11 @@ const AssistantDashboard = () => {
     event.preventDefault();
     console.log("formdataaddinc", formData);
     if (!formData.name || formData.name.length === 0) {
-      setShowToast(true);
-      setShowToastMessge("Name cannot be empty");
+      toast.error("Name cannot be empty", toastr_options);
       return "";
     }
     if (!formData.ai_type || formData.ai_type.length === 0) {
-      setShowToast(true);
-      setShowToastMessge("AI type cannot be empty");
+      toast.error("AI type cannot be empty", toastr_options);
       return "";
     }
     if (formData.enable_recordings) {
@@ -205,17 +205,31 @@ const AssistantDashboard = () => {
       formData.incoming_call_greeting = "";
     }
     try {
+      setCreatingAssistant(true);
       const response = await callAPI(
         "POST",
         baseurl + endpoint,
         JSON.stringify(formData),
         token
       );
+      setCreatingAssistant(false);
+      if (response.authError) {
+        navigate("/login");
+      } else if (response.error || response.apiError) {
+        if (
+          response.error &&
+          response.error.message &&
+          response.error.message.length > 0
+        ) {
+          toast.error(response.error.message, toastr_options);
+        } else {
+          toast.error("Please try again later");
+        }
+      }
       console.log(response);
       setNewId(response.data.id);
-      setShowToast(true);
+      toast.success("Assistant has been created", toastr_options);
       navigate("/assistant");
-      setShowToastMessge("Assistant has been created");
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -250,13 +264,11 @@ const AssistantDashboard = () => {
   const updatePrompts = async (event) => {
     event.preventDefault();
     if (!newId) {
-      setShowToast(true);
-      setShowToastMessge("Configure the assistant first");
+      toast.error("Configure the assistant first", toastr_options);
       return "";
     }
     if (!formData.instructions || formData.instructions.length === 0) {
-      setShowToast(true);
-      setShowToastMessge("Instructions cannot be empty");
+      toast.error("Instructions cannot be empty", toastr_options);
       return "";
     }
     let temp_json = {
@@ -270,8 +282,7 @@ const AssistantDashboard = () => {
         token
       );
       console.log(response);
-      setShowToast(true);
-      setShowToastMessge("Prompt has been updated");
+      toast.success("Prompt has been updated", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -289,7 +300,7 @@ const AssistantDashboard = () => {
               <div className="row mt-1">
                 <div className="col-md-12">
                   <ul className="d-flex justify-content-end m-0 p-0 list-unstyled">
-                    <li>
+                    {/* <li>
                       <button
                         onClick={toggleTrainColumn}
                         className="btn"
@@ -319,31 +330,9 @@ const AssistantDashboard = () => {
                         <i className="ti ti-messages ti-md me-1"></i>
                         Test Agent
                       </button>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
-                {/* <div className='col-md-4'>
-                  </div> */}
-                {/* <div className="col-md-2 offset-2 text-end">
-                        <button onClick={toggleTrainColumn} className="btn" type="button">
-                        <i className="ti ti-settings ti-md me-1"></i>
-                        Publish
-                      </button>
-                  </div>
-                  <div className="col-md-2 offset-1 text-end">
-                        <button onClick={toggleTrainColumn} className="btn" type="button">
-                        <i className="ti ti-settings ti-md me-1"></i>
-                        Train Assistant
-                      </button>
-                  </div>
-                  <div className='col-md-2 text-end'>
-                  <span className="dropdown FilterDropdown">
-                      <button onClick={toggleColumn} className="btn" type="button">
-                        <i className="ti ti-messages ti-md me-1"></i>
-                        Test Agent
-                      </button>
-                    </span>
-                  </div> */}
               </div>
             </div>
             <div className="content-wrapper">
@@ -602,18 +591,14 @@ const AssistantDashboard = () => {
                                         <option disabled value="live_agent">
                                           live agent
                                         </option>
-
-                                        {/* {assistData?.map(option => (
-                                              <option key={option.id} value={option.id}>
-                                                {option.name}
-                                              </option>
-                                              ))} */}
                                       </select>
                                     </div>
                                     <div className="col-md-4 col-8 col-padding position-relative disabled-div">
-                                      <h6 className="mb-0">Name</h6>
+                                      <h6 className="mb-0">
+                                        Select Voice (Upcoming Feature)
+                                      </h6>
                                       <label htmlFor="" className="mb-2">
-                                        What name will your assistant go by{" "}
+                                        How your assistant should speak{" "}
                                       </label>
                                       <input
                                         type="text"
@@ -656,12 +641,13 @@ const AssistantDashboard = () => {
                                         className="form-select"
                                       >
                                         <option value="">--Select--</option>
-                                        {dataModel?.map((option) => (
+                                        {dataModel?.map((option, aiIndex) => (
                                           <option
-                                            key={option.id}
+                                            key={aiIndex}
                                             value={option.model}
+                                            disabled={option.disabled}
                                           >
-                                            {option.model}
+                                            {option.name}
                                           </option>
                                         ))}
                                       </select>
@@ -905,9 +891,22 @@ const AssistantDashboard = () => {
                                     </a>
                                     <button
                                       type="submit"
+                                      disabled={creatingAssistant}
                                       className="btn btn-primary"
                                       onClick={handleSubmit}
                                     >
+                                      {creatingAssistant && (
+                                        <span id="create-kbs-button-loader">
+                                          <span
+                                            class="spinner-border"
+                                            role="status"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span class="visually-hidden">
+                                            Loading...
+                                          </span>
+                                        </span>
+                                      )}
                                       Create Assistant
                                     </button>
                                   </div>
@@ -1375,25 +1374,7 @@ const AssistantDashboard = () => {
           </div>
         </div>
       </div>
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

@@ -51,7 +51,11 @@ export async function callAPI(
           resolve({ authError: true });
         } else {
           var response_json_error = JSON.parse(this.responseText);
-          response_json_error.error = true;
+          if (!response_json_error.error) {
+            response_json_error.error = true;
+          } else {
+            response_json_error.apiError = true;
+          }
           resolve(response_json_error);
         }
       }

@@ -7,19 +7,17 @@ import env from "../../../config";
 import "./Styles.scss";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 // import axios from 'axios';
-import axios from "../axiosInterceptor";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { callAPI, toastr_options } from "../../Components/Utils";
 
 const Users = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
-
   const [users, setUsers] = useState([]);
-
+  const [fetchingUsers, setFetchingUsers] = useState(false);
+  const [updatingUsers, setUpdatingUsers] = useState(false);
+  const [deletingUsers, setDeletingUsers] = useState(false);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getUsers;
 
@@ -32,13 +30,10 @@ const Users = () => {
 
   const fetchVoiceAgents = async () => {
     try {
-      const response = await axios.get(baseurl + endpoint, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      //console.log("responce22",response.data.data.rows);
-      setUsers(response.data.data.rows);
+      setFetchingUsers(true);
+      let fetch_users_obj = await callAPI("GET", baseurl + endpoint, "", token);
+      setFetchingUsers(false);
+      setUsers(fetch_users_obj.data.rows);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -70,35 +65,27 @@ const Users = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const createvoiceAgent = USER_ENDPOINTS.getUsers;
-    console.log("formdatausers", formData);
+    let create_user_data = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phone,
+      role: "agent",
+      website: formData.website,
+      address: formData.address,
+    };
     try {
-      const response = await axios.post(
+      let create_user = await callAPI(
+        "POST",
         baseurl + createvoiceAgent,
-        {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          phone: formData.phone,
-          role: "agent",
-          website: formData.website,
-          address: formData.address,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        JSON.stringify(create_user_data),
+        token
       );
-      console.log(response);
-
+      console.log(create_user);
+      toast.success("User has been created successfully", toastr_options);
       fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Created");
     } catch (error) {
-      setShowToast(true);
-      setShowToastMessge("Error");
-      console.error("Error fetching users:", error);
+      toast.error("User has been created successfully", toastr_options);
     }
   };
 
@@ -125,26 +112,19 @@ const Users = () => {
 
   const handleUpdate = async (event) => {
     event.preventDefault();
-
-    // Do something with formData, for example, send it to an API
-    console.log("formdataedit", editformData);
     const updateUsers = USER_ENDPOINTS.getUsers;
     try {
-      const response = await axios.put(
+      setUpdatingUsers(true);
+      let update_users_obj = await callAPI(
+        "PUT",
         baseurl + updateUsers + "/" + editformData.id,
-        editformData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        JSON.stringify(editformData),
+        token
       );
-      console.log(response);
-
+      setUpdatingUsers(false);
+      console.log(update_users_obj);
       fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Updated");
+      toast.success("User has been updated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -155,22 +135,18 @@ const Users = () => {
   const deleteUser = async (event) => {
     event.preventDefault();
     const deleteUser = USER_ENDPOINTS.getUsers;
-    console.log("editformData33", editformData);
     try {
-      const response = await axios.delete(
+      setDeletingUsers(true);
+      let delete_user_obj = await callAPI(
+        "DELETE",
         baseurl + deleteUser + "/" + editformData.id,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        "",
+        token
       );
-      console.log(response);
-
+      setDeletingUsers(false);
+      console.log(delete_user_obj);
       fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Deleted");
+      toast.success("User has been deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -474,56 +450,85 @@ const Users = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {users.map((value, key) => {
-                                return (
-                                  <tr key={key}>
-                                    <td className="w-px-14">
-                                      <div className="form-check mb-0">
-                                        <input
-                                          className="email-list-item-input form-check-input"
-                                          type="checkbox"
-                                          id="email-1"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="email-1"
-                                        ></label>
-                                      </div>
-                                    </td>
+                              {!fetchingUsers &&
+                                users &&
+                                users.length > 0 &&
+                                users.map((value, key) => {
+                                  return (
+                                    <tr key={key}>
+                                      <td className="w-px-14">
+                                        <div className="form-check mb-0">
+                                          <input
+                                            className="email-list-item-input form-check-input"
+                                            type="checkbox"
+                                            id="email-1"
+                                          />
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor="email-1"
+                                          ></label>
+                                        </div>
+                                      </td>
 
-                                    <td>
-                                      {" "}
-                                      <h6 className="mb-0">{value.name}</h6>
-                                      <div>{value.email}</div>
-                                    </td>
-                                    <td>{value.phone}</td>
-                                    <td>{value.address}</td>
-                                    <td style={{ width: "70px" }}>
-                                      <div className="d-flex acation-btns">
-                                        <button
-                                          data-bs-toggle="modal"
-                                          onClick={() => handleClickedit(value)}
-                                          data-bs-target="#updateUserModal"
-                                          className="btn px-1"
-                                        >
-                                          <i className="ti ti-edit ti-sm me-2"></i>
-                                        </button>
-                                        <button
-                                          data-bs-toggle="modal"
-                                          onClick={() => handleClickedit(value)}
-                                          data-bs-target="#deleteUserModal"
-                                          className="btn px-1"
-                                        >
-                                          <i className="ti ti-trash ti-sm mx-2"></i>
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
+                                      <td>
+                                        {" "}
+                                        <h6 className="mb-0">{value.name}</h6>
+                                        <div>{value.email}</div>
+                                      </td>
+                                      <td>{value.phone}</td>
+                                      <td>{value.address}</td>
+                                      <td style={{ width: "70px" }}>
+                                        <div className="d-flex acation-btns">
+                                          <button
+                                            data-bs-toggle="modal"
+                                            onClick={() =>
+                                              handleClickedit(value)
+                                            }
+                                            data-bs-target="#updateUserModal"
+                                            className="btn px-1"
+                                          >
+                                            <i className="ti ti-edit ti-sm me-2"></i>
+                                          </button>
+                                          <button
+                                            data-bs-toggle="modal"
+                                            onClick={() =>
+                                              handleClickedit(value)
+                                            }
+                                            data-bs-target="#deleteUserModal"
+                                            className="btn px-1"
+                                          >
+                                            <i className="ti ti-trash ti-sm mx-2"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
                             </tbody>
                           </table>
                         </div>
+                        {fetchingUsers && (
+                          <div className="parent-div text-center mt-2 mb-2">
+                            <span
+                              className="spinner-border"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                        {!fetchingUsers &&
+                          (!users ||
+                            (users.length === 0 && (
+                              <div
+                                className="parent-div text-center mt-2 mb-2"
+                                id="empty-files"
+                              >
+                                <label className="empty-files">
+                                  No Users at the moment.
+                                </label>
+                              </div>
+                            )))}
                         <div className="bottom-count">
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
@@ -617,12 +622,6 @@ const Users = () => {
                                     aria-label="john.doe"
                                     aria-describedby="basic-default-email2"
                                   />
-                                  <span
-                                    className="input-group-text"
-                                    id="basic-default-email2"
-                                  >
-                                    @example.com
-                                  </span>
                                 </div>
                                 <div className="form-text">
                                   You can use letters, numbers & periods
@@ -885,14 +884,18 @@ const Users = () => {
                   type="submit"
                   data-bs-dismiss="modal"
                   className="btn btn-primary"
+                  disabled={updatingUsers}
                 >
-                  <span
-                    id="update-user-button-loader"
-                    style={{ display: "none" }}
-                  >
-                    {/* <span className="spinner-border" role="status" aria-hidden="true"></span>
-                              <span className="visually-hidden">Loading...</span> */}
-                  </span>
+                  {updatingUsers && (
+                    <span id="create-kbs-button-loader">
+                      <span
+                        class="spinner-border"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Loading...</span>
+                    </span>
+                  )}
                   <span className="ms-2">Save Changes</span>
                 </button>
               </div>
@@ -902,93 +905,67 @@ const Users = () => {
       </div>
       {/* Delete User Modal Start */}
 
-      <form
-        className="add-new-user pt-0"
-        id="addNewUserForm"
-        onSubmit={deleteUser}
+      <div
+        className="modal fade"
+        id="deleteUserModal"
+        tabIndex="-1"
+        aria-hidden="true"
       >
-        <div
-          className="modal fade"
-          id="deleteUserModal"
-          tabIndex="-1"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel1">
-                  Delete user
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="row">
-                  <div className="col mb-3">
-                    <label htmlFor="update-user-name" className="form-label">
-                      Are you sure you want to delete this User?
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-label-secondary"
-                  id="delete-user-modal-close"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onclick="deleteUserApi()"
-                >
-                  <span
-                    id="delete-user-button-loader"
-                    style={{ display: "none" }}
-                  >
-                    {/* <span className="spinner-border" role="status" aria-hidden="true"></span>
-                              <span className="visually-hidden">Loading...</span> */}
-                  </span>
-                  <span className="ms-2">Delete User</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <div className="container">
-        {/* <div className="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-
-                  </div> */}
-
-        <div className="toast-container position-fixed top-0 start-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <i className="ti ti-bell ti-xs me-2 text-danger"></i>
-              {/* <i className="ti ti-bell ti-xs me-2 text-success"></i> */}
-              <strong className="me-auto"> {showToastMessge}</strong>
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel1">
+                Delete user
+              </h5>
               <button
                 type="button"
                 className="btn-close"
-                onclick={toggleToast}
+                data-bs-dismiss="modal"
+                aria-label="Close"
               ></button>
+            </div>
+            <div className="modal-body">
+              <div className="row">
+                <div className="col mb-3">
+                  <label htmlFor="update-user-name" className="form-label">
+                    Are you sure you want to delete this User?
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-label-secondary"
+                id="delete-user-modal-close"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onclick={deleteUser}
+                disabled={deletingUsers}
+              >
+                {deletingUsers && (
+                  <span id="create-kbs-button-loader">
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Loading...</span>
+                  </span>
+                )}
+                <span className="ms-2">Delete User</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <ToastContainer />
     </>
   );
 };

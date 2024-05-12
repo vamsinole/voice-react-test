@@ -11,14 +11,11 @@ import { Link } from "react-router-dom";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { callAPI, toastr_options } from "../../Components/Utils";
 
 const Home = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
-
   const [dataFromApi, setDataFromApi] = useState(null);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getassist;
@@ -37,13 +34,13 @@ const Home = () => {
   const fetchUsers = async () => {
     try {
       setGettingAssistants(true);
-      const response = await axios.get(baseurl + endpoint, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      let response = await callAPI("GET", baseurl + endpoint, "", token);
+      console.log(response);
+      if (response.authError) {
+        navigate("/login");
+      }
       setGettingAssistants(false);
-      setDataFromApi(response.data.data);
+      setDataFromApi(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -259,8 +256,7 @@ const Home = () => {
       );
       console.log(response);
       fetchUsers();
-      setShowToast(true);
-      setShowToastMessge("Added Responce successfully");
+      toast.success("Added response successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -282,8 +278,7 @@ const Home = () => {
       );
       console.log(response);
       fetchUsers();
-      setShowToast(true);
-      setShowToastMessge("Deleted");
+      toast.success("Deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -1392,25 +1387,7 @@ const Home = () => {
         </div>
       </form>
 
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };
