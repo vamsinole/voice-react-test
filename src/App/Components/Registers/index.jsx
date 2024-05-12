@@ -21,7 +21,7 @@ const Register = () => {
   console.log(registerAsCompany);
 
   return (
-    // <div class="authentication-wrapper-outer bg-white">
+    // <div className="authentication-wrapper-outer bg-white">
     <div className="authentication-wrapper authentication-cover authentication-bg">
       <div className="authentication-inner row">
         <div className="d-none d-lg-flex col-lg-7 p-0">
@@ -45,9 +45,9 @@ const Register = () => {
 
         <div className="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4">
           <div className="w-px-400 mx-auto">
-            <div class="app-brand mb-4">
-              <a href="index.html" class="app-brand-link gap-2">
-                <span class="app-brand-logo demo">
+            <div className="app-brand mb-4">
+              <a href="index.html" className="app-brand-link gap-2">
+                <span className="app-brand-logo demo">
                   <svg
                     width="32"
                     height="22"
@@ -56,28 +56,28 @@ const Register = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
                       fill="#7367F0"
                     />
                     <path
                       opacity="0.06"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
                       fill="#161616"
                     />
                     <path
                       opacity="0.06"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
                       fill="#161616"
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
                       fill="#7367F0"
                     />
@@ -115,49 +115,49 @@ const Register = () => {
                   autoFocus
                 />
               </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">
+              <div className="mb-3">
+                <label for="email" className="form-label">
                   Email
                 </label>
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   id="email"
                   name="email"
                   placeholder="Enter your email"
                 />
               </div>
-              <div class="mb-3">
-                <label for="basic-default-phone" class="form-label">
+              <div className="mb-3">
+                <label for="basic-default-phone" className="form-label">
                   Phone
                 </label>
                 <input
                   type="text"
-                  class="form-control phone-mask"
+                  className="form-control phone-mask"
                   id="basic-default-phone"
                   name="basic-default-phone"
                   placeholder="658 799 8941"
                 />
               </div>
-              <div class="mb-3">
-                <label for="website" class="form-label">
+              <div className="mb-3">
+                <label for="website" className="form-label">
                   Website
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="website"
                   name="website"
                   placeholder="Enter your website"
                 />
               </div>
-              <div class="mb-3">
-                <label for="address" class="form-label">
+              <div className="mb-3">
+                <label for="address" className="form-label">
                   Address
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="address"
                   name="address"
                   placeholder="Enter your address"
@@ -203,70 +203,70 @@ const Register = () => {
                   </label>
                 </div>
               </div> */}
-              <div class="mb-3">
-                <div class="text-light small fw-medium mb-3">
+              <div className="mb-3">
+                <div className="text-light small fw-medium mb-3">
                   Register as company
                 </div>
-                <label class="switch">
+                <label className="switch">
                   <input
                     type="checkbox"
                     id="register-company-switch"
-                    class="switch-input"
+                    className="switch-input"
                     onChange={toggleRegisterAsCompany}
                   />
-                  <span class="switch-toggle-slider">
-                    <span class="switch-on"></span>
-                    <span class="switch-off"></span>
+                  <span className="switch-toggle-slider">
+                    <span className="switch-on"></span>
+                    <span className="switch-off"></span>
                   </span>
-                  <span class="switch-label">Register as company</span>
+                  <span className="switch-label">Register as company</span>
                 </label>
               </div>
               {registerAsCompany && (
                 <div className="mb-3" id="register-company-details">
-                  <div class="mb-3">
-                    <label for="companyname" class="form-label">
+                  <div className="mb-3">
+                    <label for="companyname" className="form-label">
                       Company name
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="companyname"
                       name="companyname"
                       placeholder="Enter your company name"
                       autofocus
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="companyemail" class="form-label">
+                  <div className="mb-3">
+                    <label for="companyemail" className="form-label">
                       Company email
                     </label>
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       id="companyemail"
                       name="companyemail"
                       placeholder="Enter your company email"
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="companyindustry" class="form-label">
+                  <div className="mb-3">
+                    <label for="companyindustry" className="form-label">
                       Company industry
                     </label>
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       id="companyindustry"
                       name="companyindustry"
                       placeholder="Enter your company industry"
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="companyfedid" class="form-label">
+                  <div className="mb-3">
+                    <label for="companyfedid" className="form-label">
                       Company fed id
                     </label>
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       id="companyfedid"
                       name="companyfedid"
                       placeholder="Enter your company fed id"
@@ -321,23 +321,23 @@ const Register = () => {
               <div className="divider-text">or</div>
             </div>
 
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <a
                 href="javascript:;"
-                class="btn btn-icon btn-label-facebook me-3"
+                className="btn btn-icon btn-label-facebook me-3"
               >
-                <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>
+                <i className="tf-icons fa-brands fa-facebook-f fs-5"></i>
               </a>
 
               <a
                 href="javascript:;"
-                class="btn btn-icon btn-label-google-plus me-3"
+                className="btn btn-icon btn-label-google-plus me-3"
               >
-                <i class="tf-icons fa-brands fa-google fs-5"></i>
+                <i className="tf-icons fa-brands fa-google fs-5"></i>
               </a>
 
-              <a href="javascript:;" class="btn btn-icon btn-label-twitter">
-                <i class="tf-icons fa-brands fa-twitter fs-5"></i>
+              <a href="javascript:;" className="btn btn-icon btn-label-twitter">
+                <i className="tf-icons fa-brands fa-twitter fs-5"></i>
               </a>
             </div>
           </div>

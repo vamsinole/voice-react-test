@@ -1325,7 +1325,7 @@ const LandingPage = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div class="d-flex justify-content-center"> */}
+                  {/* <div className="d-flex justify-content-center"> */}
                   <div className="row gy-4 pt-lg-3 d-flex justify-content-center">
                     <div className="col-xl-4 col-lg-6">
                       <div className="card">
@@ -2486,11 +2486,11 @@ const LandingPage = () => {
                       Contact Swing 2024
                     </a>
                   </div>
-                  <div class="row justify-content-center">
-                    <div class="col-1">
+                  <div className="row justify-content-center">
+                    <div className="col-1">
                       <a
                         href="https://www.linkedin.com/company/contactswing"
-                        class="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -2500,10 +2500,10 @@ const LandingPage = () => {
                         />
                       </a>
                     </div>
-                    <div class="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.facebook.com/ContactSwinginc"
-                        class="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -2513,10 +2513,10 @@ const LandingPage = () => {
                         />
                       </a>
                     </div>
-                    {/* <div class="col-1">
+                    {/* <div className="col-1">
                       <a
                         href="https://twitter.com/pixinvents"
-                        class="footer-link me-3"
+                        className="footer-link me-3"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -2526,10 +2526,10 @@ const LandingPage = () => {
                         />
                       </a>
                     </div> */}
-                    <div class="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.instagram.com/ContactSwing/"
-                        class="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -2539,10 +2539,10 @@ const LandingPage = () => {
                         />
                       </a>
                     </div>
-                    <div class="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.youtube.com/@ContactSwing"
-                        class="footer-link"
+                        className="footer-link"
                         target="_blank"
                         rel="noreferrer"
                       >

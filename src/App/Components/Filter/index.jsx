@@ -1,27 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './Styles.scss';
-
+import React, { useEffect, useRef, useState } from "react";
+import "./Styles.scss";
 
 const Filter = ({ options }) => {
- 
-
   const [isColumnVisible, setIsColumnVisible] = useState(false);
 
-// Toggle the visibility and adjust classes
-const toggleColumn = () => {
-  setIsColumnVisible(!isColumnVisible);
-};
+  // Toggle the visibility and adjust classes
+  const toggleColumn = () => {
+    setIsColumnVisible(!isColumnVisible);
+  };
 
   return (
-
-    <div className='col-md-4'>
-                    <span class="dropdown FilterDropdown">
-                      <button onClick={toggleColumn} class="btn" type="button">
-                        <i class="ti ti-filter ti-md"></i>
-                      </button>
-                    </span>
-                   
-                  </div>
+    <div className="col-md-4">
+      <span className="dropdown FilterDropdown">
+        <button onClick={toggleColumn} className="btn" type="button">
+          <i className="ti ti-filter ti-md"></i>
+        </button>
+      </span>
+    </div>
   );
 };
 
