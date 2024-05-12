@@ -40,16 +40,19 @@ const Knowledge = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchVoiceAgents();
+    fetchKbs();
   }, []);
 
-  const fetchVoiceAgents = async (id) => {
+  const fetchKbs = async (id) => {
     try {
       // const response = await axios.get(baseurl + endpoint, {
       //   headers: {
       //     Authorization: `Bearer ${token}`,
       //   },
       // });
+      setFaq([]);
+      setFiles([]);
+      setUrls([]);
       let response = await callAPI("GET", baseurl + endpoint, "", token);
       console.log(response);
       if (response.authError) {
@@ -66,12 +69,12 @@ const Knowledge = () => {
         }
         return item;
       });
-      if (!id) {
-        setSelectedValue(response.data[0].id);
-        setFiles(response.data[0].files);
-        setUrls(response.data[0].urls);
-        setFaq(response.data[0].faqs);
-      }
+      // if (!id) {
+      //   setSelectedValue(response.data[0].id);
+      //   setFiles(response.data[0].files);
+      //   setUrls(response.data[0].urls);
+      //   setFaq(response.data[0].faqs);
+      // }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -96,6 +99,7 @@ const Knowledge = () => {
 
   // toggle dropdown menu
   const [show, setShow] = useState(false);
+  const [deletingKbs, setDeletingKbs] = useState(false);
   const dropdownRef = useRef(null);
 
   // This hook handles clicks outside of the dropdown to close it
@@ -155,7 +159,7 @@ const Knowledge = () => {
         ...formData,
         knowledgename: "",
       });
-      fetchVoiceAgents();
+      fetchKbs();
       toast.success("Knowledge base has been created", toastr_options);
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
@@ -206,6 +210,14 @@ const Knowledge = () => {
     console.log("selectedValue", selectedValue);
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
+    if (!formData.url || formData.url.length === 0) {
+      toast.error("URL cannot be empty");
+      return "";
+    }
     try {
       setAddingUrl(true);
       const response = await axios.post(
@@ -227,7 +239,7 @@ const Knowledge = () => {
         url: "",
       });
       setAddingUrl(false);
-      fetchVoiceAgents(selectedValue);
+      fetchKbs(selectedValue);
       toast.success("Url Added", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -239,6 +251,18 @@ const Knowledge = () => {
     console.log("selectedValue", selectedValue);
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
+    if (!formData.question || formData.question.length === 0) {
+      toast.error("Question cannot be empty");
+      return "";
+    }
+    if (!formData.answer || formData.answer.length === 0) {
+      toast.error("Answer cannot be empty");
+      return "";
+    }
     try {
       setAddingFaq(true);
       const response = await axios.post(
@@ -257,14 +281,13 @@ const Knowledge = () => {
       console.log(response);
       setAddingFaq(false);
       setFormData({
-        ...formData,
+        knowledgename: formData.knowledgename,
+        url: "",
         question: "",
-      });
-      setFormData({
-        ...formData,
         answer: "",
+        urls: "",
       });
-      fetchVoiceAgents(selectedValue);
+      fetchKbs(selectedValue);
       toast.success("FAQ has been added successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -292,19 +315,23 @@ const Knowledge = () => {
     }
     let formData = new FormData();
     formData.append("type", "files");
-    formData.append("urls", selectedFile);
+    formData.append("files", selectedFile);
     const addurl = USER_ENDPOINTS.getKnowledge;
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
     try {
       setAddingFile(true);
       let upload_image_object = await callAPI(
         "POST",
-        baseurl + "/v1/add_file",
+        baseurl + addurl + "/" + selectedValue + "/add_file",
         formData,
         token,
         "nojson"
       );
       setAddingFile(false);
-      fetchVoiceAgents(selectedValue);
+      fetchKbs(selectedValue);
       toast.success("File has been added successfully", toastr_options);
       setfileLoading(false);
     } catch (error) {
@@ -312,6 +339,25 @@ const Knowledge = () => {
     }
   };
   //selectedslno
+
+  async function deleteKbs() {
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
+    setDeletingKbs(true);
+    let delete_kbs_obj = await callAPI(
+      "DELETE",
+      baseurl + USER_ENDPOINTS.getKnowledge + "/" + selectedValue,
+      "",
+      token
+    );
+    setDeletingKbs(false);
+    if (document.getElementById("close-kbs")) {
+      document.getElementById("close-kbs").click();
+    }
+    fetchKbs();
+  }
 
   return (
     <>
@@ -398,7 +444,7 @@ const Knowledge = () => {
                     </div>
                   </span>
                 </div>
-                <div className="col-4 mb-3">
+                <div className="col-3 mb-3">
                   <select
                     id="knowledge-base-dd"
                     value={selectedValue}
@@ -412,6 +458,16 @@ const Knowledge = () => {
                       </option>
                     ))}
                   </select>
+                </div>
+                <div className="col-1 mb-3">
+                  <button
+                    // onClick={() => handleClickedit(value)}
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteKbsModal"
+                    className="btn px-1"
+                  >
+                    <i className="ti ti-trash ti-sm mx-2"></i>
+                  </button>
                 </div>
                 <div className="col-md-4 text-end">
                   <button
@@ -466,7 +522,7 @@ const Knowledge = () => {
                   </div>
                   <div className="col-1 mb-3">
                     <div className="d-flex align-items-center mt-4">
-                    <button className='btn px-1 la-lg' data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                    <button className='btn px-1 la-lg' data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                     <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                     </button>
                       
@@ -709,7 +765,7 @@ const Knowledge = () => {
                                           <td>{key + 1}</td>
                                           <td>{value}</td>
                                           {/* <td style={{ width: "70px" }}> */}
-                                          {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                          {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                                         <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                                         </button> */}
                                           {/* <div className="d-flex acation-btns">
@@ -774,7 +830,7 @@ const Knowledge = () => {
                                         <td>{key + 1}</td>
                                         <td>{value.url}</td>
                                         {/* <td style={{ width: "70px" }}> */}
-                                        {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                                         <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                                         </button> */}
                                         {/* <div className="d-flex acation-btns">
@@ -943,7 +999,7 @@ const Knowledge = () => {
       {/* modal popup Knowledge delete start*/}
       <div
         className="modal fade"
-        id="updateAgentModal"
+        id="deleteKbsModal"
         tabIndex="-1"
         aria-labelledby="VioceEditLabel"
         aria-hidden="true"
@@ -962,7 +1018,7 @@ const Knowledge = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <div className="container">
+              <div className="pull-left p-3">
                 <p>Are you sure you want to delete this Knowledge base?</p>
               </div>
             </div>
@@ -971,11 +1027,27 @@ const Knowledge = () => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                id="close-kbs"
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
-                Delete Knowledge base
+              <button
+                onClick={deleteKbs}
+                disabled={deletingKbs}
+                type="button"
+                className="btn btn-primary"
+              >
+                {deletingKbs && (
+                  <span id="create-kbs-button-loader">
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Loading...</span>
+                  </span>
+                )}
+                Delete
               </button>
             </div>
           </div>
@@ -1029,9 +1101,11 @@ const Knowledge = () => {
                     <div
                       className="parent-div"
                       id="kbs-filename-parent"
-                      style={{ display: "none" }}
+                      // style={{ display: "none" }}
                     >
-                      <label className="form-label"></label>
+                      <label className="form-label">
+                        {selectedFile && selectedFile.name}
+                      </label>
                       <i
                         className="ti ti-x pull-right pointer"
                         id="kbs-clear-file"
@@ -1057,18 +1131,11 @@ const Knowledge = () => {
                 >
                   {addingFile && (
                     <span id="add-file-button-loader">
-                      {/* {loading ? (<span className="visually-hidden">Loading...</span>) : (} */}
-
-                      {fileloading ? (
-                        <span
-                          className="spinner-border"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                      ) : (
-                        // <span className="visually-hidden">dsfdLoading...</span>
-                        <span></span>
-                      )}
+                      <span
+                        className="spinner-border"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
                     </span>
                   )}
                   <span className="ms-2">Add File</span>
