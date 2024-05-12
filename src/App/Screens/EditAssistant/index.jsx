@@ -1048,11 +1048,11 @@ const EditAssistant = () => {
                                       {creatingAssistant && (
                                         <span id="create-kbs-button-loader">
                                           <span
-                                            className="spinner-border"
+                                            class="spinner-border"
                                             role="status"
                                             aria-hidden="true"
                                           ></span>
-                                          <span className="visually-hidden">
+                                          <span class="visually-hidden">
                                             Loading...
                                           </span>
                                         </span>

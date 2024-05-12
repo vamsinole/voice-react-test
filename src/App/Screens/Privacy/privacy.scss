@@ -8,10 +8,10 @@
   padding: 0.2rem 1.25rem;
 }
 .acation-btns {
-  display: flex;
-  button:hover {
-    color: #7367f0;
-  }
+    display: flex;
+    button:hover {
+        color: #2FBFBE;
+    }
 }
 
 $white: #fff !default;
@@ -39,7 +39,7 @@ $grays: (
 // scss-docs-start color-variables
 $blue: #007bff !default;
 $indigo: #6610f2 !default;
-$purple: #7367f0 !default;
+$purple: #2FBFBE !default;
 $pink: #e83e8c !default;
 $red: #ea5455 !default;
 $orange: #fd7e14 !default;

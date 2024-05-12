@@ -1,60 +1,69 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 // import React from 'react'
 import Header from "../../Components/Header";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import env from "../../../config";
 import "./Styles.scss";
-import TopMenu from "../../Components/TopMenu";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
-// import axios from 'axios';
-import axios from "../axiosInterceptor";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { callAPI, toastr_options } from "../../Components/Utils";
+// import { MultiSelect } from "react-multi-select-component";
 
 const Actions = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
-
   const [dataFromApi, setDataFromApi] = useState(null);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getaction;
   const token = localStorage.getItem("token");
+  const [fetchingActions, setFetchingActions] = useState(false);
+  const [currentAssistantId, setCurrentAssistantId] = useState("");
+  const [currentAssistant, setCurrentAssistant] = useState(null);
 
   useEffect(() => {
-    fetchUsers();
+    // fetchUsers();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (id) => {
     try {
-      const response = await axios.get(baseurl + endpoint + "23", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("responceActions", response.data.data);
-
-      setDataFromApi(response.data.data);
+      setFetchingActions(true);
+      let actions_obj = await callAPI(
+        "GET",
+        baseurl + endpoint + id,
+        "",
+        token
+      );
+      console.log("responceActions", actions_obj.data);
+      setFetchingActions(false);
+      setDataFromApi(actions_obj.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   const [voiceagents, setVoiceAgent] = useState([]);
-  const endpointVoice = USER_ENDPOINTS.agentdata;
+  const endpointVoice = USER_ENDPOINTS.getassist;
   useEffect(() => {
     const fetchVoice = async () => {
       try {
-        const response = await axios.get(baseurl + endpointVoice, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceVoice22", response.data.data);
-        setVoiceAgent(response.data.data);
+        setFetchingActions(true);
+        let voice_agents_obj = await callAPI(
+          "GET",
+          baseurl + endpointVoice,
+          "",
+          token
+        );
+        console.log("responceVoice22", voice_agents_obj.data);
+        setVoiceAgent(voice_agents_obj.data);
+        setCurrentAssistantId(voice_agents_obj.data[0].id);
+        setFormData({ ...formData, assistant_id: voice_agents_obj.data[0].id });
+        fetchUsers(voice_agents_obj.data[0].id);
+        setCurrentAssistant(voice_agents_obj.data[0]);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -65,44 +74,30 @@ const Actions = () => {
 
   const changeVoiceAgent = async (event) => {
     const newValue = event.target.value;
-
-    // Make API call with the new selected value
+    setCurrentAssistantId(newValue);
+    setFormData({ ...formData, assistant_id: newValue });
+    let temp_data = voiceagents.map((item) => {
+      if (item.id === newValue) {
+        setCurrentAssistant(item);
+      }
+      return item;
+    });
     try {
-      const response = await axios.get(baseurl + endpoint + newValue, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("responceActions", response.data.data);
-
-      setDataFromApi(response.data.data);
+      setFetchingActions(true);
+      let fetch_actions_obj = await callAPI(
+        "GET",
+        baseurl + endpoint + newValue,
+        "",
+        token
+      );
+      setFetchingActions(false);
+      console.log("responceActions", fetch_actions_obj.data);
+      setDataFromApi(fetch_actions_obj.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  const TblData = [
-    {
-      name: "Akram",
-      type: "Lorem Ipsum is",
-      assistant:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      intent: "Dialogdlow",
-      to: "",
-      content: "",
-      action: "",
-    },
-    {
-      name: "Akram",
-      type: "Lorem Ipsum is",
-      assistant:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      intent: "Dialogdlow",
-      to: "",
-      content: "",
-      action: "",
-    },
-  ];
   const [isColumnVisible, setIsColumnVisible] = useState(false);
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
@@ -123,17 +118,15 @@ const Actions = () => {
   const deleteRecord = async (event) => {
     // Make API call with the new selected value
     try {
-      const response = await axios.delete(
+      let delete_action_obj = await callAPI(
+        "DELETE",
         baseurl + endpointDelete + Actionobj.agent_id + "/" + Actionobj.id,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        "",
+        token
       );
+      console.log(delete_action_obj);
       fetchUsers();
-      setShowToast(true);
-      setShowToastMessge("Deleted Successfully");
+      toast.success("Action has been deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -204,60 +197,54 @@ const Actions = () => {
   const endpointCreate = USER_ENDPOINTS.getaction;
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const createvoiceAgent = USER_ENDPOINTS.getUsers;
     console.log("formdatausers", formData);
     try {
-      const response = await axios.post(
-        baseurl + endpointCreate + formData.action_name,
-        {
-          assistant_id: formData.assistant_id,
-          name: formData.name,
-          action_name: formData.action_name, // need to get from dilaogflow actions
-          type: formData.type,
-          email: [
-            {
-              to: formData.to, // can be comma seperated values
-              cc: formData.cc,
-              subject: formData.subject,
-              content: formData.content,
-              parameters: [],
-            },
-          ],
-          sms: [
-            {
-              type: formData.smstype,
-              to: "",
-              content: formData.smscontent,
-              parameters: [],
-            },
-          ],
-          webhook: [
-            {
-              url: formData.url,
-              method: formData.method,
-              body: { key: formData.bodykey, value: formData.bodyvalue },
-              qs: {},
-              headers: { key: formData.headerkey, value: formData.headervalue },
-              parameter: [""],
-              response_map: [""],
-              status_code_map: [""],
-            },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+      let create_action_data = {
+        assistant_id: formData.assistant_id,
+        name: formData.name,
+        action_name: formData.action_name, // need to get from dilaogflow actions
+        type: formData.type,
+        email: [
+          {
+            to: formData.to, // can be comma seperated values
+            cc: formData.cc,
+            subject: formData.subject,
+            content: formData.content,
+            parameters: [],
           },
-        }
+        ],
+        sms: [
+          {
+            type: formData.smstype,
+            to: "",
+            content: formData.smscontent,
+            parameters: [],
+          },
+        ],
+        webhook: [
+          {
+            url: formData.url,
+            method: formData.method,
+            body: { key: formData.bodykey, value: formData.bodyvalue },
+            qs: {},
+            headers: { key: formData.headerkey, value: formData.headervalue },
+            parameter: [""],
+            response_map: [""],
+            status_code_map: [""],
+          },
+        ],
+      };
+      let create_action_obj = await callAPI(
+        "POST",
+        baseurl + endpointCreate + formData.assistant_id,
+        JSON.stringify(create_action_data),
+        token
       );
-
+      console.log(create_action_obj);
       fetchUsers();
-      setShowToast(true);
-      setShowToastMessge("Created Successfully");
+      toast.success("Action has been created successfully", toastr_options);
     } catch (error) {
-      setShowToast(true);
-      setShowToastMessge("Error");
+      toast.error("Please try again later", toastr_options);
       console.error("Error fetching users:", error);
     }
   };
@@ -267,60 +254,54 @@ const Actions = () => {
   const endpointUpdate = USER_ENDPOINTS.getaction;
   const handleUpdate = async (event) => {
     event.preventDefault();
-    const createvoiceAgent = USER_ENDPOINTS.getUsers;
     console.log("formdatausers", formData);
     try {
-      const response = await axios.put(
-        baseurl + endpointUpdate + Actionobj.agent_id + "/" + Actionobj.id,
-        {
-          assistant_id: formData.assistant_id,
-          name: formData.name,
-          action_name: formData.action_name, // need to get from dilaogflow actions
-          type: formData.type,
-          email: [
-            {
-              to: formData.to, // can be comma seperated values
-              cc: formData.cc,
-              subject: formData.subject,
-              content: formData.content,
-              parameters: [],
-            },
-          ],
-          sms: [
-            {
-              type: formData.smstype,
-              to: "",
-              content: formData.smscontent,
-              parameters: [],
-            },
-          ],
-          webhook: [
-            {
-              url: formData.url,
-              method: formData.method,
-              body: { key: formData.bodykey, value: formData.bodyvalue },
-              qs: {},
-              headers: { key: formData.headerkey, value: formData.headervalue },
-              parameter: [""],
-              response_map: [""],
-              status_code_map: [""],
-            },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+      let update_action_data = {
+        assistant_id: formData.assistant_id,
+        name: formData.name,
+        action_name: formData.action_name, // need to get from dilaogflow actions
+        type: formData.type,
+        email: [
+          {
+            to: formData.to, // can be comma seperated values
+            cc: formData.cc,
+            subject: formData.subject,
+            content: formData.content,
+            parameters: [],
           },
-        }
+        ],
+        sms: [
+          {
+            type: formData.smstype,
+            to: "",
+            content: formData.smscontent,
+            parameters: [],
+          },
+        ],
+        webhook: [
+          {
+            url: formData.url,
+            method: formData.method,
+            body: { key: formData.bodykey, value: formData.bodyvalue },
+            qs: {},
+            headers: { key: formData.headerkey, value: formData.headervalue },
+            parameter: [""],
+            response_map: [""],
+            status_code_map: [""],
+          },
+        ],
+      };
+      let update_action_obj = await callAPI(
+        "PUT",
+        baseurl + endpointUpdate + Actionobj.agent_id + "/" + Actionobj.id,
+        JSON.stringify(update_action_data),
+        token
       );
-
+      console.log(update_action_obj);
       fetchUsers();
-      setShowToast(true);
-      setShowToastMessge("Updated");
+      toast.success("Action has been updated successfully", toastr_options);
     } catch (error) {
-      setShowToast(true);
-      setShowToastMessge("Error");
+      toast.success("Please try again later", toastr_options);
       console.error("Error fetching users:", error);
     }
   };
@@ -340,14 +321,14 @@ const Actions = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(baseurl + endpointAssist, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("responceAssist", response.data.data);
-
-        setAssistData(response.data.data);
+        let get_assista_obj = await callAPI(
+          "GET",
+          baseurl + endpointAssist,
+          "",
+          token
+        );
+        console.log("responceAssist", get_assista_obj.data);
+        setAssistData(get_assista_obj.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -356,8 +337,8 @@ const Actions = () => {
     fetchUsers();
   }, []);
 
-  const [apiView, setApiView] = useState(true);
-  const [mailview, setMailView] = useState(false);
+  const [apiView, setApiView] = useState(false);
+  const [mailview, setMailView] = useState(true);
   const [smsView, setSmsView] = useState(false);
 
   const [selectedValue, setSelectedValue] = useState("");
@@ -366,37 +347,59 @@ const Actions = () => {
     setSelectedValue(event.target.value);
 
     const atype = event.target.value;
+    let type = event.target.name;
 
     console.log("actionType", atype, event.target.value);
 
-    const { name, value } = event.target.value;
     setFormData({
       ...formData,
-      ["type"]: event.target.value,
+      [type]: event.target.value,
     });
 
-    if (atype == "sms") {
-      setMailView(false);
-      setApiView(false);
-      setSmsView(true);
-    } else if (atype == "email") {
+    if (type === "assistant_id") {
+      setCurrentAssistantId(event.target.value);
+      let temp_data = voiceagents.map((item) => {
+        if (item.id === event.target.value) {
+          item.intents = item.intents.filter((innerIntent) => {
+            return innerIntent && innerIntent.length > 0;
+          });
+          setCurrentAssistant(item);
+          if (!item.intents || item.intents.length === 0) {
+            toast.info(
+              "There are no intents for this assistant",
+              toastr_options
+            );
+          }
+        }
+        return item;
+      });
+    }
+
+    if (type === "type") {
+      if (atype === "sms") {
+        setMailView(false);
+        setApiView(false);
+        setSmsView(true);
+      } else if (atype === "email") {
+        setSmsView(false);
+        setApiView(false);
+        setMailView(true);
+      } else {
+        setSmsView(false);
+        setApiView(false);
+        setMailView(true);
+      }
       setSmsView(false);
       setApiView(false);
       setMailView(true);
-    } else {
-      setSmsView(false);
-      setMailView(false);
-      setApiView(true);
     }
   };
-
-  const [editorContent, setEditorContent] = useState("");
 
   const handleEditorChange = (content) => {
     // setEditorContent(content);
     setFormData({
       ...formData,
-      ["smscontent"]: content,
+      smscontent: content,
     });
   };
 
@@ -404,7 +407,7 @@ const Actions = () => {
     // setEditorContent(content);
     setFormData({
       ...formData,
-      ["content"]: content,
+      content: content,
     });
   };
 
@@ -493,7 +496,21 @@ const Actions = () => {
                     </div>
                   </span>
                 </div>
-                <div className="col-4 mb-3"></div>
+                <div className="col-4 mb-3">
+                  <select
+                    id="knowledge-base-dd"
+                    value={currentAssistantId}
+                    onChange={changeVoiceAgent}
+                    className="form-select"
+                  >
+                    <option value="">Select Assistant</option>
+                    {voiceagents.map((option, assistIndex) => (
+                      <option key={assistIndex} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="col-md-4 text-end">
                   <button
                     className="btn dropdown-toggle border rounded-pill  me-3"
@@ -671,29 +688,10 @@ const Actions = () => {
                   </div>
                   <div className={isColumnVisible ? "col-md-8" : "col-md-12"}>
                     <div className="card">
-                      <div className="card-header border-bottom">
-                        <h4 className="card-title pull-left mb-3">Actions</h4>
+                      <div className="p-3">
+                        <h4 className="card-title pull-left">Actions</h4>
                       </div>
-                      <div className="row mt-3">
-                        <div className="col-4 offset-4 mb-3">
-                          <select
-                            id="knowledge-base-dd"
-                            onChange={changeVoiceAgent}
-                            className="form-select"
-                          >
-                            <option value="" selected>
-                              Select Agent
-                            </option>
-                            {/* <option value="23" selected>gpt</option>
-                        <option value="22" selected>alex</option> */}
-                            {voiceagents.map((option) => (
-                              <option key={option.id} value={option.id}>
-                                {option.name}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
+                      {/* <div className="row mt-3"></div> */}
                       <div className="card-datatable table-responsive">
                         <div className="table-scrollable">
                           <table className="datatables-voice-agents table">
@@ -708,7 +706,7 @@ const Actions = () => {
                                     />
                                     <label
                                       className="form-check-label"
-                                      for="email-1"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
@@ -722,7 +720,9 @@ const Actions = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {dataFromApi
+                              {!fetchingActions &&
+                              dataFromApi &&
+                              dataFromApi.length > 0
                                 ? dataFromApi.map((value, key) => {
                                     return (
                                       <tr key={key}>
@@ -735,7 +735,7 @@ const Actions = () => {
                                             />
                                             <label
                                               className="form-check-label"
-                                              for="email-1"
+                                              htmlFor="email-1"
                                             ></label>
                                           </div>
                                         </td>
@@ -776,6 +776,28 @@ const Actions = () => {
                             </tbody>
                           </table>
                         </div>
+                        {fetchingActions && (
+                          <div className="parent-div text-center mt-2 mb-2">
+                            <span
+                              className="spinner-border"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                        {!fetchingActions &&
+                          (!dataFromApi ||
+                            (dataFromApi.length === 0 && (
+                              <div
+                                className="parent-div text-center mt-2 mb-2"
+                                id="empty-files"
+                              >
+                                <label className="empty-files">
+                                  No Actions at the moment.
+                                </label>
+                              </div>
+                            )))}
                         <div className="bottom-count">
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
@@ -823,7 +845,7 @@ const Actions = () => {
         <div
           className="modal fade updateaction"
           id="updateUserModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -843,28 +865,28 @@ const Actions = () => {
               <div className="modal-body">
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="action-agent" className="form-label">
-                      Voice Agent{" "}
+                    <label htmlFor="action-agent" className="form-label">
+                      Voice Assistant{" "}
                     </label>
                     <select
                       id="action-agent"
                       className="form-select"
-                      name="action_name"
-                      value={formData.action_name}
-                      onChange={handleInputChange}
+                      name="assistant_id"
+                      value={formData.assistant_id}
+                      onChange={handleSelectChange}
                     >
                       <option value="">--Select--</option>
-                      {voiceagents.map((option) => (
-                        <option key={option.id} value={option.id}>
+                      {voiceagents.map((option, assistIndex) => (
+                        <option key={assistIndex} value={option.id}>
                           {option.name}
                         </option>
                       ))}
                     </select>
                   </div>
                 </div>
-                <div className="row">
+                {/* <div className="row">
                   <div className="col mb-3">
-                    <label for="action-assistant" className="form-label">
+                    <label htmlFor="action-assistant" className="form-label">
                       Assistant
                     </label>
                     <select
@@ -874,9 +896,7 @@ const Actions = () => {
                       onChange={handleInputChange}
                       className="form-select"
                     >
-                      <option value="" selected>
-                        Select assistant
-                      </option>
+                      <option value="">Select assistant</option>
                       {assistData?.map((option) => (
                         <option key={option.id} value={option.id}>
                           {option.name}
@@ -884,10 +904,10 @@ const Actions = () => {
                       ))}
                     </select>
                   </div>
-                </div>
+                </div> */}
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="action-name" className="form-label">
+                    <label htmlFor="action-name" className="form-label">
                       Name
                     </label>
                     <input
@@ -904,23 +924,28 @@ const Actions = () => {
 
                 <div className="row">
                   <div className="col mb-3">
-                    {/* <label for="select-intent-picker" className="form-label">Select Intents</label>
-                                  <select id="select-intent-picker" className="select2 form-select">
-                                  </select> */}
-                    <label for="action-name" className="form-label">
+                    <label htmlFor="action-name" className="form-label">
                       Intents
                     </label>
-                    <input
-                      type="text"
-                      id="action-name"
-                      className="form-control"
-                      placeholder="Enter Intents"
-                    />
+                    <select
+                      name="action_name"
+                      value={formData.action_name}
+                      className="form-select"
+                      onChange={handleSelectChange}
+                      id="intent"
+                    >
+                      {currentAssistant &&
+                        currentAssistant.intents &&
+                        currentAssistant.intents.length > 0 &&
+                        currentAssistant.intents.map((intent) => {
+                          return <option value={intent}>{intent}</option>;
+                        })}
+                    </select>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col mb-3">
-                    <label className="form-label" for="action-type">
+                    <label className="form-label" htmlFor="action-type">
                       Action type
                     </label>
                     <select
@@ -931,19 +956,21 @@ const Actions = () => {
                       className="form-select"
                     >
                       {/* <option value="" >Select Type</option> */}
-                      <option value="webhook" selected>
+                      {/* <option value="webhook" selected>
                         API
+                      </option> */}
+                      <option value="email" selected>
+                        Send Email
                       </option>
-                      <option value="email">Send Email</option>
                       <option value="sms">Send SMS</option>
                     </select>
                   </div>
                 </div>
                 {/* API SELECT START */}
-                {apiView && (
+                {/* {apiView && (
                   <div>
                     <div className="row">
-                      <label for="action-subject" className="form-label">
+                      <label htmlFor="action-subject" className="form-label">
                         API headers
                       </label>
                       <div className="row">
@@ -967,19 +994,11 @@ const Actions = () => {
                             placeholder="Value"
                           />
                         </div>
-                        {/* <div className="col-2 mb-3">
-                                <button type="button" className="btn btn-icon btn-label-primary">
-                                  <span className="ti ti-plus"></span>
-                                </button>
-                                <button type="button"  className="btn btn-icon btn-label-primary">
-                                  <span className="ti ti-trash"></span>
-                                </button>
-                              </div> */}
                       </div>
                     </div>
 
                     <div className="row">
-                      <label for="action-subject" className="form-label">
+                      <label htmlFor="action-subject" className="form-label">
                         API body{" "}
                         <i
                           className="ti ti-info-circle"
@@ -1009,17 +1028,9 @@ const Actions = () => {
                           placeholder="Value"
                         />
                       </div>
-                      {/* <div className="col-2 mb-3">
-                              <button type="button" className="btn btn-icon btn-label-primary">
-                                <span className="ti ti-plus"></span>
-                              </button>
-                              <button type="button" className="btn btn-icon btn-label-primary">
-                                <span className="ti ti-trash"></span>
-                              </button>
-                            </div> */}
                     </div>
                   </div>
-                )}
+                )} */}
                 {/* API SELECT END */}
 
                 {/* SEND EMAIL SELECT START */}
@@ -1027,7 +1038,10 @@ const Actions = () => {
                   <div>
                     <div className="row">
                       <div className="col mb-3">
-                        <label for="action-to-email-inp" className="form-label">
+                        <label
+                          htmlFor="action-to-email-inp"
+                          className="form-label"
+                        >
                           To Email
                         </label>
                         <input
@@ -1042,7 +1056,10 @@ const Actions = () => {
                     </div>
                     <div className="row">
                       <div className="col mb-3">
-                        <label for="action-cc-email-inp" className="form-label">
+                        <label
+                          htmlFor="action-cc-email-inp"
+                          className="form-label"
+                        >
                           CC
                         </label>
                         <input
@@ -1057,7 +1074,7 @@ const Actions = () => {
                     </div>
                     <div className="row">
                       <div className="col mb-3">
-                        <label for="action-subject" className="form-label">
+                        <label htmlFor="action-subject" className="form-label">
                           Email Subject
                         </label>
                         <input
@@ -1078,7 +1095,7 @@ const Actions = () => {
                             <ReactQuill
                               modules={modules}
                               name="content"
-                              value={formData.email[0].content}
+                              value={formData.content}
                               onChange={handleEmailEditorChange}
                               style={{ minHeight: "300px" }}
                             />
@@ -1095,7 +1112,10 @@ const Actions = () => {
                   <div>
                     <div className="row" id="action-to-type">
                       <div className="col mb-3">
-                        <label className="form-label" for="action-to-type-dd">
+                        <label
+                          className="form-label"
+                          htmlFor="action-to-type-dd"
+                        >
                           To type
                         </label>
                         <select
@@ -1158,7 +1178,7 @@ const Actions = () => {
       <div
         className="modal fade"
         id="deleteUserModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -1177,7 +1197,7 @@ const Actions = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-name" className="form-label">
+                  <label htmlFor="update-user-name" className="form-label">
                     Are you sure you want to delete this User?
                   </label>
                 </div>
@@ -1197,7 +1217,10 @@ const Actions = () => {
                 className="btn btn-primary"
                 onClick={deleteRecord}
               >
-                <span id="delete-user-button-loader" style={{ block: "none" }}>
+                <span
+                  id="delete-user-button-loader"
+                  style={{ display: "none" }}
+                >
                   <span
                     className="spinner-border"
                     role="status"
@@ -1221,7 +1244,7 @@ const Actions = () => {
         <div
           className="modal fade"
           id="createActionModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -1241,28 +1264,28 @@ const Actions = () => {
               <div className="modal-body">
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="action-agent" className="form-label">
-                      Voice Agent
+                    <label htmlFor="action-agent" className="form-label">
+                      Voice Assistant
                     </label>
                     <select
                       id="action-agent"
-                      name="action_name"
-                      value={formData.action_name}
-                      onChange={handleInputChange}
+                      name="assistant_id"
+                      value={formData.assistant_id}
+                      onChange={handleSelectChange}
                       className="form-select"
                     >
                       <option value="">--Select--</option>
-                      {voiceagents.map((option) => (
-                        <option key={option.id} value={option.id}>
+                      {voiceagents.map((option, assistIndex) => (
+                        <option key={assistIndex} value={option.id}>
                           {option.name}
                         </option>
                       ))}
                     </select>
                   </div>
                 </div>
-                <div className="row">
+                {/* <div className="row">
                   <div className="col mb-3">
-                    <label for="action-assistant" className="form-label">
+                    <label htmlFor="action-assistant" className="form-label">
                       Assistant
                     </label>
                     <select
@@ -1272,9 +1295,7 @@ const Actions = () => {
                       onChange={handleInputChange}
                       className="form-select"
                     >
-                      <option value="" selected>
-                        Select assistant
-                      </option>
+                      <option value="">Select assistant</option>
                       {assistData?.map((option) => (
                         <option key={option.id} value={option.id}>
                           {option.name}
@@ -1282,10 +1303,10 @@ const Actions = () => {
                       ))}
                     </select>
                   </div>
-                </div>
+                </div> */}
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="action-name" className="form-label">
+                    <label htmlFor="action-name" className="form-label">
                       Name
                     </label>
                     <input
@@ -1302,23 +1323,28 @@ const Actions = () => {
 
                 <div className="row">
                   <div className="col mb-3">
-                    {/* <label for="select-intent-picker" className="form-label">Select Intents</label> */}
-                    {/* <select id="select-intent-picker" className="select2 form-select">
-                                  </select> */}
-                    <label for="action-name" className="form-label">
+                    <label htmlFor="action-name" className="form-label">
                       Intents
                     </label>
-                    <input
-                      type="text"
-                      id="action-name"
-                      className="form-control"
-                      placeholder="Enter Intents"
-                    />
+                    <select
+                      name="action_name"
+                      value={formData.action_name}
+                      className="form-select"
+                      onChange={handleSelectChange}
+                      id="intent"
+                    >
+                      {currentAssistant &&
+                        currentAssistant.intents &&
+                        currentAssistant.intents.length > 0 &&
+                        currentAssistant.intents.map((intent) => {
+                          return <option value={intent}>{intent}</option>;
+                        })}
+                    </select>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col mb-3">
-                    <label className="form-label" for="action-type">
+                    <label className="form-label" htmlFor="action-type">
                       Action type
                     </label>
                     <select
@@ -1329,20 +1355,22 @@ const Actions = () => {
                       className="form-select"
                     >
                       {/* <option value="" >Select Type</option> */}
-                      <option value="webhook" selected>
+                      {/* <option value="webhook" selected>
                         API
+                      </option> */}
+                      <option value="email" selected>
+                        Send Email
                       </option>
-                      <option value="email">Send Email</option>
                       <option value="sms">Send SMS</option>
                     </select>
                   </div>
                 </div>
                 {/* API SELECT START */}
 
-                {apiView && (
+                {/* {apiView && (
                   <div>
                     <div className="row">
-                      <label for="action-subject" className="form-label">
+                      <label htmlFor="action-subject" className="form-label">
                         API headers
                       </label>
                       <div className="row">
@@ -1366,19 +1394,11 @@ const Actions = () => {
                             placeholder="Value"
                           />
                         </div>
-                        {/* <div className="col-2 mb-3">
-                                <button type="button" className="btn btn-icon btn-label-primary">
-                                  <span className="ti ti-plus"></span>
-                                </button>
-                                <button type="button"  className="btn btn-icon btn-label-primary">
-                                  <span className="ti ti-trash"></span>
-                                </button>
-                              </div> */}
                       </div>
                     </div>
 
                     <div className="row">
-                      <label for="action-subject" className="form-label">
+                      <label htmlFor="action-subject" className="form-label">
                         API body{" "}
                         <i
                           className="ti ti-info-circle"
@@ -1408,17 +1428,9 @@ const Actions = () => {
                           placeholder="Value"
                         />
                       </div>
-                      {/* <div className="col-2 mb-3">
-                              <button type="button" className="btn btn-icon btn-label-primary">
-                                <span className="ti ti-plus"></span>
-                              </button>
-                              <button type="button" className="btn btn-icon btn-label-primary">
-                                <span className="ti ti-trash"></span>
-                              </button>
-                            </div> */}
                     </div>
                   </div>
-                )}
+                )} */}
                 {/* API SELECT END */}
 
                 {/* SEND EMAIL SELECT START */}
@@ -1426,7 +1438,10 @@ const Actions = () => {
                   <div>
                     <div className="row">
                       <div className="col mb-3">
-                        <label for="action-to-email-inp" className="form-label">
+                        <label
+                          htmlFor="action-to-email-inp"
+                          className="form-label"
+                        >
                           To Email
                         </label>
                         <input
@@ -1441,7 +1456,10 @@ const Actions = () => {
                     </div>
                     <div className="row">
                       <div className="col mb-3">
-                        <label for="action-cc-email-inp" className="form-label">
+                        <label
+                          htmlFor="action-cc-email-inp"
+                          className="form-label"
+                        >
                           CC
                         </label>
                         <input
@@ -1456,7 +1474,7 @@ const Actions = () => {
                     </div>
                     <div className="row">
                       <div className="col mb-3">
-                        <label for="action-subject" className="form-label">
+                        <label htmlFor="action-subject" className="form-label">
                           Email Subject
                         </label>
                         <input
@@ -1493,7 +1511,10 @@ const Actions = () => {
                   <div>
                     <div className="row" id="action-to-type">
                       <div className="col mb-3">
-                        <label className="form-label" for="action-to-type-dd">
+                        <label
+                          className="form-label"
+                          htmlFor="action-to-type-dd"
+                        >
                           To type
                         </label>
                         <select
@@ -1551,25 +1572,7 @@ const Actions = () => {
         </div>
       </form>
 
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

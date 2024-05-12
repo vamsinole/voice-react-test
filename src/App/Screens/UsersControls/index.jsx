@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import React, { useState, useRef, useEffect } from "react";
 import env from "../../../config";
 import "./Styles.scss";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import SettingControls from "../../Components/SettingControls";
@@ -14,17 +14,12 @@ const UsersControls = () => {
 
   const [showToast, setShowToast] = useState(false);
   const [showToastMessge, setShowToastMessge] = useState(false);
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
 
   const [knowledge, setKnowledge] = useState([]);
   const [files, setFiles] = useState([]);
   const [urls, setUrls] = useState([]);
   const [faq, setFaq] = useState([]);
 
-  const [options, setOptions] = useState([]);
-  const [selectedValue, setSelectedValue] = useState("");
   const [selectedValuedrop, setSelectedValuedrop] = useState("");
 
   const [selectedslno, setSelectedslno] = useState("");
@@ -37,6 +32,7 @@ const UsersControls = () => {
 
   useEffect(() => {
     fetchVoiceAgents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchVoiceAgents = async () => {
@@ -56,55 +52,6 @@ const UsersControls = () => {
     }
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedValue(event.target.value);
-    let obj = JSON.parse(event.target.value);
-    setSelectedValuedrop(obj.id);
-    console.log("selectedvalue", obj.id);
-    setFiles(obj.files);
-    setUrls(obj.urls);
-    setFaq(obj.faqs);
-  };
-
-  const TblData = [
-    {
-      sno: "1",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-    {
-      sno: "2",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-  ];
-  const UrlTblData = [
-    {
-      sno: "1",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-    {
-      sno: "2",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-  ];
-  const FaqTblData = [
-    {
-      sno: "1",
-      question: "What is your name",
-      answer: "Mumtaz",
-      action: "",
-    },
-    {
-      sno: "1",
-      question: "What is your name",
-      answer: "Mumtaz",
-      action: "",
-    },
-  ];
-
   // toggle dropdown menu
   const [show, setShow] = useState(false);
   const dropdownRef = useRef(null);
@@ -122,13 +69,6 @@ const UsersControls = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
-
-  const [isColumnVisible, setIsColumnVisible] = useState(false);
-
-  // Toggle the visibility and adjust classes
-  const toggleColumn = () => {
-    setIsColumnVisible(!isColumnVisible);
-  };
 
   const [formData, setFormData] = useState({
     knowledgename: "",
@@ -1111,7 +1051,7 @@ const UsersControls = () => {
 
           <div
             className="offcanvas offcanvas-end"
-            tabindex="-1"
+            tabIndex="-1"
             id="offcanvasAddAgent"
             aria-labelledby="offcanvasAddAgentLabel"
           >
@@ -1131,7 +1071,7 @@ const UsersControls = () => {
               <form className="add-new-user pt-0" id="addNewUserForm">
                 <div className="modal-body">
                   <div className="mb-3 fv-plugins-icon-container">
-                    <label className="form-label" for="add-user-fullname">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Full Name
                     </label>
                     <input
@@ -1143,7 +1083,7 @@ const UsersControls = () => {
                     />
                   </div>
                   <div className="mb-3 fv-plugins-icon-container">
-                    <label className="form-label" for="add-user-email">
+                    <label className="form-label" htmlFor="add-user-email">
                       Email
                     </label>
                     <input
@@ -1156,7 +1096,7 @@ const UsersControls = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label" for="user-role">
+                    <label className="form-label" htmlFor="user-role">
                       User Role
                     </label>
                     <select id="user-role" className="form-select">
@@ -1168,7 +1108,7 @@ const UsersControls = () => {
                     </select>
                   </div>
                   <div className="mb-3 fv-plugins-icon-container">
-                    <label className="form-label" for="add-user-fullname">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Profile
                     </label>
                     <input
@@ -1205,7 +1145,7 @@ const UsersControls = () => {
           {/* New Edit User  End */}
           <div
             className="offcanvas offcanvas-end"
-            tabindex="-1"
+            tabIndex="-1"
             id="offcanvasEditUser"
             aria-labelledby="offcanvasAddAgentLabel"
           >
@@ -1225,7 +1165,7 @@ const UsersControls = () => {
               <form className="add-new-user pt-0" id="addNewUserForm">
                 <div className="modal-body">
                   <div className="mb-3 fv-plugins-icon-container">
-                    <label className="form-label" for="add-user-fullname">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Full Name
                     </label>
                     <input
@@ -1237,7 +1177,7 @@ const UsersControls = () => {
                     />
                   </div>
                   <div className="mb-3 fv-plugins-icon-container">
-                    <label className="form-label" for="add-user-email">
+                    <label className="form-label" htmlFor="add-user-email">
                       Email
                     </label>
                     <input
@@ -1250,7 +1190,7 @@ const UsersControls = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label" for="user-role">
+                    <label className="form-label" htmlFor="user-role">
                       User Role
                     </label>
                     <select id="user-role" className="form-select">
@@ -1262,7 +1202,7 @@ const UsersControls = () => {
                     </select>
                   </div>
                   <div className="mb-3 fv-plugins-icon-container">
-                    <label className="form-label" for="add-user-fullname">
+                    <label className="form-label" htmlFor="add-user-fullname">
                       Profile
                     </label>
                     <input
@@ -1300,7 +1240,7 @@ const UsersControls = () => {
           <div
             className="modal fade"
             id="newProfile"
-            tabindex="-1"
+            tabIndex="-1"
             aria-hidden="true"
           >
             <div className="modal-dialog" role="document">
@@ -1309,7 +1249,7 @@ const UsersControls = () => {
                 <form className="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework">
                   <div className="modal-body">
                     <div className="mb-3 fv-plugins-icon-container">
-                      <label className="form-label" for="add-user-fullname">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Full Name
                       </label>
                       <input
@@ -1321,7 +1261,7 @@ const UsersControls = () => {
                       />
                     </div>
                     <div className="mb-3 fv-plugins-icon-container">
-                      <label className="form-label" for="add-user-email">
+                      <label className="form-label" htmlFor="add-user-email">
                         Email
                       </label>
                       <input
@@ -1334,7 +1274,7 @@ const UsersControls = () => {
                       />
                     </div>
                     <div className="mb-3">
-                      <label className="form-label" for="user-role">
+                      <label className="form-label" htmlFor="user-role">
                         User Role
                       </label>
                       <select id="user-role" className="form-select">
@@ -1346,7 +1286,7 @@ const UsersControls = () => {
                       </select>
                     </div>
                     <div className="mb-3 fv-plugins-icon-container">
-                      <label className="form-label" for="add-user-fullname">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Profile
                       </label>
                       <input
@@ -1383,7 +1323,7 @@ const UsersControls = () => {
           <div
             className="modal fade"
             id="newRole"
-            tabindex="-1"
+            tabIndex="-1"
             aria-hidden="true"
           >
             <div className="modal-dialog" role="document">
@@ -1392,7 +1332,7 @@ const UsersControls = () => {
                 <form className="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework">
                   <div className="modal-body">
                     <div className="mb-3 fv-plugins-icon-container">
-                      <label className="form-label" for="add-user-fullname">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Full Name
                       </label>
                       <input
@@ -1404,7 +1344,7 @@ const UsersControls = () => {
                       />
                     </div>
                     <div className="mb-3 fv-plugins-icon-container">
-                      <label className="form-label" for="add-user-email">
+                      <label className="form-label" htmlFor="add-user-email">
                         Email
                       </label>
                       <input
@@ -1417,7 +1357,7 @@ const UsersControls = () => {
                       />
                     </div>
                     <div className="mb-3">
-                      <label className="form-label" for="user-role">
+                      <label className="form-label" htmlFor="user-role">
                         User Role
                       </label>
                       <select id="user-role" className="form-select">
@@ -1429,7 +1369,7 @@ const UsersControls = () => {
                       </select>
                     </div>
                     <div className="mb-3 fv-plugins-icon-container">
-                      <label className="form-label" for="add-user-fullname">
+                      <label className="form-label" htmlFor="add-user-fullname">
                         Profile
                       </label>
                       <input

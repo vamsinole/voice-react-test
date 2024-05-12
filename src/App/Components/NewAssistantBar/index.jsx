@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 // import React from 'react'
 import { Link } from "react-router-dom";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import "./Styles.scss";
 
 const NewAssistantBar = () => {
@@ -15,6 +17,7 @@ const NewAssistantBar = () => {
                   className="top-strip-bg dropdown-toggle text-white px-2"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  href="javascript:void(0);"
                 >
                   All
                 </a>
@@ -46,10 +49,10 @@ const NewAssistantBar = () => {
 
             <div className="col-lg-9 mt-1">
               <div className="top_right-col d-flex justify-content-end align-items-center">
-                <p className="mb-0 me-3">
+                {/* <p className="mb-0 me-3">
                   Your are in free plan. <a href="#"> Upgrade</a> or{" "}
                   <a href="#">External Trail</a>
-                </p>
+                </p> */}
 
                 <button
                   className="btn btn-sm btn-success p-0 py-0 m-0 mt-1 me-2"
@@ -76,7 +79,7 @@ const NewAssistantBar = () => {
                         <div className="avatar avatar-online">
                           <img
                             src="assets/img/avatars/1.png"
-                            alt
+                            alt="Avatar"
                             className="h-auto rounded-circle"
                           />
                         </div>
@@ -92,7 +95,7 @@ const NewAssistantBar = () => {
                                 <div className="avatar avatar-online">
                                   <img
                                     src="assets/img/avatars/1.png"
-                                    alt
+                                    alt="Avatar other"
                                     className="h-auto rounded-circle"
                                   />
                                 </div>
@@ -117,7 +120,7 @@ const NewAssistantBar = () => {
                           {/* <span className="align-middle">Log Out</span> */}
                         </li>
                         {/* <li>
-                                                <a className="dropdown-item" onclick="logout()">
+                                                <a className="dropdown-item" onClick="logout()">
                                                     <i className="ti ti-logout me-2 ti-sm"></i>
                                                     <span className="align-middle">Log Out</span>
                                                 </a>

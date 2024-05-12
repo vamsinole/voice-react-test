@@ -1,18 +1,8 @@
-import React, {useState} from 'react'
-import './Styles.scss'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios';
-
+import React from "react";
+import "./Styles.scss";
 
 const Login = () => {
- 
- 
+  return <></>;
+};
 
-  return (
-    <>
-      
-    </>
-  )
-}
-
-export default Login
+export default Login;

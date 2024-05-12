@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./home-style.scss";
 import env from "../../../config";
 import Header from "../../Components/Header";
-import TopMenu from "../../Components/TopMenu";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 // import axios from 'axios';
 import axios from "../axiosInterceptor";
@@ -10,14 +11,11 @@ import { Link } from "react-router-dom";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { callAPI, toastr_options } from "../../Components/Utils";
 
 const Home = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
-
   const [dataFromApi, setDataFromApi] = useState(null);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getassist;
@@ -28,19 +26,21 @@ const Home = () => {
   if (token === null) {
     navigate("/login");
   }
+  const [gettingAssistants, setGettingAssistants] = useState(false);
 
   useEffect(() => {
     fetchUsers();
   }, []);
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(baseurl + endpoint, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setDataFromApi(response.data.data);
+      setGettingAssistants(true);
+      let response = await callAPI("GET", baseurl + endpoint, "", token);
+      console.log(response);
+      if (response.authError) {
+        navigate("/login");
+      }
+      setGettingAssistants(false);
+      setDataFromApi(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -209,11 +209,6 @@ const Home = () => {
   const totalCountModel = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has a model
   const totalCountInstruc = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has instructions
 
-  // Pagination logic
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = TblData.slice(indexOfFirstItem, indexOfLastItem);
-
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [isColumnVisible, setIsColumnVisible] = useState(false);
@@ -223,17 +218,7 @@ const Home = () => {
     setIsColumnVisible(!isColumnVisible);
   };
 
-  //add inted
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const [formData, setFormData] = useState({
+  const [formData] = useState({
     name: "",
   });
 
@@ -269,10 +254,9 @@ const Home = () => {
           },
         }
       );
-
+      console.log(response);
       fetchUsers();
-      setShowToast(true);
-      setShowToastMessge("Added Responce successfully");
+      toast.success("Added response successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -292,10 +276,9 @@ const Home = () => {
           },
         }
       );
-
+      console.log(response);
       fetchUsers();
-      setShowToast(true);
-      setShowToastMessge("Deleted");
+      toast.success("Deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -431,7 +414,7 @@ const Home = () => {
                     </a> */}
                   <Link
                     className="btn btn-primary pull-right text-white"
-                    to="/assistant-dashboard"
+                    to="/new-assistant"
                   >
                     <span className="ti-xs ti ti-plus me-1"></span> Create
                     Assistant
@@ -606,19 +589,20 @@ const Home = () => {
                                     {/* <input className="email-list-item-input form-check-input" type="checkbox" id="email-1" /> */}
                                     <label
                                       className="form-check-label"
-                                      for="email-1"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
                                 <th>NAME</th>
                                 <th>MODEL</th>
-                                <th>INSTRUCTIONS</th>
+                                <th>STATUS</th>
                                 <th>TYPE</th>
                                 <th style={{ width: "70px" }}>ACTION</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {dataFromApi &&
+                              {!gettingAssistants &&
+                                dataFromApi &&
                                 dataFromApi.map((value, key) => (
                                   <tr key={key}>
                                     <td className="w-px-14">
@@ -636,20 +620,24 @@ const Home = () => {
                                         <label className="form-check-label"></label>
                                       </div>
                                     </td>
-                                    <td>{value.name}</td>
-                                    <td>{value.model}</td>
-                                    <td>{value.instruc}</td>
+                                    <td>
+                                      <a href={"/assistant/" + value.id}>
+                                        {value.name}
+                                      </a>
+                                    </td>
+                                    <td>{value.ai_type}</td>
+                                    <td>{value.status}</td>
                                     <td>{value.type}</td>
                                     <td style={{ width: "70px" }}>
                                       <div className="d-flex action-btns">
-                                        <button
+                                        {/* <button
                                           data-bs-toggle="modal"
                                           onClick={() => handleClickedit(value)}
                                           data-bs-target="#testAssistantModal"
                                           className="btn px-1"
                                         >
                                           <i className="ti ti-player-play ti-sm me-2"></i>
-                                        </button>
+                                        </button> */}
                                         <button
                                           data-bs-toggle="modal"
                                           onClick={() => handleClickedit(value)}
@@ -662,34 +650,19 @@ const Home = () => {
                                     </td>
                                   </tr>
                                 ))}
-                              {/* {dataFromApi ? dataFromApi.map((value, key) => {
-                                        return (
-                                          <tr key={key}>
-                                            <td className='w-px-14'>
-                                            <div className="form-check mb-0">
-                                  <input className="email-list-item-input form-check-input" type="checkbox" id="email-1" />
-                                  <label className="form-check-label" for="email-1"></label>
-                                </div>
-                                            </td>
-                                            <td>{value.name}</td>
-                                            <td>{value.model}</td>
-                                            <td>{value.instruc}</td>
-                                            <td>{value.type}</td>
-                                            <td style={{ width: '70px' }}>
-                                              <div className="d-flex acation-btns">
-                                              
-                                                <button  data-bs-toggle="modal" onClick={() => handleClickedit(value)}
-                                  data-bs-target="#testAssistantModal" className='btn px-1'><i className="ti ti-player-play ti-sm me-2"></i></button>
-                                                <button data-bs-toggle="modal" onClick={() => handleClickedit(value)}
-                                  data-bs-target="#deleteAssistantModal" className='btn px-1'><i className="ti ti-trash ti-sm mx-2"></i></button>
-                                              </div>
-                                            </td>
-                                          </tr>
-                                        );
-                                      }) : null} */}
                             </tbody>
                           </table>
                         </div>
+                        {gettingAssistants && (
+                          <div className="parent-div text-center mt-2 mb-2">
+                            <span
+                              className="spinner-border"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
                         <div className="bottom-count">
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
@@ -748,7 +721,7 @@ const Home = () => {
 
                       <div
                         className="offcanvas offcanvas-end"
-                        tabindex="-1"
+                        tabIndex="-1"
                         id="offcanvasAddAssistant"
                         aria-labelledby="offcanvasAddAssistantLabel"
                       >
@@ -776,7 +749,7 @@ const Home = () => {
                             <div className="mb-3">
                               <label
                                 className="form-label"
-                                for="assistant-name"
+                                htmlFor="assistant-name"
                               >
                                 Assistant Name
                               </label>
@@ -792,7 +765,7 @@ const Home = () => {
                             <div className="mb-3">
                               <label
                                 className="form-label"
-                                for="assistant-description"
+                                htmlFor="assistant-description"
                               >
                                 Assistant description
                               </label>
@@ -809,7 +782,7 @@ const Home = () => {
                               <div className="mb-3">
                                 <label
                                   className="form-label"
-                                  for="assistant-type"
+                                  htmlFor="assistant-type"
                                 >
                                   Type
                                 </label>
@@ -834,7 +807,7 @@ const Home = () => {
                                 <div className="mb-3">
                                   <label
                                     className="form-label"
-                                    for="dialogflow-type"
+                                    htmlFor="dialogflow-type"
                                   >
                                     Base Type
                                   </label>
@@ -917,7 +890,7 @@ const Home = () => {
                                           id="dropzone-multi"
                                         >
                                           <label
-                                            for="assistant-file"
+                                            htmlFor="assistant-file"
                                             className="pointer dz-message needsclick"
                                           >
                                             Drop file here or click to upload
@@ -950,18 +923,18 @@ const Home = () => {
                             </div>
 
                             {/* <div className="mb-3">
-                      <label className="form-label" for="assistant-type">Type</label>
+                      <label className="form-label" htmlFor="assistant-type">Type</label>
                       <select id="assistant-type" onchange="changeAssistantType()"
                        className="form-select">
-                        <option value="" selected>Select Type</option>
+                        <option value="">Select Type</option>
                         <option value="open_ai">Open AI GPT</option>
                         <option value="dialogflow">Dilogflow</option>
                       </select>
                     </div> */}
                             {/* <div className="mb-3" id="dialogflow-type-parent" style={{ display: 'none' }}>
-                      <label className="form-label" for="dialogflow-type">Base Type</label>
+                      <label className="form-label" htmlFor="dialogflow-type">Base Type</label>
                       <select id="dialogflow-type" onchange="changeAssistantType()" className="form-select">
-                        <option value="" selected>Select Type</option>
+                        <option value="">Select Type</option>
                         <option value="dining-out">Dining Out</option>
                         <option value="banking">Banking</option>
                         <option value="job-interview">Job Interview</option>
@@ -977,7 +950,7 @@ const Home = () => {
                             >
                               <label
                                 className="form-label"
-                                for="assistant-model"
+                                htmlFor="assistant-model"
                               >
                                 Model type
                               </label>
@@ -985,9 +958,7 @@ const Home = () => {
                                 id="assistant-model"
                                 className="form-select"
                               >
-                                <option value="" selected>
-                                  Select Model
-                                </option>
+                                <option value="">Select Model</option>
                                 <option value="gpt-3.5-turbo-0125">
                                   GPT-3.5-turbo-0125 (Recommended)
                                 </option>
@@ -1007,7 +978,7 @@ const Home = () => {
                             >
                               <label
                                 className="form-label"
-                                for="assistant-instructions"
+                                htmlFor="assistant-instructions"
                               >
                                 Instructions
                               </label>
@@ -1027,7 +998,7 @@ const Home = () => {
                             >
                               <label
                                 className="form-label"
-                                for="assistant-api-key"
+                                htmlFor="assistant-api-key"
                               >
                                 API Key{" "}
                                 <span
@@ -1060,7 +1031,7 @@ const Home = () => {
                                     id="dropzone-multi"
                                   >
                                     <label
-                                      for="assistant-file"
+                                      htmlFor="assistant-file"
                                       className="pointer dz-message needsclick"
                                     >
                                       Drop file here or click to upload (CSV or
@@ -1091,7 +1062,7 @@ const Home = () => {
                             <button
                               type="submit"
                               className="btn btn-primary me-sm-3 me-1 data-submit"
-                              onclick="createAssistant()"
+                              onClick="createAssistant()"
                             >
                               <span
                                 id="create-assistant-button-loader"
@@ -1121,7 +1092,7 @@ const Home = () => {
 
                       <div
                         className="offcanvas offcanvas-end"
-                        tabindex="-1"
+                        tabIndex="-1"
                         id="offcanvasTestAssistant"
                         aria-labelledby="offcanvasTestAssistantLabel"
                       >
@@ -1148,7 +1119,7 @@ const Home = () => {
                             <div className="mb-3">
                               <label
                                 className="form-label"
-                                for="test-instruction"
+                                htmlFor="test-instruction"
                               >
                                 Instruction
                               </label>
@@ -1210,7 +1181,7 @@ const Home = () => {
         <div
           className="modal fade"
           id="testAssistantModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -1252,7 +1223,7 @@ const Home = () => {
                             <i
                               className="speech-to-text ti ti-microphone ti-sm cursor-pointer me-3"
                               id="microphone"
-                              onclick="startListening()"
+                              onClick="startListening()"
                             ></i>
                             <button
                               type="submit"
@@ -1261,7 +1232,7 @@ const Home = () => {
                             >
                               <span
                                 id="test-assistant-button-loader"
-                                style={{ block: "none" }}
+                                style={{ display: "none" }}
                               >
                                 <span
                                   className="spinner-border"
@@ -1292,7 +1263,7 @@ const Home = () => {
       <div
         className="modal fade"
         id="updateAssistantModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -1311,7 +1282,7 @@ const Home = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="new-intent" className="form-label">
+                  <label htmlFor="new-intent" className="form-label">
                     Intent
                   </label>
                   <input
@@ -1336,7 +1307,7 @@ const Home = () => {
                 Close
               </button>
               <button type="submit" className="btn btn-primary">
-                <span id="new-intent-button-loader" style={{ block: "none" }}>
+                <span id="new-intent-button-loader" style={{ display: "none" }}>
                   <span
                     className="spinner-border"
                     role="status"
@@ -1359,7 +1330,7 @@ const Home = () => {
         <div
           className="modal fade"
           id="deleteAssistantModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -1378,7 +1349,10 @@ const Home = () => {
               <div className="modal-body">
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="update-assistant-name" className="form-label">
+                    <label
+                      htmlFor="update-assistant-name"
+                      className="form-label"
+                    >
                       Are you sure you want to delete this Assistant?
                     </label>
                   </div>
@@ -1400,7 +1374,7 @@ const Home = () => {
                 >
                   <span
                     id="delete-assistant-button-loader"
-                    style={{ block: "none" }}
+                    style={{ display: "none" }}
                   >
                     {/* <span className="spinner-border" role="status" aria-hidden="true"></span>
                               <span className="visually-hidden">Loading...</span> */}
@@ -1413,25 +1387,7 @@ const Home = () => {
         </div>
       </form>
 
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

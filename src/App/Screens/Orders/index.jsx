@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
 import Header from "../../Components/Header";
 import React, { useState, useEffect } from "react";
 import env from "../../../config";
 import "./Styles.scss";
-import TopMenu from "../../Components/TopMenu";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 // import axios from 'axios';
 import axios from "../axiosInterceptor";
@@ -318,7 +319,7 @@ const Orders = () => {
                                     />
                                     <label
                                       className="form-check-label"
-                                      for="email-1"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
@@ -341,7 +342,7 @@ const Orders = () => {
                                         />
                                         <label
                                           className="form-check-label"
-                                          for="email-1"
+                                          htmlFor="email-1"
                                         ></label>
                                       </div>
                                     </td>
@@ -381,7 +382,7 @@ const Orders = () => {
         <ul className="pagination">
           {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
             <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-              <button className="page-link" onClick={() => paginate(index + 1)}>
+              <button className="page-link" onclick={() => paginate(index + 1)}>
                 {index + 1}
               </button>
             </li>
@@ -408,7 +409,7 @@ const Orders = () => {
       <div
         className="modal fade"
         id="updateOrdersModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -427,7 +428,7 @@ const Orders = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-name" className="form-label">
+                  <label htmlFor="update-user-main-name" className="form-label">
                     Name
                   </label>
                   <input
@@ -440,7 +441,10 @@ const Orders = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-email" className="form-label">
+                  <label
+                    htmlFor="update-user-main-email"
+                    className="form-label"
+                  >
                     Email
                   </label>
                   <input
@@ -453,7 +457,10 @@ const Orders = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-phone" className="form-label">
+                  <label
+                    htmlFor="update-user-main-phone"
+                    className="form-label"
+                  >
                     Phone
                   </label>
                   <input
@@ -466,7 +473,10 @@ const Orders = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-website" className="form-label">
+                  <label
+                    htmlFor="update-user-main-website"
+                    className="form-label"
+                  >
                     Website
                   </label>
                   <input
@@ -479,7 +489,10 @@ const Orders = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-address" className="form-label">
+                  <label
+                    htmlFor="update-user-main-address"
+                    className="form-label"
+                  >
                     Address
                   </label>
                   <input
@@ -505,7 +518,10 @@ const Orders = () => {
                 className="btn btn-primary"
                 onclick="updateUserApi()"
               >
-                <span id="update-user-button-loader" style={{ block: "none" }}>
+                <span
+                  id="update-user-button-loader"
+                  style={{ display: "none" }}
+                >
                   <span
                     className="spinner-border"
                     role="status"
@@ -523,7 +539,7 @@ const Orders = () => {
       <div
         className="modal fade"
         id="deleteOrdersModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -542,7 +558,7 @@ const Orders = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-name" className="form-label">
+                  <label htmlFor="update-user-name" className="form-label">
                     Are you sure you want to delete this Customer?
                   </label>
                 </div>
@@ -562,7 +578,10 @@ const Orders = () => {
                 className="btn btn-primary"
                 onclick="deleteUserApi()"
               >
-                <span id="delete-user-button-loader" style={{ block: "none" }}>
+                <span
+                  id="delete-user-button-loader"
+                  style={{ display: "none" }}
+                >
                   <span
                     className="spinner-border"
                     role="status"
@@ -580,7 +599,7 @@ const Orders = () => {
       <div
         className="modal fade"
         id="createOrderModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -600,7 +619,7 @@ const Orders = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="action-agent" className="form-label">
+                  <label htmlFor="action-agent" className="form-label">
                     Voice Agent
                   </label>
                   <select id="action-agent" className="form-select"></select>
@@ -608,7 +627,7 @@ const Orders = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="action-assistant" className="form-label">
+                  <label htmlFor="action-assistant" className="form-label">
                     Assistant
                   </label>
                   <select
@@ -616,15 +635,13 @@ const Orders = () => {
                     onchange="changeActionAssistant()"
                     className="form-select"
                   >
-                    <option value="" selected>
-                      Select assistant
-                    </option>
+                    <option value="">Select assistant</option>
                   </select>
                 </div>
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="action-name" className="form-label">
+                  <label htmlFor="action-name" className="form-label">
                     Name
                   </label>
                   <input
@@ -638,7 +655,7 @@ const Orders = () => {
 
               <div className="row">
                 <div className="col mb-3">
-                  <label for="select-intent-picker" className="form-label">
+                  <label htmlFor="select-intent-picker" className="form-label">
                     Select Intents
                   </label>
                   <select
@@ -649,7 +666,7 @@ const Orders = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label className="form-label" for="action-type">
+                  <label className="form-label" htmlFor="action-type">
                     Action type
                   </label>
                   <select
@@ -657,9 +674,7 @@ const Orders = () => {
                     onchange="changeActionType()"
                     className="form-select"
                   >
-                    <option value="" selected>
-                      Select Type
-                    </option>
+                    <option value="">Select Type</option>
                     <option value="webhook">API</option>
                     <option value="email">Send Email</option>
                     <option value="sms">Send SMS</option>

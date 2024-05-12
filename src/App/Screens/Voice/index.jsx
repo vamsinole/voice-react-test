@@ -1,25 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
 import Header from "../../Components/Header";
 import React, { useState, useEffect } from "react";
 import env from "../../../config";
 import "./Styles.scss";
-import TopMenu from "../../Components/TopMenu";
 // import axios from 'axios';
 import axios from "../axiosInterceptor";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
-import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toastr_options } from "../../Components/Utils";
 
 const Voice = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
+  const [gettingVoiceAgents, setGettingVoiceAgents] = useState(false);
 
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
-
-  const navigate = useNavigate();
   const [voiceagents, setVoiceAgent] = useState([]);
 
   const baseurl = env.baseUrl;
@@ -33,12 +30,14 @@ const Voice = () => {
 
   const fetchData = async () => {
     try {
+      setGettingVoiceAgents(true);
       const response = await axios.get(baseurl + endpoint, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       console.log("responce", response.data.data);
+      setGettingVoiceAgents(false);
       setVoiceAgent(response.data.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -85,9 +84,6 @@ const Voice = () => {
   const totalCountName = voiceagents.length;
   const totalCountModel = voiceagents.reduce((total, item) => total + 1, 0); // Assuming each item has a model
   const totalCountInstruc = voiceagents.reduce((total, item) => total + 1, 0); // Assuming each item has instructions
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = voiceagents.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -101,13 +97,6 @@ const Voice = () => {
     // This stops the dropdown from closing when the dropdown content is clicked
     event.stopPropagation();
   };
-
-  //Update Formdata
-  const [updateformData, setupdateFormData] = useState({
-    name: "",
-    phone: "",
-    assistant_id: "",
-  });
 
   const [editformData, editsetFormData] = useState({
     name: "",
@@ -150,10 +139,10 @@ const Voice = () => {
           },
         }
       );
+      console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Updated");
+      toast.success("Agent has been updated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -171,10 +160,10 @@ const Voice = () => {
           "Content-Type": "application/json",
         },
       });
+      console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Created");
+      toast.success("Agent has been created successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -184,6 +173,20 @@ const Voice = () => {
     event.preventDefault();
     const createvoiceAgent = USER_ENDPOINTS.makecall;
     console.log("editformData33", editformData);
+    if (
+      !editformData ||
+      !editformData.speak ||
+      editformData.speak.length === 0
+    ) {
+      return "";
+    }
+    if (
+      !editformData ||
+      !editformData.to_number ||
+      editformData.to_number.length === 0
+    ) {
+      return "";
+    }
     try {
       const response = await axios.post(
         baseurl + createvoiceAgent + "/" + editformData.id + "/makeCall",
@@ -198,10 +201,10 @@ const Voice = () => {
           },
         }
       );
+      console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Call Successfully done");
+      toast.success("Call initiated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -221,10 +224,10 @@ const Voice = () => {
           },
         }
       );
+      console.log(response);
 
       fetchData();
-      setShowToast(true);
-      setShowToastMessge("Deleted");
+      toast.success("Agent has been deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -519,7 +522,7 @@ const Voice = () => {
                                     />
                                     <label
                                       className="form-check-label"
-                                      for="email-1"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
@@ -531,60 +534,89 @@ const Voice = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {voiceagents.map((value, key) => {
-                                return (
-                                  <tr key={key}>
-                                    <td>
-                                      <div className="form-check mb-0">
-                                        <input
-                                          className="email-list-item-input form-check-input"
-                                          type="checkbox"
-                                          id="email-1"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          for="email-1"
-                                        ></label>
-                                      </div>
-                                    </td>
-                                    <td>{value.name}</td>
-                                    <td>{value.type}</td>
-                                    <td>{value.phone_number}</td>
-                                    <td>{value.status}</td>
-                                    <td style={{ width: "70px" }}>
-                                      <div className="d-flex acation-btns">
-                                        <button
-                                          className="btn px-1 la-lg"
-                                          data-bs-toggle="modal"
-                                          onClick={() => handleClickedit(value)}
-                                          data-bs-target="#VioceEdit"
-                                        >
-                                          <i className="ti ti-edit ti-sm me-2"></i>
-                                        </button>
-                                        <button
-                                          className="btn px-1 la-lg"
-                                          data-bs-toggle="modal"
-                                          onClick={() => handleClickedit(value)}
-                                          data-bs-target="#callUserModal"
-                                        >
-                                          <i className="tf-icons ti ti-phone-call"></i>
-                                        </button>
-                                        <button
-                                          className="btn px-1 la-lg"
-                                          data-bs-toggle="modal"
-                                          onClick={() => handleClickedit(value)}
-                                          data-bs-target="#updateAgentModal"
-                                        >
-                                          <i className="ti ti-trash ti-sm mx-2"></i>
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
+                              {!gettingVoiceAgents &&
+                                voiceagents.map((value, key) => {
+                                  return (
+                                    <tr key={key}>
+                                      <td>
+                                        <div className="form-check mb-0">
+                                          <input
+                                            className="email-list-item-input form-check-input"
+                                            type="checkbox"
+                                            id="email-1"
+                                          />
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor="email-1"
+                                          ></label>
+                                        </div>
+                                      </td>
+                                      <td>{value.name}</td>
+                                      <td>{value.type}</td>
+                                      <td>{value.phone_number}</td>
+                                      <td>{value.status}</td>
+                                      <td style={{ width: "70px" }}>
+                                        <div className="d-flex acation-btns">
+                                          <button
+                                            className="btn px-1 la-lg"
+                                            data-bs-toggle="modal"
+                                            onClick={() =>
+                                              handleClickedit(value)
+                                            }
+                                            data-bs-target="#VioceEdit"
+                                          >
+                                            <i className="ti ti-edit ti-sm me-2"></i>
+                                          </button>
+                                          <button
+                                            className="btn px-1 la-lg"
+                                            data-bs-toggle="modal"
+                                            onClick={() =>
+                                              handleClickedit(value)
+                                            }
+                                            data-bs-target="#callUserModal"
+                                          >
+                                            <i className="tf-icons ti ti-phone-call"></i>
+                                          </button>
+                                          <button
+                                            className="btn px-1 la-lg"
+                                            data-bs-toggle="modal"
+                                            onClick={() =>
+                                              handleClickedit(value)
+                                            }
+                                            data-bs-target="#updateAgentModal"
+                                          >
+                                            <i className="ti ti-trash ti-sm mx-2"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
                             </tbody>
                           </table>
                         </div>
+                        {gettingVoiceAgents && (
+                          <div className="parent-div text-center mt-2 mb-2">
+                            <span
+                              className="spinner-border"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                        {!gettingVoiceAgents &&
+                          (!voiceagents ||
+                            (voiceagents.length === 0 && (
+                              <div
+                                className="parent-div text-center mt-2 mb-2"
+                                id="empty-files"
+                              >
+                                <label className="empty-files">
+                                  No Voice Agents at the moment.
+                                </label>
+                              </div>
+                            )))}
                         <div className="bottom-count">
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
@@ -628,7 +660,7 @@ const Voice = () => {
                       </div>
                       <div
                         className="offcanvas offcanvas-end"
-                        tabindex="-1"
+                        tabIndex="-1"
                         id="offcanvasAddAgent"
                         aria-labelledby="offcanvasAddAgentLabel"
                       >
@@ -656,7 +688,7 @@ const Voice = () => {
                             <div className="row mb-3">
                               <label
                                 className="col-sm-12 col-form-label"
-                                for="basic-default-agent-name"
+                                htmlFor="basic-default-agent-name"
                               >
                                 Name
                               </label>
@@ -675,7 +707,7 @@ const Voice = () => {
                             <div className="row mb-3 select2-primary">
                               <label
                                 className="col-sm-12 col-form-label"
-                                for="agent-type"
+                                htmlFor="agent-type"
                               >
                                 Type
                               </label>
@@ -687,9 +719,7 @@ const Voice = () => {
                                   name="type"
                                   className="form-select"
                                 >
-                                  <option value="" selected>
-                                    Select Type
-                                  </option>
+                                  <option value="">Select Type</option>
                                   <option value="voice_incoming">
                                     Voice Incoming
                                   </option>
@@ -703,7 +733,7 @@ const Voice = () => {
                             <div className="row mb-3 select2-primary">
                               <label
                                 className="form-label"
-                                for="agent-assistant"
+                                htmlFor="agent-assistant"
                               >
                                 Attach an Assistant
                               </label>
@@ -757,7 +787,7 @@ const Voice = () => {
       <div
         className="modal fade"
         id="VioceEdit"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="VioceEditLabel"
         aria-hidden="true"
       >
@@ -848,7 +878,7 @@ const Voice = () => {
       <div
         className="modal fade"
         id="callUserModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="VioceEditLabel"
         aria-hidden="true"
       >
@@ -865,55 +895,58 @@ const Voice = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <form
+            {/* <form
               className="add-new-user pt-0"
               id="addNewUserForm"
-              onSubmit={handleCall}
-            >
-              <div className="modal-body">
-                <div className="container">
-                  <div className="mb-3">
-                    <label htmlFor="name">Initial text</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="speak"
-                      value={editformData?.speak}
-                      onChange={edithandleInputChange}
-                      placeholder="How can I help you?"
-                    />
-                  </div>
+              onSubmit={handleCall} */}
+            {/* > */}
+            <div className="modal-body">
+              <div className="container">
+                <div className="mb-3">
+                  <label htmlFor="name">Initial text</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="speak"
+                    required
+                    value={editformData?.speak}
+                    onChange={edithandleInputChange}
+                    placeholder="How can I help you?"
+                  />
+                </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="name">Phone number</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      name="to_number"
-                      value={editformData?.to_number}
-                      onChange={edithandleInputChange}
-                      placeholder="658 799 8941"
-                    />
-                  </div>
+                <div className="mb-3">
+                  <label htmlFor="name">Phone number</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    required
+                    name="to_number"
+                    value={editformData?.to_number}
+                    onChange={edithandleInputChange}
+                    placeholder="658 799 8941"
+                  />
                 </div>
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  data-bs-dismiss="modal"
-                  className="btn btn-primary"
-                >
-                  Call User
-                </button>
-              </div>
-            </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                // data-bs-dismiss="modal"
+                className="btn btn-primary"
+                onClick={handleCall}
+              >
+                Call User
+              </button>
+            </div>
+            {/* </form> */}
           </div>
         </div>
       </div>
@@ -930,7 +963,7 @@ const Voice = () => {
         <div
           className="modal fade"
           id="updateAgentModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-labelledby="VioceEditLabel"
           aria-hidden="true"
         >
@@ -974,25 +1007,7 @@ const Voice = () => {
       </form>
       {/* modal popup VioceEdit end*/}
 
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

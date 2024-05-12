@@ -1,35 +1,15 @@
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
 import Header from "../../Components/Header";
-import React, { useState } from "react";
-import env from "../../../config";
+import React from "react";
 import "./Styles.scss";
-import TopMenu from "../../Components/TopMenu";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 //  import { google } from 'googleapis';
 // import fs from 'fs';
 
 const Emails = () => {
-  // const clientId = '377717100597-ot06oh2n90dh5vmev1ooc702qhia9jog.apps.googleusercontent.com';
-  // const clientSecret = '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';
-  // const redirectUri = 'http://localhost';
-
-  // const oauth2Client = new google.auth.OAuth2(
-  //   clientId,
-  //   clientSecret,
-  //   redirectUri
-  // );
-
-  // const authUrl = oauth2Client.generateAuthUrl({
-  //   access_type: 'offline',
-  //   scope: 'https://www.googleapis.com/auth/gmail.readonly'
-  // });
-
-  const getCodeFromRedirect = () => {
-    // Implement this function to extract the code from the URL
-    return "CODE_FROM_REDIRECT";
-  };
-
   return (
     <>
       <div className="layout-wrapper layout-content-navbar">
@@ -258,7 +238,7 @@ const Emails = () => {
                                 />
                                 <label
                                   className="form-check-label"
-                                  for="email-select-all"
+                                  htmlFor="email-select-all"
                                 ></label>
                               </div>
                               <i className="ti ti-trash ti-sm email-list-delete cursor-pointer me-2"></i>
@@ -383,7 +363,7 @@ const Emails = () => {
                                   />
                                   <label
                                     className="form-check-label"
-                                    for="email-1"
+                                    htmlFor="email-1"
                                   ></label>
                                 </div>
                                 <i className="email-list-item-bookmark ti ti-star ti-sm d-sm-inline-block d-none cursor-pointer ms-2 me-3"></i>
@@ -854,7 +834,7 @@ const Emails = () => {
                               <div className="me-3">
                                 <label
                                   className="cursor-pointer"
-                                  for="attach-file-1"
+                                  htmlFor="attach-file-1"
                                 >
                                   <i className="ti ti-paperclip me-2"></i>
                                   <span className="align-middle">
@@ -882,7 +862,7 @@ const Emails = () => {
                   <div
                     className="app-email-compose modal"
                     id="emailComposeSidebar"
-                    tabindex="-1"
+                    tabIndex="-1"
                     aria-labelledby="emailComposeSidebarLabel"
                     aria-hidden="true"
                   >
@@ -902,7 +882,7 @@ const Emails = () => {
                             <div className="email-compose-to d-flex justify-content-between align-items-center">
                               <label
                                 className="form-label mb-0"
-                                for="emailContacts"
+                                htmlFor="emailContacts"
                               >
                                 To:
                               </label>
@@ -971,7 +951,7 @@ const Emails = () => {
                               <hr className="container-m-nx my-2" />
                               <div className="d-flex align-items-center">
                                 <label
-                                  for="email-cc"
+                                  htmlFor="email-cc"
                                   className="form-label mb-0"
                                 >
                                   Cc:{" "}
@@ -988,7 +968,7 @@ const Emails = () => {
                               <hr className="container-m-nx my-2" />
                               <div className="d-flex align-items-center">
                                 <label
-                                  for="email-bcc"
+                                  htmlFor="email-bcc"
                                   className="form-label mb-0"
                                 >
                                   Bcc:{" "}
@@ -1004,7 +984,7 @@ const Emails = () => {
                             <hr className="container-m-nx my-2" />
                             <div className="email-compose-subject d-flex align-items-center mb-2">
                               <label
-                                for="email-subject"
+                                htmlFor="email-subject"
                                 className="form-label mb-0"
                               >
                                 Subject:
@@ -1081,7 +1061,7 @@ const Emails = () => {
                                     </li>
                                   </ul>
                                 </div>
-                                <label for="attach-file">
+                                <label htmlFor="attach-file">
                                   <i className="ti ti-paperclip cursor-pointer ms-2"></i>
                                 </label>
                                 <input

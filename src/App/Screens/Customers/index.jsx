@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 // import React from 'react'
 import Header from "../../Components/Header";
 import React, { useState, useEffect } from "react";
 import env from "../../../config";
 import "./Styles.scss";
-import TopMenu from "../../Components/TopMenu";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 // import axios from 'axios';
 import axios from "../axiosInterceptor";
@@ -353,7 +354,7 @@ const Customers = () => {
                                     />
                                     <label
                                       className="form-check-label"
-                                      for="email-1"
+                                      htmlFor="email-1"
                                     ></label>
                                   </div>
                                 </th>
@@ -376,7 +377,7 @@ const Customers = () => {
                                         />
                                         <label
                                           className="form-check-label"
-                                          for="email-1"
+                                          htmlFor="email-1"
                                         ></label>
                                       </div>
                                     </td>
@@ -412,7 +413,7 @@ const Customers = () => {
         <ul className="pagination">
           {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
             <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-              <button className="page-link" onClick={() => paginate(index + 1)}>
+              <button className="page-link" onclick={() => paginate(index + 1)}>
                 {index + 1}
               </button>
             </li>
@@ -440,7 +441,7 @@ const Customers = () => {
       <div
         className="modal fade"
         id="updateCustomerModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -459,7 +460,7 @@ const Customers = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-name" className="form-label">
+                  <label htmlFor="update-user-main-name" className="form-label">
                     Name
                   </label>
                   <input
@@ -472,7 +473,10 @@ const Customers = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-email" className="form-label">
+                  <label
+                    htmlFor="update-user-main-email"
+                    className="form-label"
+                  >
                     Email
                   </label>
                   <input
@@ -485,7 +489,10 @@ const Customers = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-phone" className="form-label">
+                  <label
+                    htmlFor="update-user-main-phone"
+                    className="form-label"
+                  >
                     Phone
                   </label>
                   <input
@@ -498,7 +505,10 @@ const Customers = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-website" className="form-label">
+                  <label
+                    htmlFor="update-user-main-website"
+                    className="form-label"
+                  >
                     Website
                   </label>
                   <input
@@ -511,7 +521,10 @@ const Customers = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-main-address" className="form-label">
+                  <label
+                    htmlFor="update-user-main-address"
+                    className="form-label"
+                  >
                     Address
                   </label>
                   <input
@@ -537,7 +550,10 @@ const Customers = () => {
                 className="btn btn-primary"
                 onclick="updateUserApi()"
               >
-                <span id="update-user-button-loader" style={{ block: "none" }}>
+                <span
+                  id="update-user-button-loader"
+                  style={{ display: "none" }}
+                >
                   <span
                     className="spinner-border"
                     role="status"
@@ -555,7 +571,7 @@ const Customers = () => {
       <div
         className="modal fade"
         id="deleteCustomerModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -574,7 +590,7 @@ const Customers = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="update-user-name" className="form-label">
+                  <label htmlFor="update-user-name" className="form-label">
                     Are you sure you want to delete this Customer?
                   </label>
                 </div>
@@ -594,7 +610,10 @@ const Customers = () => {
                 className="btn btn-primary"
                 onclick="deleteUserApi()"
               >
-                <span id="delete-user-button-loader" style={{ block: "none" }}>
+                <span
+                  id="delete-user-button-loader"
+                  style={{ display: "none" }}
+                >
                   <span
                     className="spinner-border"
                     role="status"
@@ -612,7 +631,7 @@ const Customers = () => {
       <div
         className="modal fade"
         id="createCustomerModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -632,7 +651,7 @@ const Customers = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col mb-3">
-                  <label for="action-agent" className="form-label">
+                  <label htmlFor="action-agent" className="form-label">
                     Voice Agent
                   </label>
                   <select id="action-agent" className="form-select"></select>
@@ -640,11 +659,11 @@ const Customers = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="action-assistant" className="form-label">
+                  <label htmlFor="action-assistant" className="form-label">
                     Assistant
                   </label>
                   {/* <select id="action-assistant" onchange="changeActionAssistant()" className="form-select">
-                                    <option value="" selected>Select assistant</option>
+                                    <option value="">Select assistant</option>
                                   </select> */}
 
                   <select
@@ -664,7 +683,7 @@ const Customers = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label for="action-name" className="form-label">
+                  <label htmlFor="action-name" className="form-label">
                     Name
                   </label>
                   <input
@@ -678,7 +697,7 @@ const Customers = () => {
 
               <div className="row">
                 <div className="col mb-3">
-                  <label for="select-intent-picker" className="form-label">
+                  <label htmlFor="select-intent-picker" className="form-label">
                     Select Intents
                   </label>
                   <select
@@ -689,7 +708,7 @@ const Customers = () => {
               </div>
               <div className="row">
                 <div className="col mb-3">
-                  <label className="form-label" for="action-type">
+                  <label className="form-label" htmlFor="action-type">
                     Action type
                   </label>
                   <select
@@ -697,9 +716,7 @@ const Customers = () => {
                     onchange="changeActionType()"
                     className="form-select"
                   >
-                    <option value="" selected>
-                      Select Type
-                    </option>
+                    <option value="">Select Type</option>
                     <option value="webhook">API</option>
                     <option value="email">Send Email</option>
                     <option value="sms">Send SMS</option>

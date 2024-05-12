@@ -31,7 +31,7 @@
 }
 
 .ti-filter:hover {
-  color: #7367f0;
+  color: #2FBFBE;
   transition: .5s;
 }
 
@@ -75,14 +75,6 @@ th {
   font-weight: bold;
 }
 
-.actions {
-  /* Add styles for actions column if needed */
-}
-
-.footer-content {
-  /* Add styles for footer content if needed */
-}
-
 .copyright {
   text-align: center;
   margin-top: 5px;
@@ -95,8 +87,18 @@ th {
 // }
 
 .results {
-  max-height: calc(62vh - 125px);
+  // max-height: calc(62vh - 125px);
   /* Adjust the height as needed */
   overflow-y: auto;
   margin-top: 10px;
+  max-height: 100% !important;
+  height: 100% !important;
+}
+
+.kbs-height {
+  height: calc(100vh - 200px);
+}
+
+.card-datatable table td {
+  padding: 0.75rem 1.25rem !important;
 }

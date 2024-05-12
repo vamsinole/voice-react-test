@@ -1,55 +1,9 @@
 // import React from 'react'
 import Header from "../../Components/Header";
-import React, { useState, useRef, useEffect } from "react";
-import env from "../../../config";
+import React from "react";
 import "./Styles.scss";
-import TopMenu from "../../Components/TopMenu";
-import { Link } from "react-router-dom";
 
 const NewAssistant = () => {
-  const TblData = [
-    {
-      name: "Akram",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Jhon",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Rahul",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Syam",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Ved",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-  ];
-
   return (
     <>
       <div className="layout-wrapper layout-content-navbar">

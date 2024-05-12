@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
-
 
 // Create an Axios instance
 const axiosInstance = axios.create({
@@ -18,20 +15,20 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem('token');
     // const history = useHistory(); // React Router history
 
-    
+
     // If token is not available, redirect to login page
-    
-    if (token===null) {
-     
+
+    if (token === null) {
+
       //navigate('/login');
-      window.location.href = window.location.origin+'/login';
+      window.location.href = window.location.origin + '/login';
       // Redirect to login page
       // history.push('/login');
       // return Promise.reject('No token available. Redirecting to login.');
     }
 
     config.headers['Authorization'] = `Bearer ${token}`;
-   
+
     return config;
   },
   (error) => {

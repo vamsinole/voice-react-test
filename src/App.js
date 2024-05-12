@@ -1,8 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import Header from './App/Components/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './App/Components/Login';
 import Home from './App/Screens/Home';
 import Register from './App/Components/Registers';
 
@@ -17,6 +14,7 @@ import Emails from './App/Screens/Emails';
 
 import NewAssistant from './App/Screens/NewAssistant';
 import AssistantDashboard from './App/Screens/AssistantDashboard';
+import EditAssistant from './App/Screens/EditAssistant'
 import AuthLogin from './App/Screens/AuthLogin';
 import Setting from './App/Screens/Setting';
 import UsersControls from './App/Screens/UsersControls';
@@ -33,6 +31,7 @@ const publicRoutes = [
   { path: 'register', component: Register },
 
   { path: 'knowledge', component: Knowledge },
+  { path: 'assistant/:id', component: EditAssistant },
   { path: 'assistant', component: Home },
   { path: 'voice', component: Voice },
   { path: 'users', component: Users },
@@ -42,7 +41,7 @@ const publicRoutes = [
   { path: 'orders', component: Orders },
   { path: 'emails', component: Emails },
   { path: 'newassistant', component: NewAssistant },
-  { path: 'assistant-dashboard', component: AssistantDashboard },
+  { path: 'new-assistant', component: AssistantDashboard },
   { path: 'login', component: AuthLogin },
   { path: 'landing', component: LandingPage },
   { path: 'terms', component: Terms },
@@ -68,6 +67,9 @@ function App() {
             {publicRoutes.map(({ path, component: Component }) => (
               <Route key={'path-' + path} path={path} element={<Component />} />
             ))}
+            {/* <Route path="assistant" exact={true} element={<Home />} >
+              <Route path=":id" exact={true} element={<EditAssistant />} />
+            </Route> */}
           </Routes>
           {/* <Footer /> */}
         </BrowserRouter>

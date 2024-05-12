@@ -1,6 +1,5 @@
 // import React from 'react'
-import { Link } from "react-router-dom";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import "./Styles.scss";
 
 const NewAssistantHelpBar = () => {

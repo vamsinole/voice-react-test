@@ -31,6 +31,7 @@
 }
 .config-img {
     width: 60px;
+    height: 60px;
     border-radius: 6px;
     margin:0 20px 10px 0;
 }
@@ -72,8 +73,33 @@
     white-space: nowrap;
   }
 
+  .pt-0-i {
+    padding-top: 0 !important;
+  }
 
+  .cofigurescroll {
+    padding: 5px !important;
+  }
 
+  .display-flex {
+    display: flex;
+  }
+
+  .col-padding {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .col-xs-padding {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .disabled-div {
+    pointer-events: none;
+    opacity: 0.7;
+    cursor: no-drop;
+  }
 
   // chat style
 
@@ -82,15 +108,15 @@
   }
   .app-chat-history .chat-history-footer {
     padding: .575rem .5rem;
-    margin: 0 1.5rem;
+    margin: 0 !important;
     border-radius: .375rem;
 }
 .shadow-sm {
   box-shadow: 0 .125rem .25rem rgba(165, 163, 174, .3) !important;
 }
 .app-chat-history .chat-history-body{
-  height: calc(100vh - 20.5rem);
-  padding: 2rem 1.5rem;
+  height: calc(100vh - 17.5rem) !important;
+  padding: 1rem !important;
   overflow: hidden;
 }
 
@@ -102,3 +128,196 @@
   
 }
   
+/* Example Styles for React Tags*/
+.app {
+  padding: 40px;
+  text-align: center;
+}
+
+/* Example Styles for React Tags*/
+.app {
+  padding: 40px;
+  text-align: center;
+}
+
+/* Example Styles for React Tags*/
+
+.container {
+  margin: auto;
+  width: 50%;
+}
+.ReactTags__tags {
+  position: relative;
+}
+
+.ReactTags__clearAll {
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px;
+  background: #f88d8d;
+  color: #fff;
+  border: none;
+}
+
+/* Styles for the input */
+.ReactTags__tagInput {
+  border-radius: 2px;
+  display: inline-block;
+  width: 100%;
+}
+.ReactTags__tagInput input.ReactTags__tagInputField,
+.ReactTags__tagInput input.ReactTags__tagInputField:focus {
+  display: block;
+  width: 100%;
+  padding: 0.422rem 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6f6b7d;
+  appearance: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: var(--bs-border-width) solid #dbdade;
+  border-radius: var(--bs-border-radius);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.ReactTags__editInput {
+  border-radius: 1px;
+}
+
+.ReactTags__editTagInput {
+  display: inline-flex;
+}
+
+/* Styles for selected tags */
+.ReactTags__selected span.ReactTags__tag {
+  border: 1px solid #333;
+  background: white;
+  color: black;
+  font-size: 14px;
+  display: inline-block;
+  padding: 4px 5px;
+  margin: 4px 8px 5px 0;
+  border-radius: 4px;
+}
+.ReactTags__selected a.ReactTags__remove {
+  color: #aaa;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+/* Styles for suggestions */
+.ReactTags__suggestions {
+  position: absolute;
+}
+.ReactTags__suggestions ul {
+  list-style-type: none;
+  box-shadow: 0.05em 0.01em 0.5em rgba(0, 0, 0, 0.2);
+  background: white;
+  width: 200px;
+}
+.ReactTags__suggestions li {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 0;
+}
+.ReactTags__suggestions li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 600;
+}
+.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
+  background: #b7cfe0;
+  cursor: pointer;
+}
+
+.ReactTags__remove {
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: black;
+}
+
+.ReactTags__error {
+  color: #e03131;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    padding: 0 5px;
+  }
+}
+
+.bg-body-white {
+  background-color: white;
+}
+
+.avatar-sm {
+  position: relative;
+  width: 1.875rem;
+  height: 1.875rem;
+  cursor: pointer;
+}
+
+.avatar-sm img {
+  height: 100%;
+  width: 100%;
+}
+
+.chat-history-assist {
+  float: left;
+  width: 96%;
+  overflow-y: auto;
+  max-height: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.chat-message .chat-message-text {
+  padding: 4px 8px;
+  border-radius: 5px;
+  max-width: 90%;
+  background-color: rgb(117, 117, 244);
+}
+
+.chat-message-right .chat-message-text {
+  padding: 4px 8px;
+  border-radius: 5px;
+  max-width: 90%;
+  background-color: #eae9e9;
+}
+
+.text-white {
+  color: white;
+}
+
+.chat-message-text {
+  font-size: 14px !important;
+}
+
+.pull-left {
+  float: left;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.pull-right {
+  float: right;
+}
+
+.send-msg-btn {
+  padding: 10px;
+}
+
+.required-dot {
+  color: red;
+  font-size: 14px;
+  margin-left: 5px;
+  font-weight: 500;
+}

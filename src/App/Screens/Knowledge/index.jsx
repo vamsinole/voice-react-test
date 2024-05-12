@@ -1,33 +1,33 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
 import Header from "../../Components/Header";
 import React, { useState, useRef, useEffect } from "react";
 import env from "../../../config";
 import "./Styles.scss";
-import TopMenu from "../../Components/TopMenu";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 // import axios from 'axios';
 import axios from "../axiosInterceptor";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
-import { Link } from "react-router-dom";
+import { callAPI, toastr_options } from "../../Components/Utils";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Knowledge = () => {
   const [fileloading, setfileLoading] = useState(false);
-
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessge, setShowToastMessge] = useState(false);
-  const toggleToast = () => {
-    setShowToast(!showToast);
-  };
+  const [addingFaq, setAddingFaq] = useState(false);
+  const [addingUrl, setAddingUrl] = useState(false);
+  const [addingFile, setAddingFile] = useState(false);
 
   const [knowledge, setKnowledge] = useState([]);
   const [files, setFiles] = useState([]);
   const [urls, setUrls] = useState([]);
   const [faq, setFaq] = useState([]);
 
-  const [options, setOptions] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedValuedrop, setSelectedValuedrop] = useState("");
 
   const [selectedslno, setSelectedslno] = useState("");
 
@@ -37,22 +37,44 @@ const Knowledge = () => {
   const token = localStorage.getItem("token");
   console.log("token", token);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    fetchVoiceAgents();
+    fetchKbs();
   }, []);
 
-  const fetchVoiceAgents = async () => {
+  const fetchKbs = async (id) => {
     try {
-      const response = await axios.get(baseurl + endpoint, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      // const response = await axios.get(baseurl + endpoint, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      setFaq([]);
+      setFiles([]);
+      setUrls([]);
+      let response = await callAPI("GET", baseurl + endpoint, "", token);
+      console.log(response);
+      if (response.authError) {
+        navigate("/login");
+      }
+      console.log("responceorg", response.data.urls);
+      setKnowledge(response.data);
+      let temp = response.data.map((item) => {
+        if (item.id === id) {
+          setSelectedValue(item.id);
+          setFiles(item.files);
+          setUrls(item.urls);
+          setFaq(item.faqs);
+        }
+        return item;
       });
-      console.log("responceorg", response.data.data.urls);
-      setKnowledge(response.data.data);
-      setFiles(response.data.data[0].files);
-      setUrls(response.data.data[0].urls);
-      setFaq(response.data.data[0].faqs);
+      // if (!id) {
+      //   setSelectedValue(response.data[0].id);
+      //   setFiles(response.data[0].files);
+      //   setUrls(response.data[0].urls);
+      //   setFaq(response.data[0].faqs);
+      // }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -60,52 +82,16 @@ const Knowledge = () => {
 
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
-    let obj = JSON.parse(event.target.value);
-    setSelectedValuedrop(obj.id);
-    console.log("selectedvalue", obj.id);
-    setFiles(obj.files);
-    setUrls(obj.urls);
-    setFaq(obj.faqs);
+    let temmp_kb = knowledge.map((item) => {
+      if (event.target.value === item.id) {
+        setFiles(item.files);
+        setUrls(item.urls);
+        setFaq(item.faqs);
+      }
+      return item;
+    });
   };
 
-  const TblData = [
-    {
-      sno: "1",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-    {
-      sno: "2",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-  ];
-  const UrlTblData = [
-    {
-      sno: "1",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-    {
-      sno: "2",
-      url: "https://storage.googleapis.com/voice-knowledge-base/voice-knowledge-base/user-2/kb-2/1713890809351-Screenshot_20230114_133403.png",
-      action: "",
-    },
-  ];
-  const FaqTblData = [
-    {
-      sno: "1",
-      question: "What is your name",
-      answer: "Mumtaz",
-      action: "",
-    },
-    {
-      sno: "1",
-      question: "What is your name",
-      answer: "Mumtaz",
-      action: "",
-    },
-  ];
   const handleDropdownClick = (event) => {
     // This stops the dropdown from closing when the dropdown content is clicked
     event.stopPropagation();
@@ -113,6 +99,7 @@ const Knowledge = () => {
 
   // toggle dropdown menu
   const [show, setShow] = useState(false);
+  const [deletingKbs, setDeletingKbs] = useState(false);
   const dropdownRef = useRef(null);
 
   // This hook handles clicks outside of the dropdown to close it
@@ -151,6 +138,10 @@ const Knowledge = () => {
 
     const createKnowledge = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
+    if (!formData.knowledgename || formData.knowledgename.length === 0) {
+      toast.error("Name cannot be empty", toastr_options);
+      return "";
+    }
     try {
       const response = await axios.post(
         baseurl + createKnowledge,
@@ -164,10 +155,12 @@ const Knowledge = () => {
       );
 
       const data = response.data.data.token;
-
-      fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Created");
+      setFormData({
+        ...formData,
+        knowledgename: "",
+      });
+      fetchKbs();
+      toast.success("Knowledge base has been created", toastr_options);
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
@@ -214,12 +207,21 @@ const Knowledge = () => {
 
   const handleSubmitUrl = async (event) => {
     event.preventDefault();
-    console.log("selectedValue", selectedValuedrop);
+    console.log("selectedValue", selectedValue);
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
+    if (!formData.url || formData.url.length === 0) {
+      toast.error("URL cannot be empty");
+      return "";
+    }
     try {
+      setAddingUrl(true);
       const response = await axios.post(
-        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        baseurl + addurl + "/" + selectedValue + "/add_file",
         {
           type: "urls",
           urls: [{ url: formData.url }],
@@ -231,10 +233,14 @@ const Knowledge = () => {
           },
         }
       );
-
-      fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Url Added");
+      console.log(response);
+      setFormData({
+        ...formData,
+        url: "",
+      });
+      setAddingUrl(false);
+      fetchKbs(selectedValue);
+      toast.success("Url Added", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -242,12 +248,25 @@ const Knowledge = () => {
 
   const handleSubmitfaq = async (event) => {
     event.preventDefault();
-    console.log("selectedValue", selectedValuedrop);
+    console.log("selectedValue", selectedValue);
     const addurl = USER_ENDPOINTS.getKnowledge;
     console.log("formdata", formData);
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
+    if (!formData.question || formData.question.length === 0) {
+      toast.error("Question cannot be empty");
+      return "";
+    }
+    if (!formData.answer || formData.answer.length === 0) {
+      toast.error("Answer cannot be empty");
+      return "";
+    }
     try {
+      setAddingFaq(true);
       const response = await axios.post(
-        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
+        baseurl + addurl + "/" + selectedValue + "/add_file",
         {
           type: "faqs",
           faqs: [{ question: formData.question, answer: formData.answer }],
@@ -259,17 +278,23 @@ const Knowledge = () => {
           },
         }
       );
-
-      fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Url Added");
+      console.log(response);
+      setAddingFaq(false);
+      setFormData({
+        knowledgename: formData.knowledgename,
+        url: "",
+        question: "",
+        answer: "",
+        urls: "",
+      });
+      fetchKbs(selectedValue);
+      toast.success("FAQ has been added successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [binaryData, setBinaryData] = useState(null);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -288,38 +313,51 @@ const Knowledge = () => {
       console.error("No file selected");
       return;
     }
-
-    //const formData = new FormData();
-    //formData.append('file', selectedFile);
-    console.log("selectedFile", selectedFile);
-
-    console.log("selectedValue", selectedValuedrop);
+    let formData = new FormData();
+    formData.append("type", "files");
+    formData.append("files", selectedFile);
     const addurl = USER_ENDPOINTS.getKnowledge;
-    console.log("formdatafiles", formData);
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
     try {
-      const response = await axios.post(
-        baseurl + addurl + "/" + selectedValuedrop + "/add_file",
-        {
-          type: "files",
-          urls: selectedFile,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+      setAddingFile(true);
+      let upload_image_object = await callAPI(
+        "POST",
+        baseurl + addurl + "/" + selectedValue + "/add_file",
+        formData,
+        token,
+        "nojson"
       );
-
-      fetchVoiceAgents();
-      setShowToast(true);
-      setShowToastMessge("Url Added");
+      setAddingFile(false);
+      fetchKbs(selectedValue);
+      toast.success("File has been added successfully", toastr_options);
       setfileLoading(false);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
   //selectedslno
+
+  async function deleteKbs() {
+    if (!selectedValue) {
+      toast.error("Select a knowledge base first", toastr_options);
+      return "";
+    }
+    setDeletingKbs(true);
+    let delete_kbs_obj = await callAPI(
+      "DELETE",
+      baseurl + USER_ENDPOINTS.getKnowledge + "/" + selectedValue,
+      "",
+      token
+    );
+    setDeletingKbs(false);
+    if (document.getElementById("close-kbs")) {
+      document.getElementById("close-kbs").click();
+    }
+    fetchKbs();
+  }
 
   return (
     <>
@@ -406,7 +444,7 @@ const Knowledge = () => {
                     </div>
                   </span>
                 </div>
-                <div className="col-4 mb-3">
+                <div className="col-3 mb-3">
                   <select
                     id="knowledge-base-dd"
                     value={selectedValue}
@@ -414,13 +452,22 @@ const Knowledge = () => {
                     className="form-select"
                   >
                     <option value="">Select Knowledge base</option>
-                    {console.log("knowledge", knowledge)}
-                    {knowledge.map((option) => (
-                      <option key={option.id} value={JSON.stringify(option)}>
+                    {knowledge.map((option, index) => (
+                      <option key={index} value={option.id}>
                         {option.name}
                       </option>
                     ))}
                   </select>
+                </div>
+                <div className="col-1 mb-3">
+                  <button
+                    // onClick={() => handleClickedit(value)}
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteKbsModal"
+                    className="btn px-1"
+                  >
+                    <i className="ti ti-trash ti-sm mx-2"></i>
+                  </button>
                 </div>
                 <div className="col-md-4 text-end">
                   <button
@@ -459,7 +506,7 @@ const Knowledge = () => {
               <div className="container-fluid flex-grow-1 container-p-y pt-0">
                 {/* <div className='row'>
                   <div className="col-4 offset-3 mb-3">
-                    <label className="form-label" for="knowledge-base-dd">Select Knowledge base</label>
+                    <label className="form-label" htmlFor="knowledge-base-dd">Select Knowledge base</label>
 
                     <select id="knowledge-base-dd" value={selectedValue} onChange={handleSelectChange} className="form-select">
 
@@ -475,7 +522,7 @@ const Knowledge = () => {
                   </div>
                   <div className="col-1 mb-3">
                     <div className="d-flex align-items-center mt-4">
-                    <button className='btn px-1 la-lg' data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                    <button className='btn px-1 la-lg' data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                     <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                     </button>
                       
@@ -629,7 +676,11 @@ const Knowledge = () => {
                     </div>
                   </div>
                   <div
-                    className={isColumnVisible ? "col-md-8" : "col-md-12"}
+                    className={
+                      isColumnVisible
+                        ? "col-md-8 kbs-height"
+                        : "col-md-12 kbs-height"
+                    }
                     id="kbs-content"
                   >
                     <div className="nav-align-top nav-tabs-shadow mb-4">
@@ -704,40 +755,40 @@ const Knowledge = () => {
                                     <tr>
                                       <th>S.No</th>
                                       <th>URL</th>
-                                      <th>Actions</th>
+                                      {/* <th>Actions</th> */}
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {files.map((value, key) => {
-                                      console.log("mainvalue", value);
-
                                       return (
                                         <tr key={key}>
                                           <td>{key + 1}</td>
                                           <td>{value}</td>
-                                          <td style={{ width: "70px" }}>
-                                            {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                          {/* <td style={{ width: "70px" }}> */}
+                                          {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value.sno)} data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                                         <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                                         </button> */}
-                                            {/* <div className="d-flex acation-btns">
+                                          {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
-                                          </td>
+                                          {/* </td> */}
                                         </tr>
                                       );
                                     })}
                                   </tbody>
                                 </table>
                               </div>
-
-                              <div
-                                className="parent-div text-center mt-2 mb-2"
-                                id="empty-files"
-                              >
-                                <label className="empty-files">
-                                  No Files at the moment.
-                                </label>
-                              </div>
+                              {!files ||
+                                (files.length === 0 && (
+                                  <div
+                                    className="parent-div text-center mt-2 mb-2"
+                                    id="empty-files"
+                                  >
+                                    <label className="empty-files">
+                                      No Files at the moment.
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                         </div>
@@ -769,7 +820,7 @@ const Knowledge = () => {
                                   <tr>
                                     <th>S.No</th>
                                     <th>URL</th>
-                                    <th>Actions</th>
+                                    {/* <th>Actions</th> */}
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -778,28 +829,30 @@ const Knowledge = () => {
                                       <tr key={key}>
                                         <td>{key + 1}</td>
                                         <td>{value.url}</td>
-                                        <td style={{ width: "70px" }}>
-                                          {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#updateAgentModal">
+                                        {/* <td style={{ width: "70px" }}> */}
+                                        {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                                         <i className="ti ti-trash ti-sm mx-2 pointer"></i>
                                         </button> */}
-                                          {/* <div className="d-flex acation-btns">
+                                        {/* <div className="d-flex acation-btns">
                                             <button className='btn px-1'><i className="las la-trash-alt la-lg"></i></button>
                                           </div> */}
-                                        </td>
+                                        {/* </td> */}
                                       </tr>
                                     );
                                   })}
                                 </tbody>
                               </table>
-
-                              <div
-                                className="parent-div text-center mt-2 mb-2"
-                                id="empty-files"
-                              >
-                                <label className="empty-files">
-                                  No Files at the moment.
-                                </label>
-                              </div>
+                              {!urls ||
+                                (urls.length === 0 && (
+                                  <div
+                                    className="parent-div text-center mt-2 mb-2"
+                                    id="empty-files"
+                                  >
+                                    <label className="empty-files">
+                                      No URLs at the moment.
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                         </div>
@@ -832,7 +885,7 @@ const Knowledge = () => {
                                     <th>S.No</th>
                                     <th>QUESTION</th>
                                     <th>ANSWER</th>
-                                    <th>Actions</th>
+                                    {/* <th>Actions</th> */}
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -842,7 +895,7 @@ const Knowledge = () => {
                                         <td>{key + 1}</td>
                                         <td>{value.question}</td>
                                         <td>{value.answer}</td>
-                                        <td style={{ width: "70px" }}>
+                                        {/* <td style={{ width: "70px" }}>
                                           <div className="d-flex acation-btns">
                                             <button
                                               className="btn px-1"
@@ -851,21 +904,23 @@ const Knowledge = () => {
                                               <i className="ti ti-trash ti-sm mx-2"></i>
                                             </button>
                                           </div>
-                                        </td>
+                                        </td> */}
                                       </tr>
                                     );
                                   })}
                                 </tbody>
                               </table>
-
-                              <div
-                                className="parent-div text-center mt-2 mb-2"
-                                id="empty-files"
-                              >
-                                <label className="empty-files">
-                                  No Files at the moment.
-                                </label>
-                              </div>
+                              {!faq ||
+                                (faq.length === 0 && (
+                                  <div
+                                    className="parent-div text-center mt-2 mb-2"
+                                    id="empty-files"
+                                  >
+                                    <label className="empty-files">
+                                      No FAQs at the moment.
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                         </div>
@@ -881,7 +936,7 @@ const Knowledge = () => {
           <div
             className="modal fade"
             id="createKbsModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-hidden="true"
           >
             <div className="modal-dialog" role="document">
@@ -901,7 +956,7 @@ const Knowledge = () => {
                   <div className="modal-body">
                     <div className="row">
                       <div className="col mb-3">
-                        <label for="kbs-name" className="form-label">
+                        <label htmlFor="kbs-name" className="form-label">
                           Name
                         </label>
                         <input
@@ -944,8 +999,8 @@ const Knowledge = () => {
       {/* modal popup Knowledge delete start*/}
       <div
         className="modal fade"
-        id="updateAgentModal"
-        tabindex="-1"
+        id="deleteKbsModal"
+        tabIndex="-1"
         aria-labelledby="VioceEditLabel"
         aria-hidden="true"
       >
@@ -963,7 +1018,7 @@ const Knowledge = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <div className="container">
+              <div className="pull-left p-3">
                 <p>Are you sure you want to delete this Knowledge base?</p>
               </div>
             </div>
@@ -972,11 +1027,27 @@ const Knowledge = () => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                id="close-kbs"
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
-                Delete Knowledge base
+              <button
+                onClick={deleteKbs}
+                disabled={deletingKbs}
+                type="button"
+                className="btn btn-primary"
+              >
+                {deletingKbs && (
+                  <span id="create-kbs-button-loader">
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Loading...</span>
+                  </span>
+                )}
+                Delete
               </button>
             </div>
           </div>
@@ -993,7 +1064,7 @@ const Knowledge = () => {
         <div
           className="modal fade"
           id="newFileModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -1014,7 +1085,7 @@ const Knowledge = () => {
                   <h5 className="card-header">Upload files</h5>
                   <div className="card-body">
                     <label
-                      for="kbs-file"
+                      htmlFor="kbs-file"
                       className="pointer dz-message needsclick"
                     >
                       Drop file here or click to upload. Limit : 10 MB
@@ -1030,9 +1101,11 @@ const Knowledge = () => {
                     <div
                       className="parent-div"
                       id="kbs-filename-parent"
-                      style={{ block: "none" }}
+                      // style={{ display: "none" }}
                     >
-                      <label className="form-label"></label>
+                      <label className="form-label">
+                        {selectedFile && selectedFile.name}
+                      </label>
                       <i
                         className="ti ti-x pull-right pointer"
                         id="kbs-clear-file"
@@ -1056,20 +1129,15 @@ const Knowledge = () => {
                   className="btn btn-primary"
                   onclick="addFile()"
                 >
-                  <span id="add-file-button-loader" style={{ block: "none" }}>
-                    {/* {loading ? (<span className="visually-hidden">Loading...</span>) : (} */}
-
-                    {fileloading ? (
+                  {addingFile && (
+                    <span id="add-file-button-loader">
                       <span
                         className="spinner-border"
                         role="status"
                         aria-hidden="true"
                       ></span>
-                    ) : (
-                      // <span className="visually-hidden">dsfdLoading...</span>
-                      <span></span>
-                    )}
-                  </span>
+                    </span>
+                  )}
                   <span className="ms-2">Add File</span>
                 </button>
               </div>
@@ -1087,7 +1155,7 @@ const Knowledge = () => {
         <div
           className="modal fade"
           id="newUrlModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -1106,7 +1174,7 @@ const Knowledge = () => {
               <div className="modal-body">
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="kbs-url" className="form-label">
+                    <label htmlFor="kbs-url" className="form-label">
                       URL
                     </label>
                     <input
@@ -1135,14 +1203,16 @@ const Knowledge = () => {
                   className="btn btn-primary"
                   data-bs-dismiss="modal"
                 >
-                  <span id="add-url-button-loader" style={{ block: "none" }}>
-                    <span
-                      className="spinner-border"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Loading...</span>
-                  </span>
+                  {addingUrl && (
+                    <span id="add-url-button-loader">
+                      <span
+                        className="spinner-border"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Loading...</span>
+                    </span>
+                  )}
                   <span className="ms-2">Add URL</span>
                 </button>
               </div>
@@ -1161,7 +1231,7 @@ const Knowledge = () => {
         <div
           className="modal fade"
           id="newFaqModal"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -1180,7 +1250,7 @@ const Knowledge = () => {
               <div className="modal-body">
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="kbs-faq-question" className="form-label">
+                    <label htmlFor="kbs-faq-question" className="form-label">
                       Question
                     </label>
                     <input
@@ -1196,7 +1266,7 @@ const Knowledge = () => {
                 </div>
                 <div className="row">
                   <div className="col mb-3">
-                    <label for="kbs-faq-answer" className="form-label">
+                    <label htmlFor="kbs-faq-answer" className="form-label">
                       Answer
                     </label>
                     <input
@@ -1225,14 +1295,16 @@ const Knowledge = () => {
                   className="btn btn-primary"
                   data-bs-dismiss="modal"
                 >
-                  <span id="add-faq-button-loader" style={{ block: "none" }}>
-                    <span
-                      className="spinner-border"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Loading...</span>
-                  </span>
+                  {addingFaq && (
+                    <span id="add-faq-button-loader">
+                      <span
+                        className="spinner-border"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Loading...</span>
+                    </span>
+                  )}
                   <span className="ms-2">Add Faq</span>
                 </button>
               </div>
@@ -1242,25 +1314,7 @@ const Knowledge = () => {
       </form>
       {/* modal popup New Faq End*/}
 
-      <div className="container">
-        <div className="toast-container position-fixed bottom-0 end-0 p-3">
-          <div
-            className={`toast ${showToast ? "show" : ""}`}
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-          >
-            <div className="toast-header">
-              <strong className="me-auto"> {showToastMessge}</strong>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggleToast}
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToastContainer />
     </>
   );
 };

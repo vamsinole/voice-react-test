@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 // import React from 'react'
 import Header from "../../Components/Header";
 import React, { useState, useEffect } from "react";
@@ -8,7 +10,6 @@ import { USER_ENDPOINTS } from "../../../config/enpoints";
 // import axios from 'axios';
 import axios from "../axiosInterceptor";
 import env from "../../../config";
-import { json } from "react-router-dom";
 
 const Calls = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -149,9 +150,7 @@ const Calls = () => {
                         onChange={changeVoiceAgent}
                         className="select2 form-select"
                       >
-                        <option value="" selected>
-                          Select Agent
-                        </option>
+                        <option value="">Select Agent</option>
                         {dataAgent?.map((option) => (
                           <option key={option.id} value={option.id}>
                             {option.name}
@@ -194,11 +193,10 @@ const Calls = () => {
                                             ? dataFromApi.map((value, key) => {
                                                 return (
                                                   <li
-                                                    className="chat-contact-list-item "
                                                     className={
                                                       activeItem === value
-                                                        ? "active"
-                                                        : ""
+                                                        ? "chat-contact-list-item active"
+                                                        : "chat-contact-list-item"
                                                     }
                                                     onClick={() =>
                                                       handleItemClick(value)

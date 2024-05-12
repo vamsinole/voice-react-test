@@ -1,6 +1,5 @@
 // import React from 'react'
-import React, { useState, useEffect } from "react";
-import env from "../../../config";
+import React from "react";
 import "./Styles.scss";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
