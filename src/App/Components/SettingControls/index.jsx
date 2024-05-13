@@ -9,8 +9,15 @@ const SettingControls = () => {
 
   if (localStorage.getItem("token") === null) {
     // alert(localStorage.getItem('token'))
-
-    navigate("/login");
+    if (
+      window.location.pathname !== "/login" ||
+      window.location.pathname !== "/" ||
+      window.location.pathname !== "/terms" ||
+      window.location.pathname !== "/privacy" ||
+      window.location.pathname !== "/register"
+    ) {
+      navigate("/login");
+    }
   }
 
   return (

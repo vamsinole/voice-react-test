@@ -12,4 +12,5 @@ export const USER_ENDPOINTS = {
   addIntent: `/v1/voiceassistants`,
   getmodel: `/v1/ai/models`,
   profile: "/v1/me",
+  enquiry: "/v1/enquiry",
 };
