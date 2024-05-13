@@ -24,6 +24,7 @@ const Actions = () => {
   const [fetchingActions, setFetchingActions] = useState(false);
   const [currentAssistantId, setCurrentAssistantId] = useState("");
   const [currentAssistant, setCurrentAssistant] = useState(null);
+  const [totalLength, setTotalLength] = useState(0);
 
   useEffect(() => {
     // fetchUsers();
@@ -41,6 +42,7 @@ const Actions = () => {
       console.log("responceActions", actions_obj.data);
       setFetchingActions(false);
       setDataFromApi(actions_obj.data);
+      setTotalLength(actions_obj.data.length);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -416,7 +418,7 @@ const Actions = () => {
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row mt-3">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <span className="dropdown FilterDropdown">
                     <button
                       onClick={toggleColumn}
@@ -483,16 +485,14 @@ const Actions = () => {
                             <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
-                        {/* AllViews tab end */}
-
                         <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
-                </div>
-                <div className="col-4 mb-3">
+                </div> */}
+                <div className="col-4 offset-4 mb-3">
                   <select
                     id="knowledge-base-dd"
                     value={currentAssistantId}
@@ -508,7 +508,7 @@ const Actions = () => {
                   </select>
                 </div>
                 <div className="col-md-4 text-end">
-                  <button
+                  {/* <button
                     className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
@@ -527,7 +527,7 @@ const Actions = () => {
                         Sheet
                       </a>
                     </li>
-                  </ul>
+                  </ul> */}
                   <button
                     type="button"
                     onClick={newActionView}
@@ -798,9 +798,9 @@ const Actions = () => {
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
                               <tr>
-                                <td>Total NAME: </td>
-                                <td>Count of TYPE: </td>
-                                <td>Count of ASSISTANT:</td>
+                                <td>Total NAME: {totalLength}</td>
+                                <td>Count of TYPE: {totalLength}</td>
+                                <td>Count of ASSISTANT: {totalLength}</td>
                                 <td></td>
                                 <td>
                                   {/* Pagination */}

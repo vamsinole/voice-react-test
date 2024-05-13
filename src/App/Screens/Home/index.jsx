@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
@@ -95,126 +96,9 @@ const Home = () => {
     const selectedChildValue = event.target.value;
     setChildValue(selectedChildValue);
   };
-  const TblData = [
-    {
-      name: "Akram",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Jhon",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Rahul",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Syam",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Ved",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Nag",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Mum",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Akram",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Jhon",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Rahul",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Syam",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Ved",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Nag",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-    {
-      name: "Mum",
-      model: "Lorem Ipsum is",
-      instruc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      type: "Dialogdlow",
-      action: "",
-    },
-  ];
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Adjust as needed
-  const totalItems = TblData.length;
-
+  // const [currentPage, setCurrentPage] = useState(1);
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [isColumnVisible, setIsColumnVisible] = useState(false);
   const [callingUser, setCallingUser] = useState(false);
 
@@ -361,7 +245,7 @@ const Home = () => {
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row my-3">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <span className="dropdown FilterDropdown">
                     <button
                       onClick={toggleColumn}
@@ -429,17 +313,16 @@ const Home = () => {
                             <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
-
                         <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
-                </div>
-                <div className="col-4 mb-3"></div>
+                </div> */}
+                <div className="col-8 mb-3"></div>
                 <div className="col-md-4 text-end">
-                  <button
+                  {/* <button
                     className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
@@ -458,7 +341,7 @@ const Home = () => {
                         Sheet
                       </a>
                     </li>
-                  </ul>
+                  </ul> */}
                   {/* <a className="btn btn-primary pull-right text-white" data-bs-toggle="modal"
                       data-bs-target="#createKbsModal">
                     <span className="ti-xs ti ti-plus me-1"></span> Create Assistant
@@ -721,7 +604,7 @@ const Home = () => {
                                 <td>Total Count: {totalLength}</td>
                                 <td>Count of Model: {totalLength}</td>
                                 <td>Count of INSTRUCTIONS: {totalLength}</td>
-                                <td className="d-flex justify-content-end align-items-center">
+                                {/* <td className="d-flex justify-content-end align-items-center">
                                   Records per page:
                                   <select
                                     name=""
@@ -733,9 +616,8 @@ const Home = () => {
                                     <option value="">150</option>
                                     <option value="">200</option>
                                   </select>
-                                </td>
-                                <td>
-                                  {/* Pagination */}
+                                </td> */}
+                                {/* <td>
                                   {totalItems > itemsPerPage && (
                                     <ul className="pagination mb-0">
                                       {Array.from({
@@ -761,7 +643,7 @@ const Home = () => {
                                       ))}
                                     </ul>
                                   )}
-                                </td>
+                                </td> */}
                               </tr>
                             </tfoot>
                           </table>

@@ -47,59 +47,61 @@ const NewAssistantBar = () => {
       <div className="">
         <div className="container-fluid top-strip-bg">
           <div className="row">
-            <div className="col-lg-3 d-flex align-items-center">
-              <div className="search-border rounded-pill px-2">
-                <a
-                  className="top-strip-bg dropdown-toggle text-white px-2"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  All
-                </a>
-                <input
-                  type="text"
-                  className="allInput border-0 search-icon"
-                  placeholder="Search(ctrl + k)"
-                />
-                <i className="las la-search la-lg mt-1"></i>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
+            {false && (
+              <div className="col-lg-3 d-flex align-items-center">
+                <div className="search-border rounded-pill px-2">
+                  <a
+                    className="top-strip-bg dropdown-toggle text-white px-2"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    All
+                  </a>
+                  <input
+                    type="text"
+                    className="allInput border-0 search-icon"
+                    placeholder="Search(ctrl + k)"
+                  />
+                  <i className="las la-search la-lg mt-1"></i>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Action
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Another action
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="col-lg-9 mt-1">
+            <div className="col-lg-9 offset-3 mt-1">
               <div className="top_right-col d-flex justify-content-end align-items-center">
                 {/* <p className="mb-0 me-3">
                   Your are in free plan. <a href="#"> Upgrade</a> or{" "}
                   <a href="#">External Trail</a>
                 </p> */}
 
-                <button
+                {/* <button
                   className="btn btn-sm btn-success p-0 py-0 m-0 mt-1 me-2"
                   style={{ height: "26px" }}
                 >
                   <i className="ti ti-plus ti-md py-0 m-0 my-0"></i>
-                </button>
-                <i className="ti ti-bell ti-md"></i>
-                <i className="lab la-gg-circle"></i>
-                <Link className="nav-link" to="/userscontrols">
+                </button> */}
+                {/* <i className="ti ti-bell ti-md"></i> */}
+                {/* <i className="lab la-gg-circle"></i> */}
+                {/* <Link className="nav-link" to="/userscontrols">
                   <i className="ti ti-settings ti-md"></i>
-                </Link>
+                </Link> */}
                 <div
                   className="navbar-nav-right d-flex align-items-center"
                   id="navbar-collapse"
@@ -132,7 +134,9 @@ const NewAssistantBar = () => {
                               <div className="flex-shrink-0 me-3">
                                 <div className="avatar avatar-online">
                                   <div className="user-logo">
-                                    <label htmlFor="">U</label>
+                                    <label htmlFor="">
+                                      {username.charAt(0)}
+                                    </label>
                                   </div>
                                   {/* <img
                                     src="assets/img/avatars/1.png"

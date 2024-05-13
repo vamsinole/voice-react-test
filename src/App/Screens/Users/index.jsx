@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
@@ -18,6 +19,7 @@ const Users = () => {
   const [fetchingUsers, setFetchingUsers] = useState(false);
   const [updatingUsers, setUpdatingUsers] = useState(false);
   const [deletingUsers, setDeletingUsers] = useState(false);
+  const [totalLength, setTotalLength] = useState(0);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getUsers;
 
@@ -34,6 +36,7 @@ const Users = () => {
       let fetch_users_obj = await callAPI("GET", baseurl + endpoint, "", token);
       setFetchingUsers(false);
       setUsers(fetch_users_obj.data.rows);
+      setTotalLength(fetch_users_obj.data.rows.length);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -170,7 +173,7 @@ const Users = () => {
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row mt-3">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <span className="dropdown FilterDropdown">
                     <button
                       onClick={toggleColumn}
@@ -237,18 +240,16 @@ const Users = () => {
                             <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
-                        {/* AllViews tab end */}
-
                         <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
-                </div>
-                <div className="col-4 mb-3"></div>
+                </div> */}
+                <div className="col-8 mb-3"></div>
                 <div className="col-md-4 text-end">
-                  <button
+                  {/* <button
                     className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
@@ -267,7 +268,7 @@ const Users = () => {
                         Sheet
                       </a>
                     </li>
-                  </ul>
+                  </ul> */}
                   <button
                     type="button"
                     className="btn btn-primary pull-right"
@@ -536,9 +537,9 @@ const Users = () => {
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
                               <tr>
-                                <td>Total NAME: </td>
-                                <td>Count of TYPE: </td>
-                                <td>Count of PHONE:</td>
+                                <td>Total NAME: {totalLength}</td>
+                                <td>Count of TYPE: {totalLength}</td>
+                                <td>Count of PHONE: {totalLength}</td>
                                 <td></td>
                                 <td>
                                   {/* Pagination */}
