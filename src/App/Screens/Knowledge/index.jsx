@@ -828,7 +828,7 @@ const Knowledge = () => {
                                     return (
                                       <tr key={key}>
                                         <td>{key + 1}</td>
-                                        <td>{value.url}</td>
+                                        <td>{value}</td>
                                         {/* <td style={{ width: "70px" }}> */}
                                         {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                                         <i className="ti ti-trash ti-sm mx-2 pointer"></i>

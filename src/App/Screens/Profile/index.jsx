@@ -3,8 +3,76 @@ import Header from "../../Components/Header";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import ProfileSettings from "../../Components/ProfileSettings";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { USER_ENDPOINTS } from "../../../config/enpoints";
+import env from "../../../config";
+import { callAPI, toastr_options } from "../../Components/Utils";
 // import "./Styles.scss";
 const Profile = () => {
+  const [userObject, setUserObject] = useState([
+    {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      website: "",
+      address: "",
+      country: "",
+      currency: "",
+      language: "",
+      timezone: "",
+      state: "",
+      zipCode: "",
+      company: { name: "" },
+    },
+  ]);
+
+  const baseurl = env.baseUrl;
+  const token = localStorage.getItem("token");
+
+  const handleSelectChange = (event) => {
+    const atype = event.target.value;
+    let type = event.target.name;
+
+    console.log("actionType", atype, event.target.value);
+
+    setUserObject({
+      ...userObject,
+      [type]: event.target.value,
+    });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserObject({
+      ...userObject,
+      [name]: value,
+    });
+  };
+
+  async function submitProfileChanges() {
+    let name = userObject.firstName + " " + userObject.lastName,
+      address =
+        userObject.address +
+        " , " +
+        userObject.state +
+        " , " +
+        userObject.zipCode;
+    if (!name || name.length === 0) {
+      toast.error("Name cannot be empty", toastr_options);
+      return "";
+    }
+    if (!userObject.phone || userObject.phone.length === 0) {
+      toast.error("Phone cannot be empty", toastr_options);
+      return "";
+    }
+    if (!address || address.length === 0) {
+      toast.error("Address cannot be empty", toastr_options);
+      return "";
+    }
+  }
+
   return (
     <>
       <div className="layout-wrapper layout-content-navbar">
@@ -18,9 +86,9 @@ const Profile = () => {
               </div>
             </div>
 
-            <div class="content-wrapper">
-              <div class="container-fluid flex-grow-1 container-p-y pt-0">
-                <div class="row">
+            <div className="content-wrapper">
+              <div className="container-fluid flex-grow-1 container-p-y pt-0">
+                <div className="row">
                   <div
                     className="col-md-12  overflow-auto"
                     style={{ maxHeight: "70vh" }}
@@ -29,161 +97,178 @@ const Profile = () => {
                       <h5 className="card-header">Profile Details</h5>
 
                       {/* <!-- Account --> */}
-                      <div class="card-body">
-                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                      <div className="card-body">
+                        <div className="d-flex align-items-start align-items-sm-center gap-4">
                           <img
                             src="../../assets/img/avatars/14.png"
                             alt="user-avatar"
-                            class="d-block w-px-100 h-px-100 rounded"
+                            className="d-block w-px-100 h-px-100 rounded"
                             id="uploadedAvatar"
                           />
-                          <div class="button-wrapper">
+                          <div className="button-wrapper">
                             <label
                               for="upload"
-                              class="btn btn-primary me-2 mb-3"
+                              className="btn btn-primary me-2 mb-3"
                               tabindex="0"
                             >
-                              <span class="d-none d-sm-block">
+                              <span className="d-none d-sm-block">
                                 Upload new photo
                               </span>
-                              <i class="ti ti-upload d-block d-sm-none"></i>
+                              <i className="ti ti-upload d-block d-sm-none"></i>
                               <input
                                 type="file"
                                 id="upload"
-                                class="account-file-input"
+                                className="account-file-input"
                                 hidden
                                 accept="image/png, image/jpeg"
                               />
                             </label>
                             <button
                               type="button"
-                              class="btn btn-label-secondary account-image-reset mb-3"
+                              className="btn btn-label-secondary account-image-reset mb-3"
                             >
-                              <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-                              <span class="d-none d-sm-block">Reset</span>
+                              <i className="ti ti-refresh-dot d-block d-sm-none"></i>
+                              <span className="d-none d-sm-block">Reset</span>
                             </button>
 
-                            <div class="text-muted">
+                            <div className="text-muted">
                               Allowed JPG, GIF or PNG. Max size of 800K
                             </div>
                           </div>
                         </div>
                       </div>
-                      <hr class="my-0" />
-                      <div class="card-body">
-                        <form
-                          id="formAccountSettings"
-                          method="GET"
-                          onsubmit="return false"
-                        >
-                          <div class="row">
-                            <div class="mb-3 col-md-6">
-                              <label for="firstName" class="form-label">
+                      <hr className="my-0" />
+                      <div className="card-body">
+                        <div className="col-12">
+                          <div className="row">
+                            <div className="mb-3 col-md-6">
+                              <label for="firstName" className="form-label">
                                 First Name
                               </label>
                               <input
-                                class="form-control"
+                                className="form-control"
                                 type="text"
                                 id="firstName"
                                 name="firstName"
-                                value="John"
+                                value={userObject.firstName}
+                                onChange={handleInputChange}
                                 autofocus
                               />
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="lastName" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="lastName" className="form-label">
                                 Last Name
                               </label>
                               <input
-                                class="form-control"
+                                className="form-control"
                                 type="text"
                                 name="lastName"
+                                value={userObject.lastName}
+                                onChange={handleInputChange}
                                 id="lastName"
-                                value="Doe"
                               />
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="email" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="email" className="form-label">
                                 E-mail
                               </label>
                               <input
-                                class="form-control"
+                                className="form-control"
                                 type="text"
                                 id="email"
                                 name="email"
-                                value="john.doe@example.com"
+                                value={userObject.email}
+                                onChange={handleInputChange}
+                                disabled
                                 placeholder="john.doe@example.com"
                               />
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="organization" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="organization" className="form-label">
                                 Organization
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 id="organization"
                                 name="organization"
-                                value="Pixinvent"
+                                value={userObject.company.name}
+                                disabled
                               />
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="phoneNumber">
+                            <div className="mb-3 col-md-6">
+                              <label className="form-label" for="phoneNumber">
                                 Phone Number
                               </label>
-                              <div class="input-group input-group-merge">
-                                <span class="input-group-text">US (+1)</span>
+                              <div className="input-group input-group-merge">
+                                <span className="input-group-text">
+                                  US (+1)
+                                </span>
                                 <input
                                   type="text"
                                   id="phoneNumber"
-                                  name="phoneNumber"
-                                  class="form-control"
+                                  name="phone"
+                                  className="form-control"
                                   placeholder="202 555 0111"
+                                  value={userObject.phone}
+                                  onChange={handleInputChange}
                                 />
                               </div>
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="address" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="address" className="form-label">
                                 Address
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 id="address"
                                 name="address"
+                                value={userObject.address}
+                                onChange={handleInputChange}
                                 placeholder="Address"
                               />
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="state" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="state" className="form-label">
                                 State
                               </label>
                               <input
-                                class="form-control"
+                                className="form-control"
                                 type="text"
                                 id="state"
                                 name="state"
+                                value={userObject.state}
+                                onChange={handleInputChange}
                                 placeholder="California"
                               />
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="zipCode" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="zipCode" className="form-label">
                                 Zip Code
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 id="zipCode"
                                 name="zipCode"
                                 placeholder="231465"
+                                value={userObject.zipCode}
+                                onChange={handleInputChange}
                                 maxlength="6"
                               />
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="country">
+                            <div className="mb-3 col-md-6">
+                              <label className="form-label" for="country">
                                 Country
                               </label>
-                              <select id="country" class="select2 form-select">
+                              <select
+                                name="country"
+                                id="country"
+                                className="select2 form-select"
+                                value={userObject.country}
+                                onChange={handleSelectChange}
+                              >
                                 <option value="">Select</option>
                                 <option value="Australia">Australia</option>
                                 <option value="Bangladesh">Bangladesh</option>
@@ -223,11 +308,17 @@ const Profile = () => {
                                 </option>
                               </select>
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="language" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="language" className="form-label">
                                 Language
                               </label>
-                              <select id="language" class="select2 form-select">
+                              <select
+                                id="language"
+                                name="language"
+                                className="select2 form-select"
+                                value={userObject.language}
+                                onChange={handleSelectChange}
+                              >
                                 <option value="">Select Language</option>
                                 <option value="en">English</option>
                                 <option value="fr">French</option>
@@ -235,13 +326,16 @@ const Profile = () => {
                                 <option value="pt">Portuguese</option>
                               </select>
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="timeZones" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="timeZones" className="form-label">
                                 Timezone
                               </label>
                               <select
                                 id="timeZones"
-                                class="select2 form-select"
+                                className="select2 form-select"
+                                name="timezone"
+                                value={userObject.timezone}
+                                onChange={handleSelectChange}
                               >
                                 <option value="">Select Timezone</option>
                                 <option value="-12">
@@ -295,11 +389,17 @@ const Profile = () => {
                                 </option>
                               </select>
                             </div>
-                            <div class="mb-3 col-md-6">
-                              <label for="currency" class="form-label">
+                            <div className="mb-3 col-md-6">
+                              <label for="currency" className="form-label">
                                 Currency
                               </label>
-                              <select id="currency" class="select2 form-select">
+                              <select
+                                id="currency"
+                                className="select2 form-select"
+                                name="currency"
+                                value={userObject.currency}
+                                onChange={handleSelectChange}
+                              >
                                 <option value="">Select Currency</option>
                                 <option value="usd">USD</option>
                                 <option value="euro">Euro</option>
@@ -308,62 +408,68 @@ const Profile = () => {
                               </select>
                             </div>
                           </div>
-                          <div class="mt-2">
-                            <button type="submit" class="btn btn-primary me-2">
+                          <div className="mt-2">
+                            <button
+                              type="submit"
+                              className="btn btn-primary me-2"
+                              onClick={submitProfileChanges}
+                            >
                               Save changes
                             </button>
                             <button
                               type="reset"
-                              class="btn btn-label-secondary"
+                              className="btn btn-label-secondary"
                             >
-                              Cancel
+                              Reset
                             </button>
                           </div>
-                        </form>
+                        </div>
                       </div>
                       {/* <!-- /Account --> */}
                     </div>
-                    <div class="card">
-                      <h5 class="card-header">Delete Account</h5>
-                      <div class="card-body">
-                        <div class="mb-3 col-12 mb-0">
-                          <div class="alert alert-warning">
-                            <h5 class="alert-heading mb-1">
-                              Are you sure you want to delete your account?
-                            </h5>
-                            <p class="mb-0">
-                              Once you delete your account, there is no going
-                              back. Please be certain.
-                            </p>
+                    {false && (
+                      <div className="card">
+                        <h5 className="card-header">Delete Account</h5>
+                        <div className="card-body">
+                          <div className="mb-3 col-12 mb-0">
+                            <div className="alert alert-warning">
+                              <h5 className="alert-heading mb-1">
+                                Are you sure you want to delete your account?
+                              </h5>
+                              <p className="mb-0">
+                                Once you delete your account, there is no going
+                                back. Please be certain.
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <form
-                          id="formAccountDeactivation"
-                          onsubmit="return false"
-                        >
-                          <div class="form-check mb-4">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              name="accountActivation"
-                              id="accountActivation"
-                            />
-                            <label
-                              class="form-check-label"
-                              for="accountActivation"
-                            >
-                              I confirm my account deactivation
-                            </label>
-                          </div>
-                          <button
-                            type="submit"
-                            class="btn btn-danger deactivate-account"
+                          <form
+                            id="formAccountDeactivation"
+                            onsubmit="return false"
                           >
-                            Deactivate Account
-                          </button>
-                        </form>
+                            <div className="form-check mb-4">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                name="accountActivation"
+                                id="accountActivation"
+                              />
+                              <label
+                                className="form-check-label"
+                                for="accountActivation"
+                              >
+                                I confirm my account deactivation
+                              </label>
+                            </div>
+                            <button
+                              type="submit"
+                              className="btn btn-danger deactivate-account"
+                            >
+                              Deactivate Account
+                            </button>
+                          </form>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
