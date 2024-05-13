@@ -3,8 +3,74 @@ import NewAssistantHelpBar from "../../Components/NewAssistantHelpBar";
 import NewAssistantBar from "../../Components/NewAssistantBar";
 import ProfileSettings from "../../Components/ProfileSettings";
 import Header from "../../Components/Header";
+import {
+  callAPI,
+  toastr_options,
+  validatePassword,
+} from "../../Components/Utils";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { USER_ENDPOINTS } from "../../../config/enpoints";
 
 const Security = () => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [submittingPassword, setSubmittingPassword] = useState(false);
+
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  console.log("token", token);
+  async function submitChangePassword() {
+    if (!oldPassword || oldPassword.length === 0) {
+      toast.error("Old password cannot be empty", toastr_options);
+      return "";
+    }
+    if (!newPassword || newPassword.length === 0) {
+      toast.error("New password cannot be empty", toastr_options);
+      return "";
+    }
+    if (!validatePassword(newPassword)) {
+      toast.error(
+        "Make sure your password is 8 chars long, and has an uppercase letter and a special character",
+        toastr_options
+      );
+      return "";
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error("Confirm password is not matching", toastr_options);
+      return "";
+    }
+    setSubmittingPassword(true);
+    let password_data = {
+      old_password: oldPassword,
+      new_password: newPassword,
+    };
+    let password_obj = await callAPI(
+      "PUT",
+      USER_ENDPOINTS.profile,
+      JSON.stringify(password_data),
+      token
+    );
+    setSubmittingPassword(false);
+    if (password_obj.authError) {
+      navigate("/login");
+    } else if (password_obj.error) {
+      if (
+        password_obj.error &&
+        password_obj.error.message &&
+        password_obj.error.message.length > 0
+      ) {
+        toast.error(password_obj.error.message, toastr_options);
+      } else {
+        toast.error("Please try again later", toastr_options);
+      }
+    } else {
+      toast.success("Password has been updated successfully", toastr_options);
+    }
+  }
+
   return (
     <>
       <div class="layout-wrapper layout-content-navbar">
@@ -23,81 +89,98 @@ const Security = () => {
                   <div class="card mb-4">
                     <h5 class="card-header">Change Password</h5>
                     <div class="card-body">
-                      <form
-                        id="formChangePassword"
-                        method="GET"
-                        onsubmit="return false"
-                      >
-                        <div class="alert alert-warning" role="alert">
-                          <h5 class="alert-heading mb-2">
-                            Ensure that these requirements are met
-                          </h5>
-                          <span>
-                            Minimum 8 characters long, uppercase & symbol
-                          </span>
-                        </div>
-                        <div class="row">
-                          <div class="mb-3 col-12 col-sm-6 form-password-toggle">
-                            <label class="form-label" for="newPassword">
-                              Current Password
-                            </label>
-                            <div class="input-group input-group-merge">
-                              <input
-                                class="form-control"
-                                type="password"
-                                id="newPassword"
-                                name="newPassword"
-                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                              />
-                              <span class="input-group-text cursor-pointer">
-                                <i class="ti ti-eye-off"></i>
-                              </span>
-                            </div>
+                      <div class="alert alert-warning" role="alert">
+                        <h5 class="alert-heading mb-2">
+                          Ensure that these requirements are met
+                        </h5>
+                        <span>
+                          Minimum 8 characters long, uppercase & symbol
+                        </span>
+                      </div>
+                      <div class="row">
+                        <div class="mb-3 col-12 col-sm-6 form-password-toggle">
+                          <label class="form-label" for="newPassword">
+                            Current Password
+                          </label>
+                          <div class="input-group input-group-merge">
+                            <input
+                              class="form-control"
+                              type="password"
+                              id="oldPassword"
+                              name="oldPassword"
+                              value={oldPassword}
+                              onChange={(e) => setOldPassword(e.target.value)}
+                              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            />
+                            <span class="input-group-text cursor-pointer">
+                              <i class="ti ti-eye-off"></i>
+                            </span>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="mb-3 col-12 col-sm-6 form-password-toggle">
-                            <label class="form-label" for="newPassword">
-                              New Password
-                            </label>
-                            <div class="input-group input-group-merge">
-                              <input
-                                class="form-control"
-                                type="password"
-                                id="newPassword"
-                                name="newPassword"
-                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                              />
-                              <span class="input-group-text cursor-pointer">
-                                <i class="ti ti-eye-off"></i>
-                              </span>
-                            </div>
+                      </div>
+                      <div class="row">
+                        <div class="mb-3 col-12 col-sm-6 form-password-toggle">
+                          <label class="form-label" for="newPassword">
+                            New Password
+                          </label>
+                          <div class="input-group input-group-merge">
+                            <input
+                              class="form-control"
+                              type="password"
+                              id="newPassword"
+                              name="newPassword"
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            />
+                            <span class="input-group-text cursor-pointer">
+                              <i class="ti ti-eye-off"></i>
+                            </span>
                           </div>
+                        </div>
 
-                          <div class="mb-3 col-12 col-sm-6 form-password-toggle">
-                            <label class="form-label" for="confirmPassword">
-                              Confirm New Password
-                            </label>
-                            <div class="input-group input-group-merge">
-                              <input
-                                class="form-control"
-                                type="password"
-                                name="confirmPassword"
-                                id="confirmPassword"
-                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                              />
-                              <span class="input-group-text cursor-pointer">
-                                <i class="ti ti-eye-off"></i>
-                              </span>
-                            </div>
-                          </div>
-                          <div>
-                            <button type="submit" class="btn btn-primary me-2">
-                              Change Password
-                            </button>
+                        <div class="mb-3 col-12 col-sm-6 form-password-toggle">
+                          <label class="form-label" for="confirmPassword">
+                            Confirm New Password
+                          </label>
+                          <div class="input-group input-group-merge">
+                            <input
+                              class="form-control"
+                              type="password"
+                              name="confirmPassword"
+                              id="confirmPassword"
+                              value={confirmPassword}
+                              onChange={(e) =>
+                                setConfirmPassword(e.target.value)
+                              }
+                              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            />
+                            <span class="input-group-text cursor-pointer">
+                              <i class="ti ti-eye-off"></i>
+                            </span>
                           </div>
                         </div>
-                      </form>
+                        <div>
+                          <button
+                            type="submit"
+                            onClick={submitChangePassword}
+                            disabled={submittingPassword}
+                            class="btn btn-primary me-2"
+                          >
+                            {submittingPassword && (
+                              <span id="create-kbs-button-loader">
+                                <span
+                                  class="spinner-border"
+                                  role="status"
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="visually-hidden">Loading...</span>
+                              </span>
+                            )}
+                            Change Password
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   {/* <!-- Two-steps verification --> */}
@@ -229,6 +312,7 @@ const Security = () => {
             <NewAssistantHelpBar />
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

@@ -38,7 +38,15 @@ export function validateEmail(email) {
   if (email !== "" && email.match(emailFormat)) {
     return true;
   }
+  return false;
+}
 
+export function validatePassword(email) {
+  var emailFormat =
+    /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:"<>?`\-=[\]\\;',./]).{8,}$/;
+  if (email !== "" && email.match(emailFormat)) {
+    return true;
+  }
   return false;
 }
 
