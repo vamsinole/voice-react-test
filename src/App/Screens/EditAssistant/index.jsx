@@ -527,7 +527,7 @@ const EditAssistant = () => {
                                         <h6 className="card-subtitle mb-2 text-muted">
                                           Calls Made
                                         </h6>
-                                        <h2 className="card-text">31</h2>
+                                        <h2 className="card-text">0</h2>
                                       </div>
                                     </div>
                                   </div>
@@ -549,7 +549,7 @@ const EditAssistant = () => {
                                         <h6 className="card-subtitle mb-2 text-muted">
                                           Talk Time Average
                                         </h6>
-                                        <h2 className="card-text">0.5min</h2>
+                                        <h2 className="card-text">0 min</h2>
                                       </div>
                                     </div>
                                   </div>
@@ -560,7 +560,7 @@ const EditAssistant = () => {
                                         <h6 className="card-subtitle mb-2 text-muted">
                                           Amount spent
                                         </h6>
-                                        <h2 className="card-text">$2/$8</h2>
+                                        <h2 className="card-text">$0</h2>
 
                                         <div className="progress">
                                           <div
@@ -582,7 +582,13 @@ const EditAssistant = () => {
                                   <h6 className="mt-3">Recent calls</h6>
                                 </div>
 
-                                <div className="table-responsive ">
+                                <div className="border-bottom">
+                                  <h6 className="full-width text-center mt-3">
+                                    No calls yet
+                                  </h6>
+                                </div>
+
+                                {/* <div className="table-responsive ">
                                   <table className="table">
                                     <tbody>
                                       <tr>
@@ -639,7 +645,7 @@ const EditAssistant = () => {
                                       </tr>
                                     </tbody>
                                   </table>
-                                </div>
+                                </div> */}
                                 {/* table end */}
                               </div>
                             </div>

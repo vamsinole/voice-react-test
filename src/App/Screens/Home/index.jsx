@@ -48,6 +48,7 @@ const Home = () => {
       }
       setGettingAssistants(false);
       setDataFromApi(response.data);
+      setTotalLength(response.data.length);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -56,6 +57,7 @@ const Home = () => {
   const [parentValue, setParentValue] = useState("");
   const [childValue, setChildValue] = useState("");
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
+  const [totalLength, setTotalLength] = useState(0);
 
   const parentOptions = [
     { label: "Open AI GPT", value: "openai" },
@@ -211,11 +213,6 @@ const Home = () => {
   const itemsPerPage = 10; // Adjust as needed
   const totalItems = TblData.length;
 
-  // Calculate total counts
-  const totalCountName = TblData.length;
-  const totalCountModel = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has a model
-  const totalCountInstruc = TblData.reduce((total, item) => total + 1, 0); // Assuming each item has instructions
-
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [isColumnVisible, setIsColumnVisible] = useState(false);
@@ -322,27 +319,33 @@ const Home = () => {
     }
     try {
       setCallingUser(true);
-      const response = await axios.post(
+      let calling_data = {
+        speak: callText,
+        to_number: phoneNumber,
+      };
+      let calling_obj = await callAPI(
+        "POST",
         baseurl + createvoiceAgent + "/" + callingId + "/makeCall",
-        {
-          speak: callText,
-          to_number: phoneNumber,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        JSON.stringify(calling_data),
+        token
       );
       setCallingUser(false);
-      setCallText("");
-      setPhoneNumber("");
-      if (document.getElementById("close-call")) {
-        document.getElementById("close-call").click();
+      if (calling_obj.authError) {
+        navigate("/login");
+      } else if (calling_obj.error) {
+        if (calling_obj.error.message && calling_obj.error.message.length > 0) {
+          toast.error(calling_obj.error.message, toastr_options);
+        } else {
+          toast.error("Please try again later", toastr_options);
+        }
+      } else {
+        if (document.getElementById("close-call")) {
+          document.getElementById("close-call").click();
+        }
+        setCallText("");
+        setPhoneNumber("");
+        toast.success("Call initiated successfully", toastr_options);
       }
-      console.log(response);
-      toast.success("Call initiated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -715,11 +718,9 @@ const Home = () => {
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
                               <tr>
-                                <td>Total Count: {totalCountName}</td>
-                                <td>Count of Model: {totalCountModel}</td>
-                                <td>
-                                  Count of INSTRUCTIONS: {totalCountInstruc}
-                                </td>
+                                <td>Total Count: {totalLength}</td>
+                                <td>Count of Model: {totalLength}</td>
+                                <td>Count of INSTRUCTIONS: {totalLength}</td>
                                 <td className="d-flex justify-content-end align-items-center">
                                   Records per page:
                                   <select
