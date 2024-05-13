@@ -898,11 +898,11 @@ const AssistantDashboard = () => {
                                       {creatingAssistant && (
                                         <span id="create-kbs-button-loader">
                                           <span
-                                            class="spinner-border"
+                                            className="spinner-border"
                                             role="status"
                                             aria-hidden="true"
                                           ></span>
-                                          <span class="visually-hidden">
+                                          <span className="visually-hidden">
                                             Loading...
                                           </span>
                                         </span>

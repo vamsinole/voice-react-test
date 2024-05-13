@@ -60,12 +60,14 @@ const ForgetPassword = () => {
                   </span>
                 </a>
               </div>
+
               <h3 className="mb-1">Forgot Password? 🔒</h3>
               <p className="mb-4">
-                Enter your email and we'll send you instructions to reset your
-                password
+                Enter your email and we&prime;ll send you instructions to reset
+                your password
               </p>
-              <form className="mb-3" onSubmit={handleFormSubmit}>
+
+              <form className="mb-3">
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Email

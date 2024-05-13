@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
@@ -18,6 +19,7 @@ const Users = () => {
   const [fetchingUsers, setFetchingUsers] = useState(false);
   const [updatingUsers, setUpdatingUsers] = useState(false);
   const [deletingUsers, setDeletingUsers] = useState(false);
+  const [totalLength, setTotalLength] = useState(0);
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.getUsers;
 
@@ -25,21 +27,23 @@ const Users = () => {
   console.log("token", token);
 
   useEffect(() => {
-    fetchVoiceAgents();
+    fetchUsers();
   }, []);
 
-  const fetchVoiceAgents = async () => {
+  const fetchUsers = async () => {
     try {
       setFetchingUsers(true);
       let fetch_users_obj = await callAPI("GET", baseurl + endpoint, "", token);
       setFetchingUsers(false);
       setUsers(fetch_users_obj.data.rows);
+      setTotalLength(fetch_users_obj.data.rows.length);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
   const [isColumnVisible, setIsColumnVisible] = useState(false);
+  const [deletingId, setDeletingId] = useState("");
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
   };
@@ -83,7 +87,7 @@ const Users = () => {
       );
       console.log(create_user);
       toast.success("User has been created successfully", toastr_options);
-      fetchVoiceAgents();
+      fetchUsers();
     } catch (error) {
       toast.error("User has been created successfully", toastr_options);
     }
@@ -123,7 +127,7 @@ const Users = () => {
       );
       setUpdatingUsers(false);
       console.log(update_users_obj);
-      fetchVoiceAgents();
+      fetchUsers();
       toast.success("User has been updated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -132,25 +136,27 @@ const Users = () => {
 
   //Delete Functionality
 
-  const deleteUser = async (event) => {
-    event.preventDefault();
+  async function deleteUserFn() {
     const deleteUser = USER_ENDPOINTS.getUsers;
     try {
       setDeletingUsers(true);
       let delete_user_obj = await callAPI(
         "DELETE",
-        baseurl + deleteUser + "/" + editformData.id,
+        baseurl + deleteUser + "/" + deletingId,
         "",
         token
       );
       setDeletingUsers(false);
       console.log(delete_user_obj);
-      fetchVoiceAgents();
+      fetchUsers();
+      if (document.getElementById("delete-user-modal-close")) {
+        document.getElementById("delete-user-modal-close").click();
+      }
       toast.success("User has been deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  };
+  }
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -167,7 +173,7 @@ const Users = () => {
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row mt-3">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <span className="dropdown FilterDropdown">
                     <button
                       onClick={toggleColumn}
@@ -234,18 +240,16 @@ const Users = () => {
                             <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
-                        {/* AllViews tab end */}
-
                         <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
-                </div>
-                <div className="col-4 mb-3"></div>
+                </div> */}
+                <div className="col-8 mb-3"></div>
                 <div className="col-md-4 text-end">
-                  <button
+                  {/* <button
                     className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
@@ -264,7 +268,7 @@ const Users = () => {
                         Sheet
                       </a>
                     </li>
-                  </ul>
+                  </ul> */}
                   <button
                     type="button"
                     className="btn btn-primary pull-right"
@@ -492,7 +496,7 @@ const Users = () => {
                                           <button
                                             data-bs-toggle="modal"
                                             onClick={() =>
-                                              handleClickedit(value)
+                                              setDeletingId(value.id)
                                             }
                                             data-bs-target="#deleteUserModal"
                                             className="btn px-1"
@@ -533,9 +537,9 @@ const Users = () => {
                           <table className="datatables-voice-agents table">
                             <tfoot className="border-top">
                               <tr>
-                                <td>Total NAME: </td>
-                                <td>Count of TYPE: </td>
-                                <td>Count of PHONE:</td>
+                                <td>Total NAME: {totalLength}</td>
+                                <td>Count of TYPE: {totalLength}</td>
+                                <td>Count of PHONE: {totalLength}</td>
                                 <td></td>
                                 <td>
                                   {/* Pagination */}
@@ -725,7 +729,6 @@ const Users = () => {
                               type="submit"
                               data-bs-dismiss="offcanvas"
                               className="btn btn-primary me-sm-3 me-1 data-submit"
-                              onclick="createUser()"
                             >
                               <span className="ms-2">Submit</span>
                             </button>
@@ -889,11 +892,11 @@ const Users = () => {
                   {updatingUsers && (
                     <span id="create-kbs-button-loader">
                       <span
-                        class="spinner-border"
+                        className="spinner-border"
                         role="status"
                         aria-hidden="true"
                       ></span>
-                      <span class="visually-hidden">Loading...</span>
+                      <span className="visually-hidden">Loading...</span>
                     </span>
                   )}
                   <span className="ms-2">Save Changes</span>
@@ -945,17 +948,17 @@ const Users = () => {
               <button
                 type="submit"
                 className="btn btn-primary"
-                onclick={deleteUser}
+                onClick={deleteUserFn}
                 disabled={deletingUsers}
               >
                 {deletingUsers && (
                   <span id="create-kbs-button-loader">
                     <span
-                      class="spinner-border"
+                      className="spinner-border"
                       role="status"
                       aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">Loading...</span>
+                    <span className="visually-hidden">Loading...</span>
                   </span>
                 )}
                 <span className="ms-2">Delete User</span>

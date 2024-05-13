@@ -481,10 +481,7 @@ const LandingPage = () => {
                             className="scaleX-n1-rtl"
                           />
                         </span> */}
-                        <a
-                          href="#landingPricing"
-                          className="btn btn-primary btn-lg"
-                        >
+                        <a href="/register" className="btn btn-primary btn-lg">
                           Get early access
                         </a>
                       </div>
@@ -2320,7 +2317,7 @@ const LandingPage = () => {
                                       href="tel:+1234-568-963"
                                       className="text-heading"
                                     >
-                                      2817096004
+                                      +1(281)709 6004
                                     </a>
                                   </h5>
                                 </div>
@@ -2401,7 +2398,7 @@ const LandingPage = () => {
                                 {sendingEnquiry && (
                                   <span id="create-kbs-button-loader">
                                     <span
-                                      classname="spinner-border"
+                                      className="spinner-border"
                                       role="status"
                                       aria-hidden="true"
                                     ></span>
@@ -2423,92 +2420,65 @@ const LandingPage = () => {
         {/* --footer-- */}
         <div className="footer-top-0 row mt-4">
           <div className="footer-top-1 col-12 mt-4">
-            <footer classname="landing-footer bg-body footer-text">
-              <div classname="footer-top position-relative overflow-hidden z-1">
+            <footer className="landing-footer bg-body footer-text">
+              <div className="footer-top position-relative overflow-hidden z-1">
                 <img
                   src="../../assets/img/front-pages/backgrounds/footer-bg-light.png"
                   alt="footer bg"
-                  classname="footer-bg banner-bg-img z-n1"
+                  className="footer-bg banner-bg-img z-n1"
                   data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
                   data-app-dark-img="front-pages/backgrounds/footer-bg-dark.png"
                 />
-                <div classname="container">
-                  <div classname="row gx-0 gy-4 g-md-5">
-                    <div classname="col-lg-5">
-                      <a href="/landing" classname="app-brand-link mb-4">
-                        <span classname="app-brand-logo demo">
-                          <svg
-                            width="32"
-                            height="22"
-                            viewBox="0 0 32 22"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
-                              fill="#7367F0"
-                            />
-                            <path
-                              opacity="0.06"
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
-                              fill="#161616"
-                            />
-                            <path
-                              opacity="0.06"
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
-                              fill="#161616"
-                            />
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
-                              fill="#7367F0"
-                            />
-                          </svg>
+                <div className="container">
+                  <div className="row gx-0 gy-4 g-md-5">
+                    <div className="col-lg-5">
+                      <a href="/landing" className="app-brand-link mb-4">
+                        <span className="app-brand-logo demo">
+                          <img src={Logo} height={32} width={32} alt="" />
                         </span>
-                        <span classname="app-brand-text demo footer-link fw-bold ms-2 ps-1">
+                        <span className="app-brand-text demo footer-link fw-bold ms-2 ps-1">
                           ContactSwing
                         </span>
                       </a>
-                      <p classname="footer-text footer-logo-description mb-4">
-                        Transform Your Customer Interactions with Contact
-                        Swing's Advanced Communication Solutions!
+                      <p
+                        className="footer-class"
+                        style={{
+                          color: "white",
+                          marginLeft: "49px",
+                          marginTop: "-20px",
+                        }}
+                      >
+                        Engage Better, Grow Faster
                       </p>
-                      <form classname="footer-form">
-                        <label for="footer-email" classname="small">
+                      {/* <form className="footer-form">
+                        <label htmlFor="footer-email" className="small">
                           Subscribe to newsletter
                         </label>
-                        <div classname="d-flex mt-1">
+                        <div className="d-flex mt-1">
                           <input
                             type="email"
-                            classname="form-control rounded-0 rounded-start-bottom rounded-start-top"
+                            className="form-control rounded-0 rounded-start-bottom rounded-start-top"
                             id="footer-email"
                             placeholder="Your email"
                           />
                           <button
                             type="submit"
-                            classname="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
+                            className="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
                           >
                             Subscribe
                           </button>
                         </div>
-                      </form>
+                      </form> */}
                     </div>
-                    <div classname="col-lg-2 col-md-4 col-sm-6">
-                      <ul classname="list-unstyled">
-                        <li classname="mb-3">
-                          <a href="/terms" classname="footer-link">
+                    <div className="col-lg-2 col-md-4 col-sm-6">
+                      <ul className="list-unstyled">
+                        <li className="mb-3">
+                          <a href="/terms" className="footer-link">
                             Terms & Conditions
                           </a>
                         </li>
-                        <li classname="mb-3">
-                          <a href="/privacy" classname="footer-link">
+                        <li className="mb-3">
+                          <a href="/privacy" className="footer-link">
                             Privacy
                           </a>
                         </li>
@@ -2527,39 +2497,39 @@ const LandingPage = () => {
                       Contact Swing 2024
                     </a>
                   </div>
-                  <div classname="social-logos row justify-content-center">
-                    <div classname="col-1">
+                  <div className="social-logos row justify-content-center">
+                    <div className="col-1">
                       <a
                         href="https://www.linkedin.com/company/contactswing"
-                        classname="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/linkedin.png"
                           alt="linkedin icon"
                         />
                       </a>
                     </div>
-                    <div classname="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.facebook.com/ContactSwinginc"
-                        classname="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/facebook.png"
                           alt="facebook icon"
                         />
                       </a>
                     </div>
-                    {/* <div classname="col-1">
+                    {/* <div className="col-1">
                       <a
                         href="https://twitter.com/pixinvents"
-                        classname="footer-link me-3"
+                        className="footer-link me-3"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -2569,29 +2539,29 @@ const LandingPage = () => {
                         />
                       </a>
                     </div> */}
-                    <div classname="col-1 footer-social-logo">
+                    <div className="col-1 footer-social-logo">
                       <a
                         href="https://www.instagram.com/ContactSwing/"
-                        classname="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/instagram2.png"
                           alt="instagram icon"
                         />
                       </a>
                     </div>
-                    <div classname="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.youtube.com/@ContactSwing"
-                        classname="footer-link"
+                        className="footer-link"
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/youtube.png"
                           alt="youtube icon"
                         />
@@ -2601,27 +2571,27 @@ const LandingPage = () => {
                 </div>
               </div>
 
-              {/* <div classname="footer-bottom py-3">
-                <div classname="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-                  <div classname="mb-2 mb-md-0">
-                    <span classname="footer-text">
+              {/* <div className="footer-bottom py-3">
+                <div className="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                  <div className="mb-2 mb-md-0">
+                    <span className="footer-text">
                       ©
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
                       href="/"
                       target="_blank"
-                      classname="fw-medium footer-link"
+                      className="fw-medium footer-link"
                       rel="noreferrer"
                     >
                       ContactSwing
                     </a>
-                    <span classname="footer-text"> </span>
+                    <span className="footer-text"> </span>
                   </div>
                   <div>
                     <a
                       href="https://github.com/pixinvent"
-                      classname="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2634,7 +2604,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://www.facebook.com/pixinvents/"
-                      classname="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2647,7 +2617,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://twitter.com/pixinvents"
-                      classname="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2660,7 +2630,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://www.instagram.com/pixinvents/"
-                      classname="footer-link"
+                      className="footer-link"
                       target="_blank"
                       rel="noreferrer"
                     >

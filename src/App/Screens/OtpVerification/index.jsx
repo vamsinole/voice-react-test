@@ -34,7 +34,7 @@ const OtpVerification = () => {
     <>
       <div className="authentication-wrapper authentication-cover authentication-bg">
         <div className="authentication-inner row">
-          {/* Left Text */}
+          {/* <!-- /Left Text --> */}
           <div className="d-none d-lg-flex col-lg-7 p-0">
             <div className="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
               <img
@@ -55,10 +55,10 @@ const OtpVerification = () => {
           </div>
           {/* Left Text */}
 
-          {/* Two Steps Verification */}
+          {/* <!-- Two Steps Verification --> */}
           <div className="d-flex col-12 col-lg-5 align-items-center p-4 p-sm-5">
             <div className="w-px-400 mx-auto">
-              {/* Logo */}
+              {/* <!-- Logo --> */}
               <div className="app-brand mb-4">
                 <a href="index.html" className="app-brand-link gap-2">
                   <span className="app-brand-logo demo">
@@ -72,28 +72,46 @@ const OtpVerification = () => {
               <p className="text-start mb-4">
                 We sent a verification code to your email. Enter the code from
                 the email in the field below.
+                {/* <span className="fw-medium d-block mt-2">******1234</span> */}
               </p>
               <p className="mb-0 fw-medium">Type your 6 digit security code</p>
-              <form className="mb-3" onSubmit={handleFormSubmit}>
+              <form id="twoStepsForm" action="index.html" method="GET">
                 <div className="mb-3">
                   <div className="auth-input-wrapper d-flex align-items-center justify-content-sm-between numeral-mask-wrapper">
-                    {/* Create 6 input fields for OTP */}
-                    {[...Array(6)].map((_, index) => (
-                      <input
-                        key={index}
-                        type="tel"
-                        className="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
-                        maxLength="1"
-                        autoFocus={index === 0} // Focus on the first input field
-                        onChange={handleOtpChange}
-                      />
-                    ))}
+                    <input
+                      type="tel"
+                      className="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
+                      maxlength="1"
+                      autofocus
+                    />
+                    <input
+                      type="tel"
+                      className="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
+                      maxlength="1"
+                    />
+                    <input
+                      type="tel"
+                      className="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
+                      maxlength="1"
+                    />
+                    <input
+                      type="tel"
+                      className="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
+                      maxlength="1"
+                    />
+                    <input
+                      type="tel"
+                      className="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
+                      maxlength="1"
+                    />
+                    <input
+                      type="tel"
+                      className="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
+                      maxlength="1"
+                    />
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary d-grid w-100 mb-3"
-                >
+                <button className="btn btn-primary d-grid w-100 mb-3">
                   Verify my account
                 </button>
                 <div className="text-center">

@@ -50,7 +50,7 @@ const Header = () => {
                 path === "knowledge" ? "menu-item active" : "menu-item"
               }
             >
-              <a className="menu-link">
+              <a className="menu-link" href="/knowledge">
                 <i className="menu-icon tf-icons ti ti-files"></i>
                 {/* <div data-i18n="Knowledge Base">Knowledge Base</div> */}
                 <Link className="nav-link" to="/knowledge">
@@ -58,17 +58,16 @@ const Header = () => {
                 </Link>
               </a>
             </li>
-            <li className={path === "voice" ? "menu-item active" : "menu-item"}>
+            {/* <li className={path === "voice" ? "menu-item active" : "menu-item"}>
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-microphone"></i>
                 <Link className="nav-link" to="/voice">
                   Voice Agents
                 </Link>
-                {/* <div data-i18n="Voice Agents">Voice Agents</div> */}
               </a>
-            </li>
+            </li> */}
             <li className={path === "users" ? "menu-item active" : "menu-item"}>
-              <a className="menu-link">
+              <a className="menu-link" href="/users">
                 <i className="menu-icon tf-icons ti ti-user"></i>
                 <Link className="nav-link" to="/users">
                   Users
@@ -76,25 +75,22 @@ const Header = () => {
                 {/* <div data-i18n="Users">Users</div> */}
               </a>
             </li>
-            <li className={path === "calls" ? "menu-item active" : "menu-item"}>
+            {/* <li className={path === "calls" ? "menu-item active" : "menu-item"}>
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-phone-call"></i>
                 <Link className="nav-link" to="/calls">
                   Calls
                 </Link>
-                {/* <div data-i18n="Calls">Calls</div> */}
               </a>
-            </li>
+            </li> */}
             <li
               className={
-                path === "assistants" ||
-                path === "new-assistant" ||
-                path === "/"
+                path === "assistants" || path === "new-assistant" || path === ""
                   ? "menu-item active"
                   : "menu-item"
               }
             >
-              <a className="menu-link">
+              <a className="menu-link" href="/assistants">
                 <i className="menu-icon tf-icons ti ti-brain"></i>
                 <Link className="nav-link" to="/assistants">
                   Assistants
@@ -105,7 +101,7 @@ const Header = () => {
             <li
               className={path === "actions" ? "menu-item active" : "menu-item"}
             >
-              <a className="menu-link">
+              <a className="menu-link" href="/actions">
                 <i className="menu-icon tf-icons ti ti-checkup-list"></i>
                 <Link className="nav-link" to="/actions">
                   Actions
@@ -113,7 +109,7 @@ const Header = () => {
                 {/* <div data-i18n="Actions">Actions</div> */}
               </a>
             </li>
-            <li
+            {/* <li
               className={
                 path === "customers" ? "menu-item active" : "menu-item"
               }
@@ -123,10 +119,9 @@ const Header = () => {
                 <Link className="nav-link" to="/customers">
                   Customers
                 </Link>
-                {/* <div data-i18n="Customers">Customers</div> */}
               </a>
-            </li>
-            <li
+            </li> */}
+            {/* <li
               className={path === "orders" ? "menu-item active" : "menu-item"}
             >
               <a className="menu-link">
@@ -134,21 +129,18 @@ const Header = () => {
                 <Link className="nav-link" to="/orders">
                   Orders
                 </Link>
-                {/* <div data-i18n="Orders">Orders</div> */}
               </a>
-            </li>
-            <li
+            </li> */}
+            {/* <li
               className={path === "emails" ? "menu-item active" : "menu-item"}
             >
               <a className="menu-link">
                 <i className="ti ti-mail ti-sm"></i>
-                {/* <i className="menu-icon tf-icons ti ti-shopping-cart"></i> */}
                 <Link className="nav-link align-middle ms-2" to="/emails">
                   Emails
                 </Link>
-                {/* <div data-i18n="Orders">Orders</div> */}
               </a>
-            </li>
+            </li> */}
           </ul>
         </aside>
       </div>

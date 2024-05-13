@@ -21,6 +21,7 @@ const Knowledge = () => {
   const [addingFaq, setAddingFaq] = useState(false);
   const [addingUrl, setAddingUrl] = useState(false);
   const [addingFile, setAddingFile] = useState(false);
+  const [totalLength, setTotalLength] = useState(0);
 
   const [knowledge, setKnowledge] = useState([]);
   const [files, setFiles] = useState([]);
@@ -58,8 +59,8 @@ const Knowledge = () => {
       if (response.authError) {
         navigate("/login");
       }
-      console.log("responceorg", response.data.urls);
       setKnowledge(response.data);
+      setTotalLength(response.data.length);
       let temp = response.data.map((item) => {
         if (item.id === id) {
           setSelectedValue(item.id);
@@ -368,7 +369,7 @@ const Knowledge = () => {
             <NewAssistantBar />
             <div className="container-fluid">
               <div className="row my-3">
-                <div className="col-md-4" onClick={handleDropdownClick}>
+                {/* <div className="col-md-4" onClick={handleDropdownClick}>
                   <span className="dropdown FilterDropdown">
                     <button
                       onClick={toggleColumn}
@@ -435,16 +436,14 @@ const Knowledge = () => {
                             <i className="las la-plus la-lg"></i> Create View
                           </button>
                         </div>
-                        {/* AllViews tab end */}
-
                         <div className="tab-pane fade" id="Favorites">
                           2...
                         </div>
                       </div>
                     </div>
                   </span>
-                </div>
-                <div className="col-3 mb-3">
+                </div> */}
+                <div className="col-3 offset-4 mb-3">
                   <select
                     id="knowledge-base-dd"
                     value={selectedValue}
@@ -470,7 +469,7 @@ const Knowledge = () => {
                   </button>
                 </div>
                 <div className="col-md-4 text-end">
-                  <button
+                  {/* <button
                     className="btn dropdown-toggle border rounded-pill  me-3"
                     type="button"
                     data-bs-toggle="dropdown"
@@ -489,7 +488,7 @@ const Knowledge = () => {
                         Sheet
                       </a>
                     </li>
-                  </ul>
+                  </ul> */}
                   <a
                     className="btn btn-primary pull-right text-white"
                     data-bs-toggle="modal"
@@ -828,7 +827,7 @@ const Knowledge = () => {
                                     return (
                                       <tr key={key}>
                                         <td>{key + 1}</td>
-                                        <td>{value}</td>
+                                        <td>{value.url ? value.url : value}</td>
                                         {/* <td style={{ width: "70px" }}> */}
                                         {/* <button className='btn px-1 la-lg' onClick={() => handleClick(value)} data-bs-toggle="modal" data-bs-target="#deleteKbsModal">
                                         <i className="ti ti-trash ti-sm mx-2 pointer"></i>
@@ -929,6 +928,33 @@ const Knowledge = () => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="bottom-count">
+              <table className="datatables-voice-agents table">
+                <tfoot className="border-top">
+                  <tr>
+                    <td>Total NAME: {totalLength}</td>
+                    <td>Count of TYPE: {totalLength}</td>
+                    <td>Count of PHONE: {totalLength}</td>
+                    <td></td>
+                    <td>
+                      {/* Pagination */}
+                      {/* {totalItems > itemsPerPage && (
+        <ul className="pagination">
+          {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map((_, index) => (
+            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+              <button className="page-link" onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )} */}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
             <NewAssistantHelpBar />
           </div>
@@ -1040,11 +1066,11 @@ const Knowledge = () => {
                 {deletingKbs && (
                   <span id="create-kbs-button-loader">
                     <span
-                      class="spinner-border"
+                      className="spinner-border"
                       role="status"
                       aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">Loading...</span>
+                    <span className="visually-hidden">Loading...</span>
                   </span>
                 )}
                 Delete

@@ -54,7 +54,7 @@ const publicRoutes = [
   { path: "userscontrols", component: UsersControls },
   // <-- new pages added -->
   // { path: "forgotpassword", component: ForgetPassword },
-  { path: "profile", component: Profile },
+  // { path: "profile", component: Profile },
   { path: "security", component: Security },
   // { path: "otp-verification", component: OtpVerification },
   // { path: "reset-password", component: NewPassword },
