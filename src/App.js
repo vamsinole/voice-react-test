@@ -53,11 +53,11 @@ const publicRoutes = [
   { path: "setting", component: Setting },
   { path: "userscontrols", component: UsersControls },
   // <-- new pages added -->
-  { path: "forgotpassword", component: ForgetPassword },
+  // { path: "forgotpassword", component: ForgetPassword },
   { path: "profile", component: Profile },
   { path: "security", component: Security },
-  { path: "otp-verification", component: OtpVerification },
-  { path: "reset-password", component: NewPassword },
+  // { path: "otp-verification", component: OtpVerification },
+  // { path: "reset-password", component: NewPassword },
 
   // { path: '*', component: Pagenotfound },
 ];
