@@ -17,5 +17,5 @@ export const USER_ENDPOINTS = {
   register: "/v1/register",
   Oauth: "/v1/google/signin?redirect_uri=https://contactswing.com/login",
   enquiry: "/v1/enquiry",
-  // updateprofile: "/v1/me",
+  updateprofile: "/v1/me",
 };

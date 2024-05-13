@@ -51,7 +51,6 @@ const Profile = () => {
     timezone: "",
   });
 
-  const baseurl = env.baseUrl;
   const token = localStorage.getItem("token");
 
   const handleSelectChange = (event) => {
