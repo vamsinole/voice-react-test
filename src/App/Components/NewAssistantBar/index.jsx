@@ -1,23 +1,58 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 // import React from 'react'
-import { Link } from "react-router-dom";
-import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "./Styles.scss";
+import env from "../../../config";
+import { callAPI } from "../Utils";
+import { USER_ENDPOINTS } from "../../../config/enpoints";
 
 const NewAssistantBar = () => {
+  const navigate = useNavigate();
+
+  const baseurl = env.baseUrl;
+  const token = localStorage.getItem("token");
+  console.log("token", token);
+
+  const [username, setUsername] = useState("U");
+
+  useEffect(() => {
+    getProfileDetails();
+  }, []);
+
+  async function getProfileDetails() {
+    let profile_obj = await callAPI(
+      "GET",
+      baseurl + USER_ENDPOINTS.profile,
+      "",
+      token
+    );
+    if (profile_obj.authError) {
+      navigate("/login");
+    } else if (profile_obj.error) {
+    } else {
+      if (
+        profile_obj.data &&
+        profile_obj.data.name &&
+        profile_obj.data.name.length > 0
+      ) {
+        setUsername(profile_obj.data.name);
+      }
+    }
+  }
   return (
     <>
-      <div className="">
+      <div class="">
         <div className="container-fluid top-strip-bg">
           <div className="row">
             <div className="col-lg-3 d-flex align-items-center">
               <div className="search-border rounded-pill px-2">
                 <a
-                  className="top-strip-bg dropdown-toggle text-white px-2"
+                  class="top-strip-bg dropdown-toggle text-white px-2"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  href="javascript:void(0);"
                 >
                   All
                 </a>
@@ -26,20 +61,20 @@ const NewAssistantBar = () => {
                   className="allInput border-0 search-icon"
                   placeholder="Search(ctrl + k)"
                 />
-                <i className="las la-search la-lg mt-1"></i>
-                <ul className="dropdown-menu">
+                <i class="las la-search la-lg mt-1"></i>
+                <ul class="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a class="dropdown-item" href="#">
                       Action
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a class="dropdown-item" href="#">
                       Another action
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a class="dropdown-item" href="#">
                       Something else here
                     </a>
                   </li>
@@ -58,12 +93,12 @@ const NewAssistantBar = () => {
                   className="btn btn-sm btn-success p-0 py-0 m-0 mt-1 me-2"
                   style={{ height: "26px" }}
                 >
-                  <i className="ti ti-plus ti-md py-0 m-0 my-0"></i>
+                  <i class="ti ti-plus ti-md py-0 m-0 my-0"></i>
                 </button>
-                <i className="ti ti-bell ti-md"></i>
-                <i className="lab la-gg-circle"></i>
+                <i class="ti ti-bell ti-md"></i>
+                <i class="lab la-gg-circle"></i>
                 <Link className="nav-link" to="/userscontrols">
-                  <i className="ti ti-settings ti-md"></i>
+                  <i class="ti ti-settings ti-md"></i>
                 </Link>
                 <div
                   className="navbar-nav-right d-flex align-items-center"
@@ -78,11 +113,11 @@ const NewAssistantBar = () => {
                       >
                         <div className="avatar avatar-online">
                           <div className="user-logo">
-                            <label htmlFor="">U</label>
+                            <label htmlFor="">{username.charAt(0)}</label>
                           </div>
                           {/* <img
                             src="assets/img/avatars/1.png"
-                            alt="Avatar"
+                            alt
                             className="h-auto rounded-circle"
                           /> */}
                         </div>
@@ -91,7 +126,7 @@ const NewAssistantBar = () => {
                         <li>
                           <a
                             className="dropdown-item"
-                            href="pages-account-settings-account.html"
+                            // href="pages-account-settings-account.html"
                           >
                             <div className="d-flex">
                               <div className="flex-shrink-0 me-3">
@@ -101,7 +136,7 @@ const NewAssistantBar = () => {
                                   </div>
                                   {/* <img
                                     src="assets/img/avatars/1.png"
-                                    alt="Avatar other"
+                                    alt
                                     className="h-auto rounded-circle"
                                   /> */}
                                 </div>
@@ -119,14 +154,30 @@ const NewAssistantBar = () => {
                           <div className="dropdown-divider"></div>
                         </li>
                         <li>
+                          <Link class="dropdown-item" to="/profile">
+                            <i class="ti ti-user-check me-2 ti-sm"></i>
+                            <span class="align-middle">My Profile</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <div className="dropdown-divider"></div>
+                        </li>
+                        {/* <li>
                           <i className="ti ti-logout me-2 ti-sm"></i>
                           <Link className="nav-link d-inline-block" to="/login">
                             Log Out
+                          </Link> */}
+                        {/* <span className="align-middle">Log Out</span> */}
+                        {/* </li> */}
+                        {/* changes made as button was not aligned */}
+                        <li>
+                          <Link class="dropdown-item" to="/login">
+                            <i class="ti ti-logout me-2 ti-sm"></i>
+                            <span class="align-middle">Log Out</span>
                           </Link>
-                          {/* <span className="align-middle">Log Out</span> */}
                         </li>
                         {/* <li>
-                                                <a className="dropdown-item" onClick="logout()">
+                                                <a className="dropdown-item" onclick="logout()">
                                                     <i className="ti ti-logout me-2 ti-sm"></i>
                                                     <span className="align-middle">Log Out</span>
                                                 </a>
@@ -140,7 +191,7 @@ const NewAssistantBar = () => {
           </div>
         </div>
 
-        {/* <div className="content-backdrop fade"></div> */}
+        {/* <div class="content-backdrop fade"></div> */}
       </div>
     </>
   );
