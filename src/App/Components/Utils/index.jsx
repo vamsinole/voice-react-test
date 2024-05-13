@@ -33,6 +33,23 @@ export function toTitleCase(str) {
     .join(" ");
 }
 
+export function validateEmail(email) {
+  var emailFormat = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  if (email !== "" && email.match(emailFormat)) {
+    return true;
+  }
+  return false;
+}
+
+export function validatePassword(email) {
+  var emailFormat =
+    /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:"<>?`\-=[\]\\;',./]).{8,}$/;
+  if (email !== "" && email.match(emailFormat)) {
+    return true;
+  }
+  return false;
+}
+
 export async function callAPI(
   api_method,
   api_endpoint,

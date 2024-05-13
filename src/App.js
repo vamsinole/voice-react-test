@@ -29,7 +29,7 @@ import OtpVerification from "./App/Screens/OtpVerification";
 import NewPassword from "./App/Screens/NewPassword";
 
 const publicRoutes = [
-  { path: "/", component: Home },
+  { path: "/", component: LandingPage },
   // { path: 'login', component: Login },
   { path: "register", component: Register },
 
@@ -68,7 +68,7 @@ function App() {
       <>
         <BrowserRouter>
           <Routes>
-            <Route path="/" index element={<Home />} />
+            <Route path="/" index element={<LandingPage />} />
             {publicRoutes.map(({ path, component: Component }) => (
               <Route key={"path-" + path} path={path} element={<Component />} />
             ))}
