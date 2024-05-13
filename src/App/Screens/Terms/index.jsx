@@ -11,15 +11,15 @@ const Terms = () => {
 
   return (
     <>
-      <div class="">
-        <div class="row">
-          <div class="col-12">
-            <nav class="layout-navbar shadow-none py-0">
-              <div class="container">
-                <div class="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
-                  <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
+      <div className="">
+        <div className="row">
+          <div className="col-12">
+            <nav className="layout-navbar shadow-none py-0">
+              <div className="container">
+                <div className="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
+                  <div className="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
                     <button
-                      class="navbar-toggler border-0 px-0 me-2"
+                      className="navbar-toggler border-0 px-0 me-2"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -27,22 +27,22 @@ const Terms = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i class="ti ti-menu-2 ti-sm align-middle"></i>
+                      <i className="ti ti-menu-2 ti-sm align-middle"></i>
                     </button>
-                    <a href="/landing" class="app-brand-link">
+                    <a href="/landing" className="app-brand-link">
                       <img src={Logo} height={32} width={32} alt="" />
-                      <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">
+                      <span className="app-brand-text demo menu-text fw-bold ms-2 ps-1">
                         ContactSwing
                       </span>
                     </a>
                   </div>
 
                   <div
-                    class="collapse navbar-collapse landing-nav-menu"
+                    className="collapse navbar-collapse landing-nav-menu"
                     id="navbarSupportedContent"
                   >
                     <button
-                      class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
+                      className="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -50,38 +50,38 @@ const Terms = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i class="ti ti-x ti-sm"></i>
+                      <i className="ti ti-x ti-sm"></i>
                     </button>
-                    <ul class="navbar-nav me-auto">
-                      <li class="nav-item">
+                    <ul className="navbar-nav me-auto">
+                      <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
                           aria-current="page"
                           href="/landing"
                         >
                           Home
                         </a>
                       </li>
-                      <li class="nav-item">
+                      <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
                           href="/landing#landingFeatures"
                         >
                           Features
                         </a>
                       </li>
-                      {/* <li class="nav-item">
+                      {/* <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
                           aria-current="page"
                           href="/landing#landingPricing"
                         >
                           Pricing
                         </a>
                       </li> */}
-                      <li class="nav-item">
+                      <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
                           href="/landing#landingContact"
                         >
                           Contact us
@@ -89,48 +89,49 @@ const Terms = () => {
                       </li>
                     </ul>
                   </div>
-                  <div class="landing-menu-overlay d-lg-none"></div>
+                  <div className="landing-menu-overlay d-lg-none"></div>
 
-                  <ul class="navbar-nav flex-row align-items-center ms-auto">
-                    <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                  <ul className="navbar-nav flex-row align-items-center ms-auto">
+                    <li className="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
                       <a
-                        class="nav-link dropdown-toggle hide-arrow"
+                        className="nav-link dropdown-toggle hide-arrow"
                         href="javascript:void(0);"
                         data-bs-toggle="dropdown"
                       >
-                        <i class="ti ti-sm"></i>
+                        <i className="ti ti-sm"></i>
                       </a>
-                      <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                      <ul className="dropdown-menu dropdown-menu-end dropdown-styles">
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="light"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-sun me-2"></i>Light
+                            <span className="align-middle">
+                              <i className="ti ti-sun me-2"></i>Light
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="dark"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-moon me-2"></i>Dark
+                            <span className="align-middle">
+                              <i className="ti ti-moon me-2"></i>Dark
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="system"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-device-desktop me-2"></i>System
+                            <span className="align-middle">
+                              <i className="ti ti-device-desktop me-2"></i>
+                              System
                             </span>
                           </a>
                         </li>
@@ -140,21 +141,21 @@ const Terms = () => {
                     <li>
                       <a
                         href="/login"
-                        class="btn btn-primary mx-1"
+                        className="btn btn-primary mx-1"
                         target="_blank"
                       >
-                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span class="d-none d-md-block">Login</span>
+                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span className="d-none d-md-block">Login</span>
                       </a>
                     </li>
                     <li>
                       <a
                         href="/register"
-                        class="btn btn-primary mx-1"
+                        className="btn btn-primary mx-1"
                         target="_blank"
                       >
-                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span class="d-none d-md-block">Register</span>
+                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span className="d-none d-md-block">Register</span>
                       </a>
                     </li>
                   </ul>
@@ -1432,20 +1433,20 @@ const Terms = () => {
         {/* --footer-- */}
         <div className="row mt-4">
           <div className="col-12 mt-4">
-            <footer class="landing-footer bg-body footer-text">
-              <div class="footer-top position-relative overflow-hidden z-1">
+            <footer className="landing-footer bg-body footer-text">
+              <div className="footer-top position-relative overflow-hidden z-1">
                 <img
                   src="../../assets/img/front-pages/backgrounds/footer-bg-light.png"
                   alt="footer bg"
-                  class="footer-bg banner-bg-img z-n1"
+                  className="footer-bg banner-bg-img z-n1"
                   data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
                   data-app-dark-img="front-pages/backgrounds/footer-bg-dark.png"
                 />
-                <div class="container">
-                  <div class="row gx-0 gy-4 g-md-5">
-                    <div class="col-lg-5">
-                      <a href="/landing" class="app-brand-link mb-4">
-                        <span class="app-brand-logo demo">
+                <div className="container">
+                  <div className="row gx-0 gy-4 g-md-5">
+                    <div className="col-lg-5">
+                      <a href="/landing" className="app-brand-link mb-4">
+                        <span className="app-brand-logo demo">
                           <svg
                             width="32"
                             height="22"
@@ -1481,43 +1482,43 @@ const Terms = () => {
                             />
                           </svg>
                         </span>
-                        <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">
+                        <span className="app-brand-text demo footer-link fw-bold ms-2 ps-1">
                           ContactSwing
                         </span>
                       </a>
-                      <p class="footer-text footer-logo-description mb-4">
+                      <p className="footer-text footer-logo-description mb-4">
                         Transform Your Customer Interactions with Contact
                         Swing's Advanced Communication Solutions!
                       </p>
-                      <form class="footer-form">
-                        <label for="footer-email" class="small">
+                      <form className="footer-form">
+                        <label htmlFor="footer-email" className="small">
                           Subscribe to newsletter
                         </label>
-                        <div class="d-flex mt-1">
+                        <div className="d-flex mt-1">
                           <input
                             type="email"
-                            class="form-control rounded-0 rounded-start-bottom rounded-start-top"
+                            className="form-control rounded-0 rounded-start-bottom rounded-start-top"
                             id="footer-email"
                             placeholder="Your email"
                           />
                           <button
                             type="submit"
-                            class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
+                            className="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
                           >
                             Subscribe
                           </button>
                         </div>
                       </form>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                      <ul class="list-unstyled">
-                        <li class="mb-3">
-                          <a href="/terms" class="footer-link">
+                    <div className="col-lg-2 col-md-4 col-sm-6">
+                      <ul className="list-unstyled">
+                        <li className="mb-3">
+                          <a href="/terms" className="footer-link">
                             Terms & Conditions
                           </a>
                         </li>
-                        <li class="mb-3">
-                          <a href="/privacy" class="footer-link">
+                        <li className="mb-3">
+                          <a href="/privacy" className="footer-link">
                             Privacy
                           </a>
                         </li>
@@ -1536,39 +1537,39 @@ const Terms = () => {
                       Contact Swing 2024
                     </a>
                   </div>
-                  <div class="social-logos row justify-content-center">
-                    <div class="col-1">
+                  <div className="social-logos row justify-content-center">
+                    <div className="col-1">
                       <a
                         href="https://www.linkedin.com/company/contactswing"
-                        class="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          class="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/linkedin.png"
                           alt="linkedin icon"
                         />
                       </a>
                     </div>
-                    <div class="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.facebook.com/ContactSwinginc"
-                        class="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          class="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/facebook.png"
                           alt="facebook icon"
                         />
                       </a>
                     </div>
-                    {/* <div class="col-1">
+                    {/* <div className="col-1">
                       <a
                         href="https://twitter.com/pixinvents"
-                        class="footer-link me-3"
+                        className="footer-link me-3"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -1578,29 +1579,29 @@ const Terms = () => {
                         />
                       </a>
                     </div> */}
-                    <div class="col-1 footer-social-logo">
+                    <div className="col-1 footer-social-logo">
                       <a
                         href="https://www.instagram.com/ContactSwing/"
-                        class="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          class="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/instagram2.png"
                           alt="instagram icon"
                         />
                       </a>
                     </div>
-                    <div class="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.youtube.com/@ContactSwing"
-                        class="footer-link"
+                        className="footer-link"
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          class="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/youtube.png"
                           alt="youtube icon"
                         />
@@ -1609,27 +1610,27 @@ const Terms = () => {
                   </div>
                 </div>
               </div>
-              {/* <div class="footer-bottom py-3">
-                <div class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-                  <div class="mb-2 mb-md-0">
-                    <span class="footer-text">
+              {/* <div className="footer-bottom py-3">
+                <div className="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                  <div className="mb-2 mb-md-0">
+                    <span className="footer-text">
                       ©
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
                       href="/"
                       target="_blank"
-                      class="fw-medium footer-link"
+                      className="fw-medium footer-link"
                       rel="noreferrer"
                     >
                       ContactSwing
                     </a>
-                    <span class="footer-text"> </span>
+                    <span className="footer-text"> </span>
                   </div>
                   <div>
                     <a
                       href="https://github.com/pixinvent"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1642,7 +1643,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://www.facebook.com/pixinvents/"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1655,7 +1656,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://twitter.com/pixinvents"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1668,7 +1669,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://www.instagram.com/pixinvents/"
-                      class="footer-link"
+                      className="footer-link"
                       target="_blank"
                       rel="noreferrer"
                     >

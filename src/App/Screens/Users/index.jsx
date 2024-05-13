@@ -891,11 +891,11 @@ const Users = () => {
                   {updatingUsers && (
                     <span id="create-kbs-button-loader">
                       <span
-                        class="spinner-border"
+                        className="spinner-border"
                         role="status"
                         aria-hidden="true"
                       ></span>
-                      <span class="visually-hidden">Loading...</span>
+                      <span className="visually-hidden">Loading...</span>
                     </span>
                   )}
                   <span className="ms-2">Save Changes</span>
@@ -953,11 +953,11 @@ const Users = () => {
                 {deletingUsers && (
                   <span id="create-kbs-button-loader">
                     <span
-                      class="spinner-border"
+                      className="spinner-border"
                       role="status"
                       aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">Loading...</span>
+                    <span className="visually-hidden">Loading...</span>
                   </span>
                 )}
                 <span className="ms-2">Delete User</span>

@@ -44,13 +44,13 @@ const NewAssistantBar = () => {
   }
   return (
     <>
-      <div class="">
+      <div className="">
         <div className="container-fluid top-strip-bg">
           <div className="row">
             <div className="col-lg-3 d-flex align-items-center">
               <div className="search-border rounded-pill px-2">
                 <a
-                  class="top-strip-bg dropdown-toggle text-white px-2"
+                  className="top-strip-bg dropdown-toggle text-white px-2"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
@@ -61,20 +61,20 @@ const NewAssistantBar = () => {
                   className="allInput border-0 search-icon"
                   placeholder="Search(ctrl + k)"
                 />
-                <i class="las la-search la-lg mt-1"></i>
-                <ul class="dropdown-menu">
+                <i className="las la-search la-lg mt-1"></i>
+                <ul className="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Another action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Something else here
                     </a>
                   </li>
@@ -93,12 +93,12 @@ const NewAssistantBar = () => {
                   className="btn btn-sm btn-success p-0 py-0 m-0 mt-1 me-2"
                   style={{ height: "26px" }}
                 >
-                  <i class="ti ti-plus ti-md py-0 m-0 my-0"></i>
+                  <i className="ti ti-plus ti-md py-0 m-0 my-0"></i>
                 </button>
-                <i class="ti ti-bell ti-md"></i>
-                <i class="lab la-gg-circle"></i>
+                <i className="ti ti-bell ti-md"></i>
+                <i className="lab la-gg-circle"></i>
                 <Link className="nav-link" to="/userscontrols">
-                  <i class="ti ti-settings ti-md"></i>
+                  <i className="ti ti-settings ti-md"></i>
                 </Link>
                 <div
                   className="navbar-nav-right d-flex align-items-center"
@@ -154,9 +154,9 @@ const NewAssistantBar = () => {
                           <div className="dropdown-divider"></div>
                         </li>
                         <li>
-                          <Link class="dropdown-item" to="/profile">
-                            <i class="ti ti-user-check me-2 ti-sm"></i>
-                            <span class="align-middle">My Profile</span>
+                          <Link className="dropdown-item" to="/profile">
+                            <i className="ti ti-user-check me-2 ti-sm"></i>
+                            <span className="align-middle">My Profile</span>
                           </Link>
                         </li>
                         <li>
@@ -171,9 +171,9 @@ const NewAssistantBar = () => {
                         {/* </li> */}
                         {/* changes made as button was not aligned */}
                         <li>
-                          <Link class="dropdown-item" to="/login">
-                            <i class="ti ti-logout me-2 ti-sm"></i>
-                            <span class="align-middle">Log Out</span>
+                          <Link className="dropdown-item" to="/login">
+                            <i className="ti ti-logout me-2 ti-sm"></i>
+                            <span className="align-middle">Log Out</span>
                           </Link>
                         </li>
                         {/* <li>
@@ -191,7 +191,7 @@ const NewAssistantBar = () => {
           </div>
         </div>
 
-        {/* <div class="content-backdrop fade"></div> */}
+        {/* <div className="content-backdrop fade"></div> */}
       </div>
     </>
   );

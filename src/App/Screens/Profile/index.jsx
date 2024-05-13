@@ -107,7 +107,7 @@ const Profile = () => {
                           />
                           <div className="button-wrapper">
                             <label
-                              for="upload"
+                              htmlFor="upload"
                               className="btn btn-primary me-2 mb-3"
                               tabindex="0"
                             >
@@ -142,7 +142,7 @@ const Profile = () => {
                         <div className="col-12">
                           <div className="row">
                             <div className="mb-3 col-md-6">
-                              <label for="firstName" className="form-label">
+                              <label htmlFor="firstName" className="form-label">
                                 First Name
                               </label>
                               <input
@@ -156,7 +156,7 @@ const Profile = () => {
                               />
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="lastName" className="form-label">
+                              <label htmlFor="lastName" className="form-label">
                                 Last Name
                               </label>
                               <input
@@ -169,7 +169,7 @@ const Profile = () => {
                               />
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="email" className="form-label">
+                              <label htmlFor="email" className="form-label">
                                 E-mail
                               </label>
                               <input
@@ -184,7 +184,10 @@ const Profile = () => {
                               />
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="organization" className="form-label">
+                              <label
+                                htmlFor="organization"
+                                className="form-label"
+                              >
                                 Organization
                               </label>
                               <input
@@ -197,7 +200,10 @@ const Profile = () => {
                               />
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label className="form-label" for="phoneNumber">
+                              <label
+                                className="form-label"
+                                htmlFor="phoneNumber"
+                              >
                                 Phone Number
                               </label>
                               <div className="input-group input-group-merge">
@@ -216,7 +222,7 @@ const Profile = () => {
                               </div>
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="address" className="form-label">
+                              <label htmlFor="address" className="form-label">
                                 Address
                               </label>
                               <input
@@ -230,7 +236,7 @@ const Profile = () => {
                               />
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="state" className="form-label">
+                              <label htmlFor="state" className="form-label">
                                 State
                               </label>
                               <input
@@ -244,7 +250,7 @@ const Profile = () => {
                               />
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="zipCode" className="form-label">
+                              <label htmlFor="zipCode" className="form-label">
                                 Zip Code
                               </label>
                               <input
@@ -259,7 +265,7 @@ const Profile = () => {
                               />
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label className="form-label" for="country">
+                              <label className="form-label" htmlFor="country">
                                 Country
                               </label>
                               <select
@@ -309,7 +315,7 @@ const Profile = () => {
                               </select>
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="language" className="form-label">
+                              <label htmlFor="language" className="form-label">
                                 Language
                               </label>
                               <select
@@ -327,7 +333,7 @@ const Profile = () => {
                               </select>
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="timeZones" className="form-label">
+                              <label htmlFor="timeZones" className="form-label">
                                 Timezone
                               </label>
                               <select
@@ -390,7 +396,7 @@ const Profile = () => {
                               </select>
                             </div>
                             <div className="mb-3 col-md-6">
-                              <label for="currency" className="form-label">
+                              <label htmlFor="currency" className="form-label">
                                 Currency
                               </label>
                               <select
@@ -455,7 +461,7 @@ const Profile = () => {
                               />
                               <label
                                 className="form-check-label"
-                                for="accountActivation"
+                                htmlFor="accountActivation"
                               >
                                 I confirm my account deactivation
                               </label>

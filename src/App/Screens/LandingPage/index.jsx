@@ -2401,7 +2401,7 @@ const LandingPage = () => {
                                 {sendingEnquiry && (
                                   <span id="create-kbs-button-loader">
                                     <span
-                                      classname="spinner-border"
+                                      className="spinner-border"
                                       role="status"
                                       aria-hidden="true"
                                     ></span>
@@ -2423,20 +2423,20 @@ const LandingPage = () => {
         {/* --footer-- */}
         <div className="footer-top-0 row mt-4">
           <div className="footer-top-1 col-12 mt-4">
-            <footer classname="landing-footer bg-body footer-text">
-              <div classname="footer-top position-relative overflow-hidden z-1">
+            <footer className="landing-footer bg-body footer-text">
+              <div className="footer-top position-relative overflow-hidden z-1">
                 <img
                   src="../../assets/img/front-pages/backgrounds/footer-bg-light.png"
                   alt="footer bg"
-                  classname="footer-bg banner-bg-img z-n1"
+                  className="footer-bg banner-bg-img z-n1"
                   data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
                   data-app-dark-img="front-pages/backgrounds/footer-bg-dark.png"
                 />
-                <div classname="container">
-                  <div classname="row gx-0 gy-4 g-md-5">
-                    <div classname="col-lg-5">
-                      <a href="/landing" classname="app-brand-link mb-4">
-                        <span classname="app-brand-logo demo">
+                <div className="container">
+                  <div className="row gx-0 gy-4 g-md-5">
+                    <div className="col-lg-5">
+                      <a href="/landing" className="app-brand-link mb-4">
+                        <span className="app-brand-logo demo">
                           <svg
                             width="32"
                             height="22"
@@ -2472,43 +2472,43 @@ const LandingPage = () => {
                             />
                           </svg>
                         </span>
-                        <span classname="app-brand-text demo footer-link fw-bold ms-2 ps-1">
+                        <span className="app-brand-text demo footer-link fw-bold ms-2 ps-1">
                           ContactSwing
                         </span>
                       </a>
-                      <p classname="footer-text footer-logo-description mb-4">
+                      <p className="footer-text footer-logo-description mb-4">
                         Transform Your Customer Interactions with Contact
                         Swing's Advanced Communication Solutions!
                       </p>
-                      <form classname="footer-form">
-                        <label for="footer-email" classname="small">
+                      <form className="footer-form">
+                        <label htmlFor="footer-email" className="small">
                           Subscribe to newsletter
                         </label>
-                        <div classname="d-flex mt-1">
+                        <div className="d-flex mt-1">
                           <input
                             type="email"
-                            classname="form-control rounded-0 rounded-start-bottom rounded-start-top"
+                            className="form-control rounded-0 rounded-start-bottom rounded-start-top"
                             id="footer-email"
                             placeholder="Your email"
                           />
                           <button
                             type="submit"
-                            classname="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
+                            className="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
                           >
                             Subscribe
                           </button>
                         </div>
                       </form>
                     </div>
-                    <div classname="col-lg-2 col-md-4 col-sm-6">
-                      <ul classname="list-unstyled">
-                        <li classname="mb-3">
-                          <a href="/terms" classname="footer-link">
+                    <div className="col-lg-2 col-md-4 col-sm-6">
+                      <ul className="list-unstyled">
+                        <li className="mb-3">
+                          <a href="/terms" className="footer-link">
                             Terms & Conditions
                           </a>
                         </li>
-                        <li classname="mb-3">
-                          <a href="/privacy" classname="footer-link">
+                        <li className="mb-3">
+                          <a href="/privacy" className="footer-link">
                             Privacy
                           </a>
                         </li>
@@ -2527,39 +2527,39 @@ const LandingPage = () => {
                       Contact Swing 2024
                     </a>
                   </div>
-                  <div classname="social-logos row justify-content-center">
-                    <div classname="col-1">
+                  <div className="social-logos row justify-content-center">
+                    <div className="col-1">
                       <a
                         href="https://www.linkedin.com/company/contactswing"
-                        classname="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/linkedin.png"
                           alt="linkedin icon"
                         />
                       </a>
                     </div>
-                    <div classname="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.facebook.com/ContactSwinginc"
-                        classname="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/facebook.png"
                           alt="facebook icon"
                         />
                       </a>
                     </div>
-                    {/* <div classname="col-1">
+                    {/* <div className="col-1">
                       <a
                         href="https://twitter.com/pixinvents"
-                        classname="footer-link me-3"
+                        className="footer-link me-3"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -2569,29 +2569,29 @@ const LandingPage = () => {
                         />
                       </a>
                     </div> */}
-                    <div classname="col-1 footer-social-logo">
+                    <div className="col-1 footer-social-logo">
                       <a
                         href="https://www.instagram.com/ContactSwing/"
-                        classname="footer-link "
+                        className="footer-link "
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/instagram2.png"
                           alt="instagram icon"
                         />
                       </a>
                     </div>
-                    <div classname="col-1">
+                    <div className="col-1">
                       <a
                         href="https://www.youtube.com/@ContactSwing"
-                        classname="footer-link"
+                        className="footer-link"
                         target="_blank"
                         rel="noreferrer"
                       >
                         <img
-                          classname="footer-social-logo"
+                          className="footer-social-logo"
                           src="../../assets/img/front-pages/icons/youtube.png"
                           alt="youtube icon"
                         />
@@ -2601,27 +2601,27 @@ const LandingPage = () => {
                 </div>
               </div>
 
-              {/* <div classname="footer-bottom py-3">
-                <div classname="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-                  <div classname="mb-2 mb-md-0">
-                    <span classname="footer-text">
+              {/* <div className="footer-bottom py-3">
+                <div className="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                  <div className="mb-2 mb-md-0">
+                    <span className="footer-text">
                       ©
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
                       href="/"
                       target="_blank"
-                      classname="fw-medium footer-link"
+                      className="fw-medium footer-link"
                       rel="noreferrer"
                     >
                       ContactSwing
                     </a>
-                    <span classname="footer-text"> </span>
+                    <span className="footer-text"> </span>
                   </div>
                   <div>
                     <a
                       href="https://github.com/pixinvent"
-                      classname="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2634,7 +2634,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://www.facebook.com/pixinvents/"
-                      classname="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2647,7 +2647,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://twitter.com/pixinvents"
-                      classname="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2660,7 +2660,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://www.instagram.com/pixinvents/"
-                      classname="footer-link"
+                      className="footer-link"
                       target="_blank"
                       rel="noreferrer"
                     >

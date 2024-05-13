@@ -83,7 +83,7 @@ const Register = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="email" className="form-label">
+                <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <input
@@ -95,7 +95,7 @@ const Register = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="basic-default-phone" className="form-label">
+                <label htmlFor="basic-default-phone" className="form-label">
                   Phone
                 </label>
                 <input
@@ -107,7 +107,7 @@ const Register = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="website" className="form-label">
+                <label htmlFor="website" className="form-label">
                   Website
                 </label>
                 <input
@@ -119,7 +119,7 @@ const Register = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="address" className="form-label">
+                <label htmlFor="address" className="form-label">
                   Address
                 </label>
                 <input
@@ -191,7 +191,7 @@ const Register = () => {
               {registerAsCompany && (
                 <div className="mb-3" id="register-company-details">
                   <div className="mb-3">
-                    <label for="companyname" className="form-label">
+                    <label htmlFor="companyname" className="form-label">
                       Company name
                     </label>
                     <input
@@ -204,7 +204,7 @@ const Register = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label for="companyemail" className="form-label">
+                    <label htmlFor="companyemail" className="form-label">
                       Company email
                     </label>
                     <input
@@ -216,7 +216,7 @@ const Register = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label for="companyindustry" className="form-label">
+                    <label htmlFor="companyindustry" className="form-label">
                       Company industry
                     </label>
                     <input
@@ -228,7 +228,7 @@ const Register = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label for="companyfedid" className="form-label">
+                    <label htmlFor="companyfedid" className="form-label">
                       Company fed id
                     </label>
                     <input

@@ -16,14 +16,14 @@ const ForgetPassword = () => {
   };
   return (
     <>
-      <div class="authentication-wrapper authentication-cover authentication-bg">
-        <div class="authentication-inner row">
-          <div class="d-none d-lg-flex col-lg-7 p-0">
-            <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
+      <div className="authentication-wrapper authentication-cover authentication-bg">
+        <div className="authentication-inner row">
+          <div className="d-none d-lg-flex col-lg-7 p-0">
+            <div className="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
               <img
                 src="../../assets/img/illustrations/auth-forgot-password-illustration-light.png"
                 alt="auth-login-cover"
-                class="img-fluid my-5 auth-illustration"
+                className="img-fluid my-5 auth-illustration"
                 data-app-light-img="illustrations/auth-login-illustration-light.png"
                 data-app-dark-img="illustrations/auth-login-illustration-dark.png"
               />
@@ -31,31 +31,31 @@ const ForgetPassword = () => {
               <img
                 src="../../assets/img/illustrations/bg-shape-image-light.png"
                 alt="auth-login-cover"
-                class="platform-bg"
+                className="platform-bg"
                 data-app-light-img="illustrations/bg-shape-image-light.png"
                 data-app-dark-img="illustrations/bg-shape-image-dark.png"
               />
             </div>
           </div>
 
-          <div class="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4">
-            <div class="w-px-400 mx-auto">
-              <div class="app-brand mb-4">
-                <a href="#" class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
+          <div className="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4">
+            <div className="w-px-400 mx-auto">
+              <div className="app-brand mb-4">
+                <a href="#" className="app-brand-link gap-2">
+                  <span className="app-brand-logo demo">
                     <img src={Logo} height={32} width={32} alt="" />
                   </span>
                 </a>
               </div>
 
-              <h3 class="mb-1">Forgot Password? 🔒</h3>
-              <p class="mb-4">
+              <h3 className="mb-1">Forgot Password? 🔒</h3>
+              <p className="mb-4">
                 Enter your email and we&prime;ll send you instructions to reset
                 your password
               </p>
 
-              <form class="mb-3">
-                <div class="mb-3">
+              <form className="mb-3">
+                <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Email
                   </label>
@@ -72,7 +72,7 @@ const ForgetPassword = () => {
                   />
                 </div>
                 <Link to="/otp-verification">
-                  <button class="btn btn-primary d-grid w-100 mb-3">
+                  <button className="btn btn-primary d-grid w-100 mb-3">
                     Send OTP
                   </button>
                 </Link>
