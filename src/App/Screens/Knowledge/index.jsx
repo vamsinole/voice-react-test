@@ -164,7 +164,7 @@ const Knowledge = () => {
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
-      //navigate('/assistant');
+      //navigate('/assistants');
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -199,7 +199,7 @@ const Knowledge = () => {
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
-      //navigate('/assistant');
+      //navigate('/assistants');
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -224,7 +224,7 @@ const Knowledge = () => {
         baseurl + addurl + "/" + selectedValue + "/add_file",
         {
           type: "urls",
-          urls: [{ url: formData.url }],
+          urls: [formData.url],
         },
         {
           headers: {

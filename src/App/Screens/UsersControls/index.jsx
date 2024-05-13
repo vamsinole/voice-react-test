@@ -105,7 +105,7 @@ const UsersControls = () => {
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
-      //navigate('/assistant');
+      //navigate('/assistants');
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -140,7 +140,7 @@ const UsersControls = () => {
       console.log("dataapi", data);
       //localStorage.setItem('token', token);
 
-      //navigate('/assistant');
+      //navigate('/assistants');
     } catch (error) {
       console.error("Error fetching users:", error);
     }

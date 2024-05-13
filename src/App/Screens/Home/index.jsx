@@ -24,7 +24,7 @@ const Home = () => {
 
   // If token is not available, redirect to login page
   if (token === null) {
-    navigate("/login");
+    navigate("/landing");
   }
   const [gettingAssistants, setGettingAssistants] = useState(false);
   const [callText, setCallText] = useState("");
@@ -669,7 +669,7 @@ const Home = () => {
                                       </div>
                                     </td>
                                     <td>
-                                      <a href={"/assistant/" + value.id}>
+                                      <a href={"/assistants/" + value.id}>
                                         {value.name}
                                       </a>
                                     </td>

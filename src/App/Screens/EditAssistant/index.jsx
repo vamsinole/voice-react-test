@@ -296,7 +296,7 @@ const EditAssistant = () => {
         }
       }
       console.log(response);
-      navigate("/assistant");
+      navigate("/assistants");
       toast.success("Assistant has been updated", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -1033,7 +1033,7 @@ const EditAssistant = () => {
                                   </div>
                                   <div className="col-md-12 my-3 text-center col-padding">
                                     <a
-                                      href="/assistant"
+                                      href="/assistants"
                                       type="button"
                                       className="btn btn-outline-secondary me-3 "
                                     >
