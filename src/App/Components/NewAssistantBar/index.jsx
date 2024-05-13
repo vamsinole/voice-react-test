@@ -34,11 +34,11 @@ const NewAssistantBar = () => {
     } else if (profile_obj.error) {
     } else {
       if (
-        profile_obj.data &&
-        profile_obj.data.name &&
-        profile_obj.data.name.length > 0
+        profile_obj.data[0] &&
+        profile_obj.data[0].name &&
+        profile_obj.data[0].name.length > 0
       ) {
-        setUsername(profile_obj.data.name);
+        setUsername(profile_obj.data[0].name);
       }
     }
   }

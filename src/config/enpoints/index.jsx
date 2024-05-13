@@ -11,5 +11,5 @@ export const USER_ENDPOINTS = {
   createChat: `/v1/ai/chat`,
   addIntent: `/v1/voiceassistants`,
   getmodel: `/v1/ai/models`,
-  profile: "v1/me",
+  profile: "/v1/me",
 };
