@@ -229,7 +229,7 @@ const AssistantDashboard = () => {
       console.log(response);
       setNewId(response.data.id);
       toast.success("Assistant has been created", toastr_options);
-      navigate("/assistant");
+      navigate("/assistants");
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -883,7 +883,7 @@ const AssistantDashboard = () => {
                                   </div>
                                   <div className="col-md-12 my-3 text-center col-padding">
                                     <a
-                                      href="/assistant"
+                                      href="/assistants"
                                       type="button"
                                       className="btn btn-outline-secondary me-3 "
                                     >

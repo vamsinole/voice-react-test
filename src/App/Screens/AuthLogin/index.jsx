@@ -34,7 +34,7 @@ const AuthLogin = () => {
       const token = response.data.data.token;
       localStorage.setItem("token", token);
 
-      navigate("/assistant");
+      navigate("/assistants");
     } catch (error) {
       console.error("Error fetching users:", error);
     }

@@ -125,9 +125,8 @@ $border-color: rgba-to-hex($gray-200, $rgba-to-hex-bg) !default;
 }
 
 .features-icon-wrapper {
-  gap: 100px;
   display: flex;
-  gap: 20px;
+  gap: 40px;
   justify-content: center;
 }
 
@@ -136,5 +135,8 @@ $border-color: rgba-to-hex($gray-200, $rgba-to-hex-bg) !default;
 }
 
 #landingPricing {
+  margin-top: -120px;
+}
+#landingContact {
   margin-top: -120px;
 }

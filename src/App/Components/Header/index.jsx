@@ -79,14 +79,16 @@ const Header = () => {
             </li>
             <li
               className={
-                path === "assistant" || path === "new-assistant" || path === "/"
+                path === "assistants" ||
+                path === "new-assistant" ||
+                path === "/"
                   ? "menu-item active"
                   : "menu-item"
               }
             >
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-brain"></i>
-                <Link className="nav-link" to="/assistant">
+                <Link className="nav-link" to="/assistants">
                   Assistants
                 </Link>
               </a>

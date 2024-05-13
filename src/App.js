@@ -33,8 +33,8 @@ const publicRoutes = [
   { path: "register", component: Register },
 
   { path: "knowledge", component: Knowledge },
-  { path: "assistant/:id", component: EditAssistant },
-  { path: "assistant", component: Home },
+  { path: "assistants/:id", component: EditAssistant },
+  { path: "assistants", component: Home },
   { path: "voice", component: Voice },
   { path: "users", component: Users },
   { path: "calls", component: Calls },
@@ -65,17 +65,12 @@ function App() {
     <>
       <>
         <BrowserRouter>
-          {/* <Header/> */}
           <Routes>
             <Route path="/" index element={<Home />} />
             {publicRoutes.map(({ path, component: Component }) => (
               <Route key={"path-" + path} path={path} element={<Component />} />
             ))}
-            {/* <Route path="assistant" exact={true} element={<Home />} >
-              <Route path=":id" exact={true} element={<EditAssistant />} />
-            </Route> */}
           </Routes>
-          {/* <Footer /> */}
         </BrowserRouter>
       </>
     </>
