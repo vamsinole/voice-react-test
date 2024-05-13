@@ -343,6 +343,7 @@ const EditAssistant = () => {
     let message_obj = {
       text: chatInput,
       type: "user",
+      title: chatInput,
       time,
     };
     setMessages((messages) => [...messages, message_obj]);
@@ -363,10 +364,19 @@ const EditAssistant = () => {
       let d = new Date(),
         time;
       time = d.toLocaleTimeString();
+      let title = "";
+      if (chat_object.data.intents && chat_object.data.intents.length > 0) {
+        title += "Intent : " + chat_object.data.intents + "<br/>";
+      }
+      if (chat_object.data.entities && chat_object.data.entities.length > 0) {
+        title +=
+          "Intent : " + JSON.stringify(chat_object.data.entities) + "<br/>";
+      }
       let temp_message_obj = {
         text: chat_object.data.message,
         type: "assistant",
         time,
+        title,
       };
       setMessages((messages) => [...messages, temp_message_obj]);
     }
@@ -378,6 +388,12 @@ const EditAssistant = () => {
     ) {
       setChatCallId(chat_object.data.call_id);
     }
+    setTimeout(function () {
+      if (document.getElementById("chat-history-list")) {
+        document.getElementById("chat-history-list").scrollTop =
+          document.getElementById("chat-history-list").scrollHeight;
+      }
+    }, 500);
   }
 
   const updatePrompts = async (event) => {
@@ -1186,7 +1202,7 @@ const EditAssistant = () => {
                                   />
                                 </div>
                                 <div className="chat-contact-info flex-grow-1 ms-2">
-                                  <h6 className="m-0">Felecia Rower</h6>
+                                  <h6 className="m-0">{formData.name}</h6>
                                 </div>
                               </div>
                               <div className="d-flex align-items-center">
@@ -1220,20 +1236,30 @@ const EditAssistant = () => {
                             </div>
                           </div>
                           <div className="chat-history-body bg-body-white">
-                            <ul className="list-unstyled chat-history-assist">
+                            <ul
+                              className="list-unstyled chat-history-assist"
+                              id="chat-history-list"
+                            >
                               {messages &&
                                 messages.length > 0 &&
                                 messages.map((messageItem, messageIndex) => {
                                   return (
                                     <li
                                       key={messageIndex}
-                                      className="chat-message chat-message-right mt-1 mb-2"
+                                      className={
+                                        messageItem.type === "user"
+                                          ? "chat-message chat-message-right mt-1 mb-2"
+                                          : "chat-message mt-1 mb-2"
+                                      }
                                     >
                                       {messageItem.type === "user" && (
                                         <div className="d-flex overflow-hidden">
                                           <div className="chat-message-wrapper flex-grow-1">
                                             <div className="chat-message-text pull-right">
-                                              <p className="mb-0">
+                                              <p
+                                                className="mb-0"
+                                                title={messageItem.title}
+                                              >
                                                 {messageItem.text}
                                               </p>
                                             </div>
@@ -1271,7 +1297,10 @@ const EditAssistant = () => {
                                           </div>
                                           <div className="chat-message-wrapper flex-grow-1">
                                             <div className="chat-message-text">
-                                              <p className="mb-0 text-white">
+                                              <p
+                                                className="mb-0 text-white"
+                                                title={messageItem.title}
+                                              >
                                                 {messageItem.text}
                                               </p>
                                             </div>

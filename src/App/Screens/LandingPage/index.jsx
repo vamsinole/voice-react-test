@@ -422,7 +422,7 @@ const LandingPage = () => {
                       <a
                         href="/login"
                         className="btn btn-primary mx-1"
-                        target="_blank"
+                        // target="_blank"
                       >
                         <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
                         <span className="d-none d-md-block">Login</span>
@@ -432,7 +432,7 @@ const LandingPage = () => {
                       <a
                         href="/register"
                         className="btn btn-primary mx-1"
-                        target="_blank"
+                        // target="_blank"
                       >
                         <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
                         <span className="d-none d-md-block">Register</span>
