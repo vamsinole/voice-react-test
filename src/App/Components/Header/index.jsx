@@ -76,20 +76,17 @@ const Header = () => {
                 {/* <div data-i18n="Users">Users</div> */}
               </a>
             </li>
-            <li className={path === "calls" ? "menu-item active" : "menu-item"}>
+            {/* <li className={path === "calls" ? "menu-item active" : "menu-item"}>
               <a className="menu-link">
                 <i className="menu-icon tf-icons ti ti-phone-call"></i>
                 <Link className="nav-link" to="/calls">
                   Calls
                 </Link>
-                {/* <div data-i18n="Calls">Calls</div> */}
               </a>
-            </li>
+            </li> */}
             <li
               className={
-                path === "assistants" ||
-                path === "new-assistant" ||
-                path === "/"
+                path === "assistants" || path === "new-assistant" || path === ""
                   ? "menu-item active"
                   : "menu-item"
               }

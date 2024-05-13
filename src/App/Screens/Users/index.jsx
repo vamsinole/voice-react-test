@@ -25,10 +25,10 @@ const Users = () => {
   console.log("token", token);
 
   useEffect(() => {
-    fetchVoiceAgents();
+    fetchUsers();
   }, []);
 
-  const fetchVoiceAgents = async () => {
+  const fetchUsers = async () => {
     try {
       setFetchingUsers(true);
       let fetch_users_obj = await callAPI("GET", baseurl + endpoint, "", token);
@@ -40,6 +40,7 @@ const Users = () => {
   };
 
   const [isColumnVisible, setIsColumnVisible] = useState(false);
+  const [deletingId, setDeletingId] = useState("");
   const toggleColumn = () => {
     setIsColumnVisible(!isColumnVisible);
   };
@@ -83,7 +84,7 @@ const Users = () => {
       );
       console.log(create_user);
       toast.success("User has been created successfully", toastr_options);
-      fetchVoiceAgents();
+      fetchUsers();
     } catch (error) {
       toast.error("User has been created successfully", toastr_options);
     }
@@ -123,7 +124,7 @@ const Users = () => {
       );
       setUpdatingUsers(false);
       console.log(update_users_obj);
-      fetchVoiceAgents();
+      fetchUsers();
       toast.success("User has been updated successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -132,25 +133,27 @@ const Users = () => {
 
   //Delete Functionality
 
-  const deleteUser = async (event) => {
-    event.preventDefault();
+  async function deleteUserFn() {
     const deleteUser = USER_ENDPOINTS.getUsers;
     try {
       setDeletingUsers(true);
       let delete_user_obj = await callAPI(
         "DELETE",
-        baseurl + deleteUser + "/" + editformData.id,
+        baseurl + deleteUser + "/" + deletingId,
         "",
         token
       );
       setDeletingUsers(false);
       console.log(delete_user_obj);
-      fetchVoiceAgents();
+      fetchUsers();
+      if (document.getElementById("delete-user-modal-close")) {
+        document.getElementById("delete-user-modal-close").click();
+      }
       toast.success("User has been deleted successfully", toastr_options);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  };
+  }
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -492,7 +495,7 @@ const Users = () => {
                                           <button
                                             data-bs-toggle="modal"
                                             onClick={() =>
-                                              handleClickedit(value)
+                                              setDeletingId(value.id)
                                             }
                                             data-bs-target="#deleteUserModal"
                                             className="btn px-1"
@@ -725,7 +728,6 @@ const Users = () => {
                               type="submit"
                               data-bs-dismiss="offcanvas"
                               className="btn btn-primary me-sm-3 me-1 data-submit"
-                              onclick="createUser()"
                             >
                               <span className="ms-2">Submit</span>
                             </button>
@@ -945,7 +947,7 @@ const Users = () => {
               <button
                 type="submit"
                 className="btn btn-primary"
-                onclick={deleteUser}
+                onClick={deleteUserFn}
                 disabled={deletingUsers}
               >
                 {deletingUsers && (

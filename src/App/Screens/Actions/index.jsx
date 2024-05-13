@@ -344,8 +344,6 @@ const Actions = () => {
   const [selectedValue, setSelectedValue] = useState("");
 
   const handleSelectChange = (event) => {
-    setSelectedValue(event.target.value);
-
     const atype = event.target.value;
     let type = event.target.name;
 
@@ -376,6 +374,7 @@ const Actions = () => {
     }
 
     if (type === "type") {
+      setSelectedValue(event.target.value);
       if (atype === "sms") {
         setMailView(false);
         setApiView(false);
@@ -389,9 +388,6 @@ const Actions = () => {
         setApiView(false);
         setMailView(true);
       }
-      setSmsView(false);
-      setApiView(false);
-      setMailView(true);
     }
   };
 
@@ -1098,6 +1094,7 @@ const Actions = () => {
                               value={formData.content}
                               onChange={handleEmailEditorChange}
                               style={{ minHeight: "300px" }}
+                              preserveWhitespace={true}
                             />
                           </div>
                         </div>
@@ -1122,7 +1119,7 @@ const Actions = () => {
                           id="action-to-type-dd"
                           name="smstype"
                           value={formData.smstype}
-                          onChange={handleInputChange}
+                          onChange={handleSelectChange}
                           className="form-select"
                         >
                           <option value="callers" selected>
@@ -1132,6 +1129,27 @@ const Actions = () => {
                         </select>
                       </div>
                     </div>
+                    {formData.smstype === "agents" && (
+                      <div className="row" id="action-to-type">
+                        <div className="col mb-3">
+                          <label
+                            className="form-label"
+                            htmlFor="action-to-type-dd"
+                          >
+                            To number
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="smsto"
+                            value={formData.smsto}
+                            onChange={handleInputChange}
+                            placeholder="To number"
+                          />
+                        </div>
+                      </div>
+                    )}
+
                     <div className="row">
                       <div className="col-12">
                         <div className="card">
@@ -1142,6 +1160,7 @@ const Actions = () => {
                               value={formData.smscontent}
                               onChange={handleEditorChange}
                               style={{ minHeight: "300px" }}
+                              preserveWhitespace={true}
                             />
                           </div>
                         </div>
@@ -1497,6 +1516,7 @@ const Actions = () => {
                               value={formData.content}
                               onChange={handleEmailEditorChange}
                               style={{ minHeight: "300px" }}
+                              preserveWhitespace={true}
                             />
                           </div>
                         </div>
@@ -1521,7 +1541,7 @@ const Actions = () => {
                           id="action-to-type-dd"
                           name="smstype"
                           value={formData.smstype}
-                          onChange={handleInputChange}
+                          onChange={handleSelectChange}
                           className="form-select"
                         >
                           <option value="callers" selected>
@@ -1531,6 +1551,26 @@ const Actions = () => {
                         </select>
                       </div>
                     </div>
+                    {formData.smstype === "agents" && (
+                      <div className="row" id="action-to-type">
+                        <div className="col mb-3">
+                          <label
+                            className="form-label"
+                            htmlFor="action-to-type-dd"
+                          >
+                            To number
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="smsto"
+                            value={formData.smsto}
+                            onChange={handleInputChange}
+                            placeholder="To number"
+                          />
+                        </div>
+                      </div>
+                    )}
                     <div className="row">
                       <div className="col-12">
                         <div className="card">
@@ -1541,6 +1581,7 @@ const Actions = () => {
                               value={formData.smscontent}
                               onChange={handleEditorChange}
                               style={{ minHeight: "300px" }}
+                              preserveWhitespace={true}
                             />
                           </div>
                         </div>
