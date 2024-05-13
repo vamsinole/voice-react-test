@@ -26,6 +26,7 @@ import ForgetPassword from "./App/Screens/ForgotPassword";
 import Profile from "./App/Screens/Profile";
 import Security from "./App/Screens/Security";
 import OtpVerification from "./App/Screens/OtpVerification";
+import NewPassword from "./App/Screens/NewPassword";
 
 const publicRoutes = [
   { path: "/", component: Home },
@@ -56,6 +57,7 @@ const publicRoutes = [
   { path: "profile", component: Profile },
   { path: "security", component: Security },
   { path: "otp-verification", component: OtpVerification },
+  { path: "reset-password", component: NewPassword },
 
   // { path: '*', component: Pagenotfound },
 ];

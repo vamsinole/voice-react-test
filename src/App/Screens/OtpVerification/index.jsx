@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "./../../../assets/logo.png";
+import { Link } from "react-router-dom";
 const OtpVerification = () => {
   return (
     <>
@@ -85,9 +86,11 @@ const OtpVerification = () => {
                   {/* <!-- Create a hidden field which is combined by 3 fields above --> */}
                   <input type="hidden" name="otp" />
                 </div>
-                <button class="btn btn-primary d-grid w-100 mb-3">
-                  Verify my account
-                </button>
+                <Link to="/reset-password">
+                  <button class="btn btn-primary d-grid w-100 mb-3">
+                    Verify my account
+                  </button>
+                </Link>
                 <div class="text-center">
                   Didn't get the code?
                   <a href="javascript:void(0);"> Resend </a>
