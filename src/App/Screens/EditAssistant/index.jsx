@@ -366,11 +366,10 @@ const EditAssistant = () => {
       time = d.toLocaleTimeString();
       let title = "";
       if (chat_object.data.intents && chat_object.data.intents.length > 0) {
-        title += "Intent : " + chat_object.data.intents + "<br/>";
+        title += "Intent : " + chat_object.data.intents + "\n";
       }
       if (chat_object.data.entities && chat_object.data.entities.length > 0) {
-        title +=
-          "Intent : " + JSON.stringify(chat_object.data.entities) + "<br/>";
+        title += "Intent : " + JSON.stringify(chat_object.data.entities) + "\n";
       }
       let temp_message_obj = {
         text: chat_object.data.message,
