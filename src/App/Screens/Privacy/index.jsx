@@ -406,9 +406,8 @@ const Privacy = () => {
                     <div className="col-lg-5">
                       <a href="/landing" className="app-brand-link mb-4">
                         <span className="app-brand-logo demo">
-<<<<<<< HEAD
                           <img src={Logo} height={32} width={32} alt="" />
-=======
+
                           <svg
                             width="32"
                             height="22"
@@ -443,13 +442,12 @@ const Privacy = () => {
                               fill="#7367F0"
                             />
                           </svg>
->>>>>>> aa18f9ef62d1c4bc8d441b05028ff4263d947568
                         </span>
                         <span className="app-brand-text demo footer-link fw-bold ms-2 ps-1">
                           ContactSwing
                         </span>
                       </a>
-<<<<<<< HEAD
+
                       <p
                         className="footer-class"
                         style={{
@@ -462,11 +460,16 @@ const Privacy = () => {
                       </p>
                       {/* <form className="footer-form">
 =======
+=======
+>>>>>>> aa18f9ef62d1c4bc8d441b05028ff4263d947568
                       <p className="footer-text footer-logo-description mb-4">
                         Transform Your Customer Interactions with Contact
                         Swing's Advanced Communication Solutions!
                       </p>
                       <form className="footer-form">
+<<<<<<< HEAD
+>>>>>>> aa18f9ef62d1c4bc8d441b05028ff4263d947568
+=======
 >>>>>>> aa18f9ef62d1c4bc8d441b05028ff4263d947568
                         <label htmlFor="footer-email" className="small">
                           Subscribe to newsletter
