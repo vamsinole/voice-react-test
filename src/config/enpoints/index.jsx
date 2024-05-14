@@ -11,11 +11,6 @@ export const USER_ENDPOINTS = {
   createChat: `/v1/ai/chat`,
   addIntent: `/v1/voiceassistants`,
   getmodel: `/v1/ai/models`,
-  // profile: "/v1/me",
-  // forgotpassword: "/v1/user/forgot_password",
-  // Otpverification: "/v1/user/new_password",
-  register: "/v1/register",
-  Oauth: "/v1/google/signin?redirect_uri=https://contactswing.com/login",
+  profile: "/v1/me",
   enquiry: "/v1/enquiry",
-  updateprofile: "/v1/me",
 };

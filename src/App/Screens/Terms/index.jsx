@@ -1583,7 +1583,6 @@ const Terms = () => {
                   </div>
                 </div>
               </div>
-
               {/* <div className="footer-bottom py-3">
                 <div className="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
                   <div className="mb-2 mb-md-0">
