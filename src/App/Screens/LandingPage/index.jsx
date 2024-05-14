@@ -2644,6 +2644,7 @@ const LandingPage = () => {
                 </div>
               </div> */}
             </footer>
+            <ToastContainer />
           </div>
         </div>
       </div>

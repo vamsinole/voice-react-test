@@ -401,13 +401,11 @@ const Privacy = () => {
                   data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
                   data-app-dark-img="front-pages/backgrounds/footer-bg-dark.png"
                 />
-                <div className="container">
-                  <div className="row gx-0 gy-4 g-md-5">
-                    <div className="col-lg-5">
-                      <a href="/landing" className="app-brand-link mb-4">
-                        <span className="app-brand-logo demo">
-                          <img src={Logo} height={32} width={32} alt="" />
-
+                <div class="container">
+                  <div class="row gx-0 gy-4 g-md-5">
+                    <div class="col-lg-5">
+                      <a href="/landing" class="app-brand-link mb-4">
+                        <span class="app-brand-logo demo">
                           <svg
                             width="32"
                             height="22"
@@ -447,31 +445,12 @@ const Privacy = () => {
                           ContactSwing
                         </span>
                       </a>
-
-                      <p
-                        className="footer-class"
-                        style={{
-                          color: "white",
-                          marginLeft: "49px",
-                          marginTop: "-20px",
-                        }}
-                      >
-                        Engage Better, Grow Faster
-                      </p>
-                      {/* <form className="footer-form">
-=======
-=======
->>>>>>> aa18f9ef62d1c4bc8d441b05028ff4263d947568
-                      <p className="footer-text footer-logo-description mb-4">
+                      <p class="footer-text footer-logo-description mb-4">
                         Transform Your Customer Interactions with Contact
                         Swing's Advanced Communication Solutions!
                       </p>
-                      <form className="footer-form">
-<<<<<<< HEAD
->>>>>>> aa18f9ef62d1c4bc8d441b05028ff4263d947568
-=======
->>>>>>> aa18f9ef62d1c4bc8d441b05028ff4263d947568
-                        <label htmlFor="footer-email" className="small">
+                      <form class="footer-form">
+                        <label for="footer-email" class="small">
                           Subscribe to newsletter
                         </label>
                         <div className="d-flex mt-1">
@@ -488,7 +467,7 @@ const Privacy = () => {
                             Subscribe
                           </button>
                         </div>
-                      </form> */}
+                      </form>
                     </div>
                     <div className="col-lg-2 col-md-4 col-sm-6">
                       <ul className="list-unstyled">
