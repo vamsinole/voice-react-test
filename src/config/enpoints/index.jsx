@@ -13,4 +13,5 @@ export const USER_ENDPOINTS = {
   getmodel: `/v1/ai/models`,
   profile: "/v1/me",
   enquiry: "/v1/enquiry",
+  register: "/v1/register",
 };

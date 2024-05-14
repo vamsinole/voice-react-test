@@ -8,39 +8,64 @@ import "react-toastify/dist/ReactToastify.css";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
 import env from "../../../config";
 import { callAPI, toastr_options } from "../../Components/Utils";
-// import "./Styles.scss";
+import { useNavigate } from "react-router-dom";
+
 const Profile = () => {
-  const [userObject, setUserObject] = useState([
-    {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      website: "",
-      address: "",
-      country: "",
-      currency: "",
-      language: "",
-      timezone: "",
-      state: "",
-      zipCode: "",
-      company: { name: "" },
+  const [userObject, setUserObject] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    website: "",
+    address: "",
+    type: "",
+    role: "",
+    department: "",
+    notes: "",
+    livestatus: "",
+    status: "",
+    image_url: "",
+    country: "",
+    currency: "",
+    language: "",
+    timezone: "",
+    firstName: "",
+    lastName: "",
+    company: {
+      name: "",
     },
-  ]);
+    state: "",
+    zipCode: "",
+  });
+
+  const [inputErrors, setInputErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    state: "",
+    zipCode: "",
+    country: "",
+    currency: "",
+    language: "",
+    timezone: "",
+  });
 
   const baseurl = env.baseUrl;
   const token = localStorage.getItem("token");
 
   const handleSelectChange = (event) => {
-    const atype = event.target.value;
-    let type = event.target.name;
+    const { name, value } = event.target;
 
-    console.log("actionType", atype, event.target.value);
-
-    setUserObject({
-      ...userObject,
-      [type]: event.target.value,
-    });
+    // Check if 'name' is defined before accessing it
+    if (name) {
+      setUserObject({
+        ...userObject,
+        [name]: value,
+      });
+    } else {
+      console.error("Name is undefined in handleSelectChange");
+    }
   };
 
   const handleInputChange = (event) => {
@@ -49,7 +74,14 @@ const Profile = () => {
       ...userObject,
       [name]: value,
     });
+    // Clear error for the current input
+    setInputErrors({
+      ...inputErrors,
+      [name]: "",
+    });
   };
+
+  const navigate = useNavigate();
 
   async function submitProfileChanges() {
     let name = userObject.firstName + " " + userObject.lastName,
@@ -59,17 +91,77 @@ const Profile = () => {
         userObject.state +
         " , " +
         userObject.zipCode;
-    if (!name || name.length === 0) {
-      toast.error("Name cannot be empty", toastr_options);
-      return "";
+
+    // Validate each input
+    const errors = {};
+    if (!userObject.firstName || userObject.firstName.length === 0) {
+      errors.firstName = "First name cannot be empty";
+    }
+    if (!userObject.lastName || userObject.lastName.length === 0) {
+      errors.lastName = "Last name cannot be empty";
+    }
+    if (!userObject.email || userObject.email.length === 0) {
+      errors.email = "Email cannot be empty";
     }
     if (!userObject.phone || userObject.phone.length === 0) {
-      toast.error("Phone cannot be empty", toastr_options);
-      return "";
+      errors.phone = "Phone cannot be empty";
     }
     if (!address || address.length === 0) {
-      toast.error("Address cannot be empty", toastr_options);
-      return "";
+      errors.address = "Address cannot be empty";
+    }
+    if (!userObject.country || userObject.country.length === 0) {
+      errors.country = "Country cannot be empty";
+    }
+    if (!userObject.language || userObject.language.length === 0) {
+      errors.language = "Language cannot be empty";
+    }
+    if (!userObject.timezone || userObject.timezone.length === 0) {
+      errors.timezone = "Timezone cannot be empty";
+    }
+    if (!userObject.currency || userObject.currency.length === 0) {
+      errors.currency = "Currency cannot be empty";
+    }
+
+    // Update input errors state
+    setInputErrors(errors);
+
+    // If there are any errors, don't proceed with submission
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
+    // Proceed with submission
+    delete userObject.firstName;
+    delete userObject.lastName;
+    delete userObject.state;
+    delete userObject.zipCode;
+    userObject.name = name;
+    userObject.address = address;
+    try {
+      let response = await callAPI(
+        "PUT",
+        baseurl + USER_ENDPOINTS.updateprofile,
+        JSON.stringify(userObject),
+        token
+      );
+      if (response.authError) {
+        navigate("/login");
+      } else if (response.error) {
+        if (
+          response.error &&
+          response.error.message &&
+          response.error.message.length > 0
+        ) {
+          toast.error(response.error.message, toastr_options);
+        } else {
+          toast.error("Please try again later");
+        }
+      } else {
+        toast.success("Profile updated successfully", toastr_options);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("An error occurred while updating profile", toastr_options);
     }
   }
 
@@ -152,8 +244,13 @@ const Profile = () => {
                                 name="firstName"
                                 value={userObject.firstName}
                                 onChange={handleInputChange}
-                                autofocus
+                                autoFocus
                               />
+                              {inputErrors.firstName && (
+                                <div className="text-danger">
+                                  {inputErrors.firstName}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="lastName" className="form-label">
@@ -167,6 +264,11 @@ const Profile = () => {
                                 onChange={handleInputChange}
                                 id="lastName"
                               />
+                              {inputErrors.lastName && (
+                                <div className="text-danger">
+                                  {inputErrors.lastName}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="email" className="form-label">
@@ -182,6 +284,11 @@ const Profile = () => {
                                 disabled
                                 placeholder="john.doe@example.com"
                               />
+                              {inputErrors.email && (
+                                <div className="text-danger">
+                                  {inputErrors.email}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label
@@ -220,6 +327,11 @@ const Profile = () => {
                                   onChange={handleInputChange}
                                 />
                               </div>
+                              {inputErrors.phone && (
+                                <div className="text-danger">
+                                  {inputErrors.phone}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="address" className="form-label">
@@ -234,6 +346,11 @@ const Profile = () => {
                                 onChange={handleInputChange}
                                 placeholder="Address"
                               />
+                              {inputErrors.address && (
+                                <div className="text-danger">
+                                  {inputErrors.address}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="state" className="form-label">
@@ -248,6 +365,11 @@ const Profile = () => {
                                 onChange={handleInputChange}
                                 placeholder="California"
                               />
+                              {inputErrors.state && (
+                                <div className="text-danger">
+                                  {inputErrors.state}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="zipCode" className="form-label">
@@ -261,8 +383,13 @@ const Profile = () => {
                                 placeholder="231465"
                                 value={userObject.zipCode}
                                 onChange={handleInputChange}
-                                maxlength="6"
+                                maxLength="6"
                               />
+                              {inputErrors.zipCode && (
+                                <div className="text-danger">
+                                  {inputErrors.zipCode}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label className="form-label" htmlFor="country">
@@ -313,6 +440,12 @@ const Profile = () => {
                                   United States
                                 </option>
                               </select>
+
+                              {inputErrors.country && (
+                                <div className="text-danger">
+                                  {inputErrors.country}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="language" className="form-label">
@@ -326,11 +459,17 @@ const Profile = () => {
                                 onChange={handleSelectChange}
                               >
                                 <option value="">Select Language</option>
+                                <option value="">Select Language</option>
                                 <option value="en">English</option>
                                 <option value="fr">French</option>
                                 <option value="de">German</option>
                                 <option value="pt">Portuguese</option>
                               </select>
+                              {inputErrors.language && (
+                                <div className="text-danger">
+                                  {inputErrors.language}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="timeZones" className="form-label">
@@ -343,6 +482,7 @@ const Profile = () => {
                                 value={userObject.timezone}
                                 onChange={handleSelectChange}
                               >
+                                <option value="">Select Timezone</option>
                                 <option value="">Select Timezone</option>
                                 <option value="-12">
                                   (GMT-12:00) International Date Line West
@@ -394,6 +534,11 @@ const Profile = () => {
                                   (GMT-04:00) Caracas, La Paz
                                 </option>
                               </select>
+                              {inputErrors.timezone && (
+                                <div className="text-danger">
+                                  {inputErrors.timezone}
+                                </div>
+                              )}
                             </div>
                             <div className="mb-3 col-md-6">
                               <label htmlFor="currency" className="form-label">
@@ -412,6 +557,11 @@ const Profile = () => {
                                 <option value="pound">Pound</option>
                                 <option value="bitcoin">Bitcoin</option>
                               </select>
+                              {inputErrors.currency && (
+                                <div className="text-danger">
+                                  {inputErrors.currency}
+                                </div>
+                              )}
                             </div>
                           </div>
                           <div className="mt-2">
@@ -422,12 +572,12 @@ const Profile = () => {
                             >
                               Save changes
                             </button>
-                            <button
+                            {/* <button
                               type="reset"
                               className="btn btn-label-secondary"
                             >
                               Reset
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       </div>
@@ -450,7 +600,7 @@ const Profile = () => {
                           </div>
                           <form
                             id="formAccountDeactivation"
-                            onsubmit="return false"
+                            onSubmit={(e) => e.preventDefault()}
                           >
                             <div className="form-check mb-4">
                               <input
@@ -484,6 +634,7 @@ const Profile = () => {
             <NewAssistantHelpBar />
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

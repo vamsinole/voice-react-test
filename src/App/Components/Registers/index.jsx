@@ -1,27 +1,129 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Logo from "./../../../assets/logo.png";
+import env from "../../../config";
+import { USER_ENDPOINTS } from "../../../config/enpoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Register = () => {
+  const baseurl = env.baseUrl;
+  const endpoint = USER_ENDPOINTS.register;
+  // const endpointgoogle = USER_ENDPOINTS.Oauth;
+
   const [showPassword, setShowPassword] = useState(false);
   const [registerAsCompany, setRegisterAsCompany] = useState(false);
-
+  const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [website, setWebsite] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [companyIndustry, setCompanyIndustry] = useState("");
+  const [companyFedId, setCompanyFedId] = useState("");
+  const navigate = useNavigate();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const submitRegister = () => {
-    // Handle form submission logic here
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "email":
+        setEmail(value);
+        break;
+      case "firstname":
+        setFirstname(value);
+        break;
+      case "lastname":
+        setLastname(value);
+        break;
+      case "website":
+        setWebsite(value);
+        break;
+      case "phone":
+        setPhone(value);
+        break;
+      case "address":
+        setAddress(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      case "companyName":
+        setCompanyName(value);
+        break;
+      case "companyEmail":
+        setCompanyEmail(value);
+        break;
+      case "companyIndustry":
+        setCompanyIndustry(value);
+        break;
+      case "companyFedId":
+        setCompanyFedId(value);
+        break;
+      default:
+        break;
+    }
   };
 
+  const submitRegister = async () => {
+    const formData = {
+      email,
+      firstname,
+      lastname,
+      website,
+      phone,
+      address,
+      password,
+      company: {
+        email: companyEmail,
+        name: companyName,
+        industry: companyIndustry,
+        fed_id: companyFedId,
+      },
+    };
+    console.log(formData);
+    try {
+      const response = await axios.post(baseurl + endpoint, formData);
+      console.log("Registration successful", response.data);
+      toast.success("Registration successful");
+      navigate("/login");
+      // Optionally, you can redirect the user to a different page after successful registration
+    } catch (error) {
+      console.error("Registration failed", error);
+      if (error.response) {
+        const { data } = error.response;
+        if (data && data.error && data.error.message) {
+          toast.error(data.error.message);
+        } else {
+          toast.error("Registration failed. Please try again later.");
+        }
+      } else {
+        toast.error("Registration failed. Please try again later.");
+      }
+    }
+  };
+
+  // const handleOauth = async () => {
+  //   try {
+  //     const response = await axios.get(baseurl + endpointgoogle);
+  //     console.log("Registration with gooleAuth successful", response.data);
+  //     // Optionally, you can redirect the user to a different page after successful registration
+  //   } catch (error) {
+  //     console.error("Registration failed", error);
+  //   }
+  // };
   const toggleRegisterAsCompany = () => {
-    // console.log(registerAsCompany);
     setRegisterAsCompany((prev) => !prev);
   };
-  console.log(registerAsCompany);
 
   return (
-    // <div className="authentication-wrapper-outer bg-white">
     <div className="authentication-wrapper authentication-cover authentication-bg">
       <div className="authentication-inner row">
         <div className="d-none d-lg-flex col-lg-7 p-0">
@@ -67,6 +169,8 @@ const Register = () => {
                   name="firstname"
                   placeholder="Enter your first name"
                   autoFocus
+                  value={firstname}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
@@ -79,7 +183,8 @@ const Register = () => {
                   id="lastname"
                   name="lastname"
                   placeholder="Enter your last name"
-                  autoFocus
+                  value={lastname}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
@@ -92,6 +197,8 @@ const Register = () => {
                   id="email"
                   name="email"
                   placeholder="Enter your email"
+                  value={email}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
@@ -102,8 +209,10 @@ const Register = () => {
                   type="text"
                   className="form-control phone-mask"
                   id="basic-default-phone"
-                  name="basic-default-phone"
+                  name="phone"
                   placeholder="658 799 8941"
+                  value={phone}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
@@ -116,6 +225,8 @@ const Register = () => {
                   id="website"
                   name="website"
                   placeholder="Enter your website"
+                  value={website}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
@@ -128,6 +239,8 @@ const Register = () => {
                   id="address"
                   name="address"
                   placeholder="Enter your address"
+                  value={address}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3 form-password-toggle">
@@ -142,6 +255,8 @@ const Register = () => {
                     name="password"
                     placeholder="••••••••••••"
                     aria-describedby="password"
+                    value={password}
+                    onChange={handleChange}
                   />
                   <span
                     className="input-group-text cursor-pointer"
@@ -153,23 +268,6 @@ const Register = () => {
                   </span>
                 </div>
               </div>
-              {/* <div className="mb-3">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="register-company-switch"
-                    checked={registerAsCompany}
-                    onChange={toggleRegisterAsCompany}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="register-company-switch"
-                  >
-                    Register as company
-                  </label>
-                </div>
-              </div> */}
               <div className="mb-3">
                 <div className="text-light small fw-medium mb-3">
                   Register as company
@@ -198,9 +296,10 @@ const Register = () => {
                       type="text"
                       className="form-control"
                       id="companyname"
-                      name="companyname"
+                      name="companyName"
                       placeholder="Enter your company name"
-                      autofocus
+                      value={companyName}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -211,8 +310,10 @@ const Register = () => {
                       type="email"
                       className="form-control"
                       id="companyemail"
-                      name="companyemail"
+                      name="companyEmail"
                       placeholder="Enter your company email"
+                      value={companyEmail}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -223,8 +324,10 @@ const Register = () => {
                       type="email"
                       className="form-control"
                       id="companyindustry"
-                      name="companyindustry"
+                      name="companyIndustry"
                       placeholder="Enter your company industry"
+                      value={companyIndustry}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -235,8 +338,10 @@ const Register = () => {
                       type="email"
                       className="form-control"
                       id="companyfedid"
-                      name="companyfedid"
+                      name="companyFedId"
                       placeholder="Enter your company fed id"
+                      value={companyFedId}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -284,29 +389,18 @@ const Register = () => {
               </Link>
             </p>
 
-            <div className="divider my-4">
+            {/* <div className="divider my-4">
               <div className="divider-text">or</div>
-            </div>
+            </div> */}
 
-            <div className="d-flex justify-content-center">
-              {/* <a
-                href="javascript:;"
-                className="btn btn-icon btn-label-facebook me-3"
-              >
-                <i className="tf-icons fa-brands fa-facebook-f fs-5"></i>
-              </a> */}
-
+            {/* <div className="d-flex justify-content-center">
               <a
-                href="javascript:;"
+                onClick={handleOauth}
                 className="btn btn-icon btn-label-google-plus me-3"
               >
                 <i className="tf-icons fa-brands fa-google fs-5"></i>
               </a>
-
-              {/* <a href="javascript:;" className="btn btn-icon btn-label-twitter">
-                <i className="tf-icons fa-brands fa-twitter fs-5"></i>
-              </a> */}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -332,8 +426,8 @@ const Register = () => {
         <div className="toast-body">Hello, world! This is a toast message.</div>
       </div>
       {/*/ Toast with Animation */}
+      <ToastContainer />
     </div>
-    // </div>
   );
 };
 

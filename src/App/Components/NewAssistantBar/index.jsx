@@ -157,15 +157,15 @@ const NewAssistantBar = () => {
                         <li>
                           <div className="dropdown-divider"></div>
                         </li>
-                        <li>
+                        {/* <li>
                           <Link className="dropdown-item" to="/profile">
                             <i className="ti ti-user-check me-2 ti-sm"></i>
                             <span className="align-middle">My Profile</span>
                           </Link>
-                        </li>
-                        <li>
+                        </li> */}
+                        {/* <li>
                           <div className="dropdown-divider"></div>
-                        </li>
+                        </li> */}
                         {/* <li>
                           <i className="ti ti-logout me-2 ti-sm"></i>
                           <Link className="nav-link d-inline-block" to="/login">

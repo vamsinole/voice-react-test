@@ -1,6 +1,37 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 import React from "react";
 import Logo from "./../../../assets/logo.png";
+// import { Link, useNavigate } from "react-router-dom";
+// import axios from "axios"; // Import axios for making API requests
+// import env from "../../../config";
+// import { USER_ENDPOINTS } from "../../../config/enpoints";
+
 const OtpVerification = () => {
+  // const baseurl = env.baseUrl;
+  // const endpoint = USER_ENDPOINTS.Otpverification;
+  // const [otp, setOtp] = useState("");
+  // const navigate = useNavigate();
+
+  // const handleOtpChange = (e) => {
+  //   setOtp(e.target.value);
+  // };
+
+  // const handleFormSubmit = async (e) => {
+  //   // Add async keyword here
+  //   e.preventDefault();
+  //   try {
+  //     // Example API call using axios
+  //     const response = await axios.post(baseurl + endpoint, { otp });
+  //     console.log(response);
+  //     // Assuming the API returns success
+  //     navigate("/reset-password");
+  //   } catch (error) {
+  //     // Handle errors, such as displaying an error message to the user
+  //     console.error("Error:", error);
+  //   }
+  // };
+
   return (
     <>
       <div className="authentication-wrapper authentication-cover authentication-bg">
@@ -15,7 +46,6 @@ const OtpVerification = () => {
                 data-app-light-img="illustrations/auth-two-step-illustration-light.png"
                 data-app-dark-img="illustrations/auth-two-step-illustration-dark.png"
               />
-
               <img
                 src="../../assets/img/illustrations/bg-shape-image-light.png"
                 alt="auth-two-steps-cover"
@@ -25,7 +55,7 @@ const OtpVerification = () => {
               />
             </div>
           </div>
-          {/* <!-- /Left Text --> */}
+          {/* Left Text */}
 
           {/* <!-- Two Steps Verification --> */}
           <div className="d-flex col-12 col-lg-5 align-items-center p-4 p-sm-5">
@@ -38,7 +68,7 @@ const OtpVerification = () => {
                   </span>
                 </a>
               </div>
-              {/* <!-- /Logo --> */}
+              {/* Logo */}
 
               <h4 className="mb-1">OTP Verification 💬</h4>
               <p className="text-start mb-4">
@@ -82,8 +112,6 @@ const OtpVerification = () => {
                       maxlength="1"
                     />
                   </div>
-                  {/* <!-- Create a hidden field which is combined by 3 fields above --> */}
-                  <input type="hidden" name="otp" />
                 </div>
                 <button className="btn btn-primary d-grid w-100 mb-3">
                   Verify my account
@@ -95,7 +123,7 @@ const OtpVerification = () => {
               </form>
             </div>
           </div>
-          {/* <!-- /Two Steps Verification --> */}
+          {/* Two Steps Verification */}
         </div>
       </div>
     </>

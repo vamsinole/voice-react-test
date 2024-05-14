@@ -7,9 +7,10 @@ import axios from "axios";
 // import axios from '../axiosInterceptor';
 import env from "../../../config";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "./../../../assets/logo.png";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const AuthLogin = () => {
   localStorage.removeItem("token");
 
@@ -46,6 +47,9 @@ const AuthLogin = () => {
     setShowPassword((prevState) => !prevState);
   };
 
+  const handleForgotPassword = () => {
+    toast.error("Contact our support team to change your password");
+  };
   return (
     <>
       <div className="authentication-wrapper authentication-cover authentication-bg">
@@ -107,9 +111,9 @@ const AuthLogin = () => {
                     <label className="form-label" htmlFor="password">
                       Password
                     </label>
-                    <a href="/forgotpassword">
+                    <Link onClick={handleForgotPassword}>
                       <small>Forgot Password?</small>
-                    </a>
+                    </Link>
                   </div>
                   <div className="input-group input-group-merge">
                     <input
@@ -161,9 +165,9 @@ const AuthLogin = () => {
                 </a>
               </p>
 
-              <div className="divider my-4">
+              {/* <div className="divider my-4">
                 <div className="divider-text">or</div>
-              </div>
+              </div> */}
 
               <div className="d-flex justify-content-center">
                 {/* <a
@@ -173,12 +177,12 @@ const AuthLogin = () => {
                   <i className="tf-icons fa-brands fa-facebook-f fs-5"></i>
                 </a> */}
 
-                <a
+                {/* <a
                   href="javascript:;"
                   className="btn btn-icon btn-label-google-plus me-3"
                 >
                   <i className="tf-icons fa-brands fa-google fs-5"></i>
-                </a>
+                </a> */}
 
                 {/* <a
                   href="javascript:;"
@@ -190,6 +194,7 @@ const AuthLogin = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

@@ -22,10 +22,11 @@ import UsersControls from "./App/Screens/UsersControls";
 import LandingPage from "./App/Screens/LandingPage";
 import Privacy from "./App/Screens/Privacy";
 import Terms from "./App/Screens/Terms";
-import ForgetPassword from "./App/Screens/ForgotPassword";
-import Profile from "./App/Screens/Profile";
-import Security from "./App/Screens/Security";
-import OtpVerification from "./App/Screens/OtpVerification";
+// import ForgetPassword from "./App/Screens/ForgotPassword";
+// import Profile from "./App/Screens/Profile";
+// import Security from "./App/Screens/Security";
+// import OtpVerification from "./App/Screens/OtpVerification";
+// import NewPassword from "./App/Screens/NewPassword";
 
 const publicRoutes = [
   { path: "/", component: LandingPage },
@@ -52,10 +53,11 @@ const publicRoutes = [
   { path: "setting", component: Setting },
   { path: "userscontrols", component: UsersControls },
   // <-- new pages added -->
-  { path: "forgotpassword", component: ForgetPassword },
-  { path: "profile", component: Profile },
-  { path: "security", component: Security },
-  { path: "otp-verification", component: OtpVerification },
+  // { path: "forgotpassword", component: ForgetPassword },
+  // { path: "profile", component: Profile },
+  // { path: "security", component: Security },
+  // { path: "otp-verification", component: OtpVerification },
+  // { path: "reset-password", component: NewPassword },
 
   // { path: '*', component: Pagenotfound },
 ];
