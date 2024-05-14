@@ -4,7 +4,8 @@ import axios from "axios";
 import Logo from "./../../../assets/logo.png";
 import env from "../../../config";
 import { USER_ENDPOINTS } from "../../../config/enpoints";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Register = () => {
   const baseurl = env.baseUrl;
   const endpoint = USER_ENDPOINTS.register;
@@ -89,10 +90,21 @@ const Register = () => {
     try {
       const response = await axios.post(baseurl + endpoint, formData);
       console.log("Registration successful", response.data);
+      toast.success("Registration successful");
       navigate("/login");
       // Optionally, you can redirect the user to a different page after successful registration
     } catch (error) {
       console.error("Registration failed", error);
+      if (error.response) {
+        const { data } = error.response;
+        if (data && data.error && data.error.message) {
+          toast.error(data.error.message);
+        } else {
+          toast.error("Registration failed. Please try again later.");
+        }
+      } else {
+        toast.error("Registration failed. Please try again later.");
+      }
     }
   };
 
@@ -412,6 +424,7 @@ const Register = () => {
         <div className="toast-body">Hello, world! This is a toast message.</div>
       </div>
       {/*/ Toast with Animation */}
+      <ToastContainer />
     </div>
   );
 };
