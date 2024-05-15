@@ -25,7 +25,7 @@
   padding: 10px;
 }
 .ti-filter:hover {
-  color: #7367f0;
+  color: #2FBFBE;
   transition: .5s;
 }
 
@@ -80,7 +80,7 @@
   // }
   
   .results {
-    max-height: calc(62vh - 125px); /* Adjust the height as needed */
+    // max-height: calc(62vh - 125px); /* Adjust the height as needed */
     overflow-y: auto;
     margin-top: 10px;
   }

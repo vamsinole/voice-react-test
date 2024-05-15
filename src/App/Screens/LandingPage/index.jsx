@@ -1,8 +1,13 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import React from 'react'
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./landing-page.scss";
+import Logo from "./../../../assets/logo.png";
+import { callAPI, toastr_options, validateEmail } from "../../Components/Utils";
+import { ToastContainer, toast } from "react-toastify";
+import env from "../../../config";
+import { USER_ENDPOINTS } from "../../../config/enpoints";
 
 const LandingPage = () => {
   useEffect(() => {
@@ -244,18 +249,63 @@ const LandingPage = () => {
       // }
     })();
   }, []);
+  const baseurl = env.baseUrl;
+
+  const [sendingEnquiry, setSendingEnquiry] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  async function submitEnquiry() {
+    if (!name || name.length === 0) {
+      toast.error("Name cannot be empty", toastr_options);
+      return "";
+    }
+    if (!email || email.length === 0) {
+      toast.error("Email cannot be empty", toastr_options);
+      return "";
+    }
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email", toastr_options);
+      return "";
+    }
+    if (!message || message.length === 0) {
+      toast.error("Message cannot be empty", toastr_options);
+      return "";
+    }
+    setSendingEnquiry(true);
+    let enquiry_data = {
+      name,
+      email,
+      message,
+    };
+    let send_enquiry_obj = await callAPI(
+      "POST",
+      baseurl + USER_ENDPOINTS.enquiry,
+      JSON.stringify(enquiry_data),
+      ""
+    );
+    setName("");
+    setEmail("");
+    setMessage("");
+    setSendingEnquiry(false);
+    if (send_enquiry_obj.error || send_enquiry_obj.authError) {
+    } else {
+      toast.success("Thanks for submitting the enquiry", toastr_options);
+    }
+  }
 
   return (
     <>
-      <div class="">
-        <div class="row">
-          <div class="col-12">
-            <nav class="layout-navbar shadow-none py-0">
-              <div class="container">
-                <div class="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
-                  <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
+      <div className="">
+        <div className="row">
+          <div className="col-12">
+            <nav className="layout-navbar shadow-none py-0">
+              <div className="container">
+                <div className="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
+                  <div className="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
                     <button
-                      class="navbar-toggler border-0 px-0 me-2"
+                      className="navbar-toggler border-0 px-0 me-2"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -263,57 +313,24 @@ const LandingPage = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i class="ti ti-menu-2 ti-sm align-middle"></i>
+                      <i className="ti ti-menu-2 ti-sm align-middle"></i>
                     </button>
-                    <a href="/landing" class="app-brand-link">
-                      <span class="app-brand-logo demo">
-                        <svg
-                          width="32"
-                          height="22"
-                          viewBox="0 0 32 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
-                            fill="#7367F0"
-                          />
-                          <path
-                            opacity="0.06"
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
-                            fill="#161616"
-                          />
-                          <path
-                            opacity="0.06"
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
-                            fill="#161616"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
-                            fill="#7367F0"
-                          />
-                        </svg>
+                    <a href="/landing" className="app-brand-link">
+                      <span className="app-brand-logo demo">
+                        <img src={Logo} height={32} width={32} alt="" />
                       </span>
-                      <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">
+                      <span className="app-brand-text demo menu-text fw-bold ms-2 ps-1">
                         ContactSwing
                       </span>
                     </a>
                   </div>
 
                   <div
-                    class="collapse navbar-collapse landing-nav-menu"
+                    className="collapse navbar-collapse landing-nav-menu"
                     id="navbarSupportedContent"
                   >
                     <button
-                      class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
+                      className="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -321,96 +338,104 @@ const LandingPage = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i class="ti ti-x ti-sm"></i>
+                      <i className="ti ti-x ti-sm"></i>
                     </button>
-                    <ul class="navbar-nav me-auto">
-                      <li class="nav-item">
+                    <ul className="navbar-nav me-auto">
+                      <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
                           aria-current="page"
                           href="#landingHero"
                         >
                           Home
                         </a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link fw-medium" href="#landingFeatures">
+                      <li className="nav-item">
+                        <a
+                          className="nav-link fw-medium"
+                          href="#landingFeatures"
+                        >
                           Features
                         </a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link fw-medium" href="#landingContact">
+                      <li className="nav-item">
+                        <a
+                          className="nav-link fw-medium"
+                          href="#landingContact"
+                        >
                           Contact us
                         </a>
                       </li>
                     </ul>
                   </div>
-                  <div class="landing-menu-overlay d-lg-none"></div>
+                  <div className="landing-menu-overlay d-lg-none"></div>
 
-                  <ul class="navbar-nav flex-row align-items-center ms-auto">
-                    <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                  <ul className="navbar-nav flex-row align-items-center ms-auto">
+                    {/* <li className="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
                       <a
-                        class="nav-link dropdown-toggle hide-arrow"
+                        className="nav-link dropdown-toggle hide-arrow"
                         href="javascript:void(0);"
                         data-bs-toggle="dropdown"
+                        // dangerouslySetInnerHTML="javascript:void(0);"
                       >
-                        <i class="ti ti-sm"></i>
+                        <i className="ti ti-sm"></i>
                       </a>
-                      <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                      <ul className="dropdown-menu dropdown-menu-end dropdown-styles">
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="light"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-sun me-2"></i>Light
+                            <span className="align-middle">
+                              <i className="ti ti-sun me-2"></i>Light
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="dark"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-moon me-2"></i>Dark
+                            <span className="align-middle">
+                              <i className="ti ti-moon me-2"></i>Dark
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="system"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-device-desktop me-2"></i>System
+                            <span className="align-middle">
+                              <i className="ti ti-device-desktop me-2"></i>
+                              System
                             </span>
                           </a>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
 
                     <li>
                       <a
                         href="/login"
-                        class="btn btn-primary mx-1"
-                        target="_blank"
+                        className="btn btn-primary mx-1"
+                        // target="_blank"
                       >
-                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span class="d-none d-md-block">Login</span>
+                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span className="d-none d-md-block">Login</span>
                       </a>
                     </li>
                     <li>
                       <a
                         href="/register"
-                        class="btn btn-primary mx-1"
-                        target="_blank"
+                        className="btn btn-primary mx-1"
+                        // target="_blank"
                       >
-                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span class="d-none d-md-block">Register</span>
+                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span className="d-none d-md-block">Register</span>
                       </a>
                     </li>
                   </ul>
@@ -422,44 +447,41 @@ const LandingPage = () => {
 
         <div className="row">
           <div className="col-12">
-            <div data-bs-spy="scroll" class="scrollspy-example">
+            <div data-bs-spy="scroll" className="scrollspy-example">
               <section id="hero-animation">
                 <div
                   id="landingHero"
-                  class="section-py landing-hero position-relative"
+                  className="section-py landing-hero position-relative"
                 >
                   <img
                     src="../../assets/img/front-pages/backgrounds/hero-bg.png"
                     alt="hero background"
-                    class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100"
+                    className="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100"
                     data-speed="1"
                   />
-                  <div class="col-12">
-                    <div class="hero-text-box text-center">
-                      <h1 class="text-primary hero-title display-6 fw-bold">
+                  <div className="col-12">
+                    <div className="hero-text-box text-center">
+                      <h1 className="text-primary hero-title display-6 fw-bold">
                         Transform Your Customer Interactions with Contact
                         Swing's Advanced Communication Solutions!
                       </h1>
-                      <h2 class="hero-sub-title h6 mb-4 pb-1">
-                        Unleash the power of integrated voice, chat, SMS, and
-                        email bots designed to elevate
-                        <br class="d-none d-lg-block" />
+                      <h2 className="hero-sub-title h6 mb-4 pb-1">
+                        Unleash the power of integrated Voice, Email, SMS, and
+                        Chat bots designed to elevate
+                        <br className="d-none d-lg-block" />
                         your business communication, improve response times, and
                         boost customer satisfaction.
                       </h2>
-                      <div class="landing-hero-btn d-inline-block position-relative">
-                        {/* <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">
+                      <div className="landing-hero-btn d-inline-block position-relative">
+                        {/* <span className="hero-btn-item position-absolute d-none d-md-flex text-heading">
                           Join community
                           <img
                             src="../../assets/img/front-pages/icons/Join-community-arrow.png"
                             alt="Join community arrow"
-                            class="scaleX-n1-rtl"
+                            className="scaleX-n1-rtl"
                           />
                         </span> */}
-                        <a
-                          href="#landingPricing"
-                          class="btn btn-primary btn-lg"
-                        >
+                        <a href="/register" className="btn btn-primary btn-lg">
                           Get early access
                         </a>
                       </div>
@@ -468,24 +490,24 @@ const LandingPage = () => {
                       <div className="col-12">
                         <div
                           id="heroDashboardAnimation"
-                          class="hero-animation-img"
+                          className="hero-animation-img"
                         >
                           <a href="#" target="_blank">
                             <div
                               id="heroAnimationImg"
-                              class="position-relative hero-dashboard-img"
+                              className="position-relative hero-dashboard-img"
                             >
                               <img
                                 src="../../assets/img/front-pages/landing-page/hero-dashboard-light.png"
                                 alt="hero dashboard"
-                                class="animation-img"
+                                className="animation-img"
                                 data-app-light-img="front-pages/landing-page/hero-dashboard-light.png"
                                 data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png"
                               />
                               <img
                                 src="../../assets/img/front-pages/landing-page/hero-elements-light.png"
                                 alt="hero elements"
-                                class="position-absolute hero-elements-img animation-img top-0 start-0"
+                                className="position-absolute hero-elements-img animation-img top-0 start-0"
                                 data-app-light-img="front-pages/landing-page/hero-elements-light.png"
                                 data-app-dark-img="front-pages/landing-page/hero-elements-dark.png"
                               />
@@ -496,54 +518,57 @@ const LandingPage = () => {
                     </div>
                   </div>
                 </div>
-                <div class="landing-hero-blank"></div>
+                <div className="landing-hero-blank"></div>
               </section>
 
-              <section id="landingFeatures" class="section-py landing-features">
-                <div class="container">
-                  <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">Features</span>
+              <section
+                id="landingFeatures"
+                className="section-py landing-features"
+              >
+                <div className="container">
+                  <div className="text-center mb-3 pb-1">
+                    <span className="badge bg-label-primary">Features</span>
                   </div>
-                  <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">
+                  <h3 className="text-center mb-1">
+                    <span className="position-relative fw-bold z-1">
                       Everything you need
                       <img
                         src="../../assets/img/front-pages/icons/section-title-icon.png"
                         alt="laptop charging"
-                        class="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
+                        className="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
                       />
-                    </span>
+                    </span>{" "}
                     to start your next project
                   </h3>
-                  <p class="text-center mb-3 mb-md-5 pb-3">
+                  <p className="text-center mb-3 mb-md-5 pb-3 ">
                     Not just a set of tools, the package includes
                     ready-to-deploy conceptual application.
                   </p>
-                  <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
-                    <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-                      <div class="text-center mb-3">
+                  <div className="features-icon-wrapper row gx-0 gy-4 g-sm-5">
+                    <div className="col-lg-3 col-sm-6 text-center features-icon-box bg-white rounded-2 ">
+                      <div className="text-center mb-3 ">
                         <img
                           src="../../assets/img/front-pages/icons/laptop.png"
                           alt="laptop charging"
                         />
                       </div>
-                      <h5 class="mb-3">Customizable AI Bots</h5>
-                      <p class="features-icon-description">
+                      <h5 className="mb-3">Customizable AI Bots</h5>
+                      <p className="features-icon-description">
                         Create bots that reflect your brand's unique voice and
                         tone with our extensive customization options. Adjust
                         scripts, set operational hours, and tailor interactions
                         to fit the specific needs of your audience.
                       </p>
                     </div>
-                    <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-                      <div class="text-center mb-3">
+                    <div className="col-lg-3 col-sm-6 text-center features-icon-box  bg-white rounded-2">
+                      <div className="text-center mb-3">
                         <img
                           src="../../assets/img/front-pages/icons/rocket.png"
                           alt="transition up"
                         />
                       </div>
-                      <h5 class="mb-3">Advanced AI Models</h5>
-                      <p class="features-icon-description">
+                      <h5 className="mb-3">Advanced AI Models</h5>
+                      <p className="features-icon-description">
                         Our platform uses the latest in artificial intelligence
                         to provide responses that are not only accurate but also
                         contextually appropriate. Continuous learning algorithms
@@ -551,15 +576,15 @@ const LandingPage = () => {
                         every interaction.
                       </p>
                     </div>
-                    <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-                      <div class="text-center mb-3">
+                    <div className="col-lg-3 col-sm-6 text-center features-icon-box  bg-white rounded-2">
+                      <div className="text-center mb-3">
                         <img
                           src="../../assets/img/front-pages/icons/paper.png"
                           alt="edit"
                         />
                       </div>
-                      <h5 class="mb-3">Integration Capabilities</h5>
-                      <p class="features-icon-description">
+                      <h5 className="mb-3">Integration Capabilities</h5>
+                      <p className="features-icon-description">
                         Our bots seamlessly integrate with popular CRM and ERP
                         software, ensuring that customer data flows smoothly
                         between systems. This integration allows for a more
@@ -567,15 +592,15 @@ const LandingPage = () => {
                         personalized communication.
                       </p>
                     </div>
-                    <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-                      <div class="text-center mb-3">
+                    <div className="col-lg-3 col-sm-6 text-center features-icon-box  bg-white rounded-2">
+                      <div className="text-center mb-3">
                         <img
                           src="../../assets/img/front-pages/icons/check.png"
                           alt="3d select solid"
                         />
                       </div>
-                      <h5 class="mb-3">Real time Analytics Dashboard</h5>
-                      <p class="features-icon-description">
+                      <h5 className="mb-3">Real time Analytics Dashboard</h5>
+                      <p className="features-icon-description">
                         Gain valuable insights into your communication efforts
                         with our detailed analytics dashboard. Track metrics
                         such as engagement rates, customer satisfaction scores,
@@ -583,15 +608,15 @@ const LandingPage = () => {
                         strategies.
                       </p>
                     </div>
-                    <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-                      <div class="text-center mb-3">
+                    <div className="col-lg-3 col-sm-6 text-center features-icon-box  bg-white rounded-2">
+                      <div className="text-center mb-3">
                         <img
                           src="../../assets/img/front-pages/icons/user.png"
                           alt="lifebelt"
                         />
                       </div>
-                      <h5 class="mb-3">24/7 Availability</h5>
-                      <p class="features-icon-description">
+                      <h5 className="mb-3">24/7 Availability</h5>
+                      <p className="features-icon-description">
                         Our bots are designed to provide round-the-clock
                         service, ensuring that customers receive immediate
                         assistance at any time of the day. This continuous
@@ -600,15 +625,15 @@ const LandingPage = () => {
                         regular business hours.
                       </p>
                     </div>
-                    <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-                      <div class="text-center mb-3">
+                    <div className="col-lg-3 col-sm-6 text-center features-icon-box  bg-white rounded-2">
+                      <div className="text-center mb-3">
                         <img
                           src="../../assets/img/front-pages/icons/keyboard.png"
                           alt="google docs"
                         />
                       </div>
-                      <h5 class="mb-3">Advanced Security Protocols</h5>
-                      <p class="features-icon-description">
+                      <h5 className="mb-3">Advanced Security Protocols</h5>
+                      <p className="features-icon-description">
                         Security is paramount at Contact Swing. Our solutions
                         are built with robust security measures to protect
                         sensitive customer data and ensure compliance with
@@ -617,15 +642,17 @@ const LandingPage = () => {
                         and compliance with standards such as GDPR and HIPAA.
                       </p>
                     </div>
-                    <div class="col-lg-4 col-sm-6 offset-4 text-center features-icon-box">
-                      <div class="text-center mb-3">
+                    <div className="col-lg-3 col-sm-6  text-center features-icon-box  bg-white rounded-2">
+                      <div className="text-center mb-3">
                         <img
                           src="../../assets/img/front-pages/icons/keyboard.png"
                           alt="google docs"
                         />
                       </div>
-                      <h5 class="mb-3">Natural Language Processing (NLP)</h5>
-                      <p class="features-icon-description">
+                      <h5 className="mb-3">
+                        Natural Language Processing (NLP)
+                      </h5>
+                      <p className="features-icon-description">
                         Our bots are equipped with state-of-the-art NLP
                         capabilities, allowing them to understand and process
                         human language more effectively. This technology enables
@@ -640,60 +667,60 @@ const LandingPage = () => {
 
               <section
                 id="landingReviews"
-                class="section-py bg-body landing-reviews pb-0"
+                className="section-py bg-body landing-reviews pb-0"
               >
-                <div class="container">
-                  <div class="row align-items-center gx-0 gy-4 g-lg-5">
-                    <div class="col-md-6 col-lg-5 col-xl-3">
-                      <div class="mb-3 pb-1">
-                        <span class="badge bg-label-primary">
+                <div className="container">
+                  <div className="row align-items-center gx-0 gy-4 g-lg-5">
+                    <div className="col-md-6 col-lg-5 col-xl-3">
+                      <div className="mb-3 pb-1">
+                        <span className="badge bg-label-primary">
                           Real Customers Reviews
                         </span>
                       </div>
-                      <h3 class="mb-1">
-                        <span class="position-relative fw-bold z-1">
+                      <h3 className="mb-1">
+                        <span className="position-relative fw-bold z-1">
                           What people say
                           <img
                             src="../../assets/img/front-pages/icons/section-title-icon.png"
                             alt="laptop charging"
-                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
+                            className="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
                           />
                         </span>
                       </h3>
-                      <p class="mb-3 mb-md-5">
+                      <p className="mb-3 mb-md-5">
                         See what our customers have to
-                        <br class="d-none d-xl-block" />
+                        <br className="d-none d-xl-block" />
                         say about their experience.
                       </p>
-                      <div class="landing-reviews-btns">
+                      <div className="landing-reviews-btns">
                         <button
                           id="reviews-previous-btn"
-                          class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
+                          className="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
                           type="button"
                         >
-                          <i class="ti ti-chevron-left ti-sm"></i>
+                          <i className="ti ti-chevron-left ti-sm"></i>
                         </button>
                         <button
                           id="reviews-next-btn"
-                          class="btn btn-label-primary reviews-btn scaleX-n1-rtl"
+                          className="btn btn-label-primary reviews-btn scaleX-n1-rtl"
                           type="button"
                         >
-                          <i class="ti ti-chevron-right ti-sm"></i>
+                          <i className="ti ti-chevron-right ti-sm"></i>
                         </button>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-7 col-xl-9">
-                      <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
-                        <div class="swiper" id="swiper-reviews">
-                          <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                    <div className="col-md-6 col-lg-7 col-xl-9">
+                      <div className="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
+                        <div className="swiper" id="swiper-reviews">
+                          <div className="swiper-wrapper">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-1.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -704,24 +731,24 @@ const LandingPage = () => {
                                     how we interact with our customers. It's a
                                     game-changer!”
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/1.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Jessica M.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Jessica M.</h6>
+                                      <p className="small text-muted mb-0">
                                         Retail Operations Manager
                                       </p>
                                     </div>
@@ -729,14 +756,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-2.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -747,24 +774,24 @@ const LandingPage = () => {
                                     natural and intuitive their interactions
                                     feel. Highly recommend!”
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/2.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">David T.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">David T.</h6>
+                                      <p className="small text-muted mb-0">
                                         Customer Support Director
                                       </p>
                                     </div>
@@ -772,14 +799,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-3.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -789,24 +816,24 @@ const LandingPage = () => {
                                     segmentation tools are incredibly precise,
                                     making our campaigns much more effective.
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/3.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Sarah K.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Sarah K.</h6>
+                                      <p className="small text-muted mb-0">
                                         Marketing Manager
                                       </p>
                                     </div>
@@ -814,14 +841,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-4.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -832,24 +859,24 @@ const LandingPage = () => {
                                     strategies and improve our open and
                                     conversion rates significantly.
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/4.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Ethan G.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Ethan G.</h6>
+                                      <p className="small text-muted mb-0">
                                         Digital Marketing Specialist
                                       </p>
                                     </div>
@@ -857,14 +884,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-5.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -875,24 +902,24 @@ const LandingPage = () => {
                                     is flawless, making management across
                                     channels extremely easy.”
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/5.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Anita R.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Anita R.</h6>
+                                      <p className="small text-muted mb-0">
                                         IT Director
                                       </p>
                                     </div>
@@ -900,14 +927,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-6.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -917,24 +944,24 @@ const LandingPage = () => {
                                     which has been critical in improving
                                     customer satisfaction and loyalty.
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/1.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Mike L.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Mike L.</h6>
+                                      <p className="small text-muted mb-0">
                                         Customer Experience Manager
                                       </p>
                                     </div>
@@ -942,14 +969,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-6.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -960,24 +987,24 @@ const LandingPage = () => {
                                     provides helps us make informed decisions
                                     daily.
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/1.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Olivia H.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Olivia H.</h6>
+                                      <p className="small text-muted mb-0">
                                         Business Analyst
                                       </p>
                                     </div>
@@ -985,14 +1012,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-6.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -1002,24 +1029,24 @@ const LandingPage = () => {
                                     services, knowing our patient data is secure
                                     and handled with the utmost care.
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/1.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Dr. Susan Y.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Dr. Susan Y.</h6>
+                                      <p className="small text-muted mb-0">
                                         Healthcare Administrator
                                       </p>
                                     </div>
@@ -1027,14 +1054,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-6.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -1044,24 +1071,24 @@ const LandingPage = () => {
                                     with us, accommodating our expanding needs
                                     without skipping a beat.
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/1.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Tom N.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Tom N.</h6>
+                                      <p className="small text-muted mb-0">
                                         Founder & CEO
                                       </p>
                                     </div>
@@ -1069,14 +1096,14 @@ const LandingPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="swiper-slide">
-                              <div class="card h-100">
-                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                  {/* <div class="mb-3">
+                            <div className="swiper-slide">
+                              <div className="card h-100">
+                                <div className="card-body text-body d-flex flex-column justify-content-between h-100">
+                                  {/* <div className="mb-3">
                                     <img
                                       src="../../assets/img/front-pages/branding/logo-6.png"
                                       alt="client logo"
-                                      class="client-logo img-fluid"
+                                      className="client-logo img-fluid"
                                     />
                                   </div> */}
                                   <p>
@@ -1086,24 +1113,24 @@ const LandingPage = () => {
                                     way, ensuring a successful deployment. We
                                     couldn't be happier with the partnership.
                                   </p>
-                                  <div class="text-warning mb-3">
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
-                                    <i class="ti ti-star-filled ti-sm"></i>
+                                  <div className="text-warning mb-3">
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
+                                    <i className="ti ti-star-filled ti-sm"></i>
                                   </div>
-                                  <div class="d-flex align-items-center">
-                                    {/* <div class="avatar me-2 avatar-sm">
+                                  <div className="d-flex align-items-center">
+                                    {/* <div className="avatar me-2 avatar-sm">
                                       <img
                                         src="../../assets/img/avatars/1.png"
                                         alt="Avatar"
-                                        class="rounded-circle"
+                                        className="rounded-circle"
                                       />
                                     </div> */}
                                     <div>
-                                      <h6 class="mb-0">Linda Q.</h6>
-                                      <p class="small text-muted mb-0">
+                                      <h6 className="mb-0">Linda Q.</h6>
+                                      <p className="small text-muted mb-0">
                                         Operations Manager
                                       </p>
                                     </div>
@@ -1112,59 +1139,59 @@ const LandingPage = () => {
                               </div>
                             </div>
                           </div>
-                          <div class="swiper-button-next"></div>
-                          <div class="swiper-button-prev"></div>
+                          <div className="swiper-button-next"></div>
+                          <div className="swiper-button-prev"></div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <hr class="m-0" />
-                {/* <div class="container">
-                  <div class="swiper-logo-carousel py-4 my-lg-2">
-                    <div class="swiper" id="swiper-clients-logos">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
+                <hr className="m-0" />
+                {/* <div className="container">
+                  <div className="swiper-logo-carousel py-4 my-lg-2">
+                    <div className="swiper" id="swiper-clients-logos">
+                      <div className="swiper-wrapper">
+                        <div className="swiper-slide">
                           <img
                             src="../../assets/img/front-pages/branding/logo_1-light.png"
                             alt="client logo"
-                            class="client-logo"
+                            className="client-logo"
                             data-app-light-img="front-pages/branding/logo_1-light.png"
                             data-app-dark-img="front-pages/branding/logo_1-dark.png"
                           />
                         </div>
-                        <div class="swiper-slide">
+                        <div className="swiper-slide">
                           <img
                             src="../../assets/img/front-pages/branding/logo_2-light.png"
                             alt="client logo"
-                            class="client-logo"
+                            className="client-logo"
                             data-app-light-img="front-pages/branding/logo_2-light.png"
                             data-app-dark-img="front-pages/branding/logo_2-dark.png"
                           />
                         </div>
-                        <div class="swiper-slide">
+                        <div className="swiper-slide">
                           <img
                             src="../../assets/img/front-pages/branding/logo_3-light.png"
                             alt="client logo"
-                            class="client-logo"
+                            className="client-logo"
                             data-app-light-img="front-pages/branding/logo_3-light.png"
                             data-app-dark-img="front-pages/branding/logo_3-dark.png"
                           />
                         </div>
-                        <div class="swiper-slide">
+                        <div className="swiper-slide">
                           <img
                             src="../../assets/img/front-pages/branding/logo_4-light.png"
                             alt="client logo"
-                            class="client-logo"
+                            className="client-logo"
                             data-app-light-img="front-pages/branding/logo_4-light.png"
                             data-app-dark-img="front-pages/branding/logo_4-dark.png"
                           />
                         </div>
-                        <div class="swiper-slide">
+                        <div className="swiper-slide">
                           <img
                             src="../../assets/img/front-pages/branding/logo_5-light.png"
                             alt="client logo"
-                            class="client-logo"
+                            className="client-logo"
                             data-app-light-img="front-pages/branding/logo_5-light.png"
                             data-app-dark-img="front-pages/branding/logo_5-dark.png"
                           />
@@ -1175,83 +1202,83 @@ const LandingPage = () => {
                 </div> */}
               </section>
 
-              <section id="landingTeam" class="section-py landing-team">
-                {/* <div class="container">
-                  <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">Our Great Team</span>
+              <section id="landingTeam" className="section-py landing-team">
+                {/* <div className="container">
+                  <div className="text-center mb-3 pb-1">
+                    <span className="badge bg-label-primary">Our Great Team</span>
                   </div>
-                  <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">
+                  <h3 className="text-center mb-1">
+                    <span className="position-relative fw-bold z-1">
                       Supported
                       <img
                         src="../../assets/img/front-pages/icons/section-title-icon.png"
                         alt="laptop charging"
-                        class="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
+                        className="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
                       />
                     </span>
                     by Real People
                   </h3>
-                  <p class="text-center mb-md-5 pb-3">
+                  <p className="text-center mb-md-5 pb-3">
                     Who is behind these great-looking interfaces?
                   </p>
-                  <div class="row gy-5 mt-2">
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="card mt-3 mt-lg-0 shadow-none">
-                        <div class="bg-label-primary position-relative team-image-box">
+                  <div className="row gy-5 mt-2">
+                    <div className="col-lg-3 col-sm-6">
+                      <div className="card mt-3 mt-lg-0 shadow-none">
+                        <div className="bg-label-primary position-relative team-image-box">
                           <img
                             src="../../assets/img/front-pages/landing-page/team-member-1.png"
-                            class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                            className="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
                             alt="human image"
                           />
                         </div>
-                        <div class="card-body border border-top-0 border-label-primary text-center">
-                          <h5 class="card-title mb-0">Sophie Gilbert</h5>
-                          <p class="text-muted mb-0">Project Manager</p>
+                        <div className="card-body border border-top-0 border-label-primary text-center">
+                          <h5 className="card-title mb-0">Sophie Gilbert</h5>
+                          <p className="text-muted mb-0">Project Manager</p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="card mt-3 mt-lg-0 shadow-none">
-                        <div class="bg-label-info position-relative team-image-box">
+                    <div className="col-lg-3 col-sm-6">
+                      <div className="card mt-3 mt-lg-0 shadow-none">
+                        <div className="bg-label-info position-relative team-image-box">
                           <img
                             src="../../assets/img/front-pages/landing-page/team-member-2.png"
-                            class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                            className="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
                             alt="human image"
                           />
                         </div>
-                        <div class="card-body border border-top-0 border-label-info text-center">
-                          <h5 class="card-title mb-0">Paul Miles</h5>
-                          <p class="text-muted mb-0">UI Designer</p>
+                        <div className="card-body border border-top-0 border-label-info text-center">
+                          <h5 className="card-title mb-0">Paul Miles</h5>
+                          <p className="text-muted mb-0">UI Designer</p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="card mt-3 mt-lg-0 shadow-none">
-                        <div class="bg-label-danger position-relative team-image-box">
+                    <div className="col-lg-3 col-sm-6">
+                      <div className="card mt-3 mt-lg-0 shadow-none">
+                        <div className="bg-label-danger position-relative team-image-box">
                           <img
                             src="../../assets/img/front-pages/landing-page/team-member-3.png"
-                            class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                            className="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
                             alt="human image"
                           />
                         </div>
-                        <div class="card-body border border-top-0 border-label-danger text-center">
-                          <h5 class="card-title mb-0">Nannie Ford</h5>
-                          <p class="text-muted mb-0">Development Lead</p>
+                        <div className="card-body border border-top-0 border-label-danger text-center">
+                          <h5 className="card-title mb-0">Nannie Ford</h5>
+                          <p className="text-muted mb-0">Development Lead</p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="card mt-3 mt-lg-0 shadow-none">
-                        <div class="bg-label-success position-relative team-image-box">
+                    <div className="col-lg-3 col-sm-6">
+                      <div className="card mt-3 mt-lg-0 shadow-none">
+                        <div className="bg-label-success position-relative team-image-box">
                           <img
                             src="../../assets/img/front-pages/landing-page/team-member-4.png"
-                            class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                            className="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
                             alt="human image"
                           />
                         </div>
-                        <div class="card-body border border-top-0 border-label-success text-center">
-                          <h5 class="card-title mb-0">Chris Watkins</h5>
-                          <p class="text-muted mb-0">Marketing Manager</p>
+                        <div className="card-body border border-top-0 border-label-success text-center">
+                          <h5 className="card-title mb-0">Chris Watkins</h5>
+                          <p className="text-muted mb-0">Marketing Manager</p>
                         </div>
                       </div>
                     </div>
@@ -1259,1025 +1286,1038 @@ const LandingPage = () => {
                 </div> */}
               </section>
 
-              <section
+              {/* <section
                 id="landingPricing"
-                class="section-py bg-body landing-pricing"
+                className="section-py bg-body landing-pricing"
               >
-                <div class="container">
-                  <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">Pricing Plans</span>
+                <div className="container">
+                  <div className="text-center mb-3 pb-1">
+                    <span className="badge bg-label-primary">
+                      Pricing Plans
+                    </span>
                   </div>
-                  <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">
+                  <h3 className="text-center mb-1">
+                    <span className="position-relative fw-bold z-1">
                       Tailored pricing plans
                       <img
                         src="../../assets/img/front-pages/icons/section-title-icon.png"
                         alt="laptop charging"
-                        class="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
+                        className="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
                       />
-                    </span>
+                    </span>{" "}
                     designed for you
                   </h3>
-                  <p class="text-center mb-4 pb-3">
+                  <p className="text-center mb-4 pb-3">
                     All plans include 40+ advanced tools and features to boost
                     your product.
                     <br />
                     Choose the best plan to fit your needs.
                   </p>
-                  <div class="text-center mb-5">
-                    <div class="position-relative d-inline-block pt-3 pt-md-0">
-                      <label class="switch switch-primary me-0">
-                        <span class="switch-label">Pay Monthly</span>
+                  <div className="text-center mb-5">
+                    <div className="position-relative d-inline-block pt-3 pt-md-0">
+                      <label className="switch switch-primary me-0">
+                        <span className="switch-label">Pay Monthly</span>
                         <input
                           type="checkbox"
-                          class="switch-input price-duration-toggler"
+                          className="switch-input price-duration-toggler"
                           checked
+                          readOnly
                         />
-                        <span class="switch-toggle-slider">
-                          <span class="switch-on"></span>
-                          <span class="switch-off"></span>
+                        <span className="switch-toggle-slider">
+                          <span className="switch-on"></span>
+                          <span className="switch-off"></span>
                         </span>
-                        <span class="switch-label">Pay Annual</span>
+                        <span className="switch-label">Pay Annual</span>
                       </label>
-                      <div class="pricing-plans-item position-absolute d-flex">
+                      <div className="pricing-plans-item position-absolute d-flex">
                         <img
                           src="../../assets/img/front-pages/icons/pricing-plans-arrow.png"
                           alt="pricing plans arrow"
-                          class="scaleX-n1-rtl"
+                          className="scaleX-n1-rtl"
                         />
-                        <span class="fw-medium mt-2 ms-1"> Save 25%</span>
+                        <span className="fw-medium mt-2 ms-1"> Save 25%</span>
                       </div>
                     </div>
                   </div>
-                  <div class="row gy-4 pt-lg-3">
-                    <div class="col-xl-3 col-lg-6">
-                      <div class="card">
-                        <div class="card-header">
-                          <div class="text-center">
-                            <img
-                              src="../../assets/img/front-pages/icons/paper-airplane.png"
-                              alt="paper airplane icon"
-                              class="mb-4 pb-2"
-                            />
-                            <h4 class="mb-1">Starter</h4>
-                            <div class="d-flex align-items-center justify-content-center">
-                              <span class="price-monthly h1 text-primary fw-bold mb-0">
-                                $29
-                              </span>
-                              <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">
-                                $35
-                              </span>
-                              <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
-                            </div>
-                            <div class="position-relative pt-2">
-                              <div class="price-yearly text-muted price-yearly-toggle d-none">
-                                $ 25 * 12 / year
+                  <div className="d-flex justify-content-center">
+                    <div className="row gy-4 pt-lg-3 d-flex justify-content-center">
+                      <div className="col-xl-4 col-lg-6">
+                        <div className="card">
+                          <div className="card-header">
+                            <div className="text-center">
+                              <img
+                                src="../../assets/img/front-pages/icons/paper-airplane.png"
+                                alt="paper airplane icon"
+                                className="mb-4 pb-2"
+                              />
+                              <h4 className="mb-1">Starter</h4>
+                              <div className="d-flex align-items-center justify-content-center">
+                                <span className="price-monthly h1 text-primary fw-bold mb-0">
+                                  $29
+                                </span>
+                                <span className="price-yearly h1 text-primary fw-bold mb-0 d-none">
+                                  $35
+                                </span>
+                                <sub className="h6 text-muted mb-0 ms-1">
+                                  /mo
+                                </sub>
+                              </div>
+                              <div className="position-relative pt-2">
+                                <div className="price-yearly text-muted price-yearly-toggle d-none">
+                                  $ 25 * 12 / year
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="card-body">
-                          <ul class="list-unstyled">
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Minutes Included - 50
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Additional costs/min.* - $0.08
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Costs per voicemail - $0.04
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Whitelabel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Rebilling
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Workspaces - 1
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Assistants - 1
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Batch campaigns
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom Twilio
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Turbo Synthesizer
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                ElevenLabs*
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                PlayHT
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Real-Time Booking
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Voicemail detection drop
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom voicemail
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Multilanguage
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Invite Team members
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Rest API
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                GoHighLevel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Zapier
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Make
-                              </h5>
-                            </li>
-                          </ul>
-                          <div class="d-grid mt-4 pt-3">
-                            <a
-                              href="payment-page.html"
-                              class="btn btn-label-primary"
-                            >
-                              Get Started
-                            </a>
+                          <div className="card-body">
+                            <ul className="list-unstyled">
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Minutes Included - 50
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Additional costs/min.* - $0.08
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Costs per voicemail - $0.04
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Whitelabel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Rebilling
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Workspaces - 1
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Assistants - 1
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Batch campaigns
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom Twilio
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Turbo Synthesizer
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  ElevenLabs*
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  PlayHT
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Real-Time Booking
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Voicemail detection drop
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom voicemail
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Multilanguage
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Invite Team members
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Rest API
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  GoHighLevel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Zapier
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Make
+                                </h5>
+                              </li>
+                            </ul>
+                            <div className="d-grid mt-4 pt-3">
+                              <a
+                                href="payment-page.html"
+                                className="btn btn-label-primary"
+                              >
+                                Get Started
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="col-xl-3 col-lg-6">
-                      <div class="card border border-primary shadow-lg">
-                        <div class="card-header">
-                          <div class="text-center">
-                            <img
-                              src="../../assets/img/front-pages/icons/plane.png"
-                              alt="plane icon"
-                              class="mb-4 pb-2"
-                            />
-                            <h4 class="mb-1">Pro</h4>
-                            <div class="d-flex align-items-center justify-content-center">
-                              <span class="price-monthly h1 text-primary fw-bold mb-0">
-                                $450
-                              </span>
-                              <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">
-                                $500
-                              </span>
-                              <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
-                            </div>
-                            <div class="position-relative pt-2">
-                              <div class="price-yearly text-muted price-yearly-toggle d-none">
-                                $ 375 * 12 / year
+                      <div className="col-xl-4 col-lg-6">
+                        <div className="card border border-primary shadow-lg">
+                          <div className="card-header">
+                            <div className="text-center">
+                              <img
+                                src="../../assets/img/front-pages/icons/plane.png"
+                                alt="plane icon"
+                                className="mb-4 pb-2"
+                              />
+                              <h4 className="mb-1">Pro</h4>
+                              <div className="d-flex align-items-center justify-content-center">
+                                <span className="price-monthly h1 text-primary fw-bold mb-0">
+                                  $450
+                                </span>
+                                <span className="price-yearly h1 text-primary fw-bold mb-0 d-none">
+                                  $500
+                                </span>
+                                <sub className="h6 text-muted mb-0 ms-1">
+                                  /mo
+                                </sub>
+                              </div>
+                              <div className="position-relative pt-2">
+                                <div className="price-yearly text-muted price-yearly-toggle d-none">
+                                  $ 375 * 12 / year
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="card-body">
-                          <ul class="list-unstyled">
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Minutes Included - 2500
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Additional costs/min.* - $0.08
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Costs per voicemail - $0.04
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Whitelabel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Rebilling
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Workspaces - 1
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Assistants - 5
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Batch campaigns
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom Twilio
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Turbo Synthesizer
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                ElevenLabs*
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                PlayHT
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Real-Time Booking
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Voicemail detection drop
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom voicemail
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Multilanguage
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Invite Team members
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Rest API
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                GoHighLevel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Zapier
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Make
-                              </h5>
-                            </li>
-                          </ul>
-                          <div class="d-grid mt-4 pt-3">
-                            <a href="payment-page.html" class="btn btn-primary">
-                              Get Started
-                            </a>
+                          <div className="card-body">
+                            <ul className="list-unstyled">
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Minutes Included - 2500
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Additional costs/min.* - $0.08
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Costs per voicemail - $0.04
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Whitelabel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Rebilling
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Workspaces - 1
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Assistants - 5
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Batch campaigns
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom Twilio
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Turbo Synthesizer
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  ElevenLabs*
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  PlayHT
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Real-Time Booking
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Voicemail detection drop
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom voicemail
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Multilanguage
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Invite Team members
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Rest API
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  GoHighLevel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Zapier
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Make
+                                </h5>
+                              </li>
+                            </ul>
+                            <div className="d-grid mt-4 pt-3">
+                              <a
+                                href="payment-page.html"
+                                className="btn btn-primary"
+                              >
+                                Get Started
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="col-xl-3 col-lg-6">
-                      <div class="card">
-                        <div class="card-header">
-                          <div class="text-center">
-                            <img
-                              src="../../assets/img/front-pages/icons/shuttle-rocket.png"
-                              alt="shuttle rocket icon"
-                              class="mb-4 pb-2"
-                            />
-                            <h4 class="mb-1">Growth</h4>
-                            <div class="d-flex align-items-center justify-content-center">
-                              <span class="price-monthly h1 text-primary fw-bold mb-0">
-                                $900
-                              </span>
-                              <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">
-                                $1000
-                              </span>
-                              <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
-                            </div>
-                            <div class="position-relative pt-2">
-                              <div class="price-yearly text-muted price-yearly-toggle d-none">
-                                $ 750 * 12 / year
+                      <div className="col-xl-4 col-lg-6">
+                        <div className="card">
+                          <div className="card-header">
+                            <div className="text-center">
+                              <img
+                                src="../../assets/img/front-pages/icons/shuttle-rocket.png"
+                                alt="shuttle rocket icon"
+                                className="mb-4 pb-2"
+                              />
+                              <h4 className="mb-1">Growth</h4>
+                              <div className="d-flex align-items-center justify-content-center">
+                                <span className="price-monthly h1 text-primary fw-bold mb-0">
+                                  $900
+                                </span>
+                                <span className="price-yearly h1 text-primary fw-bold mb-0 d-none">
+                                  $1000
+                                </span>
+                                <sub className="h6 text-muted mb-0 ms-1">
+                                  /mo
+                                </sub>
+                              </div>
+                              <div className="position-relative pt-2">
+                                <div className="price-yearly text-muted price-yearly-toggle d-none">
+                                  $ 750 * 12 / year
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="card-body">
-                          <ul class="list-unstyled">
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Minutes Included - 6000
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Additional costs/min.* - $0.08
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Costs per voicemail - $0.04
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Whitelabel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Rebilling
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Workspaces - 1
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Assistants - Unlimited
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Batch campaigns
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom Twilio
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Turbo Synthesizer
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                ElevenLabs*
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                PlayHT
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Real-Time Booking
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Voicemail detection drop
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom voicemail
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Multilanguage
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Invite Team members
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Rest API
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                GoHighLevel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Zapier
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Make
-                              </h5>
-                            </li>
-                          </ul>
-                          <div class="d-grid mt-4 pt-3">
-                            <a
-                              href="payment-page.html"
-                              class="btn btn-label-primary"
-                            >
-                              Get Started
-                            </a>
+                          <div className="card-body">
+                            <ul className="list-unstyled">
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Minutes Included - 6000
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Additional costs/min.* - $0.08
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Costs per voicemail - $0.04
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Whitelabel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Rebilling
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Workspaces - 1
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Assistants - Unlimited
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Batch campaigns
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom Twilio
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Turbo Synthesizer
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  ElevenLabs*
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  PlayHT
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Real-Time Booking
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Voicemail detection drop
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom voicemail
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Multilanguage
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Invite Team members
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Rest API
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  GoHighLevel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Zapier
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Make
+                                </h5>
+                              </li>
+                            </ul>
+                            <div className="d-grid mt-4 pt-3">
+                              <a
+                                href="payment-page.html"
+                                className="btn btn-label-primary"
+                              >
+                                Get Started
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="col-xl-3 col-lg-6">
-                      <div class="card">
-                        <div class="card-header">
-                          <div class="text-center">
-                            <img
-                              src="../../assets/img/front-pages/icons/shuttle-rocket.png"
-                              alt="shuttle rocket icon"
-                              class="mb-4 pb-2"
-                            />
-                            <h4 class="mb-1">Agency</h4>
-                            <div class="d-flex align-items-center justify-content-center">
-                              <span class="price-monthly h1 text-primary fw-bold mb-0">
-                                $1400
-                              </span>
-                              <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">
-                                $1000
-                              </span>
-                              <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
-                            </div>
-                            <div class="position-relative pt-2">
-                              <div class="price-yearly text-muted price-yearly-toggle d-none">
-                                $ 1200 * 12 / year
+                      <div className="col-xl-3 col-lg-6">
+                        <div className="card">
+                          <div className="card-header">
+                            <div className="text-center">
+                              <img
+                                src="../../assets/img/front-pages/icons/shuttle-rocket.png"
+                                alt="shuttle rocket icon"
+                                className="mb-4 pb-2"
+                              />
+                              <h4 className="mb-1">Agency</h4>
+                              <div className="d-flex align-items-center justify-content-center">
+                                <span className="price-monthly h1 text-primary fw-bold mb-0">
+                                  $1400
+                                </span>
+                                <span className="price-yearly h1 text-primary fw-bold mb-0 d-none">
+                                  $1000
+                                </span>
+                                <sub className="h6 text-muted mb-0 ms-1">
+                                  /mo
+                                </sub>
+                              </div>
+                              <div className="position-relative pt-2">
+                                <div className="price-yearly text-muted price-yearly-toggle d-none">
+                                  $ 1200 * 12 / year
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="card-body">
-                          <ul class="list-unstyled">
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Minutes Included - 6000
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Additional costs/min.* - $0.08
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Costs per voicemail - $0.04
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Whitelabel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-x ti-xs"></i>
-                                </span>
-                                Rebilling
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Workspaces - 1
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Assistants - Unlimited
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Batch campaigns
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom Twilio
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Turbo Synthesizer
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                ElevenLabs*
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                PlayHT
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Real-Time Booking
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                SMS
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Voicemail detection drop
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Custom voicemail
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Multilanguage
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Invite Team members
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Rest API
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                GoHighLevel
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Zapier
-                              </h5>
-                            </li>
-                            <li>
-                              <h5>
-                                <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                  <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                Make
-                              </h5>
-                            </li>
-                          </ul>
-                          <div class="d-grid mt-4 pt-3">
-                            <a
-                              href="payment-page.html"
-                              class="btn btn-label-primary"
-                            >
-                              Get Started
-                            </a>
+                          <div className="card-body">
+                            <ul className="list-unstyled">
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Minutes Included - 6000
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Additional costs/min.* - $0.08
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Costs per voicemail - $0.04
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Whitelabel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-x ti-xs"></i>
+                                  </span>
+                                  Rebilling
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Workspaces - 1
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Assistants - Unlimited
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Batch campaigns
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom Twilio
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Turbo Synthesizer
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  ElevenLabs*
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  PlayHT
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Real-Time Booking
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  SMS
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Voicemail detection drop
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Custom voicemail
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Multilanguage
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Invite Team members
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Rest API
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  GoHighLevel
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Zapier
+                                </h5>
+                              </li>
+                              <li>
+                                <h5>
+                                  <span className="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                    <i className="ti ti-check ti-xs"></i>
+                                  </span>
+                                  Make
+                                </h5>
+                              </li>
+                            </ul>
+                            <div className="d-grid mt-4 pt-3">
+                              <a
+                                href="payment-page.html"
+                                className="btn btn-label-primary"
+                              >
+                                Get Started
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </section>
+              </section> */}
 
               <section
                 id="landingContact"
-                class="section-py bg-body landing-contact"
+                className="section-py bg-body landing-contact"
               >
-                <div class="container">
-                  <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">Contact US</span>
+                <div className="container">
+                  <div className="text-center mb-3 pb-1">
+                    <span className="badge bg-label-primary">Contact US</span>
                   </div>
-                  <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">
+                  <h3 className="text-center mb-1">
+                    <span className="position-relative fw-bold z-1">
                       Let's work
                       <img
                         src="../../assets/img/front-pages/icons/section-title-icon.png"
                         alt="laptop charging"
-                        class="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
+                        className="section-title-img position-absolute object-fit-contain bottom-0 z-n1"
                       />
-                    </span>
+                    </span>{" "}
                     together
                   </h3>
-                  <p class="text-center mb-4 mb-lg-5 pb-md-3">
+                  <p className="text-center mb-4 mb-lg-5 pb-md-3">
                     Any question or remark? just write us a message
                   </p>
-                  <div class="row gy-4">
-                    <div class="col-lg-5">
-                      <div class="contact-img-box position-relative border p-2 h-100">
+                  <div className="row gy-4">
+                    <div className="col-lg-5">
+                      <div className="contact-img-box position-relative border p-2 h-100">
                         <img
                           src="../../assets/img/front-pages/icons/contact-border.png"
                           alt="contact border"
-                          class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl"
+                          className="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl"
                         />
                         <img
                           src="../../assets/img/front-pages/landing-page/contact-customer-service.png"
                           alt="contact customer service"
-                          class="contact-img w-100 scaleX-n1-rtl"
+                          className="contact-img w-100 scaleX-n1-rtl"
                         />
-                        <div class="pt-3 px-4 pb-1">
-                          <div class="row gy-3 gx-md-4">
-                            <div class="col-md-6 col-lg-12 col-xl-6">
-                              <div class="d-flex align-items-center">
-                                <div class="badge bg-label-primary rounded p-2 me-2">
-                                  <i class="ti ti-mail ti-sm"></i>
+                        <div className="pt-3 px-3 pb-1">
+                          <div className="row gy-3 gx-md-4">
+                            <div className="col-md-6 col-lg-12 col-xl-6">
+                              <div className="d-flex align-items-center">
+                                <div className="badge bg-label-primary rounded p-2 me-2">
+                                  <i className="ti ti-mail ti-sm"></i>
                                 </div>
                                 <div>
-                                  <p class="mb-0">Email</p>
-                                  <h5 class="mb-0">
+                                  <p className="mb-0">Email</p>
+                                  <h5 className="mb-0">
                                     <a
-                                      href="mailto:example@gmail.com"
-                                      class="text-heading"
+                                      href="mailto:info@contactswing.com"
+                                      className="text-heading"
                                     >
-                                      example@gmail.com
+                                      info@contactswing.com
                                     </a>
                                   </h5>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-6 col-lg-12 col-xl-6">
-                              <div class="d-flex align-items-center">
-                                <div class="badge bg-label-success rounded p-2 me-2">
-                                  <i class="ti ti-phone-call ti-sm"></i>
+                            <div className="col-md-6 col-lg-12 col-xl-6">
+                              <div className="d-flex align-items-center">
+                                <div className="badge bg-label-success rounded p-2 me-2">
+                                  <i className="ti ti-phone-call ti-sm"></i>
                                 </div>
                                 <div>
-                                  <p class="mb-0">Phone</p>
-                                  <h5 class="mb-0">
+                                  <p className="mb-0">Phone</p>
+                                  <h5 className="mb-0">
                                     <a
                                       href="tel:+1234-568-963"
-                                      class="text-heading"
+                                      className="text-heading"
                                     >
-                                      +1234 568 963
+                                      +1(281)709 6004
                                     </a>
                                   </h5>
                                 </div>
@@ -2287,68 +2327,87 @@ const LandingPage = () => {
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-7">
-                      <div class="card">
-                        <div class="card-body">
-                          <h4 class="mb-1">Send a message</h4>
-                          <p class="mb-4">
+                    <div className="col-lg-7">
+                      <div className="card">
+                        <div className="card-body">
+                          <h4 className="mb-1">Send a message</h4>
+                          <p className="mb-4">
                             If you would like to discuss anything related to
                             payment, account, licensing,
-                            <br class="d-none d-lg-block" />
+                            <br className="d-none d-lg-block" />
                             partnerships, or have pre-sales questions, you’re at
                             the right place.
                           </p>
-                          <form>
-                            <div class="row g-3">
-                              <div class="col-md-6">
-                                <label
-                                  class="form-label"
-                                  for="contact-form-fullname"
-                                >
-                                  Full Name
-                                </label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="contact-form-fullname"
-                                  placeholder="john"
-                                />
-                              </div>
-                              <div class="col-md-6">
-                                <label
-                                  class="form-label"
-                                  for="contact-form-email"
-                                >
-                                  Email
-                                </label>
-                                <input
-                                  type="text"
-                                  id="contact-form-email"
-                                  class="form-control"
-                                  placeholder="johndoe@gmail.com"
-                                />
-                              </div>
-                              <div class="col-12">
-                                <label
-                                  class="form-label"
-                                  for="contact-form-message"
-                                >
-                                  Message
-                                </label>
-                                <textarea
-                                  id="contact-form-message"
-                                  class="form-control"
-                                  rows="8"
-                                  placeholder="Write a message"
-                                ></textarea>
-                              </div>
-                              <div class="col-12">
-                                <button type="submit" class="btn btn-primary">
-                                  Send inquiry
-                                </button>
-                              </div>
+
+                          <div className="row g-3">
+                            <div className="col-md-6">
+                              <label
+                                className="form-label"
+                                htmlFor="contact-form-fullname"
+                              >
+                                Full Name
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                id="contact-form-fullname"
+                                placeholder="Name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                              />
                             </div>
-                          </form>
+                            <div className="col-md-6">
+                              <label
+                                className="form-label"
+                                htmlFor="contact-form-email"
+                              >
+                                Email
+                              </label>
+                              <input
+                                type="text"
+                                id="contact-form-email"
+                                className="form-control"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                              />
+                            </div>
+                            <div className="col-12">
+                              <label
+                                className="form-label"
+                                htmlFor="contact-form-message"
+                              >
+                                Message
+                              </label>
+                              <textarea
+                                id="contact-form-message"
+                                className="form-control"
+                                rows="8"
+                                placeholder="Write a message"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                              ></textarea>
+                            </div>
+                            <div className="col-12">
+                              <button
+                                type="submit"
+                                onClick={submitEnquiry}
+                                disabled={sendingEnquiry}
+                                className="btn btn-primary"
+                              >
+                                {sendingEnquiry && (
+                                  <span id="create-kbs-button-loader">
+                                    <span
+                                      className="spinner-border"
+                                      role="status"
+                                      aria-hidden="true"
+                                    ></span>
+                                  </span>
+                                )}
+                                Send inquiry
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2358,95 +2417,68 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-
-        <div className="row mt-4">
-          <div className="col-12 mt-4">
-            <footer class="landing-footer bg-body footer-text">
-              <div class="footer-top position-relative overflow-hidden z-1">
+        {/* --footer-- */}
+        <div className="footer-top-0 row mt-4">
+          <div className="footer-top-1 col-12 mt-4">
+            <footer className="landing-footer bg-body footer-text">
+              <div className="footer-top position-relative overflow-hidden z-1">
                 <img
                   src="../../assets/img/front-pages/backgrounds/footer-bg-light.png"
                   alt="footer bg"
-                  class="footer-bg banner-bg-img z-n1"
+                  className="footer-bg banner-bg-img z-n1"
                   data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
                   data-app-dark-img="front-pages/backgrounds/footer-bg-dark.png"
                 />
-                <div class="container">
-                  <div class="row gx-0 gy-4 g-md-5">
-                    <div class="col-lg-5">
-                      <a href="/landing" class="app-brand-link mb-4">
-                        <span class="app-brand-logo demo">
-                          <svg
-                            width="32"
-                            height="22"
-                            viewBox="0 0 32 22"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
-                              fill="#7367F0"
-                            />
-                            <path
-                              opacity="0.06"
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
-                              fill="#161616"
-                            />
-                            <path
-                              opacity="0.06"
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
-                              fill="#161616"
-                            />
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
-                              fill="#7367F0"
-                            />
-                          </svg>
+                <div className="container">
+                  <div className="row gx-0 gy-4 g-md-5">
+                    <div className="col-lg-5">
+                      <a href="/landing" className="app-brand-link mb-4">
+                        <span className="app-brand-logo demo">
+                          <img src={Logo} height={32} width={32} alt="" />
                         </span>
-                        <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">
+                        <span className="app-brand-text demo footer-link fw-bold ms-2 ps-1">
                           ContactSwing
                         </span>
                       </a>
-                      <p class="footer-text footer-logo-description mb-4">
-                        Transform Your Customer Interactions with Contact
-                        Swing's Advanced Communication Solutions!
+                      <p
+                        className="footer-class"
+                        style={{
+                          color: "white",
+                          marginLeft: "49px",
+                          marginTop: "-20px",
+                        }}
+                      >
+                        Engage Better, Grow Faster
                       </p>
-                      <form class="footer-form">
-                        <label for="footer-email" class="small">
+                      {/* <form className="footer-form">
+                        <label htmlFor="footer-email" className="small">
                           Subscribe to newsletter
                         </label>
-                        <div class="d-flex mt-1">
+                        <div className="d-flex mt-1">
                           <input
                             type="email"
-                            class="form-control rounded-0 rounded-start-bottom rounded-start-top"
+                            className="form-control rounded-0 rounded-start-bottom rounded-start-top"
                             id="footer-email"
                             placeholder="Your email"
                           />
                           <button
                             type="submit"
-                            class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
+                            className="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
                           >
                             Subscribe
                           </button>
                         </div>
-                      </form>
+                      </form> */}
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                      <ul class="list-unstyled">
-                        <li class="mb-3">
-                          <a href="/terms" class="footer-link">
+                    <div className="col-lg-2 col-md-4 col-sm-6">
+                      <ul className="list-unstyled">
+                        <li className="mb-3">
+                          <a href="/terms" className="footer-link">
                             Terms & Conditions
                           </a>
                         </li>
-                        <li class="mb-3">
-                          <a href="/privacy" class="footer-link">
+                        <li className="mb-3">
+                          <a href="/privacy" className="footer-link">
                             Privacy
                           </a>
                         </li>
@@ -2454,27 +2486,111 @@ const LandingPage = () => {
                     </div>
                   </div>
                 </div>
+                <div className="d-flex mt-4 justify-content-around align-items-center">
+                  {/* <div className="text-center"></div> */}
+                  <div className="text-center" style={{ marginLeft: "30%" }}>
+                    <span className="footer-text">
+                      Copyright
+                      <script>document.write(new Date().getFullYear());</script>
+                    </span>{" "}
+                    <a href="/landing" target="_blank">
+                      Contact Swing 2024
+                    </a>
+                  </div>
+                  <div className="social-logos row justify-content-center">
+                    <div className="col-1">
+                      <a
+                        href="https://www.linkedin.com/company/contactswing"
+                        className="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/linkedin.png"
+                          alt="linkedin icon"
+                        />
+                      </a>
+                    </div>
+                    <div className="col-1">
+                      <a
+                        href="https://www.facebook.com/ContactSwinginc"
+                        className="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/facebook.png"
+                          alt="facebook icon"
+                        />
+                      </a>
+                    </div>
+                    {/* <div className="col-1">
+                      <a
+                        href="https://twitter.com/pixinvents"
+                        className="footer-link me-3"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/twitter-light.png"
+                          alt="twitter icon"
+                        />
+                      </a>
+                    </div> */}
+                    <div className="col-1 footer-social-logo">
+                      <a
+                        href="https://www.instagram.com/ContactSwing/"
+                        className="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/instagram2.png"
+                          alt="instagram icon"
+                        />
+                      </a>
+                    </div>
+                    <div className="col-1">
+                      <a
+                        href="https://www.youtube.com/@ContactSwing"
+                        className="footer-link"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/youtube.png"
+                          alt="youtube icon"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="footer-bottom py-3">
-                <div class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-                  <div class="mb-2 mb-md-0">
-                    <span class="footer-text">
+              {/* <div className="footer-bottom py-3">
+                <div className="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                  <div className="mb-2 mb-md-0">
+                    <span className="footer-text">
                       ©
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
-                      href="/landing"
+                      href="/"
                       target="_blank"
-                      class="fw-medium footer-link"
+                      className="fw-medium footer-link"
+                      rel="noreferrer"
                     >
                       ContactSwing
                     </a>
-                    <span class="footer-text"> </span>
+                    <span className="footer-text"> </span>
                   </div>
                   <div>
                     <a
                       href="https://github.com/pixinvent"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2487,7 +2603,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://www.facebook.com/pixinvents/"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2500,7 +2616,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://twitter.com/pixinvents"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2513,7 +2629,7 @@ const LandingPage = () => {
                     </a>
                     <a
                       href="https://www.instagram.com/pixinvents/"
-                      class="footer-link"
+                      className="footer-link"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -2526,8 +2642,9 @@ const LandingPage = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </footer>
+            <ToastContainer />
           </div>
         </div>
       </div>

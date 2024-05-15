@@ -3,7 +3,7 @@
 // import React from 'react'
 import React, { useEffect } from "react";
 import "./terms.scss";
-
+import Logo from "./../../../assets/logo.png";
 const Terms = () => {
   const token = localStorage.getItem("token");
   console.log("landing page token", token);
@@ -11,15 +11,15 @@ const Terms = () => {
 
   return (
     <>
-      <div class="">
-        <div class="row">
-          <div class="col-12">
-            <nav class="layout-navbar shadow-none py-0">
-              <div class="container">
-                <div class="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
-                  <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
+      <div className="">
+        <div className="row">
+          <div className="col-12">
+            <nav className="layout-navbar shadow-none py-0">
+              <div className="container">
+                <div className="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
+                  <div className="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
                     <button
-                      class="navbar-toggler border-0 px-0 me-2"
+                      className="navbar-toggler border-0 px-0 me-2"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -27,57 +27,22 @@ const Terms = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i class="ti ti-menu-2 ti-sm align-middle"></i>
+                      <i className="ti ti-menu-2 ti-sm align-middle"></i>
                     </button>
-                    <a href="/landing" class="app-brand-link">
-                      <span class="app-brand-logo demo">
-                        <svg
-                          width="32"
-                          height="22"
-                          viewBox="0 0 32 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
-                            fill="#7367F0"
-                          />
-                          <path
-                            opacity="0.06"
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
-                            fill="#161616"
-                          />
-                          <path
-                            opacity="0.06"
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
-                            fill="#161616"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
-                            fill="#7367F0"
-                          />
-                        </svg>
-                      </span>
-                      <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">
+                    <a href="/landing" className="app-brand-link">
+                      <img src={Logo} height={32} width={32} alt="" />
+                      <span className="app-brand-text demo menu-text fw-bold ms-2 ps-1">
                         ContactSwing
                       </span>
                     </a>
                   </div>
 
                   <div
-                    class="collapse navbar-collapse landing-nav-menu"
+                    className="collapse navbar-collapse landing-nav-menu"
                     id="navbarSupportedContent"
                   >
                     <button
-                      class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
+                      className="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#navbarSupportedContent"
@@ -85,29 +50,38 @@ const Terms = () => {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <i class="ti ti-x ti-sm"></i>
+                      <i className="ti ti-x ti-sm"></i>
                     </button>
-                    <ul class="navbar-nav me-auto">
-                      <li class="nav-item">
+                    <ul className="navbar-nav me-auto">
+                      <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
                           aria-current="page"
                           href="/landing"
                         >
                           Home
                         </a>
                       </li>
-                      <li class="nav-item">
+                      <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
                           href="/landing#landingFeatures"
                         >
                           Features
                         </a>
                       </li>
-                      <li class="nav-item">
+                      {/* <li className="nav-item">
                         <a
-                          class="nav-link fw-medium"
+                          className="nav-link fw-medium"
+                          aria-current="page"
+                          href="/landing#landingPricing"
+                        >
+                          Pricing
+                        </a>
+                      </li> */}
+                      <li className="nav-item">
+                        <a
+                          className="nav-link fw-medium"
                           href="/landing#landingContact"
                         >
                           Contact us
@@ -115,48 +89,49 @@ const Terms = () => {
                       </li>
                     </ul>
                   </div>
-                  <div class="landing-menu-overlay d-lg-none"></div>
+                  <div className="landing-menu-overlay d-lg-none"></div>
 
-                  <ul class="navbar-nav flex-row align-items-center ms-auto">
-                    <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                  <ul className="navbar-nav flex-row align-items-center ms-auto">
+                    <li className="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
                       <a
-                        class="nav-link dropdown-toggle hide-arrow"
+                        className="nav-link dropdown-toggle hide-arrow"
                         href="javascript:void(0);"
                         data-bs-toggle="dropdown"
                       >
-                        <i class="ti ti-sm"></i>
+                        <i className="ti ti-sm"></i>
                       </a>
-                      <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                      <ul className="dropdown-menu dropdown-menu-end dropdown-styles">
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="light"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-sun me-2"></i>Light
+                            <span className="align-middle">
+                              <i className="ti ti-sun me-2"></i>Light
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="dark"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-moon me-2"></i>Dark
+                            <span className="align-middle">
+                              <i className="ti ti-moon me-2"></i>Dark
                             </span>
                           </a>
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href="javascript:void(0);"
                             data-theme="system"
                           >
-                            <span class="align-middle">
-                              <i class="ti ti-device-desktop me-2"></i>System
+                            <span className="align-middle">
+                              <i className="ti ti-device-desktop me-2"></i>
+                              System
                             </span>
                           </a>
                         </li>
@@ -166,21 +141,21 @@ const Terms = () => {
                     <li>
                       <a
                         href="/login"
-                        class="btn btn-primary mx-1"
+                        className="btn btn-primary mx-1"
                         target="_blank"
                       >
-                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span class="d-none d-md-block">Login</span>
+                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span className="d-none d-md-block">Login</span>
                       </a>
                     </li>
                     <li>
                       <a
                         href="/register"
-                        class="btn btn-primary mx-1"
+                        className="btn btn-primary mx-1"
                         target="_blank"
                       >
-                        <span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
-                        <span class="d-none d-md-block">Register</span>
+                        <span className="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+                        <span className="d-none d-md-block">Register</span>
                       </a>
                     </li>
                   </ul>
@@ -192,19 +167,24 @@ const Terms = () => {
 
         <div className="row">
           <div className="col-12 mt-4">
-            <div className="container mt-4">
+            <div className="container inner-container  ">
               <header>
                 <h1>
                   Welcome and thank you for your interest in ContactSwing.
                 </h1>
               </header>
-              <section>
+              <section className="">
                 <p>
-                  These Terms of Service ("Terms") govern the use of the Service
-                  (defined in Section 1.1) provided by ContactSwing. These Terms
-                  are a legally binding contract between ContactSwing
-                  ('ContactSwing") and [________________________________]
-                  ("Customer") regarding your use of the Service.
+                  ContactSwing operates the website{" "}
+                  <a href="https://contactswing.com">
+                    https://contactswing.com
+                  </a>{" "}
+                  (the &quot;Service&quot;). Welcome, and thank you for your
+                  interest in ContactSwing. These Website Terms of Service
+                  (&quot;Terms&quot;) govern your use of our Service (defined in
+                  Section 1.1). These Terms are a legally binding contract
+                  between you and ContactSwing regarding your use of the
+                  Service.
                 </p>
                 <p>
                   By accessing or using the service the Customer agrees that it
@@ -300,7 +280,8 @@ const Terms = () => {
                   it needs to access the account, and it accepts responsibility
                   for all activities that occur under your account. If you
                   believe that your account is no longer secure, then you must
-                  immediately notify us at support@contactswing.com.
+                  immediately notify us at{" "}
+                  <strong>support@contactswing.com</strong>.
                 </p>
               </section>
               <section>
@@ -460,10 +441,10 @@ const Terms = () => {
                   property very seriously. If you believe that any materials
                   made available on the Service have been used or exploited in a
                   manner that infringes an intellectual property right you own
-                  or control, then please promptly send an email to
-                  info@contactswing.com. Any notice alleging that materials on
-                  the Service infringe intellectual property rights must include
-                  the following information:
+                  or control, then please promptly send an email to{" "}
+                  <strong>info@contactswing.com</strong>. Any notice alleging
+                  that materials on the Service infringe intellectual property
+                  rights must include the following information:
                 </p>
                 <p>
                   8.1. An electronic or physical signature of the person
@@ -527,10 +508,10 @@ const Terms = () => {
                   on the Service, or suspend or terminate your access to the
                   Service, at any time for any reason or no reason, with or
                   without notice. You may terminate your account and these Terms
-                  at any time by contacting customer service at
-                  info@contactswing.com or following any other procedures
-                  pursuant to the functionalities and/or information available
-                  on the Service.
+                  at any time by contacting customer service at{" "}
+                  <strong>info@contactswing.com</strong> or following any other
+                  procedures pursuant to the functionalities and/or information
+                  available on the Service.
                 </p>
                 <p>
                   10.3. Effect of Termination. Upon termination of these Terms:
@@ -671,8 +652,8 @@ const Terms = () => {
                 <p>
                   14.5. Contact Information. The Service is offered by
                   ContactSwing, located in Berlin, Germany. You may contact us
-                  by sending correspondence to that address or by emailing us at
-                  info@contactswing.com.
+                  by sending correspondence to that address or by emailing us at{" "}
+                  <strong>info@contactswing.com</strong>.
                 </p>
                 <p>
                   14.6. No Support. We are under no obligation to provide
@@ -710,11 +691,12 @@ const Terms = () => {
                   CONNECTION WITH ANY USE OF THE AI PLATFORM BY OR FOR THE
                   BENEFIT OF ANY AGENCY OR INSTRUMENTALITY OF ANY GOVERNMENT. IF
                   YOU ARE SEEKING TO ACCESS THE AI PLATFORM ON BEHALF OF ANY
-                  SUCH ENTITY, THEN YOU MUST CONTACT ContactSwing AT
-                  info@contactswing.com AND ENTER INTO A SEPARATELY NEGOTIATED
-                  LICENSE AGREEMENT WITH ContactSwing. ALL USE OF THE AI
-                  PLATFORM IN VIOLATION OF THE PRECEDING SENTENCES IN THIS
-                  PARAGRAPH CONSTITUTES A MATERIAL BREACH OF THIS AGREEMENT.
+                  SUCH ENTITY, THEN YOU MUST CONTACT ContactSwing AT{" "}
+                  <strong>info@contactswing.com</strong> AND ENTER INTO A
+                  SEPARATELY NEGOTIATED LICENSE AGREEMENT WITH ContactSwing. ALL
+                  USE OF THE AI PLATFORM IN VIOLATION OF THE PRECEDING SENTENCES
+                  IN THIS PARAGRAPH CONSTITUTES A MATERIAL BREACH OF THIS
+                  AGREEMENT.
                 </p>
               </section>
               <section>
@@ -1442,101 +1424,74 @@ const Terms = () => {
                   o. Contact Information. The AI Platform is offered by
                   ContactSwing, located in Berlin, Germany. Licensee may contact
                   us by sending correspondence to that address or by emailing us
-                  at info@contactswing.com
+                  at <strong>info@contactswing.com</strong>
                 </p>
               </section>
             </div>
           </div>
         </div>
-
-        <div className="row mt-4">
-          <div className="col-12 mt-4">
-            <footer class="landing-footer bg-body footer-text">
-              <div class="footer-top position-relative overflow-hidden z-1">
+        {/* --footer-- */}
+        <div className="footer-top-0 row mt-4">
+          <div className="footer-top-1 col-12 mt-4">
+            <footer className="landing-footer bg-body footer-text">
+              <div className="footer-top position-relative overflow-hidden z-1">
                 <img
                   src="../../assets/img/front-pages/backgrounds/footer-bg-light.png"
                   alt="footer bg"
-                  class="footer-bg banner-bg-img z-n1"
+                  className="footer-bg banner-bg-img z-n1"
                   data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
                   data-app-dark-img="front-pages/backgrounds/footer-bg-dark.png"
                 />
-                <div class="container">
-                  <div class="row gx-0 gy-4 g-md-5">
-                    <div class="col-lg-5">
-                      <a href="/landing" class="app-brand-link mb-4">
-                        <span class="app-brand-logo demo">
-                          <svg
-                            width="32"
-                            height="22"
-                            viewBox="0 0 32 22"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
-                              fill="#7367F0"
-                            />
-                            <path
-                              opacity="0.06"
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
-                              fill="#161616"
-                            />
-                            <path
-                              opacity="0.06"
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
-                              fill="#161616"
-                            />
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
-                              fill="#7367F0"
-                            />
-                          </svg>
+                <div className="container">
+                  <div className="row gx-0 gy-4 g-md-5">
+                    <div className="col-lg-5">
+                      <a href="/landing" className="app-brand-link mb-4">
+                        <span className="app-brand-logo demo">
+                          <img src={Logo} height={32} width={32} alt="" />
                         </span>
-                        <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">
+                        <span className="app-brand-text demo footer-link fw-bold ms-2 ps-1">
                           ContactSwing
                         </span>
                       </a>
-                      <p class="footer-text footer-logo-description mb-4">
-                        Transform Your Customer Interactions with Contact
-                        Swing's Advanced Communication Solutions!
+                      <p
+                        className="footer-class"
+                        style={{
+                          color: "white",
+                          marginLeft: "49px",
+                          marginTop: "-20px",
+                        }}
+                      >
+                        Engage Better, Grow Faster
                       </p>
-                      <form class="footer-form">
-                        <label for="footer-email" class="small">
+                      {/* <form className="footer-form">
+                        <label htmlFor="footer-email" className="small">
                           Subscribe to newsletter
                         </label>
-                        <div class="d-flex mt-1">
+                        <div className="d-flex mt-1">
                           <input
                             type="email"
-                            class="form-control rounded-0 rounded-start-bottom rounded-start-top"
+                            className="form-control rounded-0 rounded-start-bottom rounded-start-top"
                             id="footer-email"
                             placeholder="Your email"
                           />
                           <button
                             type="submit"
-                            class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
+                            className="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top"
                           >
                             Subscribe
                           </button>
                         </div>
-                      </form>
+                      </form> */}
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                      <ul class="list-unstyled">
-                        <li class="mb-3">
-                          <a href="/terms" class="footer-link">
+                    <div className="col-lg-2 col-md-4 col-sm-6">
+                      <ul className="list-unstyled">
+                        <li className="mb-3">
+                          <a href="/terms" className="footer-link">
                             Terms & Conditions
                           </a>
                         </li>
-                        <li class="mb-3">
-                          <a href="/privacy" class="footer-link">
+                        <li className="mb-3">
+                          <a href="/privacy" className="footer-link">
                             Privacy
                           </a>
                         </li>
@@ -1544,28 +1499,111 @@ const Terms = () => {
                     </div>
                   </div>
                 </div>
+                <div className="d-flex mt-4 justify-content-around align-items-center">
+                  {/* <div className="text-center"></div> */}
+                  <div className="text-center" style={{ marginLeft: "30%" }}>
+                    <span className="footer-text">
+                      Copyright
+                      <script>document.write(new Date().getFullYear());</script>
+                    </span>{" "}
+                    <a href="/landing" target="_blank">
+                      Contact Swing 2024
+                    </a>
+                  </div>
+                  <div className="social-logos row justify-content-center">
+                    <div className="col-1">
+                      <a
+                        href="https://www.linkedin.com/company/contactswing"
+                        className="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/linkedin.png"
+                          alt="linkedin icon"
+                        />
+                      </a>
+                    </div>
+                    <div className="col-1">
+                      <a
+                        href="https://www.facebook.com/ContactSwinginc"
+                        className="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/facebook.png"
+                          alt="facebook icon"
+                        />
+                      </a>
+                    </div>
+                    {/* <div className="col-1">
+                      <a
+                        href="https://twitter.com/pixinvents"
+                        className="footer-link me-3"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="../../assets/img/front-pages/icons/twitter-light.png"
+                          alt="twitter icon"
+                        />
+                      </a>
+                    </div> */}
+                    <div className="col-1 footer-social-logo">
+                      <a
+                        href="https://www.instagram.com/ContactSwing/"
+                        className="footer-link "
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/instagram2.png"
+                          alt="instagram icon"
+                        />
+                      </a>
+                    </div>
+                    <div className="col-1">
+                      <a
+                        href="https://www.youtube.com/@ContactSwing"
+                        className="footer-link"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="footer-social-logo"
+                          src="../../assets/img/front-pages/icons/youtube.png"
+                          alt="youtube icon"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="footer-bottom py-3">
-                <div class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-                  <div class="mb-2 mb-md-0">
-                    <span class="footer-text">
+              {/* <div className="footer-bottom py-3">
+                <div className="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                  <div className="mb-2 mb-md-0">
+                    <span className="footer-text">
                       ©
                       <script>document.write(new Date().getFullYear());</script>
                     </span>
                     <a
                       href="/"
                       target="_blank"
-                      class="fw-medium footer-link"
+                      className="fw-medium footer-link"
                       rel="noreferrer"
                     >
                       ContactSwing
                     </a>
-                    <span class="footer-text"> </span>
+                    <span className="footer-text"> </span>
                   </div>
                   <div>
                     <a
                       href="https://github.com/pixinvent"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1578,7 +1616,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://www.facebook.com/pixinvents/"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1591,7 +1629,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://twitter.com/pixinvents"
-                      class="footer-link me-3"
+                      className="footer-link me-3"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1604,7 +1642,7 @@ const Terms = () => {
                     </a>
                     <a
                       href="https://www.instagram.com/pixinvents/"
-                      class="footer-link"
+                      className="footer-link"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1617,7 +1655,7 @@ const Terms = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </footer>
           </div>
         </div>

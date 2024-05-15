@@ -4,7 +4,6 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "dependencies": {
-    "@popperjs/core": "^2.11.8",
     "@angular/cli": "^11.2.10",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -16,14 +15,19 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.7.1",
     "fs": "^0.0.1-security",
+    "http2": "^3.3.7",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
+    "react-multi-select-component": "^4.3.4",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.23.0",
     "react-scripts": "5.0.1",
     "react-select2": "^4.0.3",
+    "react-tag-input": "^6.9.0",
+    "react-toastify": "^10.0.5",
     "sass": "^1.71.1",
+    "url": "^0.11.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -31,7 +33,7 @@ const TopMenu = () => {
                 <div className="avatar avatar-online">
                   <img
                     src="assets/img/avatars/1.png"
-                    alt
+                    alt="Avatar"
                     className="h-auto rounded-circle"
                   />
                 </div>
@@ -47,7 +49,7 @@ const TopMenu = () => {
                         <div className="avatar avatar-online">
                           <img
                             src="assets/img/avatars/1.png"
-                            alt
+                            alt="Avatar other"
                             className="h-auto rounded-circle"
                           />
                         </div>
@@ -69,12 +71,12 @@ const TopMenu = () => {
                   </Link>
                   {/* <span className="align-middle">Log Out</span> */}
                 </li>
-                <li>
-                  <a className="dropdown-item" onclick="logout()">
+                {/* <li>
+                  <a className="dropdown-item" onClick={logout}>
                     <i className="ti ti-logout me-2 ti-sm"></i>
                     <span className="align-middle">Log Out</span>
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
           </ul>
